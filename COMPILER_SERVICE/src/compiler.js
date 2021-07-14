@@ -26,15 +26,15 @@ class Compiler {
 
         console.info(command);
 
-        exec(command, (err, stdout, stderr) => {
-            if (err) {
-                console.info(err);
-                return;
-            }
-
-            console.info('stdout: ' + stdout);
-            console.info('stderr: ' + stderr);
-        });
+        return new Promise(function(resolve, reject) {
+            exec(command, (err, stdout, stderr) => {
+                if (err) {
+                    reject(err)
+                }
+                resolve({ stdout });
+            });
+        })
+        
     }
 }
 
