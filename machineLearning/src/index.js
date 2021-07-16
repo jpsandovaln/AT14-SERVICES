@@ -1,17 +1,25 @@
-const imagen = document.getElementById("ciudad");
-class Model {
+export class Model {
   constructor(image) {
     this.image = image;
   }
 
-  identify() {
-    cocoSsd
-      .load()
-      .then((model) => model.detect(this.image))
-      .then((predictions) => console.log(predictions));
-    return predictions;
+  modeling() {
+    const myPromise = cocoSsd.load().then((model) => {
+      const modelo = model.detect(this.image);
+      return modelo;
+    });
+    return myPromise;
+  }
+
+  logging() {
+    const model = this.modeling();
+    model.then((logging) => {
+      console.log(logging);
+    });
   }
 }
 
-const prueba = new Model(imagen);
-prueba.identify();
+const imagen = document.getElementById("ciudad");
+const modeling = new Model(imagen);
+modeling.modeling();
+modeling.logging();
