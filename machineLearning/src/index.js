@@ -4,11 +4,11 @@ export class Model {
   }
 
   modeling() {
-    const myPromise = cocoSsd.load().then((model) => {
-      const modelo = model.detect(this.image);
-      return modelo;
+    const modelPromise = cocoSsd.load().then((model) => {
+      const getValues = model.detect(this.image);
+      return getValues;
     });
-    return myPromise;
+    return modelPromise;
   }
 
   logging() {
