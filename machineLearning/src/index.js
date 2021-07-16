@@ -32,7 +32,7 @@ export class Model {
         "objetos tipo",
         objectSeacrched,
         "al",
-        percentage,
+        percentage * 100,
         "%"
       );
     });
