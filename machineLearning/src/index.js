@@ -35,6 +35,13 @@ export class Model {
         percentage * 100,
         "%"
       );
+      const dataSelected = {
+        model: "cocoSsd",
+        objectS: objectSeacrched,
+        percetn: percentage,
+        quantity: number
+      };
+      return dataSelected;
     });
   }
 }
