@@ -1,17 +1,67 @@
-const BuildCmdObtainFrames = require('../buildCmdObtainFrames');
-//const BuildCmdChangeImageFormat = require('./buildCmdChangeImageFormat');
+const BuildCmdObtainFrames = require('./VIDEO_CONVERTER/FFMPEG/buildCmdObtainFrames');
+const BuildCmdChangeImageFormat = require('./IMAGES_CONVERTER/IMAGEMAGICK/buildCmdChangeImageFormat');
+const BuildCmdChangeImageResize = require('./IMAGES_CONVERTER/CONVERT/buildCmdChangeImageResize');
+const BuildCmdChangeImageQuality = require('./IMAGES_CONVERTER/CONVERT/buildCmdChangeImageQuality');
+const BuildCmdChangeImageDirection = require('./IMAGES_CONVERTER/CONVERT/buildCmdChangeImageDirection');
+const BuildCmdChangeImageColorMonochrome = require('./IMAGES_CONVERTER/CONVERT/buildCmdChangeImageMonochrome')
+const BuildCmdChangeImagePaint = require('./IMAGES_CONVERTER/CONVERT/buildCmdChangeImagePaint')
+const BuildCmdChangeImageDoubling = require('./IMAGES_CONVERTER/CONVERT/buildCmdChangeImageDoubling')
+const BuildCmdImageChangeToGrayscale = require('./IMAGES_CONVERTER/CONVERT/buildCmdImageChangeToGrayscale')
+
 const Compiler = require('./compiler');
 
 const compiler = new Compiler();
 
 const commandObtainFrames = new BuildCmdObtainFrames ();
-const codecPath = "C:/Users/Usuario/Desktop/ffmpeg/ffmpeg.exe";
-const videoPath = "C:/Users/Usuario/Desktop/ffmpeg/No_te_olvides.mp4";
-const outputPath = "C:/Users/Usuario/Desktop/ffmpeg/";
+const codecPath = 'C:/Users/Usuario/Desktop/ffmpeg/ffmpeg.exe';
+const videoPath = 'C:/Users/Usuario/Desktop/ffmpeg/No_te_olvides.mp4';
+const outputPath = 'C:/Users/Usuario/Desktop/ffmpeg/';
 console.log(commandObtainFrames.returnCommand(codecPath, videoPath, outputPath, '1', '.bmp')); 
 
-/*const commandChangeImageFormat = new BuildCmdChangeImageFormat();
-const executablePath = 'C:/Users/Usuario/Desktop/ffmpeg/magick.exe';
-const imagePath = "C:/Users/Usuario/Desktop/ffmpeg/image.png";
-const outputImagePath = "C:/Users/Usuario/Desktop/ffmpeg/imagen.jpg";
-compiler.execute(commandChangeImageFormat.returnCommand(executablePath, imagePath, outputImagePath));*/
+const commandChangeImageFormat = new BuildCmdChangeImageFormat();
+const executablePathMagick = 'C:/Users/mile_/OneDrive/Escritorio/Ejecutables/magick.exe';
+const imagePathChangeFormat = 'C:/Users/mile_/OneDrive/Escritorio/Images/TheDarkSideOfTheMoon.bmp';
+const outputImagePath = 'C:/Users/mile_/OneDrive/Escritorio/Images/';
+compiler.execute(commandChangeImageFormat.returnCommandToConverterImages(executablePathMagick, imagePathChangeFormat, outputImagePath, '.png'));
+
+const commandChangeImageResize = new BuildCmdChangeImageResize();
+const executablePathConvert = 'C:/Users/mile_/OneDrive/Escritorio/Ejecutables/convert.exe';
+const imagePathResize = 'C:/Users/mile_/OneDrive/Escritorio/Images/TheWall.jpg';
+const outputImagePathResize = 'C:/Users/mile_/OneDrive/Escritorio/Images/';
+compiler.execute(commandChangeImageResize.returnCommandToResizeImages(executablePathConvert, imagePathResize, outputImagePathResize, '150x100', '.png'));
+
+const commandChangeImageQuality = new BuildCmdChangeImageQuality();
+const executablePathConverterQuality = 'C:/Users/mile_/OneDrive/Escritorio/Ejecutables/convert.exe';
+const imagePathChangeQuality = 'C:/Users/mile_/OneDrive/Escritorio/Images/TheDivisionBell.gif';
+const outputPathQuality = 'C:/Users/mile_/OneDrive/Escritorio/Images/';
+compiler.execute(commandChangeImageQuality.returnCommandToChangesQualityImages(executablePathConverterQuality, imagePathChangeQuality, outputPathQuality, '85', '.gif'));
+
+const commandChangeImageDirection = new BuildCmdChangeImageDirection();
+const executablePathRotate = 'C:/Users/mile_/OneDrive/Escritorio/Ejecutables/convert.exe';
+const imagePathRotate = 'C:/Users/mile_/OneDrive/Escritorio/Images/AtomHeartMother.png';
+const outputPathRotate = 'C:/Users/mile_/OneDrive/Escritorio/Images/';
+compiler.execute(commandChangeImageDirection.returnCommandToRotateImages(executablePathRotate, imagePathRotate, outputPathRotate, '90', '.png'));
+
+const commandChangeColorMonochrome = new BuildCmdChangeImageColorMonochrome();
+const executablePathMonochrome = 'C:/Users/mile_/OneDrive/Escritorio/Ejecutables/convert.exe';
+const imagePathMonochrome = 'C:/Users/mile_/OneDrive/Escritorio/Images/TheFinalCut.jpg';
+const outputPathMonochrome = 'C:/Users/mile_/OneDrive/Escritorio/Images/';
+compiler.execute(commandChangeColorMonochrome.returnCommandToChangeImageColorMonochrome(executablePathMonochrome, imagePathMonochrome, outputPathMonochrome, '.jpg'));
+
+const commandChangePaint = new BuildCmdChangeImagePaint();
+const executablePathPaint = 'C:/Users/mile_/OneDrive/Escritorio/Ejecutables/convert.exe';
+const imagePathPaint = 'C:/Users/mile_/OneDrive/Escritorio/Images/More.jpg';
+const outputPathPaint = 'C:/Users/mile_/OneDrive/Escritorio/Images/';
+compiler.execute(commandChangePaint.returnCommandToChangeImagePaint(executablePathPaint, imagePathPaint, '1', outputPathPaint,'.jpg'));
+
+const commandChangeDoubling = new BuildCmdChangeImageDoubling();
+const executablePathDoubling = 'C:/Users/mile_/OneDrive/Escritorio/Ejecutables/convert.exe';
+const imagePathDoubling = 'C:/Users/mile_/OneDrive/Escritorio/Images/SeeEmily.jpg';
+const outputPathDoubling = 'C:/Users/mile_/OneDrive/Escritorio/Images/';
+compiler.execute(commandChangeDoubling.returnCommandToChangeImageDoubling(executablePathDoubling, imagePathDoubling, '130x100' , outputPathDoubling, '.jpg'));
+
+const commandToImageChangeToGrayscale = new BuildCmdImageChangeToGrayscale();
+const executablePathGrayScale = 'C:/Users/mile_/OneDrive/Escritorio/Ejecutables/convert.exe';
+const imagePathGrayscale = 'C:/Users/mile_/OneDrive/Escritorio/Images/ThePiperAtTheGatesOfDawn.jpg';
+const outputPathGrayscale = 'C:/Users/mile_/OneDrive/Escritorio/Images/';
+compiler.execute(commandToImageChangeToGrayscale.returnCommandToChangeImageToGrayscale(executablePathGrayScale, imagePathGrayscale, outputPathGrayscale, '.jpg'));
