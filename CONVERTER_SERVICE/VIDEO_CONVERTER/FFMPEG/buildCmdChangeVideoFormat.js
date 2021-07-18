@@ -2,21 +2,21 @@
 const path = require('path');
 /**
  * @Class
- * Build a string which is the command to extract the frames from a video.
+ * Build a string which is the command for change the formar of a video, its quality, 
+ * its resolution, and the number of images per minuto.
  */
 class BuildCmdChangeVideoFormat {
     /**
      * @param {string} codecPath The path where video codec is.
      * @param {string} videoPath The video path to transform.
-     * @param {string} ratio 
-     * @param {string} scale 
-     * @param {string} quality 
+     * @param {string} ratio The number of images per minute (Undefined by default). 
+     * @param {string} scale The resolution (width x height) of the video that we want to obtain (Undefined by default).
+     * @param {string} quality The quality of the video that we want to obtein (values between 0 - 31, being 0 the highest quality - Undefined by default).
      * @param {string} outputPath The path where the resultant imeges will be.     
      * @param {string} outputFormat The output format for the resultant video, it can be: .bmp, .jpg, .png.
      */    
     constructor() {}
-    //codecPath -i videoPath -r 5 -s 320x240 -qscale 0 C:\Users\Usuario\Desktop\ffmpeg\noteee.flv
-
+    
     returnCommand(codecPath, videoPath, outputPath, ratio, scale, quality, outputFormat) {
         const FFMPEG_I = ' -i '; 
         const FFMPEG_RATIO = ' -r ';
@@ -24,7 +24,6 @@ class BuildCmdChangeVideoFormat {
         const SPACE = ' ';
         const FFMPEG_QUALITY = ' -qscale ';
         const QUOTES = "\"";
-        ( ratio = undefined ? "" : "")
         const command =
             codecPath +
             FFMPEG_I +
@@ -37,10 +36,12 @@ class BuildCmdChangeVideoFormat {
             //scale +
             ((quality === undefined) ? "" : FFMPEG_QUALITY + quality) + //FFMPEG_QUALITY +
             //quality + 
-            SPACE +
+            SPACE + 
+            QUOTES +
             outputPath + 
             path.parse(videoPath).name + 
-            outputFormat;
+            outputFormat +
+            QUOTES;
 
         return command;
     }
@@ -48,9 +49,4 @@ class BuildCmdChangeVideoFormat {
 
 module.exports = BuildCmdChangeVideoFormat;
 
-const commandChangeVideoFormat = new BuildCmdChangeVideoFormat();
-const codecPath = "C:/Users/Usuario/Desktop/ffmpeg/ffmpeg.exe";
-const videoPath = "C:/Users/Usuario/Desktop/ffmpeg/No te olvides.mp4";
-const outputPath = "C:/Users/Usuario/Desktop/ffmpeg/";
-console.log(commandChangeVideoFormat.returnCommand(codecPath, videoPath, outputPath, '5', '320x240', '0', '.flv')); 
-//compiler.execute(commandObtainFrames.returnCommand(codecPath, videoPath, outputPath, '1', '.bmp'));
+
