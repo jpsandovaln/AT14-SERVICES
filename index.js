@@ -1,6 +1,6 @@
 const cors = require("cors");
 const express = require("express");
-const routes = require("./src/routes");
+const Routes = require("./src/routes");
 const app = express();
 
 global.__basedir = __dirname;
@@ -11,7 +11,7 @@ class Index {
 
     app.use(cors(corsOptions));
     app.use(express.urlencoded({ extended: true }));
-    routes(app);
+    new Routes(app);
     this.init(port);
   }
 
