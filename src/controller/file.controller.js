@@ -4,6 +4,7 @@ const baseUrl = "http://localhost:8080/files/";
 
 const upload = async (req, res) => {
   try {
+    
     await uploadFile(req, res);
 
     if (req.file == undefined) {
@@ -14,7 +15,12 @@ const upload = async (req, res) => {
 
       name: req.file.originalname,
       url: baseUrl + req.file.originalname,
-      test:'value',
+      param: {
+        outputExtension: '',
+        grayScale: '',
+        height: '',
+        widht: '',
+      },
     });
   } 
   catch (err) {
@@ -33,6 +39,7 @@ const upload = async (req, res) => {
 };
 
 const getListFiles = (req, res) => {
+
   const directoryPath = __basedir + "/resources/static/assets/uploads/";
 
   fs.readdir(directoryPath, function (err, files) {
