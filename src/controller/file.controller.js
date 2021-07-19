@@ -15,12 +15,7 @@ const upload = async (req, res) => {
 
       name: req.file.originalname,
       url: baseUrl + req.file.originalname,
-      param: {
-        outputExtension: '',
-        grayScale: '',
-        height: '',
-        widht: '',
-      },
+      params: req.body,
     });
   } 
   catch (err) {
@@ -63,6 +58,7 @@ const getListFiles = (req, res) => {
 };
 
 const download = (req, res) => {
+  
   const fileName = req.params.name;
   const directoryPath = __basedir + "/resources/static/assets/uploads/";
 
