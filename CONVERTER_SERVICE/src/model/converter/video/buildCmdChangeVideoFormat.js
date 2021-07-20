@@ -13,7 +13,7 @@ class BuildCmdChangeVideoFormat {
      * @param {string} scale The resolution (width x height) of the video that we want to obtain (Undefined by default).
      * @param {string} quality The quality of the video that we want to obtein (values between 0 - 31, being 0 the highest quality - Undefined by default).
      * @param {string} outputPath The path where the resultant imeges will be.     
-     * @param {string} outputFormat The output format for the resultant video, it can be: .bmp, .jpg, .png.
+     * @param {string} outputFormat The output format for the resultant video.
      */    
     constructor() {}
     
@@ -24,22 +24,21 @@ class BuildCmdChangeVideoFormat {
         const SPACE = ' ';
         const FFMPEG_QUALITY = ' -qscale ';
         const QUOTES = "\"";
+        const CONVERT = "_converted";
         const command =
             codecPath +
             FFMPEG_I +
             QUOTES +
             videoPath + 
             QUOTES + 
-            ((ratio === undefined) ? "" : FFMPEG_RATIO + ratio) + //FFMPEG_RATIO + 
-            //ratio + 
-            ((scale === undefined) ? "" : FFMPEG_SCALE + scale) + //FFMPEG_SCALE +
-            //scale +
-            ((quality === undefined) ? "" : FFMPEG_QUALITY + quality) + //FFMPEG_QUALITY +
-            //quality + 
+            ((ratio === undefined) ? "" : FFMPEG_RATIO + ratio) + 
+            ((scale === undefined) ? "" : FFMPEG_SCALE + scale) + 
+            ((quality === undefined) ? "" : FFMPEG_QUALITY + quality) + 
             SPACE + 
             QUOTES +
             outputPath + 
             path.parse(videoPath).name + 
+            CONVERT +
             outputFormat +
             QUOTES;
 
