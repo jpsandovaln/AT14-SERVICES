@@ -10,13 +10,18 @@ const upload = async (req, res) => {
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please upload a file!" });
     }
+    /* This part of the is used to 
+    res.status(200).send({
 
+      new coverterService( req.file.originaname, baseUrl+req.file.originalname , req.body)
+    });*/
     res.status(200).send({
 
       name: req.file.originalname,
       url: baseUrl + req.file.originalname,
       params: req.body,
     });
+
   } 
   catch (err) {
     console.log(err);
