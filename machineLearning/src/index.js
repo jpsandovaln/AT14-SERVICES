@@ -39,7 +39,7 @@ export class Model {
         model: "cocoSsd",
         objectS: objectSeacrched,
         percetn: percentage,
-        quantity: number
+        quantity: number // file name and time
       };
       return dataSelected;
     });
@@ -50,4 +50,4 @@ const imagen = document.getElementById("ciudad");
 const modeling = new Model(imagen);
 modeling.modeling();
 modeling.logging();
-modeling.selectData("car", 0.9);
+modeling.selectData("car", 0.7);
