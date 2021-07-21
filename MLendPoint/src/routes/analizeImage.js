@@ -1,22 +1,26 @@
 const express = require("express");
-const upload = require('../middleware/imageFilter');
+const upload = require("../middleware/imageFilter");
 const router = express.Router();
 
 router.get("/", (req, res) => {
     const json = {
         name: "Video",
         objects: {
-            dogs: [{
-                positionX: 40,
-                positionY: 40,
-            }],
-            cats: [{
-                positionX: 40,
-                positionY: 40,
-            }]
-        }
-    }
-    res.json(json)
+            dogs: [
+                {
+                    positionX: 40,
+                    positionY: 40,
+                },
+            ],
+            cats: [
+                {
+                    positionX: 40,
+                    positionY: 40,
+                },
+            ],
+        },
+    };
+    res.json(json);
 });
 
 router.post("/", (req, res) => {
@@ -26,7 +30,7 @@ router.post("/", (req, res) => {
             return;
         }
         if (!req.file || Object.keys(req.file).length === 0) {
-            res.status(400).send('No files were uploaded.');
+            res.status(400).send("No files were uploaded.");
             return;
         }
 
@@ -41,13 +45,11 @@ router.post("/", (req, res) => {
             searchWord: searchWord,
             quantity: "2",
             image: "http://localhost:8080/images/" + imageNameFile,
-            percentage: "80%"
+            percentage: "80%",
         };
 
         res.send(response);
-
     });
 });
 
 module.exports = router;
-
