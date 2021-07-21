@@ -1,4 +1,3 @@
-
 /**
  * @Class
  * Build a string which is the command to extract the frames from a video.
@@ -10,16 +9,22 @@ class BuildCmdObtainFrames {
      * @param {string} outputPath The path where the resultant imeges will be.
      * @param {string} timeBetweenFrames The time to wait to extract the frames.
      * @param {string} outputFormat The output format for the resultant images, it can be: .bmp, .jpg, .png.
-     */    
-    constructor() {}
+     */
+    constructor() { }
 
-    returnCommand(codecPath, videoPath, outputPath, timeBetweenFrames, outputFormat) {
-        const FFMPEG_I = ' -i '; 
-        const FFMPEG_VF = ' -vf ';
-        const FFMPEG_FPS = 'fps=fps=';
-        const IMAGE_NAME = '/%d';
-        const SPACE = ' ';
-        const QUOTES = "\"";
+    returnCommand(
+        codecPath,
+        videoPath,
+        outputPath,
+        timeBetweenFrames,
+        outputFormat
+    ) {
+        const FFMPEG_I = " -i ";
+        const FFMPEG_VF = " -vf ";
+        const FFMPEG_FPS = "fps=fps=";
+        const IMAGE_NAME = "/%d";
+        const SPACE = " ";
+        const QUOTES = '"';
 
         const command =
             codecPath +
@@ -32,11 +37,10 @@ class BuildCmdObtainFrames {
             timeBetweenFrames +
             SPACE +
             outputPath +
-            IMAGE_NAME + 
+            IMAGE_NAME +
             outputFormat;
         return command;
     }
 }
 
 module.exports = BuildCmdObtainFrames;
-
