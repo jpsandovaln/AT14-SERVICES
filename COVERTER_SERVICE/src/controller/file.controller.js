@@ -4,26 +4,17 @@ const baseUrl = "http://localhost:8080/files/";
 
 const upload = async (req, res) => {
   try {
-    
     await uploadFile(req, res);
 
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please upload a file!" });
     }
-    /* This part of the is used to 
     res.status(200).send({
-
-      new coverterService( req.file.originaname, baseUrl+req.file.originalname , req.body)
-    });*/
-    res.status(200).send({
-
       name: req.file.originalname,
       url: baseUrl + req.file.originalname,
       params: req.body,
     });
-
-  } 
-  catch (err) {
+  } catch (err) {
     console.log(err);
 
     if (err.code == "LIMIT_FILE_SIZE") {
@@ -39,7 +30,6 @@ const upload = async (req, res) => {
 };
 
 const getListFiles = (req, res) => {
-
   const directoryPath = __basedir + "/resources/static/assets/uploads/";
 
   fs.readdir(directoryPath, function (err, files) {
@@ -63,7 +53,6 @@ const getListFiles = (req, res) => {
 };
 
 const download = (req, res) => {
-  
   const fileName = req.params.name;
   const directoryPath = __basedir + "/resources/static/assets/uploads/";
 
