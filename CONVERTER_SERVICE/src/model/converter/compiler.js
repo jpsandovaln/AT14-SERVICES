@@ -1,18 +1,16 @@
-const { exec } = require('child_process')
-const { stdout, stderr } = require('process')
+const { exec } = require("child_process");
+const { stdout, stderr } = require("process");
 
-class Compiler{
-    constructor() {}
-
+class Compiler {
     execute(command) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             exec(command, (err, stdout, stderr) => {
                 if (err) {
-                    reject(err)
+                    reject(err);
                 }
                 resolve({ stdout });
             });
-        })    
+        });
     }
 }
 

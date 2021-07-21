@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require("path");
 /**
  * @Class
  * Build a string that is the command to add the option of change format to the image.
@@ -9,11 +9,14 @@ class BuildCmdChangeImageFormat {
      * @param {string} imagePathChangeFormat The image path to edit format.
      * @param {string} outputPath The image path after changed.
      * @param {string} outputFormat Output image format.
-     */    
-    constructor() {}
-
-    returnCommandToConverterImages(executablePathMagick, imagePathChangeFormat, outputPath, outputFormat) {        
-        const MAGICK_SPACE = ' '; 
+     */
+    returnCommandToConverterImages(
+        executablePathMagick,
+        imagePathChangeFormat,
+        outputPath,
+        outputFormat
+    ) {
+        const MAGICK_SPACE = " ";
 
         const command =
             executablePathMagick +
@@ -21,7 +24,7 @@ class BuildCmdChangeImageFormat {
             imagePathChangeFormat +
             MAGICK_SPACE +
             outputPath +
-            path.parse(imagePathChangeFormat).name +  
+            path.parse(imagePathChangeFormat).name +
             outputFormat;
         return command;
     }
