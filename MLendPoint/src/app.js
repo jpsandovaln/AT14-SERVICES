@@ -14,6 +14,6 @@ app.use('/', homeRouter);
 app.use('/analizeImage', analizeImage);
 app.use('/about', aboutRouter);
 
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 });
