@@ -5,7 +5,7 @@ class JavaParameter {
         this.javaBinaryPath = javaBinaryPath;
     }
 
-    getFilterPath() {
+    getFilePath() {
         return this.filePath;
     }
 
