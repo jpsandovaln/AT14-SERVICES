@@ -2,7 +2,7 @@
   "name": "prog101routers",
   "version": "1.0.0",
   "description": "Example Node JS with Routes",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

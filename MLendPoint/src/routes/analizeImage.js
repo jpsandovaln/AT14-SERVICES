@@ -1,6 +1,6 @@
-const express   = require("express");
-const upload    = require('../middleware/imageFilter');
-const router    = express.Router();
+const express = require("express");
+const upload = require('../middleware/imageFilter');
+const router = express.Router();
 
 router.get("/", (req, res)=>{
     const json = {
@@ -31,22 +31,16 @@ router.post("/", (req, res)=>{
             return;
         }        
 
-        const      searchWord = req.body.searchWord;
-        const      percentage = req.body.percentage;
-        const   imageNameFile = req.file.filename;
-        const        pathFile = req.file.path;
+        const searchWord = req.body.searchWord;
+        const percentage = req.body.percentage;
+        const imageNameFile = req.file.filename;
+        const pathFile = req.file.path;
         const destinationFile = req.file.destination;
 
-        /*
-            const ob = new MachineLearnig();
-            const result =ob.prediction(req.file, req.objectname, req.percentage);
-            res.send(result);
-        */            
-
         const response = {
-            algorithm:   "CocoSSD", 
+            algorithm: "CocoSSD", 
             searchWord: searchWord, 
-            quantity:          "2",
+            quantity: "2",
             image: "http://localhost:8080/images/"+ imageNameFile,
             percentage: "80%"            
         };
