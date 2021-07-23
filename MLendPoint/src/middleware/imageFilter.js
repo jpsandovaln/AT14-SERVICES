@@ -3,7 +3,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "../public/images/");
+        cb(null, __dirname + "/../../public/images/");
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname));
@@ -25,6 +25,6 @@ const upload = multer({
             return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
         }
     },
-}).single("imageFile");
+});
 
 module.exports = upload;

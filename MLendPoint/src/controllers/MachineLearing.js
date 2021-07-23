@@ -83,3 +83,4 @@ callAsync();
 */
 //console.log();
 
+module.exports = MachineLearing;
