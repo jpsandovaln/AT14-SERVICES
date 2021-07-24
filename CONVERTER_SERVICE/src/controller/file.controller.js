@@ -1,6 +1,8 @@
 const uploadFile = require("../middleware/upload");
 const fs = require("fs");
 const baseUrl = "http://localhost:8080/files/";
+require('dotenv').config({ path: '../.env'});
+
 
 const admz = require('adm-zip');
 
@@ -23,7 +25,7 @@ const upload = async (req, res) => {
 
         const video= new BuildCmdChangeVideoFormat();
         const compiler= new Compiler();
-        const command= video.returnCommand('C:/Users/ryzyn/Desktop/ffmepg/ffmpeg.exe', dir,'D:/Prog101/AT14/AT14-SERVICES/CONVERTER_SERVICE/resources/output/','2','320x240','30','.flv');
+        const command= video.returnCommand('C:/Users/ryzyn/Desktop/ffmepg/ffmpeg.exe', dir,process.env.OUTPUT_FOLDER,'2','320x240','30','.flv');
         console.info(command);
         const result= await compiler.execute(command);
         //console.info(result);
