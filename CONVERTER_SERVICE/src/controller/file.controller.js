@@ -2,9 +2,12 @@ const uploadFile = require("../middleware/upload");
 const fs = require("fs");
 const baseUrl = "http://localhost:8080/files/";
 
-const BuildCmdObtainFrames= require('../model/converter/video/buildCmdObtainFrames');
+const BuildCmdChangeVideoFormat= require('../model/converter/video/buildCmdChangeVideoFormat');
 const Compiler= require('../model/converter/compiler');
+const path = require("path");
+//const salida= require('../output/')
 
+const output= path.resolve(__dirname,'output' );
 const upload = async (req, res) => {
     try {
         await uploadFile(req, res);
@@ -13,19 +16,23 @@ const upload = async (req, res) => {
             return res.status(400).send({ message: "Please upload a file!" });
         }
 
-        const frames= new BuildCmdObtainFrames();
-        const command= frames.returnCommand('C:/Users/ryzyn/Desktop/ffmepg/ffmpeg.exe','C:/Users/ryzyn/Desktop/ffmepg/canto.mp4','C:/Users/ryzyn/Desktop/ffmepg/','1','flv');
-        const isValid= await Compiler.execute(command);
+        const video= new BuildCmdChangeVideoFormat();
+        const compiler= new Compiler();
+        const command= video.returnCommand('C:/Users/ryzyn/Desktop/ffmepg/ffmpeg.exe', 'C:/Users/ryzyn/Desktop/ffmepg/canto.mp4','D:/Prog101/AT14/AT14-SERVICES/CONVERTER_SERVICE/src/output/','2','320x240','30','.flv');
+        console.info(command);
+        const result= await compiler.execute(command);
+        console.info(result);
+        //res.send(result);
+      
+            /*console.log(command);
+            res.status(200).send({
+                name: req.file.originalname,
+                url: baseUrl + req.file.originalname,
+                params: req.body,
+            })*/
+        
 
-        if(isValid){
-            
-        }
-
-        /*res.status(200).send({
-            name: req.file.originalname,
-            url: baseUrl + req.file.originalname,
-            params: req.body,
-        });*/
+       
     } catch (err) {
         console.log(err);
 
@@ -42,7 +49,7 @@ const upload = async (req, res) => {
 };
 
 const getListFiles = (req, res) => {
-    const directoryPath = __basedir + "/resources/static/assets/uploads/";
+    const directoryPath = __basedir + "/src/upload/";
 
     fs.readdir(directoryPath, function (err, files) {
         if (err) {
@@ -66,7 +73,7 @@ const getListFiles = (req, res) => {
 
 const download = (req, res) => {
     const fileName = req.params.name;
-    const directoryPath = __basedir + "/resources/static/assets/uploads/";
+    const directoryPath = __basedir + "/src/upload/";
 
     res.download(directoryPath + fileName, fileName, (err) => {
         if (err) {

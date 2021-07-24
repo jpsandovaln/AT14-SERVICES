@@ -4,7 +4,7 @@ const maxSize = 20000000 * 1024 * 1024;
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, __basedir + "/resources/video");
+        cb(null, __basedir + "/src/upload");
     },
     filename: (req, file, cb) => {
         let fileType = file.mimetype.split("/")[1];

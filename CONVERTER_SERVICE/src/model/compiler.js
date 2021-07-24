@@ -10,7 +10,7 @@ class Compiler {
                 if (err) {
                     reject(err);
                 }
-                resolve({ stdout });
+                resolve({ success:true });
             });
         });
     }
