@@ -1,6 +1,7 @@
 const express = require("express");
 const upload = require("../middleware/imageFilter");
-const MachileLearning = require("../controllers/MachineLearing");
+const CocoSSD = require("../controllers/CocoSSD");
+const MobilNet = require("../controllers/MobilNet");
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -42,21 +43,30 @@ router.post("/", upload.single('imageFile'), async (req, res)=> {
         const pathFile = req.file.path;
         const destinationFile = req.file.destination;
 
-        console.log(pathFile);
+        //console.log(pathFile);
 
         //const obj = new MachineLearing(__dirname+'/../../public/images/1626305450874.jpg', 'dog', 0.5);
 
-        const machileLearning = new MachileLearning(pathFile, searchWord,percentage);
+        const machileLearning = new CocoSSD(pathFile, searchWord,percentage);
         const result = await machileLearning.getJSON();
 
         /*
-        const response = {
+        const response = [{
             algorithm: "CocoSSD",
             searchWord: searchWord,
             quantity: "2",
             image: "http://localhost:8080/images/" + imageNameFile,
             percentage: "80%",
-        };
+            time: 12345645 (timestamp/00:01:30)
+        },
+        {
+            algorithm: "CocoSSD",
+            searchWord: searchWord,
+            quantity: "2",
+            image: "http://localhost:8080/images/" + imageNameFile,
+            percentage: "80%",
+            time: 12345645 (timestamp/00:05:30)
+        }];
         */
 
         res.send(result);
