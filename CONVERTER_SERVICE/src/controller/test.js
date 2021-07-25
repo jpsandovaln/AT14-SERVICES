@@ -1,2 +1,3 @@
+const pepe = require("../.././helpPaths");
 
-console.log (__dirname);
+console.log(pepe.principalPath);

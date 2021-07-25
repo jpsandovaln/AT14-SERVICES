@@ -1,13 +1,13 @@
 const uploadFile = require("../middleware/upload");
 const fs = require("fs");
 const baseUrl = "http://localhost:8080/files/";
-require('dotenv').config({ path: '../.env'});
+require("dotenv").config({ path: "../.env" });
+const helpPath = require("../.././helpPaths");
 
+const admz = require("adm-zip");
 
-const admz = require('adm-zip');
-
-const BuildCmdChangeVideoFormat= require('../model/converter/video/buildCmdChangeVideoFormat');
-const Compiler= require('../model/converter/compiler');
+const BuildCmdChangeVideoFormat = require("../model/converter/video/buildCmdChangeVideoFormat");
+const Compiler = require("../model/converter/compiler");
 
 const path = require("path");
 //const salida= require('../output/')
@@ -20,37 +20,47 @@ const upload = async (req, res) => {
         if (req.file == undefined) {
             return res.status(400).send({ message: "Please upload a file!" });
         }
-        const dir= '"'+req.file.path+'"';
+        const dir = '"' + req.file.path + '"';
         console.info(dir);
 
-        const video= new BuildCmdChangeVideoFormat();
-        const compiler= new Compiler();
-        const command= video.returnCommand('C:/Users/ryzyn/Desktop/ffmepg/ffmpeg.exe', dir,process.env.OUTPUT_FOLDER,'2','320x240','30','.flv');
+        const video = new BuildCmdChangeVideoFormat();
+        const compiler = new Compiler();
+        const command = video.returnCommand(
+            helpPath.principalPath + "/" + "thirdParty" + "/" + "ffmpeg.exe",
+            dir,
+            helpPath.principalPath +
+                "/" +
+                "resources" +
+                "/" +
+                "outputPath" +
+                "/",
+            "2",
+            "320x240",
+            "30",
+            ".flv"
+        );
         console.info(command);
-        const result= await compiler.execute(command);
+        const result = await compiler.execute(command);
         //console.info(result);
         //res.send(result);
-      
-            //console.log(command);
-            res.status(200).send({
-                name: req.file.originalname,
-                url: baseUrl + req.file.originalname,
-                params: req.body,
-            })
-        
 
-       
+        //console.log(command);
+        res.status(200).send({
+            name: req.file.originalname,
+            url: baseUrl + req.file.originalname,
+            params: req.body
+        });
     } catch (err) {
         console.log(err);
 
         if (err.code == "LIMIT_FILE_SIZE") {
             return res.status(500).send({
-                message: "File size cannot be larger than 2MB!",
+                message: "File size cannot be larger than 2MB!"
             });
         }
 
         res.status(500).send({
-            message: `Could not upload the file: ${req.file.originalname}. ${err}`,
+            message: `Could not upload the file: ${req.file.originalname}. ${err}`
         });
     }
 };
@@ -61,7 +71,7 @@ const getListFiles = (req, res) => {
     fs.readdir(directoryPath, function (err, files) {
         if (err) {
             res.status(500).send({
-                message: "Unable to scan files!",
+                message: "Unable to scan files!"
             });
         }
 
@@ -70,7 +80,7 @@ const getListFiles = (req, res) => {
         files.forEach((file) => {
             fileInfos.push({
                 name: file,
-                url: baseUrl + file,
+                url: baseUrl + file
             });
         });
 
@@ -85,7 +95,7 @@ const download = (req, res) => {
     res.download(directoryPath + fileName, fileName, (err) => {
         if (err) {
             res.status(500).send({
-                message: "Could not download the file. " + err,
+                message: "Could not download the file. " + err
             });
         }
     });
