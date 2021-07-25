@@ -4,14 +4,17 @@ const buildCmdConvertPdfToImage = require("./buildCmdConvertPdfToImage");
 const deletePdfCmd = require("./deletePdfCmd");
 /**
  * @Class
- * Build a string that is the command to add the option of change quality to the image.
+ * Build a string combining commands to convert from Ppt to image.
  */
 class buildCmdConvertPptToImage {
     /**
-     * @param {string} executablePathConverterPdf The path where executable codec is.
-     * @param {string} pdfPathConvert The pdf path to convert to image.
-     * @param {string} outputPathConverted The image path after converted pdf.
-     * @param {string} outputFormat Output image format.
+     * @param {string} executablePathConverterPpt The path where executable codec to convert Ppt to file is
+     * @param {string} executablePathConverterPdf The path where executable codec to convert to Pdf to image is.
+     * @param {string} filePathConvert The ppt path to convert to image.
+     * @param {string} outputPathConverted Path of the output of pdf format.
+     * @param {string} outputFormatPdf Output pdf format.
+     * @param {string} outputFormatImage Path of output image format.
+     * @param {string} highQuality To increase the quality of the converter.
      */
     returnCommand(
         executablePathConverterPpt,
@@ -54,7 +57,7 @@ class buildCmdConvertPptToImage {
             CONBINER_COMMAND +
             SPACE +
             commandPdfToImage +
-            SPACE /*+
+            SPACE; /*+
             CONBINER_COMMAND +
             SPACE +
             commandPdfToDelete;*/
@@ -62,29 +65,3 @@ class buildCmdConvertPptToImage {
         return command;
     }
 }
-module.exports = buildCmdConvertPptToImage;
-const Compiler = require("../../compiler");
-
-const commanCmdConvertPptToImage = new buildCmdConvertPptToImage();
-const executablePathConverterPdf =
-    "D:/usuario/Desktop/fundacion_jala/prog101/Proyecto/AT14-SERVICES/CONVERTER_SERVICE/src/model/converter/images/thirdParty/convert.exe";
-const executablePathConverterPpt =
-    "D:/usuario/Desktop/fundacion_jala/prog101/Proyecto/AT14-SERVICES/CONVERTER_SERVICE/src/model/converter/files/thirdParty/LibreOffice/program/swriter.exe";
-const filePathConvert = "D:/usuario/Desktop/Programacion_funcional.pptx";
-const outputFormatPdf = ".pdf";
-const outputPathConverted = "D:/usuario/Desktop/converted/";
-const outputFormatImage = ".jpg";
-const highQuality = true;
-
-const compiler = new Compiler();
-compiler.execute(
-    commanCmdConvertPptToImage.returnCommand(
-        executablePathConverterPpt,
-        executablePathConverterPdf,
-        filePathConvert,
-        outputPathConverted,
-        outputFormatPdf,
-        outputFormatImage,
-        highQuality
-    )
-);

@@ -1,6 +1,6 @@
 /**
  * @Class
- * Build a string that is the command to add the option of change quality to the image.
+ * Build a string that is the command to convert a Ppt file to an image.
  */
 class BuildCmdConvertPptToPdf {
     /**
@@ -13,7 +13,6 @@ class BuildCmdConvertPptToPdf {
         executablePathConverterPpt,
         pptPathConvert,
         outputPathConverted
-        //outputFormat
     ) {
         const MAGICK_SPACE = " ";
         const officeShowed = "--headless";
@@ -38,23 +37,3 @@ class BuildCmdConvertPptToPdf {
     }
 }
 module.exports = BuildCmdConvertPptToPdf;
-/*const Compiler = require("../../compiler");
-const compiler = new Compiler();
-
-const CommandConvertPptToPdf = new BuildCmdConvertPptToPdf();
-const executablePathConverterPpt =
-    "D:/usuario/Desktop/fundacion_jala/prog101/Proyecto/AT14-SERVICES/CONVERTER_SERVICE/src/model/converter/files/thirdParty/LibreOffice/program/swriter.exe";
-const pptPathConvert = "D:/usuario/Desktop/Programacion_funcional.pptx";
-const outputPathConverted = "D:/usuario/Desktop/converted/";
-//const outputFormat = ".pdf";
-
-compiler.execute(
-    CommandConvertPptToPdf.returnCommand(
-        executablePathConverterPpt,
-        pptPathConvert,
-        outputPathConverted
-    )
-);
-/*compiler.execute(
-    "D:/usuario/Desktop/fundacion_jala/prog101/Proyecto/AT14-SERVICES/CONVERTER_SERVICE/src/model/converter/files/thirdParty/LibreOffice/program/swriter.exe --headless --convert-to pdf D:/usuario/Desktop/Programacion_funcional.pptx --outdir D:/usuario/Desktop/converted/"
-);*/
