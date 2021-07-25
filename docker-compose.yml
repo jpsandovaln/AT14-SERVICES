@@ -7,13 +7,10 @@ services:
   redis:
     image: "redis:alpine"
 
-    dataBaseMongo:
-        container_name: dataBaseMongo
-        image: mongo
-        ports: 
-            - "27018:27017"
-        logging: 
-            driver: none
-
-
-            
+  dataBaseMongo:
+    container_name: dataBaseMongo
+    image: mongo
+    ports: 
+        - "27018:27017"
+    logging: 
+        driver: none
