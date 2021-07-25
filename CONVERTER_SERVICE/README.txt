@@ -5,3 +5,4 @@ To convert files to image, you will need the following programs.
          'C: \ Program Files \ LibreOffice'
          -Then copy the file and paste it in the path where the project is, then go into: 'CONVERTER_SERVICE / src / model / converter / files / thirdParty/'
          and paste the folder 'LibreOffice' there, then the file converters will work.
+         -If there is not a 'thirdParty' folder into the 'files' folder, then you will need to create it.

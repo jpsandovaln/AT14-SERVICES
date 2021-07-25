@@ -19,7 +19,8 @@ class buildCmdConvertPptToImage {
         filePathConvert,
         outputPathConverted,
         outputFormatPdf,
-        outputFormatImage
+        outputFormatImage,
+        highQuality
     ) {
         const convertPptToPdf = new buildConvertPptToPdf();
         const convertPdfToImage = new buildCmdConvertPdfToImage();
@@ -36,7 +37,8 @@ class buildCmdConvertPptToImage {
                 path.parse(filePathConvert).name +
                 outputFormatPdf,
             outputPathConverted,
-            outputFormatImage
+            outputFormatImage,
+            highQuality
         );
         const commandPdfToDelete = pdfToDelete.returnCommand(
             outputPathConverted +
@@ -57,7 +59,6 @@ class buildCmdConvertPptToImage {
             SPACE +
             commandPdfToDelete;*/
 
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa = " + command);
         return command;
     }
 }
@@ -73,6 +74,7 @@ const filePathConvert = "D:/usuario/Desktop/Programacion_funcional.pptx";
 const outputFormatPdf = ".pdf";
 const outputPathConverted = "D:/usuario/Desktop/converted/";
 const outputFormatImage = ".jpg";
+const highQuality = true;
 
 const compiler = new Compiler();
 compiler.execute(
@@ -82,6 +84,7 @@ compiler.execute(
         filePathConvert,
         outputPathConverted,
         outputFormatPdf,
-        outputFormatImage
+        outputFormatImage,
+        highQuality
     )
 );

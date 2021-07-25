@@ -10,29 +10,29 @@ class BuildCmdConvertPdfToImage {
      * @param {string} outputPathConverted The image path after converted pdf.
      * @param {string} outputFormat Output image format.
      */
-     returnCommand(
+    returnCommand(
         executablePathConverterPdf,
         pdfPathConvert,
         outputPathConverted,
-        outputFormat
+        outputFormat,
+        highQuality
     ) {
         const MAGICK_SPACE = " ";
-        const CONVERT_QUALITY = " -quality ";
-
+        let HIGH_QUALITY = "";
+        if (highQuality) {
+            HIGH_QUALITY = MAGICK_SPACE + "-density" + MAGICK_SPACE + "600";
+        }
         const command =
             executablePathConverterPdf +
-            //MAGICK_SPACE +
-            //"-density"+
-            //MAGICK_SPACE +
-            //'600'+
+            HIGH_QUALITY +
             MAGICK_SPACE +
             pdfPathConvert +
             MAGICK_SPACE +
             outputPathConverted +
             path.parse(pdfPathConvert).name +
-            '-%02d'+
+            "-%02d" +
             outputFormat;
-            console.log(command)
+        console.log(command);
         return command;
     }
 }
@@ -40,10 +40,12 @@ module.exports = BuildCmdConvertPdfToImage;
 /*const Compiler = require("../../compiler");
 
 const CommandToConvertPdfToImage = new BuildCmdConvertPdfToImage();
-const executablePathConverterPdf = "D:/usuario/Desktop/fundacion_jala/prog101/Proyecto/AT14-SERVICES/CONVERTER_SERVICE/src/model/converter/images/thirdParty/convert.exe";
+const executablePathConverterPdf =
+    "D:/usuario/Desktop/fundacion_jala/prog101/Proyecto/AT14-SERVICES/CONVERTER_SERVICE/src/model/converter/images/thirdParty/convert.exe";
 const pdfPathConvert = "D:/usuario/Desktop/PROGRA101Class1.pdf";
 const outputPathConverted = "D:/usuario/Desktop/converted/";
 const outputFormat = ".jpg";
+const highQuality = true;
 
 const compiler = new Compiler();
 compiler.execute(
@@ -51,11 +53,7 @@ compiler.execute(
         executablePathConverterPdf,
         pdfPathConvert,
         outputPathConverted,
-        outputFormat
+        outputFormat,
+        highQuality
     )
 );*/
-//compiler.execute(executablePathConverterPdf+" "+"-density 300 -quality 96"+" "+pdfPathConvert+" "+"pdf.jpg"
-
-
-
-
