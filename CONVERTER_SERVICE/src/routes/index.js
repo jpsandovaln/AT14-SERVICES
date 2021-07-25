@@ -9,7 +9,6 @@ class Routes {
         router.get("/files", controller.getListFiles);
         router.get("/files/:name", controller.download);
         router.get("/download", controller.zipDownload);
-
         app.use(router);
     }
 }

@@ -1,18 +1,11 @@
 const uploadFile = require("../middleware/upload");
 const fs = require("fs");
 const baseUrl = "http://localhost:8080/files/";
-require("dotenv").config({ path: "../.env" });
 const helpPath = require("../.././helpPaths");
-
 const admz = require("adm-zip");
-
 const BuildCmdObtainFrames = require("../model/converter/video/buildCmdObtainFrames");
 const Compiler = require("../model/converter/compiler");
 
-const path = require("path");
-//const salida= require('../output/')
-
-//const output= path.resolve(__dirname,'output' );
 const upload = async (req, res) => {
     try {
         await uploadFile(req, res);
@@ -39,10 +32,6 @@ const upload = async (req, res) => {
         );
         console.info(command);
         const result = await compiler.execute(command);
-        //console.info(result);
-        //res.send(result);
-
-        //console.log(command);
         res.status(200).send({
             name: req.file.originalname,
             url: baseUrl + req.file.originalname,
