@@ -21,7 +21,6 @@ class Index {
             this.print("Running at localhost:" + port);
         });
     }
-
     print(string) {
         console.log(string);
     }
