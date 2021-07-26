@@ -57,10 +57,7 @@ class buildCmdConvertPptToImage {
             CONBINER_COMMAND +
             SPACE +
             commandPdfToImage +
-            SPACE; /*+
-            CONBINER_COMMAND +
-            SPACE +
-            commandPdfToDelete;*/
+            SPACE;
 
         return command;
     }
