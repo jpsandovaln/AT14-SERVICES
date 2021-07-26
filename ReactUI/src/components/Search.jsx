@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
-import {getImage, sendSearch} from "./services";
+import React, { useState, useEffect } from "react";
+import { getImage, sendSearch } from "./services";
 import InputFormat from "./inputFormat/inputFormat";
 import TableResult from "./tableResult/tableResult";
 import CardInput from "./card/cardComplete";
 import InputFile from "./inputFile/inputFile";
-import {Container, Row, Col, Button, Form} from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 
 export const Search = () => {
     const [image, setImage] = useState([]);
@@ -72,7 +72,7 @@ export const Search = () => {
                                             Accept
                                         </Button>,
                                     ]}
-                                    style={{color: "black"}}
+                                    style={{ color: "black" }}
                                     textHeader="Data"
                                 />
                             </Form>
@@ -101,7 +101,7 @@ export const Search = () => {
                                     />
                                 }
                                 textHeader="Tables"
-                                style={{color: "black"}}
+                                style={{ color: "black" }}
                             />
                         </Col>
                     </Row>
