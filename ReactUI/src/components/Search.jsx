@@ -1,114 +1,128 @@
-import React, {useState, useEffect} from "react";
-import {getImage, sendSearch} from "./services";
-import InputFormat from "./inputFormat/inputFormat";
-import TableResult from "./tableResult/tableResult";
-import CardInput from "./card/cardComplete";
-import InputFile from "./inputFile/inputFile";
-import {Container, Row, Col, Button, Form} from "react-bootstrap";
+import React from "react";
 
-export const Search = () => {
-    const [image, setImage] = useState([]);
-
-    useEffect(() => {
-        async function loadImage() {
-            const response = await getImage();
-            console.log(response);
-            //setImage(response.data);
-        }
-        loadImage();
-    }, []);
-
+const Inicio = () => {
     return (
-        <div className="App">
-            <body className="App-header">
-                <Container>
-                    <Row>
-                        <Col xs={6}>
-                            <Form
-                                controlId="formFile"
-                                className="mb-3"
-                                action={sendSearch}
-                                method="post"
-                                class="needs-validation"
-                                novalidate
-                            >
-                                <CardInput
-                                    componentReact={[
-                                        <InputFormat
-                                            type="text"
-                                            label="Word"
-                                            placeholder="Word"
-                                            msg="Write your word"
-                                            id="searchWord"
-                                            name="searchWord"
-                                        />,
-                                        <InputFormat
-                                            type="text"
-                                            label="Neuronal network model"
-                                            placeholder="Neuronal network model"
-                                            msg="Enter the Neuronal network"
-                                            id="neuronalNnetwork"
-                                            name="neuronalNnetwork"
-                                        />,
-                                        <InputFormat
-                                            type="number"
-                                            label="Percentage"
-                                            placeholder="Percentage"
-                                            msg="Enter the percentage of precision"
-                                            id="percentaje"
-                                            name="percentaje"
-                                        />,
-                                        <InputFile
-                                            fileMessage="Pick your document"
-                                            name="imageFile"
-                                            typeAccepted="image/jpeg"
-                                        />,
-                                        <Button
-                                            ad={Col}
-                                            variant="success"
-                                            type="submit"
-                                            className="mb-4"
-                                        >
-                                            Accept
-                                        </Button>,
-                                    ]}
-                                    style={{color: "black"}}
-                                    textHeader="Data"
-                                />
-                            </Form>
-                        </Col>
-                        <Col xs={6}>
-                            <CardInput
-                                componentReact={
-                                    <TableResult
-                                        tableRow={[
-                                            "Algorithm",
-                                            "Word",
-                                            "Percentage",
-                                            "Image",
-                                        ]}
-                                        tableData={[
-                                            image.algorithm,
-                                            image.searchWord,
-                                            image.percentage,
-                                            <img
-                                                src={image.image}
-                                                alt=""
-                                                width="85"
-                                                height="90"
-                                            />,
-                                        ]}
+        <div className="container">
+            <div class="col-sm-6">
+                <div class="container mt-4" >
+                    <div class="card">
+                        <div class="card-header text-white bg-info mb-3" >Data</div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationTooltip01">
+                                        Word
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="searchWord"
+                                        placeholder="Word"
+                                        name="searchWord"
+                                        required
                                     />
-                                }
-                                textHeader="Tables"
-                                style={{color: "black"}}
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-            </body>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationTooltip02">
+                                        Neuronal network model
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="neuronalNnetwork"
+                                        placeholder="Neuronal network model"
+                                        name="neuronalNnetwork"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationTooltip03">
+                                        Percentage
+                                    </label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="percentaje"
+                                        placeholder="Percentage"
+                                        name="percentaje"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="exampleFormControlFile1">
+                                        Select your video
+                                    </label>
+                                    <input
+                                        type="file"
+                                        class="form-control-file"
+                                        id="imageFile"
+                                        name="imageFile"
+                                        accept="image/jpeg"
+                                    />
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="container mt-4">
+                    <div class="card">
+                        <div class="card-header text-white bg-dark mb-3">List of results</div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="table-responsive-lg">
+                                    <table class="table">
+                                        <caption>List of results</caption>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Algorithm</th>
+                                                <th scope="col">Word</th>
+                                                <th scope="col">Percentaje</th>
+                                                <th scope="col">Image</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
 
-export default Search;
+export default Inicio;
+
