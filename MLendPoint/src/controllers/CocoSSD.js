@@ -80,8 +80,13 @@ class CocoSSD extends require("./MachineLearing") {
     parse(arr) {
         let arrParse = new Array();
         arr.forEach((element) => {
-            let arrAux = { className: element.class, probability: element.score };
-            arrParse.push(arrAux);
+            //let arrAux = { "className": element.class, "probability": element.score };
+            const obj = {
+                className: element.class,
+                probability: element.score,
+            };
+            const auxi = JSON.stringify(obj);
+            arrParse.push(auxi);
         });
         return arrParse;
     }

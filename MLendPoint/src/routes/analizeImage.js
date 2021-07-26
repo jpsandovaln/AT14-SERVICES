@@ -1,8 +1,13 @@
 const express = require("express");
+const path = require("path");
 const upload = require("../middleware/imageFilter");
+const ObtainDirectory = require("../middleware/obtainDirectory");
 const CocoSSD = require("../controllers/CocoSSD");
 const MobilNet = require("../controllers/MobilNet");
 const router = express.Router();
+const fs = require("fs");
+const UnZip = require("../middleware/unzip");
+const SecondsToString = require("../middleware/secondToString");
 
 router.get("/", (req, res) => {
     const json = {
@@ -25,51 +30,43 @@ router.get("/", (req, res) => {
     res.json(json);
 });
 
-router.post("/", upload.single('imageFile'), async (req, res)=> {
-        /*
-        if (err) {
-            res.status(400).send("Something went wrong!" + err);
-            return;
-        }
-        if (!req.file || Object.keys(req.file).length === 0) {
-            res.status(400).send("No files were uploaded.");
-            return;
-        }
-        */
+router.post("/", upload.single('zipFile'), async (req, res)=> {
+    
+    const searchWord = req.body.searchWord;
+    const percentage = req.body.percentage;
+    const obtainDirectory = new ObtainDirectory();
+    const zipNameFile = req.file.filename;
+    const pathFile = req.file.path;
+    const unzipOutput = __dirname + '/../../public/unZipFiles/' + path.parse(zipNameFile).name;
+    
+    const unzip = new UnZip();
+    unzip.extractZip(pathFile, unzipOutput);
 
-        const searchWord = req.body.searchWord;
-        const percentage = req.body.percentage;
-        const imageNameFile = req.file.filename;
-        const pathFile = req.file.path;
-        const destinationFile = req.file.destination;
+    const zipPath = obtainDirectory.filesList(unzipOutput);
+    const imagePaths = obtainDirectory.filesList(unzipOutput + "/" + zipPath[0]);
 
-        //console.log(pathFile);
+    secondsToString = new SecondsToString();
+    var response  = [];
+    for (const image of imagePaths) {        
+        const machineLearning = new CocoSSD(unzipOutput + "/" + zipPath[0] + "/" + image, searchWord, percentage);
+        const result = await machineLearning.getJSON(); 
+        if(result[0] !== undefined) {            
+            const objectResult = JSON.parse(result[0]);
+            const objectResponse = {
+                Algorithm: "CocoSSD",
+                Word: searchWord,
+                Percentage: objectResult.probability,
+                Second: secondsToString.parse(path.parse(image).name),
+            };
+            const auxi = JSON.stringify(objectResponse);
+            response.push(auxi);
+        }                
+    } 
+    
+    console.info(response);
 
-        //const obj = new MachineLearing(__dirname+'/../../public/images/1626305450874.jpg', 'dog', 0.5);
-
-        const machileLearning = new CocoSSD(pathFile, searchWord,percentage);
-        const result = await machileLearning.getJSON();
-
-        /*
-        const response = [{
-            algorithm: "CocoSSD",
-            searchWord: searchWord,
-            quantity: "2",
-            image: "http://localhost:8080/images/" + imageNameFile,
-            percentage: "80%",
-            time: 12345645 (timestamp/00:01:30)
-        },
-        {
-            algorithm: "CocoSSD",
-            searchWord: searchWord,
-            quantity: "2",
-            image: "http://localhost:8080/images/" + imageNameFile,
-            percentage: "80%",
-            time: 12345645 (timestamp/00:05:30)
-        }];
-        */
-
-        res.send(result);
+    res.send( response );
 });
+
 
 module.exports = router;
