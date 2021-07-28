@@ -1,17 +1,16 @@
-class JavaParameter {
+const Parameter = require("./parameter");
+
+class JavaParameter extends Parameter {
 
     constructor(filePath, javaBinaryPath) {
-        this.filePath = filePath;
+        super(filePath);
         this.javaBinaryPath = javaBinaryPath;
-    }
-
-    getFilePath() {
-        return this.filePath;
     }
 
     getJavaBinaryPath() {
         return this.javaBinaryPath;
     }
+
 }
 
 module.exports = JavaParameter;
