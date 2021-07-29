@@ -1,7 +1,7 @@
 import React from "react";
-import UploadImages from "./images-upload.component";
+import UploadImages from "./images-upload";
 
-const Inicio = () => {
+const Home = () => {
     return (
         <div className="container">
 
@@ -12,4 +12,4 @@ const Inicio = () => {
     );
 };
 
-export default Inicio;
+export default Home;

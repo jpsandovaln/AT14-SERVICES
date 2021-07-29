@@ -3,9 +3,9 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Search from "./components/Search"
-import Home from "./components/Home";
-import Error404 from "./components/Error404";
+import Search from "./imports/ui/components/Search"
+import Home from "./imports/ui/components/Home";
+import Error404 from "./imports/ui/components/Error404";
 
 function App() {
     return (
