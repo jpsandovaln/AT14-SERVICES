@@ -1,5 +1,5 @@
 import React from 'react'
-import Lists from './Lists'
+import Lists from '../../components/Lists'
 import { makeStyles } from '@material-ui/core';
 import { Drawer } from '@material-ui/core';
 import { Divider } from '@material-ui/core';
