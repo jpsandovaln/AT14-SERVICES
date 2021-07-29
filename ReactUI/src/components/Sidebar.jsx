@@ -9,9 +9,10 @@ function Sidebar() {
             <ul className="nav nav-pills nav-stacked">
                 {SidebarData.map((val, key)=>{
                     return <li key={key}> 
-                        {""}
-                        <span>{val.icon}</span>{""}
-                        <a href="#" onClick={()=>{window.location.pathname = val.link}}>{val.title}</a>
+                            {""}
+                            <i className={val.icon}></i>
+                            {""}
+                            <a href="#" onClick={()=>{window.location.pathname = val.link}}>{val.title}</a>
                     </li>                    
                 })} 
             </ul>           

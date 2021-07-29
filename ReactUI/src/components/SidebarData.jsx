@@ -3,22 +3,22 @@ import React from 'react'
 export const SidebarData = [
     {
         title: "Dashboard",
-        icon: "<Icon />",
+        icon: "bi bi-speedometer",
         link: "/home"
     },
     {
         title: "Machine Learning",
-        icon: "<Icon />",
+        icon: "bi bi-gear",
         link: "/ML"
     },    
     {
         title: "Video Convert",
-        icon: "<Icon />",
+        icon: "bi bi-camera-video",
         link: "/VC"
     },        
     {
-        title: "Image Convert",
-        icon: "<Icon />",
+        title: "Files Convert",
+        icon: "bi bi-file-earmark",
         link: "/VC"
     },            
 ]
