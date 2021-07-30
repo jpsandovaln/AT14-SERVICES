@@ -32,6 +32,9 @@ router.get("/", (req, res) => {
 
 router.post("/", upload.single('zipFile'), async (req, res)=> {
     
+
+    console.log(req.file);
+
     const searchWord = req.body.searchWord;
     const percentage = req.body.percentage;
     const obtainDirectory = new ObtainDirectory();

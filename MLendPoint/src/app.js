@@ -3,6 +3,8 @@ const app = express();
 const homeRouter = require("./routes/home");
 const analizeImage = require("./routes/analizeImage");
 const aboutRouter = require("./routes/about");
+const cors = require('cors');
+app.use(cors())
 
 const port = process.env.PORT || 8080;
 
@@ -17,3 +19,4 @@ app.use("/about", aboutRouter);
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
+
