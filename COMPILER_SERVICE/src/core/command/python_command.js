@@ -5,8 +5,8 @@ const PYTHON_COMPILER = 'python ';
 class PythonCommand extends Command{
     build(parameter) {
         const command =
-            parameter.getPythonBinaryPath() + PYTHON_COMPILER +
-            parameter.getFilePath();
+            parameter.pythonBinaryPath + PYTHON_COMPILER +
+            parameter.filePath;
         return command;
     }
 }

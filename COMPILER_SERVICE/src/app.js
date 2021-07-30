@@ -2,11 +2,8 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 require('dotenv').config({ path: '../.env'});
-const Execute = require('./core/execute');
-const JavaCommand = require('./core/java_command');
-const JavaParameter =require('./core/java_parameter');
-const PythonCommand = require('./core/python_command');
-const PythonParameter = require('./core/python_parameter');
+const JavaCompiler = require('./core/compiler/java_compiler');
+const PythonCompiler = require('./core/compiler/python_compiler');
 
 const app = express();
 
@@ -24,22 +21,18 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post('/compiler', upload.single('file'), async (req, res) => {
+    let langCompiler = {};
+
     if (req.body.language === 'python'){
-        const pythonCommand = new PythonCommand();
-        const pythonParameter = new PythonParameter(req.file.path, process.env.EXECUTE_PYTHON32);
-        const command = pythonCommand.build(pythonParameter);
-        const execute = new Execute();
-        const result = await execute.run(command);
-        res.send(result);
+        langCompiler = new PythonCompiler(req.file.path, process.env.EXECUTE_PYTHON32);
     }
     if (req.body.language === 'java') {
-        const javaCommand = new JavaCommand();
-        const javaParameter = new JavaParameter(req.file.path, process.env.EXECUTE_JAVA8);
-        const command = javaCommand.build(javaParameter);
-        const execute = new Execute();
-        const result = await execute.run(command);
-        res.send(result);
+        langCompiler = new JavaCompiler(req.file.path, process.env.EXECUTE_JAVA8);
     }
+
+    const result = await langCompiler.compiler();
+
+    res.send(result);
 });
 
 const port = process.env.PORT || 8082;
