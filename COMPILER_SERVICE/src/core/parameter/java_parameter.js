@@ -4,11 +4,15 @@ class JavaParameter extends Parameter {
 
     constructor(filePath, javaBinaryPath) {
         super(filePath);
-        this.javaBinaryPath = javaBinaryPath;
+        this._javaBinaryPath = javaBinaryPath;
     }
 
-    getJavaBinaryPath() {
-        return this.javaBinaryPath;
+    get javaBinaryPath() {
+        return this._javaBinaryPath;
+    }
+
+    set javaBinaryPath(value) {
+        this._javaBinaryPath = value;
     }
 
 }

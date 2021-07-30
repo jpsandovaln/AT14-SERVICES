@@ -10,14 +10,14 @@ const JAVA_SPACE = ' ';
 class JavaCommand extends Command{
     build(parameter) {
         const command =
-            parameter.getJavaBinaryPath() + JAVA_COMPILER +
-            parameter.getFilePath() +
+            parameter.javaBinaryPath + JAVA_COMPILER +
+            parameter.filePath +
             JAVA_AND + 
-            parameter.getJavaBinaryPath() + JAVA_EXECUTE +
+            parameter.javaBinaryPath + JAVA_EXECUTE +
             JAVA_CP_PARAM +
-            path.dirname(parameter.getFilePath()) + 
+            path.dirname(parameter.filePath) + 
             JAVA_SPACE + 
-            path.parse(parameter.getFilePath()).name;
+            path.parse(parameter.filePath).name;
 
         return command;
     }

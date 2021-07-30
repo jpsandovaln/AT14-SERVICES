@@ -4,11 +4,15 @@ class PythonParameter extends Parameter {
 
     constructor(filePath, pythonBinaryPath) {
         super(filePath);
-        this.pythonBinaryPath = pythonBinaryPath;
+        this._pythonBinaryPath = pythonBinaryPath;
     }
 
-    getPythonBinaryPath() {
-        return this.pythonBinaryPath;
+    get pythonBinaryPath() {
+        return this._pythonBinaryPath;
+    }
+
+    set pythonBinaryPath(value) {
+        this._pythonBinaryPath = value;
     }
 }
 
