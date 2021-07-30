@@ -13,11 +13,11 @@ export default class UploadImages extends Component {
       previewImages: [],
       progressInfos: [],
       message: [],
-
       imageInfos: [],
     };
   }
 
+  // Return Files uploaded
   componentDidMount() {
     UploadService.getFiles().then((response) => {
       this.setState({
@@ -26,6 +26,7 @@ export default class UploadImages extends Component {
     });
   }
 
+  // Load the preview of images
   selectFiles(event) {
     let images = [];
 
@@ -41,6 +42,7 @@ export default class UploadImages extends Component {
     });
   }
 
+  // Insert the image to database
   upload(idx, file) {
     let _progressInfos = [...this.state.progressInfos];
 

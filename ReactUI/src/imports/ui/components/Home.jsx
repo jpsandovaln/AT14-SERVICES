@@ -1,5 +1,6 @@
 import React from "react";
 import UploadImages from "./images-upload";
+import Uploader from "./uploader/uploader";
 
 const Home = () => {
     return (
@@ -7,6 +8,7 @@ const Home = () => {
 
             <div className="content">
                 <UploadImages />
+                <Uploader />
             </div>
         </div>
     );
