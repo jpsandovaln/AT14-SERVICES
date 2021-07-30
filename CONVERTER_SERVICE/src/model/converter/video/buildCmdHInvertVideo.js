@@ -1,15 +1,16 @@
 const path = require("path");
+const VideoConverter = require("./videoConverter");
 /**
  * @Class
  * Build a string which is the command to flip a video file horizontally.
  */
-class BuildCmdHInvertVideo {
+class BuildCmdHInvertVideo extends VideoConverter {
     /**
      * @param {string} codecPath The path where video codec is.
      * @param {string} videoPath The video path to transform.
      * @param {string} outputPath The path where the resultant audio file will be.
      */
-    constructor() { }
+    constructor() {}
 
     returnCommand(codecPath, videoPath, outputPath) {
         const FFMPEG_I = " -i ";

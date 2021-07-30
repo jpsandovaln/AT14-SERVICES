@@ -16,9 +16,7 @@ const upload = async (req, res) => {
         const dir = '"' + req.file.path + '"';
         console.info(dir);
 
-        const video = new BuildCmdObtainFrames();
-        const compiler = new Compiler();
-        const command = video.returnCommand(
+        const video = new BuildCmdObtainFrames(
             helpPath.principalPath + "/" + "thirdParty" + "/" + "ffmpeg.exe",
             dir,
             helpPath.principalPath +
@@ -26,10 +24,10 @@ const upload = async (req, res) => {
                 "resources" +
                 "/" +
                 "outputPath" +
-                "/",
-            "1",
-            ".jpg"
+                "/"
         );
+        const compiler = new Compiler();
+        const command = video.returnCommand("1", ".jpg");
         console.info(command);
         const result = await compiler.execute(command);
         res.status(200).send({

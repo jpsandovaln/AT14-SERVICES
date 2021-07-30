@@ -14,7 +14,7 @@ class BuildCmdChangeVideoFormat {
      * @param {string} outputPath The path where the resultant imeges will be.
      * @param {string} outputFormat The output format for the resultant video.
      */
-    constructor() { }
+    constructor() {}
 
     returnCommand(
         codecPath,
