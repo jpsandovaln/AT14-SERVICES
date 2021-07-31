@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import MachineLearing from "./FileUpload"
 import Home from "../imports/ui/components/Home";
+import Search from "../imports/ui/components/Search";
 
 const styles = makeStyles(theme=>({
     root: {
@@ -31,6 +32,7 @@ const Container = () => {
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/MLendPoint" component={MachineLearing} />
+                <Route exact path="/MLendPointOld" component={Search} />
             </Switch>
         </div>
     </div>
