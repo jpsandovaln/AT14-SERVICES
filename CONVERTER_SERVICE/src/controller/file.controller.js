@@ -1,10 +1,13 @@
+require("dotenv").config("../../.env");
 const uploadFile = require("../middleware/upload");
 const fs = require("fs");
-const baseUrl = "http://localhost:8080/files/";
-const helpPath = require("../.././helpPaths");
-const admz = require("adm-zip");
 const BuildCmdObtainFrames = require("../model/converter/video/buildCmdObtainFrames");
 const Compiler = require("../model/converter/compiler");
+const Zip = require("../middleware/zipping");
+
+const ffmpegPath = process.env.CONVERTER_PATH;
+const outputPath = process.env.OUTPUT_PATH;
+const baseUrl = process.env.BASE_URL;
 
 const upload = async (req, res) => {
     try {
@@ -14,22 +17,15 @@ const upload = async (req, res) => {
             return res.status(400).send({ message: "Please upload a file!" });
         }
         const dir = '"' + req.file.path + '"';
-        console.info(dir);
 
-        const video = new BuildCmdObtainFrames(
-            helpPath.principalPath + "/" + "thirdParty" + "/" + "ffmpeg.exe",
-            dir,
-            helpPath.principalPath +
-                "/" +
-                "resources" +
-                "/" +
-                "outputPath" +
-                "/"
-        );
+        const video = new BuildCmdObtainFrames(ffmpegPath, dir, outputPath);
+        const zipping = new Zip();
+
         const compiler = new Compiler();
         const command = video.returnCommand("1", ".jpg");
-        console.info(command);
+        zipping.zipDownload(req, res);
         const result = await compiler.execute(command);
+
         res.status(200).send({
             name: req.file.originalname,
             url: baseUrl + req.file.originalname,
@@ -86,45 +82,8 @@ const download = (req, res) => {
     });
 };
 
-const to_zip = fs.readdirSync(
-    helpPath.principalPath + "/" + "resources" + "/" + "outputPath"
-);
-const zipDownload = (req, res) => {
-    const zip = new admz();
-    for (var k = 0; k < to_zip.length; k++) {
-        zip.addLocalFile(
-            helpPath.principalPath +
-                "/" +
-                "resources" +
-                "/" +
-                "outputPath" +
-                "/" +
-                to_zip[k]
-        );
-    }
-    const downloadName = `${Date.now()}.zip`;
-    const data = zip.toBuffer();
-
-    zip.writeZip(
-        helpPath.principalPath +
-            "/" +
-            "resources" +
-            "/" +
-            "zip" +
-            "/" +
-            downloadName +
-            "/"
-    );
-
-    res.set("Content-Type", "application/octet-stream");
-    res.set("Content-Disposition", `attachment; filename=${downloadName}`);
-    res.set("Content-Length", data.length);
-    res.send(data);
-};
-
 module.exports = {
     upload,
     getListFiles,
-    download,
-    zipDownload
+    download
 };

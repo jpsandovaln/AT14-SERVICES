@@ -10,30 +10,21 @@ class BuildCmdHInvertVideo extends VideoConverter {
      * @param {string} videoPath The video path to transform.
      * @param {string} outputPath The path where the resultant audio file will be.
      */
-    constructor() {}
+    constructor(codecPath, videoPath, outputPath) {
+        super(codecPath, videoPath, outputPath);
+    }
 
-    returnCommand(codecPath, videoPath, outputPath) {
-        const FFMPEG_I = " -i ";
+    returnCommand() {
         const FFMPEG_VF = " -vf ";
         const FFMPEG_H_FLIP = "hflip";
-        const SPACE = " ";
-        const QUOTES = '"';
 
-        const command =
-            codecPath +
-            FFMPEG_I +
-            QUOTES +
-            videoPath +
-            QUOTES +
-            FFMPEG_VF +
-            FFMPEG_H_FLIP +
-            SPACE +
-            QUOTES +
-            outputPath +
-            path.parse(videoPath).name +
-            "_h_inverted" +
-            path.extname(videoPath) +
-            QUOTES;
+        const command = this.getCommand(
+            FFMPEG_VF + FFMPEG_H_FLIP + this.SPACE + this.QUOTES,
+            path.parse(this.videoPath).name +
+                "_h_inverted" +
+                path.extname(this.videoPath) +
+                this.QUOTES
+        );
 
         return command;
     }

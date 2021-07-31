@@ -1,10 +1,11 @@
 const path = require("path");
+const VideoConverter = require("./videoConverter");
 /**
  * @Class
  * Build a string which is the command for change the formar of a video, its quality,
  * its resolution, and the number of images per minuto.
  */
-class BuildCmdChangeVideoFormat {
+class BuildCmdChangeVideoFormat extends VideoConverter {
     /**
      * @param {string} codecPath The path where video codec is.
      * @param {string} videoPath The video path to transform.
@@ -14,40 +15,23 @@ class BuildCmdChangeVideoFormat {
      * @param {string} outputPath The path where the resultant imeges will be.
      * @param {string} outputFormat The output format for the resultant video.
      */
-    constructor() {}
+    constructor(codecPath, videoPath, outputPath) {
+        super(codecPath, videoPath, outputPath);
+    }
 
-    returnCommand(
-        codecPath,
-        videoPath,
-        outputPath,
-        ratio,
-        scale,
-        quality,
-        outputFormat
-    ) {
-        const FFMPEG_I = " -i ";
+    returnCommand(ratio, scale, quality, outputFormat) {
         const FFMPEG_RATIO = " -r ";
         const FFMPEG_SCALE = " -s ";
-        const SPACE = " ";
         const FFMPEG_QUALITY = " -qscale ";
-        const QUOTES = '"';
         const CONVERT = "_converted";
-        const command =
-            codecPath +
-            FFMPEG_I +
-            QUOTES +
-            videoPath +
-            QUOTES +
+        const command = this.getCommand(
             (ratio === undefined ? "" : FFMPEG_RATIO + ratio) +
-            (scale === undefined ? "" : FFMPEG_SCALE + scale) +
-            (quality === undefined ? "" : FFMPEG_QUALITY + quality) +
-            SPACE +
-            QUOTES +
-            outputPath +
-            path.parse(videoPath).name +
-            CONVERT +
-            outputFormat +
-            QUOTES;
+                (scale === undefined ? "" : FFMPEG_SCALE + scale) +
+                (quality === undefined ? "" : FFMPEG_QUALITY + quality) +
+                this.SPACE +
+                this.QUOTES,
+            path.parse(videoPath).name + CONVERT + outputFormat + this.QUOTES
+        );
 
         return command;
     }
