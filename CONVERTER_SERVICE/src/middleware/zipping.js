@@ -15,11 +15,6 @@ class Zip {
         const data = zip.toBuffer();
 
         zip.writeZip(zipPath + downloadName + "/");
-
-        res.set("Content-Type", "application/octet-stream");
-        res.set("Content-Disposition", `attachment; filename=${downloadName}`);
-        res.set("Content-Length", data.length);
-        res.send(data);
     }
 }
 
