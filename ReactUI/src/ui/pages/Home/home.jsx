@@ -1,11 +1,11 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from '@material-ui/core';
-import Navbar from '../modules/navbar/Nabvar';
-import SideBar from '../modules/sidebar/SideBar';
-import UploadImages from '../components/images-upload';
-import Home from '../components/Home';
-import Search from '../components/Search';
+import Navbar from '../../modules/navbar/Nabvar';
+import SideBar from '../../modules/sidebar/SideBar';
+import UploadImages from '../../components/images-upload';
+import Home from '../../components/Home';
+import Search from '../../components/Search';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from '@material-ui/core';
-import Home from '../components/Home';
-import Search from '../components/Search';
+import Home from '../../components/Home';
+import Search from '../../components/Search';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 
