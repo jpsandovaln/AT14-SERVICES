@@ -14,8 +14,9 @@ const drawerWidth = 240;
 const useStyle = makeStyles((theme) => ({
   appBar: {
     [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
+      width: "100%",
       marginLeft: drawerWidth,
+      zIndex: 1201,
     },
   },
   menuButton: {

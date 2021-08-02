@@ -14,6 +14,17 @@ import { BrowserRouter as Router, Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
+  positionText: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  menuText: {
+    margin: theme.spacing(0),
+  },
+  box: {
+    position: "fixed",
+  }
 }));
 
 function MenuOptions(props) {
@@ -26,8 +37,10 @@ function MenuOptions(props) {
   ];
 
   return (
-    <div>
-      <div className={classes.toolbar} />
+    <div className>
+      <div className={`${classes.toolbar} ${classes.positionText}`} >
+        <h3 className={classes.menuText}>Menu</h3>
+      </div>
       <Divider />
       <List>
         {testContent.map((item) => (
