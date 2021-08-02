@@ -1,12 +1,7 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from '@material-ui/core';
-import NavBar from '../../modules/navbar/NavBar';
 import SideBar from '../../modules/sidebar/SideBar';
-import UploadImages from '../../components/images-upload';
-import Home from '../../components/Home';
-import Search from '../../components/Search';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 
 import MachineLearing from "./FileUpload";
@@ -30,20 +25,9 @@ const styles = makeStyles((theme) => ({
 const Container = () => {
   const classes = styles();
   return (
-    <Router>
-      <div className={classes.root}>
-        <Navbar />
+    <div className={classes.root}>
         <SideBar />
-        <div className={classes.content}>
-          <div className={classes.toolbar}></div>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/MLendPoint" component={MachineLearing} />
-            <Route exact path="/MLendPointOld" component={Search} />
-          </Switch>
-        </div>
-      </div>
-    </Router>
+    </div>
   );
 };
 

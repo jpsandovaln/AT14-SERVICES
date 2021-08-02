@@ -5,7 +5,8 @@ import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import MenuOptions from "../../components/menu-options/MenuOptions";
-import NavBar from "../navbar/NavBar";
+import NavBar from "../../components/navbar/NavBar";
+import Converter from "../../pages/Converter/converter";
 
 const drawerWidth = 240;
 
@@ -83,7 +84,7 @@ function SideBar(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {/* content */}
+        <Converter />
       </main>
     </div>
   );

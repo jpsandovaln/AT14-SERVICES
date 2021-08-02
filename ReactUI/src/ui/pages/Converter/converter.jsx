@@ -1,48 +1,54 @@
-import React from 'react'
-import "bootstrap/dist/css/bootstrap.min.css";
-import { makeStyles } from '@material-ui/core';
-import Home from '../../components/Home';
-import Search from '../../components/Search';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React from "react";
+// import UploadImages from "./images-upload";
+// import Uploader from "./uploader/uploader";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 
-
-const styles = makeStyles(theme=>({
-    root: {
-        display: 'flex',
-    },
-    toolbar: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(3),
-    }
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    textAlign: "center",
+  },
+  paper: {
+    margin: theme.spacing(0, 20, 5, 20),
+    padding: theme.spacing(2),
+    color: theme.palette.info.main,
+  },
+  text: {
+    margin: theme.spacing(0)
+  },
 }));
 
-const Converter = () => {
-  const classes = styles();
-  const uploadSection = () => {
-    
-  };
-
-
+function Converter(props) {
+  const classes = useStyles();
+  const content = props;
 
   return (
-        <Router>
-            <div class="container">
-                <div className="btn-group">
-                    <Link to="/" className="btn btn-dark">
-                        Home
-                    </Link>
-                    <Link to="/Search" className="btn btn-dark">
-                        Search
-                    </Link>
-                </div>
-            </div>
-            <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/Search" component={Search} />
-            </Switch>
-        </Router>
+    <div className={classes.root}>
+      <Grid container spacing={1}>
+        <Grid item xs>
+          <Paper className={classes.paper} elevation={0}>
+            <Typography className={classes.text} gutterBottom variant="h5">
+              CONVERTER
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs>
+          <Paper className={classes.paper} elevation={1}>
+            
+          </Paper>
+        </Grid>
+      </Grid>
+
+      {/* <div className="content">
+        <UploadImages />
+        <Uploader />
+      </div> */}
+    </div>
   );
 }
 
