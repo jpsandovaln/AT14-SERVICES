@@ -8,7 +8,7 @@ class JsonResponse {
                 Algorithm: algorithm,
                 Word: searchWord,
                 Percentage: objectResult.probability,
-                Second: secondsToString.parse(path.parse(image).name),
+                Second: secondsToString.parse(path.parse(image.originalname).name)
             };
             response.push(objectResponse);
         }

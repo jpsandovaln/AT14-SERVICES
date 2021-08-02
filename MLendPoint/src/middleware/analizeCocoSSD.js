@@ -6,35 +6,24 @@ const JsonResponse = require("./jsonResponse");
 class analizeCocoSSD extends analize {
     constructor(
         imagePaths,
-        unzipOutput,
-        zipPath,
         searchWord,
         percentage,
         secondsToString,
         algorithm
     ) {
-        super(
-            imagePaths,
-            unzipOutput,
-            zipPath,
-            searchWord,
-            percentage,
-            secondsToString,
-            algorithm
-        );
+        super(imagePaths, searchWord, percentage, secondsToString, algorithm);
     }
     async recognition() {
         let response = [];
-        const SLASH = "/"
         for (const image of this.imagePaths) {
+            console.log(image.path);
             const machineLearning = new CocoSSD(
-                this.unzipOutput + SLASH + this.zipPath[0] + SLASH + image,
+                image.path,
                 this.searchWord,
                 this.percentage
             );
             const result = await machineLearning.getJSON();
             const jsonResponse = new JsonResponse();
-
             response = jsonResponse.response(
                 result,
                 this.algorithm,

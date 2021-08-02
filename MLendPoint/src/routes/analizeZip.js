@@ -5,8 +5,11 @@ const ObtainDirectory = require("../middleware/obtainDirectory");
 const router = express.Router();
 const UnZip = require("../middleware/unzip");
 const SecondsToString = require("../middleware/secondToString");
-const analizeCocoSSD = require("../middleware/analizeCocoSSD")
-const analizeMobilNet = require("../middleware/analizeMobilNet")
+const analizeCocoSSD = require("../middleware/analizeCocoSSD");
+const analizeMobilNet = require("../middleware/analizeMobilNet");
+const BuildArrayImages = require("../middleware/buildArrayImages");
+
+const nameFile = __dirname + "/../../public/images/" + Date.now() + "/";
 
 router.get("/", (req, res) => {
     const json = {
@@ -29,45 +32,61 @@ router.get("/", (req, res) => {
     res.json(json);
 });
 
-router.post("/", upload.single('zipFile'), async (req, res)=> {
-    
+router.post("/", upload.single("zipFile"), async (req, res) => {
+    const file = req.file;
+    if (!file) {
+        const error = new Error("Please upload a file");
+        error.httpStatusCode = 400;
+        return next(error);
+    }
+    //res.send(file)
     const searchWord = req.body.searchWord;
     const percentage = req.body.percentage;
     const zipNameFile = req.file.filename;
     const pathFile = req.file.path;
     const algorithm = req.body.algorithm;
 
-    
-    const obtainDirectory = new ObtainDirectory(); 
-    const unzipOutput = __dirname + '/../../public/unZipFiles/' + path.parse(zipNameFile).name; 
+    const obtainDirectory = new ObtainDirectory();
+    const buildArrayImages = new BuildArrayImages();
     const unzip = new UnZip();
-    unzip.extractZip(pathFile, unzipOutput);
-
-    const zipPath = obtainDirectory.filesList(unzipOutput);
-    const imagePaths = obtainDirectory.filesList(unzipOutput + "/" + zipPath[0]);
-
     const secondsToString = new SecondsToString();
-    
 
-    if (algorithm=="CocoSSD")
-    {
-        const learning = new analizeCocoSSD(imagePaths,unzipOutput,zipPath,searchWord,percentage,secondsToString,algorithm)
+    const unzipOutput =
+        __dirname + "/../../public/unZipFiles/" + path.parse(zipNameFile).name;
+    unzip.extractZip(pathFile, unzipOutput);
+    const zipPath = obtainDirectory.filesList(unzipOutput);
+    const imagePaths = obtainDirectory.filesList(unzipOutput + "/" + zipPath);
+    const files = buildArrayImages.buildArrayImages(imagePaths, unzipOutput);
+
+    console.log(files)
+
+    if (algorithm == "CocoSSD") {
+        const learning = new analizeCocoSSD(
+            files,
+            searchWord,
+            percentage,
+            secondsToString,
+            algorithm
+        );
         let response = await learning.recognition();
-        
+
         console.info(response);
-        res.send( response );
+        res.send(response);
     }
 
-    if (algorithm=="MobilNet")
-    {
-        const learning = new analizeMobilNet(imagePaths,unzipOutput,zipPath,searchWord,percentage,secondsToString,req.body.algorithm)
+    if (algorithm == "MobilNet") {
+        const learning = new analizeMobilNet(
+            files,
+            searchWord,
+            percentage,
+            secondsToString,
+            algorithm
+        );
         let response = await learning.recognition();
-        
-        console.info(response);
-        res.send( response );
-    }
 
+        console.info(response);
+        res.send(response);
+    }
 });
-
 
 module.exports = router;

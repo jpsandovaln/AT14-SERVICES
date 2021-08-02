@@ -1,16 +1,12 @@
 class analize {
     constructor(
         imagePaths,
-        unzipOutput,
-        zipPath,
         searchWord,
         percentage,
         secondsToString,
         algorithm
     ) {
         this._imagePaths = imagePaths;
-        this._unzipOutput = unzipOutput;
-        this._zipPath = zipPath;
         this._searchWord = searchWord;
         this._percentage = percentage;
         this._secondsToString = secondsToString;
@@ -26,23 +22,6 @@ class analize {
         this._imagePaths = imagePaths;
     }
 
-    get unzipOutput()
-    {
-        return this._unzipOutput;
-    }
-    set unzipOutput(unzipOutput)
-    {
-        this._unzipOutput = unzipOutput;
-    }
-
-    get zipPath()
-    {
-        return this._zipPath;
-    }
-    set zipPath(zipPath)
-    {
-        this._zipPath = zipPath;
-    }
 
     get searchWord()
     {
