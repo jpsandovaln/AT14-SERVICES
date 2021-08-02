@@ -52,12 +52,12 @@ class MobilNet extends require("./MachineLearing") {
 }
 
 
-async function callAsync() {
+/*async function callAsync() {
     const obj = new MobilNet(__dirname+'/../../public/images/1.jpg', 'dog', 0.1);
     const result = await obj.getJSON();
     console.log(result);
 }
 callAsync();
-
+*/
 
 module.exports = MobilNet;
