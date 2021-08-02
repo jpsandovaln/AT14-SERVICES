@@ -6,6 +6,8 @@ const admz = require("adm-zip");
 const BuildCmdObtainFrames = require("../model/converter/video/buildCmdObtainFrames");
 const Compiler = require("../model/converter/compiler");
 
+const Url = require('../database/url_model');
+
 const upload = async (req, res) => {
     try {
         await uploadFile(req, res);
@@ -37,6 +39,13 @@ const upload = async (req, res) => {
             url: baseUrl + req.file.originalname,
             params: req.body
         });
+
+    const url = new Url({name: req.file.originalname, url: baseUrl+req.file.originalname});
+    url.save(function(err, doc) {
+    if (err) return console.error(err);
+        console.log("Document inserted successfully!");
+    });
+
     } catch (err) {
         console.log(err);
 
