@@ -4,10 +4,11 @@ const controllerImagenes = require("../controller/ImagesController");
 
 class Routes {
     constructor(app) {
-        // router.post("/upload", controller.upload);
-        // router.get("/files", controller.getListFiles);
-        // router.get("/files/:name", controller.download);
-        // router.get("/download", controller.zipDownload);
+
+        router.post("/converter", controller.upload);
+        router.post("/upload", controller.upload);
+        router.get("/files", controller.getListFiles);
+        router.get("/files/:name", controller.download);
         router.post(
             "/ChangeImageFormat",
             controllerImagenes.endPointToChangeImageFormat
