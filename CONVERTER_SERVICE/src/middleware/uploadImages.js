@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+const util = require("util");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -14,4 +15,6 @@ const uploadImages = multer({
     storage: storage,
 }).single("imageFile");
 
-module.exports = uploadImages;
+let uploadImagesMiddleware = util.promisify(uploadImages);
+
+module.exports = uploadImagesMiddleware;
