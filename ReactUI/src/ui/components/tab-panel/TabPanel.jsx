@@ -55,18 +55,18 @@ export default function CenteredTabs() {
         textColor="primary"
         centered
       >
-        <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" />
+        <Tab label="Options" />
+        <Tab label="Converted Files" />
+        <Tab label="Original Files" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Item One
+        Options
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        Converted Files
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        Original Files
       </TabPanel>
     </div>
   );
