@@ -1,7 +1,7 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from '@material-ui/core';
-import Navbar from '../../modules/navbar/Nabvar';
+import NavBar from '../../modules/navbar/NavBar';
 import SideBar from '../../modules/sidebar/SideBar';
 import UploadImages from '../../components/images-upload';
 import Home from '../../components/Home';

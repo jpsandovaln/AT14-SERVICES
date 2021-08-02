@@ -1,38 +1,96 @@
-import React from 'react'
-import Lists from '../../components/Lists'
-import { makeStyles } from '@material-ui/core';
-import { Drawer } from '@material-ui/core';
-import { Divider } from '@material-ui/core';
+import React from "react";
+import PropTypes from "prop-types";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import MenuOptions from "../../components/menu-options/MenuOptions";
+import NavBar from "../navbar/NavBar";
 
+const drawerWidth = 240;
 
-const styles = makeStyles(theme=>({
-    drawer:{
-        width:240,
-        flexShrink:0,
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  drawer: {
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0,
     },
-    drawerPaper:{
-        width:240,
-    },
-    toolbar: theme.mixins.toolbar,
-}))
+  },
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+}));
 
-const SideBar = ()=> {
-  const classes = styles();
+function SideBar(props) {
+  const { window } = props;
+  const classes = useStyles();
+  const theme = useTheme();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const direction = theme.direction === "rtl" ? "right" : "left";
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
+  const parametersUp = {
+    container: container,
+    variant: "temporary",
+    anchor: direction,
+    open: mobileOpen,
+    onClose: handleDrawerToggle,
+    classes: {
+      paper: classes.drawerPaper,
+    },
+    ModalProps: {
+      keepMounted: true,
+    },
+  };
+
+  const parametersDown = {
+    classes: {
+      paper: classes.drawerPaper,
+    },
+    variant: "permanent",
+    open: mobileOpen,
+  };
+
   return (
-    <Drawer 
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-            paper: classes.drawerPaper
-        }}
-        anchor="left"
-    >
-        <div className={classes.toolbar}></div>
-        <Divider />
-        <Lists />
-    </Drawer>
+    <div className={classes.root}>
+      <CssBaseline />
+      <NavBar onClick={handleDrawerToggle} />
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        <Hidden smUp implementation="css">
+          <Drawer {...parametersUp}>
+            <MenuOptions />
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer {...parametersDown}>
+            <MenuOptions />
+          </Drawer>
+        </Hidden>
+      </nav>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {/* content */}
+      </main>
+    </div>
   );
 }
 
-export default SideBar;
+SideBar.propTypes = {
+  window: PropTypes.func,
+};
 
+export default SideBar;
