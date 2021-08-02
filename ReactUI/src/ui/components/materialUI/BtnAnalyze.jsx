@@ -1,5 +1,5 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
+import React from "react";
+import Button from "@material-ui/core/Button";
 
 /*
 const StyledButton = withStyles({
@@ -18,7 +18,7 @@ const StyledButton = withStyles({
         boxShadow: 'none',
         backgroundColor: '#11BB1F',
         borderColor: 'white',
-      },      
+      },
     },
     label: {
         textTransform: 'capitalize',
@@ -31,14 +31,13 @@ export default function AnalyzeButton() {
 }
 */
 export default function UploadButton() {
-    
-    return (
-        <div>
-            <label htmlFor="contained-button-file">
-                <Button variant="contained" color="primary" component="span" >
-                    Analyze        
-                </Button>
-            </label>
-        </div>
-    );
+	return (
+		<div>
+			<label htmlFor="contained-button-file">
+				<Button variant="contained" color="primary" component="span">
+					Analyze
+				</Button>
+			</label>
+		</div>
+	);
 }
