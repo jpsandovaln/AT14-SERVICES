@@ -1,17 +1,22 @@
 import React from "react";
-import { ThemeProvider} from "@material-ui/core/styles";
-import { unstable_createMuiStrictModeTheme } from '@material-ui/core/styles';
+import { unstable_createMuiStrictModeTheme } from "@material-ui/core/styles";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Container from './imports/ui/pages/home'
-import Converter from './imports/ui/pages/converter'
+import HomePage from "./ui/pages/Home/HomePage";
+import ConverterPage from "./ui/pages/Converter/ConverterPage";
+import MachineLearningPage from "./ui/pages/MachineLearning/MachineLearningPage";
 
 const theme = unstable_createMuiStrictModeTheme();
 
 function App() {
   return (
-    <ThemeProvider  theme={theme}>
-      <Container />
-    </ThemeProvider>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route exact path="/Converter" component={ConverterPage} />
+        <Route exact path="/FileUpload" component={MachineLearningPage} />
+      </Switch>
+    </Router>
   );
 }
 

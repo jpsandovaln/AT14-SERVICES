@@ -42,7 +42,7 @@ function NavBar (onClick){
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap>
-          Converter
+          SNIFFER DOG
         </Typography>
       </Toolbar>
     </AppBar>

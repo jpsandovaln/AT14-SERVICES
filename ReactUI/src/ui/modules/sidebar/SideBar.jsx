@@ -6,7 +6,6 @@ import Hidden from "@material-ui/core/Hidden";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import MenuOptions from "../../components/menu-options/MenuOptions";
 import NavBar from "../../components/navbar/NavBar";
-import Converter from "../../pages/Converter/converter";
 
 const drawerWidth = 240;
 
@@ -32,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SideBar(props) {
   const { window } = props;
+  const page = props.page;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -84,7 +84,7 @@ function SideBar(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Converter />
+        {page()}
       </main>
     </div>
   );

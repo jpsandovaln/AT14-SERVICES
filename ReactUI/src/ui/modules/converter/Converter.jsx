@@ -1,6 +1,4 @@
 import React from "react";
-// import UploadImages from "./images-upload";
-// import Uploader from "./uploader/uploader";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -8,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import UploadImages from "../../components/images-upload";
 import { Button } from "@material-ui/core";
 import CenteredTabs from "../../components/tab-panel/TabPanel";
+import SideBar from "../sidebar/SideBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,6 +72,6 @@ function Converter(props) {
       </div> */}
     </div>
   );
-}
+};
 
 export default Converter;

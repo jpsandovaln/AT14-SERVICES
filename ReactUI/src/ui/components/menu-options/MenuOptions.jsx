@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
 import HomeIcon from "@material-ui/icons/Home";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -20,8 +21,8 @@ function MenuOptions(props) {
 
   const testContent = [
     { title: "Home", icon: <HomeIcon />, path: "/" },
-    { title: "Converter", icon: <AutorenewIcon />, path: "/" },
-    { title: "Machine Learning", icon: <DashboardIcon />, path: "/" },
+    { title: "Converter", icon: <AutorenewIcon />, path: "/Converter" },
+    { title: "Machine Learning", icon: <DashboardIcon />, path: "/FileUpload" },
   ];
 
   return (
@@ -30,7 +31,7 @@ function MenuOptions(props) {
       <Divider />
       <List>
         {testContent.map((item) => (
-          <ListItem button key={item.title}>
+          <ListItem button key={item.title} component={Link} to={item.path}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.title} />
           </ListItem>

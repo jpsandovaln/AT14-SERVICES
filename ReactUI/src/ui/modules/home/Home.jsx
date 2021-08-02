@@ -1,14 +1,8 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from '@material-ui/core';
-import SideBar from '../../modules/sidebar/SideBar';
+import SideBar from '../sidebar/SideBar';
 
-
-import MachineLearing from "./FileUpload";
-import Home from "../imports/ui/components/Home";
-import Search from "../imports/ui/components/Search";
-import Navbar from "../modules/navbar/Nabvar";
-import SideBar from "../modules/sidebar/SideBar";
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -22,13 +16,14 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const Container = () => {
+
+const Home = () => {
   const classes = styles();
   return (
     <div className={classes.root}>
-        <SideBar />
+      <h2>Home</h2>
     </div>
   );
 };
 
-export default Container;
+export default Home;
