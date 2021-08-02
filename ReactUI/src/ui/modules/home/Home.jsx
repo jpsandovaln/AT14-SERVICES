@@ -1,7 +1,6 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from '@material-ui/core';
-import SideBar from '../sidebar/SideBar';
 
 
 const styles = makeStyles((theme) => ({

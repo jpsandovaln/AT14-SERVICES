@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import SideBar from "../sidebar/SideBar";
 
 const FileUpload = () => {
   const urlML = "http://localhost:8080/analizeImage";
