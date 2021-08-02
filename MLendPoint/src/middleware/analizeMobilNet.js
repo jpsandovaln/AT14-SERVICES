@@ -9,9 +9,10 @@ class analizeMobilNet extends analize {
         searchWord,
         percentage,
         secondsToString,
-        algorithm
+        algorithm,
+        pathImage
     ) {
-        super(imagePaths, searchWord, percentage, secondsToString, algorithm);
+        super(imagePaths, searchWord, percentage, secondsToString, algorithm,pathImage);
     }
     async recognition() {
         let response = [];
@@ -29,7 +30,8 @@ class analizeMobilNet extends analize {
                 this.searchWord,
                 this.secondsToString,
                 image,
-                response
+                response,
+                this.pathImage
             );
         }
         return response;

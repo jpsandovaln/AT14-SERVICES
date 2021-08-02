@@ -9,14 +9,14 @@ class analizeCocoSSD extends analize {
         searchWord,
         percentage,
         secondsToString,
-        algorithm
+        algorithm,
+        pathImage
     ) {
-        super(imagePaths, searchWord, percentage, secondsToString, algorithm);
+        super(imagePaths, searchWord, percentage, secondsToString, algorithm,pathImage);
     }
     async recognition() {
         let response = [];
         for (const image of this.imagePaths) {
-            console.log(image.path);
             const machineLearning = new CocoSSD(
                 image.path,
                 this.searchWord,
@@ -30,7 +30,8 @@ class analizeCocoSSD extends analize {
                 this.searchWord,
                 this.secondsToString,
                 image,
-                response
+                response,
+                this.pathImage
             );
         }
         return response;

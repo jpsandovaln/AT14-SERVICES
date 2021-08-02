@@ -9,8 +9,6 @@ const analizeCocoSSD = require("../middleware/analizeCocoSSD");
 const analizeMobilNet = require("../middleware/analizeMobilNet");
 const BuildArrayImages = require("../middleware/buildArrayImages");
 
-const nameFile = __dirname + "/../../public/images/" + Date.now() + "/";
-
 router.get("/", (req, res) => {
     const json = {
         name: "Video",
@@ -34,17 +32,21 @@ router.get("/", (req, res) => {
 
 router.post("/", upload.single("zipFile"), async (req, res) => {
     const file = req.file;
-    if (!file) {
+    /*if (!file) {
         const error = new Error("Please upload a file");
         error.httpStatusCode = 400;
         return next(error);
-    }
+    }*/
     //res.send(file)
     const searchWord = req.body.searchWord;
     const percentage = req.body.percentage;
     const zipNameFile = req.file.filename;
     const pathFile = req.file.path;
     const algorithm = req.body.algorithm;
+    const pathImage =
+        "http://localhost:8080/public/unZipFiles/" +
+        path.parse(zipNameFile).name +
+        "/images/";
 
     const obtainDirectory = new ObtainDirectory();
     const buildArrayImages = new BuildArrayImages();
@@ -58,19 +60,17 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const imagePaths = obtainDirectory.filesList(unzipOutput + "/" + zipPath);
     const files = buildArrayImages.buildArrayImages(imagePaths, unzipOutput);
 
-    console.log(files)
-
     if (algorithm == "CocoSSD") {
         const learning = new analizeCocoSSD(
             files,
             searchWord,
             percentage,
             secondsToString,
-            algorithm
+            algorithm,
+            pathImage
         );
         let response = await learning.recognition();
 
-        console.info(response);
         res.send(response);
     }
 
@@ -80,7 +80,8 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
             searchWord,
             percentage,
             secondsToString,
-            algorithm
+            algorithm,
+            pathImage
         );
         let response = await learning.recognition();
 
