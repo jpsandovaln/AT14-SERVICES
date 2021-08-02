@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const homeRouter = require("./routes/home");
-const analizeImage = require("./routes/analizeImage");
+const analizeZip = require("./routes/analizeZip");
+const analizeImages = require("./routes/analizeImages");
 const aboutRouter = require("./routes/about");
 const cors = require('cors');
 app.use(cors())
@@ -13,7 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/", homeRouter);
-app.use("/analizeImage", analizeImage);
+app.use("/analizeZip", analizeZip);
+app.use("/analizeImages", analizeImages);
 app.use("/about", aboutRouter);
 
 app.listen(port, () => {
