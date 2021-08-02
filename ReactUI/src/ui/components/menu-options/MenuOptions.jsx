@@ -14,6 +14,10 @@ import { BrowserRouter as Router, Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
+  colors: {
+    backgroundColor: "#3a4651",
+    color: "#fff",
+  },
   positionText: {
     display: "flex",
     alignItems: "center",
@@ -31,13 +35,13 @@ function MenuOptions(props) {
   const classes = useStyles();
 
   const testContent = [
-    { title: "Home", icon: <HomeIcon />, path: "/" },
-    { title: "Converter", icon: <AutorenewIcon />, path: "/Converter" },
-    { title: "Machine Learning", icon: <DashboardIcon />, path: "/FileUpload" },
+    { title: "Home", icon: <HomeIcon style={{color: "#fff"}} />, path: "/" },
+    { title: "Converter", icon: <AutorenewIcon style={{color: "#fff"}} />, path: "/Converter" },
+    { title: "Machine Learning", icon: <DashboardIcon style={{color: "#fff"}} />, path: "/FileUpload" },
   ];
 
   return (
-    <div className>
+    <div className={classes.colors}>
       <div className={`${classes.toolbar} ${classes.positionText}`} >
         <h3 className={classes.menuText}>Menu</h3>
       </div>
