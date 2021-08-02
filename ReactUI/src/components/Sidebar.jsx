@@ -1,23 +1,37 @@
 import React from 'react'
-import '../App.css'
-import {SidebarData} from './SidebarData'
+import Lists from './Lists'
+import { makeStyles } from '@material-ui/core';
+import { Drawer } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 
-function Sidebar() {
-    return (
-        <div className="col-sm-3 sidenav">
-            <h4>Sniffer dogs <small>for object Detection</small></h4>
-            <ul className="nav nav-pills nav-stacked">
-                {SidebarData.map((val, key)=>{
-                    return <li key={key}> 
-                            {""}
-                            <i className={val.icon}></i>
-                            {""}
-                            <a href="#" onClick={()=>{window.location.pathname = val.link}}>{val.title}</a>
-                    </li>                    
-                })} 
-            </ul>           
-        </div>
-    )
+
+const styles = makeStyles(theme=>({
+    drawer:{
+        width:240,
+        flexShrink:0,
+    },
+    drawerPaper:{
+        width:240,
+    },
+    toolbar: theme.mixins.toolbar,
+}))
+
+const SideBar = ()=> {
+  const classes = styles();
+  return (
+    <Drawer 
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+            paper: classes.drawerPaper
+        }}
+        anchor="left"
+    >
+        <div className={classes.toolbar}></div>
+        <Divider />
+        <Lists />
+    </Drawer>
+  );
 }
 
-export default Sidebar;
+export default SideBar;
