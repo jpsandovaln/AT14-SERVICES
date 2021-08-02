@@ -15,8 +15,8 @@ class BuildCmdChangeVideoFormat extends VideoConverter {
      * @param {string} outputPath The path where the resultant imeges will be.
      * @param {string} outputFormat The output format for the resultant video.
      */
-    constructor(codecPath, videoPath, outputPath) {
-        super(codecPath, videoPath, outputPath);
+    constructor(videoPath) {
+        super(videoPath);
     }
 
     returnCommand(ratio, scale, quality, outputFormat) {
@@ -30,7 +30,10 @@ class BuildCmdChangeVideoFormat extends VideoConverter {
                 (quality === undefined ? "" : FFMPEG_QUALITY + quality) +
                 this.SPACE +
                 this.QUOTES,
-            path.parse(videoPath).name + CONVERT + outputFormat + this.QUOTES
+            path.parse(this.videoPath).name +
+                CONVERT +
+                outputFormat +
+                this.QUOTES
         );
 
         return command;

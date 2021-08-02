@@ -1,12 +1,10 @@
 require("dotenv").config("../../.env");
 const uploadFile = require("../middleware/upload");
 const fs = require("fs");
-const BuildCmdObtainFrames = require("../model/converter/video/buildCmdObtainFrames");
+const MasterVideoConverter = require("../model/converter/video/masterVideoConverter");
 const Compiler = require("../model/converter/compiler");
 const Zip = require("../middleware/zipping");
 
-const ffmpegPath = process.env.CONVERTER_PATH;
-const outputPath = process.env.OUTPUT_PATH;
 const baseUrl = process.env.BASE_URL;
 
 const upload = async (req, res) => {
@@ -18,12 +16,17 @@ const upload = async (req, res) => {
         }
         const dir = '"' + req.file.path + '"';
 
-        const video = new BuildCmdObtainFrames(ffmpegPath, dir, outputPath);
+        const video = new MasterVideoConverter(dir);
         const zipping = new Zip();
 
         const compiler = new Compiler();
-        const command = video.returnCommand("1", ".jpg");
-        zipping.zipDownload(req, res);
+        const command = video.changeVideoFormat(
+            undefined,
+            undefined,
+            undefined,
+            ".mov"
+        );
+
         const result = await compiler.execute(command);
 
         res.status(200).send({
@@ -31,6 +34,7 @@ const upload = async (req, res) => {
             url: baseUrl + req.file.originalname,
             params: req.body
         });
+        zipping.zipDownload(req, res);
     } catch (err) {
         console.log(err);
 
@@ -46,9 +50,32 @@ const upload = async (req, res) => {
     }
 };
 
+const getListFiles = (req, res) => {
+    const directoryPath = process.env.ZIP_PATH;
+
+    fs.readdir(directoryPath, function (err, files) {
+        if (err) {
+            res.status(500).send({
+                message: "Unable to scan files!"
+            });
+        }
+
+        let fileInfos = [];
+
+        files.forEach((file) => {
+            fileInfos.push({
+                name: file,
+                url: baseUrl + file
+            });
+        });
+
+        res.status(200).send(fileInfos);
+    });
+};
+
 const download = (req, res) => {
     const fileName = req.params.name;
-    const directoryPath = __basedir + "/resources/upload/";
+    const directoryPath = process.env.ZIP_PATH;
 
     res.download(directoryPath + fileName, fileName, (err) => {
         if (err) {
@@ -61,5 +88,6 @@ const download = (req, res) => {
 
 module.exports = {
     upload,
-    download
+    download,
+    getListFiles
 };
