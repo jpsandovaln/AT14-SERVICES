@@ -3,8 +3,8 @@ const uploadFile = require("../middleware/upload");
 const fs = require("fs");
 const MasterVideoConverter = require("../model/converter/video/masterVideoConverter");
 const Compiler = require("../model/converter/compiler");
+const Url = require('../database/url_model');
 const Zip = require("../middleware/zipping");
-
 const baseUrl = process.env.BASE_URL;
 
 const upload = async (req, res) => {
@@ -34,7 +34,15 @@ const upload = async (req, res) => {
             url: baseUrl + req.file.originalname,
             params: req.body
         });
+
+        const url = new Url({name: req.file.originalname, url: baseUrl+req.file.originalname});
+        url.save(function(err, doc) {
+        if (err) return console.error(err);
+            console.log("Document inserted successfully!");
+        });
+
         zipping.zipDownload(req, res);
+
     } catch (err) {
         console.log(err);
 
