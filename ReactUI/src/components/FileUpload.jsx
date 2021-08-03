@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import { useRef } from 'react';
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +28,12 @@ import Select from '@material-ui/core/Select';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { Button } from "@material-ui/core";
 
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import { CardHeader } from '@material-ui/core';
 
 
 function handleClick(event) {
@@ -53,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch',
+      width: '100%',
     },
   },
   table: {
@@ -61,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },  
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
+    minWidth: 180,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -131,6 +137,7 @@ const FileUpload = () =>{
 
     };
   
+    const uploadInputRef = useRef(null);
     const classes = useStyles();
 
     
@@ -140,21 +147,7 @@ const FileUpload = () =>{
     };
 
 
-    function FormRow() {
-      return (
-        <React.Fragment>
-          <Grid item xs={4}>
-            <Paper className={classes.paper}>item 1</Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Paper className={classes.paper}>item 2</Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Paper className={classes.paper}>item 2</Paper>
-          </Grid>
-        </React.Fragment>
-      );
-    }
+   
 
     return (
         <div>
@@ -167,10 +160,92 @@ const FileUpload = () =>{
           </Breadcrumbs>
           </div>
 
+          <Card className={classes.root}>
+            <CardHeader title="Machine Learning Analizer">
+            </CardHeader>
+            <CardContent>
+            <div className={classes.root}>
+                <Grid container spacing={1}>
+                  <Grid container item xs={4} spacing={3}>
+                    <TextField required id="standard-required" label="Required" label="Search Word" />
+                  </Grid>
+                  <Grid container item xs={4} spacing={3}>
+                    <FormControl className={classes.formControl}>
+                      <Select
+                        value={age}
+                        onChange={handleChangeX}
+                        displayEmpty
+                        className={classes.selectEmpty}
+                        inputProps={{ 'aria-label': 'Without label' }}
+                      >
+                        <MenuItem value="" disabled>
+                          Placeholder
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                      <FormHelperText>Placeholder</FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid container item xs={4} spacing={3}>
+                  <TextField required id="standard-required" label="Required" label="Percentage" />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                  <Grid container item xs={4} spacing={3}>
+                    <input
+                      ref={uploadInputRef}
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      
+                    />
+                    <Button
+                      onClick={() => uploadInputRef.current && uploadInputRef.current.click()}
+                      variant="contained"
+                    >
+                      Choose File
+                    </Button>
+                  </Grid>
+                  <Grid container item xs={4} spacing={3}>
+                    &nbsp;
+                  </Grid>
+                  <Grid container item xs={4} spacing={3}>
+                    &nbsp;
+                  </Grid>
+                </Grid>  
 
 
 
+                <Grid container spacing={1}>
+                  <Grid container item xs={4} spacing={3}>
+                        &nbsp;
+                  </Grid>
+                  <Grid container item xs={4} spacing={3}>
+                    &nbsp;
+                  </Grid>
+                  <Grid container item xs={4} spacing={3}>
+                    &nbsp;
+                  </Grid>
+                </Grid>             
 
+
+              </div>
+
+            </CardContent>
+            <CardActions>
+              <Button variant="contained" color="primary">Submit</Button>
+            </CardActions>
+          </Card>
+
+
+
+              
+
+
+        <br />
         <form onSubmit={submitForm}>
           <input type="text" placeholder={"SearchWord"} onChange={(e) => setSearchWord(e.target.value)} />
           <select  onChange={(e) => setAlgorithm(e.target.value)}>
