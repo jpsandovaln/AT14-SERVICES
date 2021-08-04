@@ -21,6 +21,13 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
+
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+
+
 import Link from '@material-ui/core/Link';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 
@@ -66,10 +73,9 @@ export default function Tables() {
 
 	const submitForm = (event) => {
 		event.preventDefault();
-		const algorithm1 = "MobilNet";
 		const dataArray = new FormData();
 		dataArray.append("searchWord", searchWord);
-		dataArray.append("algorithm", algorithm1);
+		dataArray.append("algorithm", algorithm);
 		dataArray.append("percentage", percentage);
 		dataArray.append("zipFile", uploadFile);
 
@@ -128,17 +134,61 @@ export default function Tables() {
 							/>
 						</Grid>
 						<Grid item xs={4} spacing={1}>
-							<TextField
-								fullWidth
-								variant="outlined"
-								id="outlined-basic"
-								type="text"
-								placeholder={"Percentage"}
+						<FormControl
+							variant="outlined"
+							className={classes.formControl}
+							fullWidth
+						>
+							<InputLabel id="demo-simple-select-outlined-label">
+								Percentage
+							</InputLabel>
+							<Select
+								labelId="demo-simple-select-outlined-label"
+								id="demo-simple-select-outlined"
+								value={age}
 								onChange={(e) => setPercentage(e.target.value)}
-							/>
+								label="Percentage"
+							>
+								{console.log(percentage.valueOf())}
+								<MenuItem value={percentage}>
+									<em>-</em>
+								</MenuItem>
+								<MenuItem value={0.1}>10%</MenuItem>
+								<MenuItem value={0.2}>20%</MenuItem>
+								<MenuItem value={0.3}>30%</MenuItem>
+								<MenuItem value={0.4}>40%</MenuItem>
+								<MenuItem value={0.5}>50%</MenuItem>
+								<MenuItem value={0.6}>60%</MenuItem>
+								<MenuItem value={0.7}>70%</MenuItem>
+								<MenuItem value={0.8}>80%</MenuItem>
+								<MenuItem value={0.9}>90%</MenuItem>
+								<MenuItem value={0.10}>100%</MenuItem>
+							</Select>
+						</FormControl>
 						</Grid>
 						<Grid item xs={4} spacing={1}>
-							<ChoiceAlgorithm />
+						<FormControl
+							variant="outlined"
+							className={classes.formControl}
+							fullWidth
+						>
+							<InputLabel id="demo-simple-select-outlined-label">
+								Algorithm
+							</InputLabel>
+							<Select
+								labelId="demo-simple-select-outlined-label"
+								id="demo-simple-select-outlined"
+								value={algorithm}
+								onChange={(e) => setAlgorithm(e.target.value)}
+								label="Algorithm"
+							>
+								<MenuItem value="">
+									<em>-</em>
+								</MenuItem>
+								<MenuItem value={"CocoSSD"}>CocoSSD</MenuItem>
+								<MenuItem value={"MovilNet"}>MovilNet</MenuItem>
+							</Select>
+						</FormControl>
 						</Grid>
 						<Grid item xs={12}>
 								<div className={classes.root}>
