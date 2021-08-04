@@ -1,10 +1,11 @@
+require("dotenv").config("../../.env");
 const uploadFile = require("../middleware/upload");
 const fs = require("fs");
-const baseUrl = "http://localhost:8080/files/";
-const helpPath = require("../.././helpPaths");
-const admz = require("adm-zip");
-const BuildCmdObtainFrames = require("../model/converter/video/buildCmdObtainFrames");
+const MasterVideoConverter = require("../model/converter/video/masterVideoConverter");
 const Compiler = require("../model/converter/compiler");
+const Url = require('../database/url_model');
+const Zip = require("../middleware/zipping");
+const baseUrl = process.env.BASE_URL;
 
 const upload = async (req, res) => {
     try {
@@ -14,29 +15,34 @@ const upload = async (req, res) => {
             return res.status(400).send({ message: "Please upload a file!" });
         }
         const dir = '"' + req.file.path + '"';
-        console.info(dir);
 
-        const video = new BuildCmdObtainFrames();
+        const video = new MasterVideoConverter(dir);
+        const zipping = new Zip();
+
         const compiler = new Compiler();
-        const command = video.returnCommand(
-            helpPath.principalPath + "/" + "thirdParty" + "/" + "ffmpeg.exe",
-            dir,
-            helpPath.principalPath +
-                "/" +
-                "resources" +
-                "/" +
-                "outputPath" +
-                "/",
-            "1",
-            ".jpg"
+        const command = video.changeVideoFormat(
+            undefined,
+            undefined,
+            undefined,
+            ".mov"
         );
-        console.info(command);
+
         const result = await compiler.execute(command);
+
         res.status(200).send({
             name: req.file.originalname,
             url: baseUrl + req.file.originalname,
             params: req.body
         });
+
+        const url = new Url({name: req.file.originalname, url: baseUrl+req.file.originalname});
+        url.save(function(err, doc) {
+        if (err) return console.error(err);
+            console.log("Document inserted successfully!");
+        });
+
+        zipping.zipDownload(req, res);
+
     } catch (err) {
         console.log(err);
 
@@ -53,7 +59,7 @@ const upload = async (req, res) => {
 };
 
 const getListFiles = (req, res) => {
-    const directoryPath = __basedir + "/resources/upload/";
+    const directoryPath = process.env.ZIP_PATH;
 
     fs.readdir(directoryPath, function (err, files) {
         if (err) {
@@ -77,7 +83,7 @@ const getListFiles = (req, res) => {
 
 const download = (req, res) => {
     const fileName = req.params.name;
-    const directoryPath = __basedir + "/resources/upload/";
+    const directoryPath = process.env.ZIP_PATH;
 
     res.download(directoryPath + fileName, fileName, (err) => {
         if (err) {
@@ -88,45 +94,8 @@ const download = (req, res) => {
     });
 };
 
-const to_zip = fs.readdirSync(
-    helpPath.principalPath + "/" + "resources" + "/" + "outputPath"
-);
-const zipDownload = (req, res) => {
-    const zip = new admz();
-    for (var k = 0; k < to_zip.length; k++) {
-        zip.addLocalFile(
-            helpPath.principalPath +
-                "/" +
-                "resources" +
-                "/" +
-                "outputPath" +
-                "/" +
-                to_zip[k]
-        );
-    }
-    const downloadName = `${Date.now()}.zip`;
-    const data = zip.toBuffer();
-
-    zip.writeZip(
-        helpPath.principalPath +
-            "/" +
-            "resources" +
-            "/" +
-            "zip" +
-            "/" +
-            downloadName +
-            "/"
-    );
-
-    res.set("Content-Type", "application/octet-stream");
-    res.set("Content-Disposition", `attachment; filename=${downloadName}`);
-    res.set("Content-Length", data.length);
-    res.send(data);
-};
-
 module.exports = {
     upload,
-    getListFiles,
     download,
-    zipDownload
+    getListFiles
 };

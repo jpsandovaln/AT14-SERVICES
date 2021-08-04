@@ -13,3 +13,12 @@ npm install
 ```
 node server.js
 ```
+
+### .env
+
+```
+Have to change de direccions of:
+CONVERTER_PATH
+OUTPUT_PATH
+ZIP_PATH
+```
