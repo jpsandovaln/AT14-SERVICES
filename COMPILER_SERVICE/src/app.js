@@ -34,16 +34,18 @@ app.post('/compiler', upload.single('file'), async (req, res) => {
     
     let langCompiler = {};
 
-    if (req.body.language === 'python'){
-        langCompiler = new PythonCompiler(req.file.path, process.env.EXECUTE_PYTHON32);
+    try {
+        if (req.body.language === 'python'){
+            langCompiler = new PythonCompiler(req.file.path, process.env.EXECUTE_PYTHON32);
+        }
+        if (req.body.language === 'java') {
+            langCompiler = new JavaCompiler(req.file.path, process.env.EXECUTE_JAVA8);
+        }
+        const result = await langCompiler.compiler();
+        res.send(result);
+    } catch(err) {
+        res.status(err.status).send(err.message);
     }
-    if (req.body.language === 'java') {
-        langCompiler = new JavaCompiler(req.file.path, process.env.EXECUTE_JAVA8);
-    }
-
-    const result = await langCompiler.compiler();
-
-    res.send(result);
 });
 
 const port = process.env.PORT || 8082;

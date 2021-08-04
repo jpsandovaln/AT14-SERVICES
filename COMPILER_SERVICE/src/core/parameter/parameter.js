@@ -10,6 +10,10 @@ class Parameter {
     set filePath(value) {
         this._filePath = value;
     }
+
+    validate() {
+        throw new Error('validate() must be implemented');
+    }
 }
 
 module.exports = Parameter;

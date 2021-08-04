@@ -5,7 +5,7 @@ class Execute {
         return new Promise(function(resolve, reject) {
             exec(command, (err, stdout, stderr) => {
                 if (err) {
-                    reject(err)
+                    throw new Error('execute error.');
                 }
                 resolve({ stdout });
             });

@@ -14,6 +14,12 @@ class PythonParameter extends Parameter {
     set pythonBinaryPath(value) {
         this._pythonBinaryPath = value;
     }
+
+    validate() {
+        if (!this._filePath || !this._pythonBinaryPath) {
+            throw new Error('parameter invalid.');
+        }
+    }
 }
 
 module.exports = PythonParameter;

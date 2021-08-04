@@ -4,10 +4,18 @@ const PYTHON_COMPILER = 'python ';
 
 class PythonCommand extends Command{
     build(parameter) {
-        const command =
-            parameter.pythonBinaryPath + PYTHON_COMPILER +
-            parameter.filePath;
-        return command;
+        if (!parameter) {
+            throw new Error('Parameter invalid.');
+        }
+        try {
+            const command =
+                parameter.pythonBinaryPath + PYTHON_COMPILER +
+                parameter.filePath;
+            return command;
+        } catch (err) {
+            throw new Error('Error building python command.');
+        }
+
     }
 }
 
