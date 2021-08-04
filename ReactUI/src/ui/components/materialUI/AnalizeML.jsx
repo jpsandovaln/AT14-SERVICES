@@ -21,29 +21,27 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+import Link from "@material-ui/core/Link";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
-import Link from '@material-ui/core/Link';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import { CardHeader } from '@material-ui/core';
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import { CardHeader } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		'& > *': {
-		  margin: theme.spacing(1),
-		  width: '100%',
+		"& > *": {
+			margin: theme.spacing(1),
+			width: "100%",
 		},
 		flexGrow: 1,
-	},	
+	},
 	paper: {
 		padding: theme.spacing(1),
 		textAlign: "center",
@@ -53,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 		display: "",
 	},
 }));
-
 
 export default function Tables() {
 	//const data = Array();
@@ -69,7 +66,6 @@ export default function Tables() {
 	const [searchWord, setSearchWord] = React.useState("");
 	const [algorithm, setAlgorithm] = React.useState("");
 	const [percentage, setPercentage] = React.useState("");
-	const [age, setAge] = React.useState("");
 
 	const submitForm = (event) => {
 		event.preventDefault();
@@ -101,9 +97,6 @@ export default function Tables() {
 	const uploadInputRef = useRef(null);
 	const classes = useStyles();
 
-	const handleChangeX = (event) => {
-		setAge(event.target.value);
-	};
 
 	const handleChange = (event) => {
 		setPercentage(event.target.value);
@@ -113,84 +106,93 @@ export default function Tables() {
 		<div>
 			<Breadcrumbs aria-label="breadcrumb">
 				<Link color="inherit" href="/" onClick={""}>
-				Home
+					Home
 				</Link>
 				<Typography color="textPrimary">Machine Learning</Typography>
-	  		</Breadcrumbs>
+			</Breadcrumbs>
 			<form onSubmit={submitForm}>
-			<Card className={classes.root}>
-				<CardHeader title="Machine Learning Analizer">
-				</CardHeader>
-				<CardContent>
-					<Grid container spacing={1}>
-                  		<Grid item xs={4} spacing={1}>
-							<TextField
-								fullWidth
-								id="outlined-basic"
-								label="Search word"
-								variant="outlined"
-								placeholder={"SearchWord"}
-								onChange={(e) => setSearchWord(e.target.value)}
-							/>
-						</Grid>
-						<Grid item xs={4} spacing={1}>
-						<FormControl
-							variant="outlined"
-							className={classes.formControl}
-							fullWidth
-						>
-							<InputLabel id="demo-simple-select-outlined-label">
-								Percentage
-							</InputLabel>
-							<Select
-								labelId="demo-simple-select-outlined-label"
-								id="demo-simple-select-outlined"
-								value={age}
-								onChange={(e) => setPercentage(e.target.value)}
-								label="Percentage"
-							>
-								{console.log(percentage.valueOf())}
-								<MenuItem value={percentage}>
-									<em>-</em>
-								</MenuItem>
-								<MenuItem value={0.1}>10%</MenuItem>
-								<MenuItem value={0.2}>20%</MenuItem>
-								<MenuItem value={0.3}>30%</MenuItem>
-								<MenuItem value={0.4}>40%</MenuItem>
-								<MenuItem value={0.5}>50%</MenuItem>
-								<MenuItem value={0.6}>60%</MenuItem>
-								<MenuItem value={0.7}>70%</MenuItem>
-								<MenuItem value={0.8}>80%</MenuItem>
-								<MenuItem value={0.9}>90%</MenuItem>
-								<MenuItem value={0.10}>100%</MenuItem>
-							</Select>
-						</FormControl>
-						</Grid>
-						<Grid item xs={4} spacing={1}>
-						<FormControl
-							variant="outlined"
-							className={classes.formControl}
-							fullWidth
-						>
-							<InputLabel id="demo-simple-select-outlined-label">
-								Algorithm
-							</InputLabel>
-							<Select
-								labelId="demo-simple-select-outlined-label"
-								id="demo-simple-select-outlined"
-								value={algorithm}
-								onChange={(e) => setAlgorithm(e.target.value)}
-								label="Algorithm"
-							>
-								<MenuItem value="">
-									<em>-</em>
-								</MenuItem>
-								<MenuItem value={"CocoSSD"}>CocoSSD</MenuItem>
-								<MenuItem value={"MovilNet"}>MovilNet</MenuItem>
-							</Select>
-						</FormControl>
-						</Grid>
-						<Grid item xs={12}>
+				<Card className={classes.root}>
+					<CardHeader title="Machine Learning Analizer"></CardHeader>
+					<CardContent>
+						<Grid container spacing={1}>
+							<Grid item xs={4} spacing={1}>
+								<TextField
+									fullWidth
+									id="outlined-basic"
+									label="Search word"
+									variant="outlined"
+									placeholder={"SearchWord"}
+									onChange={(e) =>
+										setSearchWord(e.target.value)
+									}
+								/>
+							</Grid>
+							<Grid item xs={4} spacing={1}>
+								<FormControl
+									variant="outlined"
+									className={classes.formControl}
+									fullWidth
+								>
+									<InputLabel id="demo-simple-select-percentage-label">
+										Percentage
+									</InputLabel>
+									<Select
+										labelId="demo-simple-select-percentage-label"
+										id="demo-simple-select-percentage"
+										value={percentage}
+										onChange={(e) =>
+											setPercentage(e.target.value)
+										}
+										label="Percentage"
+									>
+										{console.log(percentage.valueOf())}
+										<MenuItem value="">
+											<em>-</em>
+										</MenuItem>
+										<MenuItem value={0.1}>10%</MenuItem>
+										<MenuItem value={0.2}>20%</MenuItem>
+										<MenuItem value={0.3}>30%</MenuItem>
+										<MenuItem value={0.4}>40%</MenuItem>
+										<MenuItem value={0.5}>50%</MenuItem>
+										<MenuItem value={0.6}>60%</MenuItem>
+										<MenuItem value={0.7}>70%</MenuItem>
+										<MenuItem value={0.8}>80%</MenuItem>
+										<MenuItem value={0.9}>90%</MenuItem>
+										<MenuItem value={0.1}>100%</MenuItem>
+									</Select>
+								</FormControl>
+							</Grid>
+							<Grid item xs={4} spacing={1}>
+								<FormControl
+									variant="outlined"
+									className={classes.formControl}
+									fullWidth
+								>
+									<InputLabel id="demo-simple-select-outlined-label">
+										Algorithm
+									</InputLabel>
+									<Select
+										labelId="demo-simple-select-outlined-label"
+										id="demo-simple-select-outlined"
+										value={algorithm}
+										onChange={(e) =>
+											setAlgorithm(e.target.value)
+										}
+										label="Algorithm"
+									>
+										<MenuItem value="">
+											<em>-</em>
+										</MenuItem>
+										<MenuItem value={"CocoSSD"}>
+											CocoSSD
+										</MenuItem>
+										<MenuItem value={"MovilNet"}>
+											MovilNet
+										</MenuItem>
+									</Select>
+								</FormControl>
+							</Grid>
+							<Grid item xs={12}>
 								<div className={classes.root}>
 									<input
 										accept="zip/*"
@@ -211,18 +213,22 @@ export default function Tables() {
 										</Button>
 									</label>
 								</div>
+							</Grid>
 						</Grid>
-					</Grid>	
-					
-				</CardContent>
-            	<CardActions>
-              		<Button type="submit" variant="contained" color="primary">Analyze</Button>
-            	</CardActions>
-          	</Card>
+					</CardContent>
+					<CardActions>
+						<Button
+							type="submit"
+							variant="contained"
+							color="primary"
+						>
+							Analyze
+						</Button>
+					</CardActions>
+				</Card>
 			</form>
-			<Card className={classes.root}>
-				<CardHeader title="Results">
-				</CardHeader>
+			<Card>
+				<CardHeader title="Results"></CardHeader>
 				<CardContent>
 					<TableContainer component={Paper}>
 						<Table
@@ -267,15 +273,25 @@ export default function Tables() {
 												/>
 											</TableCell>
 											<TableCell align="right">
-											<a href={row.PathImage} download>imagen</a>
+												<a
+													href={row.PathImage}
+													without rel="noreferrer"
+													target="_blank" download 
+												>
+													imagen
+												</a>
 											</TableCell>
 										</TableRow>
 									))}
 							</TableBody>
 						</Table>
 					</TableContainer>
-			</CardContent>
-          	</Card>		
+				</CardContent>
+			</Card>
+
+			
 		</div>
+
+		
 	);
 }
