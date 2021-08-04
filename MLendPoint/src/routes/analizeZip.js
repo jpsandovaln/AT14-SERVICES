@@ -38,6 +38,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
         return next(error);
     }*/
     //res.send(file)
+
     const searchWord = req.body.searchWord;
     const percentage = req.body.percentage;
     const zipNameFile = req.file.filename;
