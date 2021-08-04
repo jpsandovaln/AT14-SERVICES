@@ -19,7 +19,7 @@ router.post("/", upload.array("Images"), async (req, res) => {
     const searchWord = req.body.searchWord;
     const percentage = req.body.percentage;
     const algorithm = req.body.algorithm;
-    const pathImage = "http://localhost:8080/public/images/";
+    const pathImage = "http://localhost:8080/images/";
 
     const secondsToString = new SecondsToString();
 
