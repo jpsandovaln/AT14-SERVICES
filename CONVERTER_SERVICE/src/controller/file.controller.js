@@ -94,8 +94,14 @@ const download = (req, res) => {
     });
 };
 
+async function getVideos(req, res){
+    const videos = await Url.find().lean().exec();
+    res.status(200).send({videos});
+}
+
 module.exports = {
     upload,
     download,
-    getListFiles
+    getListFiles,
+    getVideos
 };
