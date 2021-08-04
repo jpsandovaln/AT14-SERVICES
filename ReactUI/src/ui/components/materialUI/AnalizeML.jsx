@@ -21,10 +21,22 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
+import Link from '@material-ui/core/Link';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import { CardHeader } from '@material-ui/core';
+
 const useStyles = makeStyles((theme) => ({
 	root: {
+		'& > *': {
+		  margin: theme.spacing(1),
+		  width: '100%',
+		},
 		flexGrow: 1,
-	},
+	},	
 	paper: {
 		padding: theme.spacing(1),
 		textAlign: "center",
@@ -92,81 +104,76 @@ export default function Tables() {
 	};
 
 	return (
-		<form onSubmit={submitForm}>
-			<Grid container spacing={1}>
-				<Grid item xs={8}>
-					<Paper className={classes.paper}>
-						<Typography variant="h6" component="h2">
-							Machine Learning Analyzer
-						</Typography>
-					</Paper>
-				</Grid>
-				<Grid item xs={7}>
-					<Box component="span" m={6}>
-						<TextField
-							fullWidth
-							id="outlined-basic"
-							label="Search word"
-							variant="outlined"
-							placeholder={"SearchWord"}
-							onChange={(e) => setSearchWord(e.target.value)}
-						/>
-					</Box>
-				</Grid>
-				<Grid item xs={7}>
-					<Box component="span" m={6}>
-						<TextField
-							fullWidth
-							variant="outlined"
-							id="outlined-basic"
-							type="text"
-							placeholder={"Percentage"}
-							onChange={(e) => setPercentage(e.target.value)}
-						/>
-					</Box>
-				</Grid>
-				<Grid item xs={7}>
-					<Box component="span" m={6}>
-						<ChoiceAlgorithm />
-					</Box>
-				</Grid>
-				<Grid item xs={7}>
-					<Box component="span" m={6}>
-						<div className={classes.root}>
-							<input
-								accept="zip/*"
-								className={classes.input}
-								id="contained-button-file"
-								type="file"
-								onChange={(e) =>
-									setUploadFile(e.target.files[0])
-								}
+		<div>
+			<Breadcrumbs aria-label="breadcrumb">
+				<Link color="inherit" href="/" onClick={""}>
+				Home
+				</Link>
+				<Typography color="textPrimary">Machine Learning</Typography>
+	  		</Breadcrumbs>
+			<form onSubmit={submitForm}>
+			<Card className={classes.root}>
+				<CardHeader title="Machine Learning Analizer">
+				</CardHeader>
+				<CardContent>
+					<Grid container spacing={1}>
+                  		<Grid item xs={4} spacing={1}>
+							<TextField
+								fullWidth
+								id="outlined-basic"
+								label="Search word"
+								variant="outlined"
+								placeholder={"SearchWord"}
+								onChange={(e) => setSearchWord(e.target.value)}
 							/>
-							<label htmlFor="contained-button-file">
-								<Button
-									variant="contained"
-									color="primary"
-									component="span"
-								>
-									Upload
-								</Button>
-							</label>
-						</div>
-
-						<div>
-							<label htmlFor="contained-button-submit">
-								<Button
-									type="submit"
-									variant="outlined"
-									color="primary"
-								>
-									Analyze
-								</Button>
-							</label>
-						</div>
-					</Box>
-				</Grid>
-				<Grid item xs={7}>
+						</Grid>
+						<Grid item xs={4} spacing={1}>
+							<TextField
+								fullWidth
+								variant="outlined"
+								id="outlined-basic"
+								type="text"
+								placeholder={"Percentage"}
+								onChange={(e) => setPercentage(e.target.value)}
+							/>
+						</Grid>
+						<Grid item xs={4} spacing={1}>
+							<ChoiceAlgorithm />
+						</Grid>
+						<Grid item xs={12}>
+								<div className={classes.root}>
+									<input
+										accept="zip/*"
+										className={classes.input}
+										id="contained-button-file"
+										type="file"
+										onChange={(e) =>
+											setUploadFile(e.target.files[0])
+										}
+									/>
+									<label htmlFor="contained-button-file">
+										<Button
+											variant="contained"
+											color="primary"
+											component="span"
+										>
+											Upload
+										</Button>
+									</label>
+								</div>
+						</Grid>
+					</Grid>	
+					
+				</CardContent>
+            	<CardActions>
+              		<Button type="submit" variant="contained" color="primary">Analyze</Button>
+            	</CardActions>
+          	</Card>
+			</form>
+			<Card className={classes.root}>
+				<CardHeader title="Results">
+				</CardHeader>
+				<CardContent>
 					<TableContainer component={Paper}>
 						<Table
 							className={classes.table}
@@ -217,8 +224,8 @@ export default function Tables() {
 							</TableBody>
 						</Table>
 					</TableContainer>
-				</Grid>
-			</Grid>
-		</form>
+			</CardContent>
+          	</Card>		
+		</div>
 	);
 }
