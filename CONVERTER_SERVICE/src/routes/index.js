@@ -2,12 +2,14 @@ const express = require("express");
 const router = express.Router();
 const controllerImagenes = require("../controller/ImagesController");
 const controller = require("../controller/file.controller");
+const {getVideos}= require('../controller/file.controller');
 class Routes {
     constructor(app) {
         router.post("/converter", controller.upload);
         router.post("/upload", controller.upload);
         router.get("/files", controller.getListFiles);
         router.get("/files/:name", controller.download);
+        router.get('/videos', getVideos);
         router.post(
             "/ChangeImageFormat",
             controllerImagenes.endPointToChangeImageFormat
