@@ -4,13 +4,6 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
-import { Box } from "@material-ui/core";
-import ChoicePercentage from "./ChoicePercentage";
-import ChoiceAlgorithm from "./ChoiceAlgorithm";
-import BtnUploadFile from "./BtnUploadFile";
-import DataTable from "./Table";
-import BtnAnalyze from "./BtnAnalyze";
-import MachineLearning from "../../../components/FileUpload";
 import { useRef } from "react";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
@@ -33,6 +26,9 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
+
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -66,9 +62,12 @@ export default function Tables() {
 	const [searchWord, setSearchWord] = React.useState("");
 	const [algorithm, setAlgorithm] = React.useState("");
 	const [percentage, setPercentage] = React.useState("");
+	const [open, setOpen] = React.useState(false);
+
 
 	const submitForm = (event) => {
 		event.preventDefault();
+		setOpen(true);
 		const dataArray = new FormData();
 		dataArray.append("searchWord", searchWord);
 		dataArray.append("algorithm", algorithm);
@@ -84,6 +83,7 @@ export default function Tables() {
 				})
 				.then((res) => {
 					setResponse(res.data);
+					setOpen(false);
 					console.log(res.data);
 				})
 				.catch((error) => {
@@ -203,15 +203,6 @@ export default function Tables() {
 											setUploadFile(e.target.files[0])
 										}
 									/>
-									<label htmlFor="contained-button-file">
-										<Button
-											variant="contained"
-											color="primary"
-											component="span"
-										>
-											Upload
-										</Button>
-									</label>
 								</div>
 							</Grid>
 						</Grid>
@@ -227,6 +218,7 @@ export default function Tables() {
 					</CardActions>
 				</Card>
 			</form>
+			<br/>
 			<Card>
 				<CardHeader title="Results"></CardHeader>
 				<CardContent>
@@ -285,6 +277,7 @@ export default function Tables() {
 									))}
 							</TableBody>
 						</Table>
+						{open ? <LinearProgress /> : null}						
 					</TableContainer>
 				</CardContent>
 			</Card>
