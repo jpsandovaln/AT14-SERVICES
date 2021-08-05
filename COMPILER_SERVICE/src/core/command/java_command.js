@@ -1,4 +1,6 @@
 const path = require('path');
+const CommandException = require('../../common/exception/command_exception');
+const ParameterInvalidException = require('../../common/exception/parameter_exception');
 const Command = require('./comand');
 
 const JAVA_COMPILER = 'javac ';
@@ -10,7 +12,7 @@ const JAVA_SPACE = ' ';
 class JavaCommand extends Command{
     build(parameter) {
         if (!parameter) {
-            throw new Error('Java parameter invalid.');
+            throw new ParameterInvalidException('Java parameter invalid.', 'SAB-0125478');
         }
         try {
             const command =
@@ -25,7 +27,7 @@ class JavaCommand extends Command{
 
             return command;
         } catch (err) {
-            throw new Error('Error building java command.');
+            throw new CommandException('Error building java command.', '460', 'SAB-7788');
         }
     }
 }

@@ -1,6 +1,4 @@
-const DEFAULT_MESSAGE = "invalid error";
-
-class ParameterInvalidException extends Error {
+class CompilerException extends Error {
 
     constructor(message, status, code) {
         super(message);
@@ -17,4 +15,4 @@ class ParameterInvalidException extends Error {
     }
 }
 
-module.exports = ParameterInvalidException;
+module.exports = CompilerException;

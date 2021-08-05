@@ -1,5 +1,5 @@
 const Parameter = require("./parameter");
-const ParameterInvalidException = require('../../command/exception/parameter_exception');
+const ParameterInvalidException = require('../../common/exception/parameter_exception');
 
 class JavaParameter extends Parameter {
 
@@ -18,7 +18,7 @@ class JavaParameter extends Parameter {
 
     validate() {
         if (!this._filePath || !this._javaBinaryPath) {
-            throw new ParameterInvalidException('parameter invalid.', 404, 'SAB-0124587');
+            throw new ParameterInvalidException('parameter invalid.', 'SAB-0124587');
         }
     }
 }
