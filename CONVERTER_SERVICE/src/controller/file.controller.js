@@ -94,14 +94,37 @@ const download = (req, res) => {
     });
 };
 
-async function getVideos(req, res){
-    const videos = await Url.find().lean().exec();
-    res.status(200).send({videos});
+const getData = async(req, res)=>{
+    const data = await Url.find().lean().exec();
+    res.status(200).send({data});
+}
+
+const findDataById= async(req, res)=>{
+    const {id} = req.params;
+    const data = await Url.findById(id);
+    res.status(200).send({data});
+}
+
+const deleteDataById = async(req, res)=>{
+    const {id} = req.params;
+    const removeData= await Url.remove({_id: id});
+    res.status(200).send({removeData});
+}
+
+const updateDataById= async(req, res)=>{
+    const {id} = req.params;
+    const updatedData= await Url.updateOne(
+        {_id: id},
+        {$set: {name: req.body.name }});
+    res.status(200).send(updatedData);
 }
 
 module.exports = {
     upload,
     download,
     getListFiles,
-    getVideos
+    getData,
+    deleteDataById,
+    findDataById,
+    updateDataById
 };
