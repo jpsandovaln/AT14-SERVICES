@@ -16,16 +16,16 @@ router.get("/", (req, res) => {
             dogs: [
                 {
                     positionX: 40,
-                    positionY: 40,
-                },
+                    positionY: 40
+                }
             ],
             cats: [
                 {
                     positionX: 40,
-                    positionY: 40,
-                },
-            ],
-        },
+                    positionY: 40
+                }
+            ]
+        }
     };
     res.json(json);
 });
@@ -45,7 +45,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const pathFile = req.file.path;
     const algorithm = req.body.algorithm;
     const pathImage =
-        "http://localhost:8080/public/unZipFiles/" +
+        "http://localhost:8080/unZipFiles/" +
         path.parse(zipNameFile).name +
         "/images/";
 
