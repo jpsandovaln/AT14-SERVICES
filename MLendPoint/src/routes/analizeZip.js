@@ -44,6 +44,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const zipNameFile = req.file.filename;
     const pathFile = req.file.path;
     const algorithm = req.body.algorithm;
+    /*HARD CODE*/
     const pathImage =
         "http://localhost:8080/unZipFiles/" +
         path.parse(zipNameFile).name +
@@ -54,14 +55,18 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const unzip = new UnZip();
     const secondsToString = new SecondsToString();
 
+
     const unzipOutput =
         __dirname + "/../../public/unZipFiles/" + path.parse(zipNameFile).name;
     unzip.extractZip(pathFile, unzipOutput);
+
     const zipPath = obtainDirectory.filesList(unzipOutput);
     const imagePaths = obtainDirectory.filesList(unzipOutput + "/" + zipPath);
+
     const files = buildArrayImages.buildArrayImages(imagePaths, unzipOutput);
 
     if (algorithm == "CocoSSD") {
+        console.log("xD CocoSSD");
         const learning = new analizeCocoSSD(
             files,
             searchWord,
@@ -76,6 +81,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     }
 
     if (algorithm == "MobilNet") {
+        console.log("xD MobilNet");
         const learning = new analizeMobilNet(
             files,
             searchWord,

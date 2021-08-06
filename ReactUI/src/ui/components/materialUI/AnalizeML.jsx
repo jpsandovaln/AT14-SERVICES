@@ -158,7 +158,7 @@ export default function Tables() {
 										<MenuItem value={0.7}>70%</MenuItem>
 										<MenuItem value={0.8}>80%</MenuItem>
 										<MenuItem value={0.9}>90%</MenuItem>
-										<MenuItem value={0.1}>100%</MenuItem>
+										<MenuItem value={1.0}>100%</MenuItem>
 									</Select>
 								</FormControl>
 							</Grid>
@@ -186,8 +186,8 @@ export default function Tables() {
 										<MenuItem value={"CocoSSD"}>
 											CocoSSD
 										</MenuItem>
-										<MenuItem value={"MovilNet"}>
-											MovilNet
+										<MenuItem value={"MobilNet"}>
+											MobilNet
 										</MenuItem>
 									</Select>
 								</FormControl>
