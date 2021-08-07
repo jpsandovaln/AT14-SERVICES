@@ -66,7 +66,6 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const files = buildArrayImages.buildArrayImages(imagePaths, unzipOutput);
 
     if (algorithm == "CocoSSD") {
-        console.log("xD CocoSSD");
         const learning = new analizeCocoSSD(
             files,
             searchWord,
@@ -81,7 +80,6 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     }
 
     if (algorithm == "MobilNet") {
-        console.log("xD MobilNet");
         const learning = new analizeMobilNet(
             files,
             searchWord,
