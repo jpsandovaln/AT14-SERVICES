@@ -28,7 +28,7 @@ const useStyle = makeStyles((theme) => ({
 	},
 }));
 
-const NavBar = (onClick) =>{
+const NavBar = (onClick) => {
 	const classes = useStyle();
 
 	return (
@@ -49,6 +49,6 @@ const NavBar = (onClick) =>{
 			</Toolbar>
 		</AppBar>
 	);
-}
+};
 
 export default NavBar;

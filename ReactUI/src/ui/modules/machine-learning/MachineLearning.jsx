@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Typography } from "@material-ui/core";
-import { useRef } from "react";
 import axios from "axios";
 
 import Link from "@material-ui/core/Link";
@@ -34,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const MachineLearing = ()=>{
+const MachineLearing = () => {
 	const urlML = "http://localhost:8080/analizeZip";
 
 	const [data, setResponse] = React.useState([]);
@@ -73,12 +72,7 @@ const MachineLearing = ()=>{
 		fetchData();
 	};
 
-	const uploadInputRef = useRef(null);
 	const classes = useStyles();
-
-	const handleChange = (event) => {
-		setPercentage(event.target.value);
-	};
 
 	return (
 		<div>
@@ -114,6 +108,6 @@ const MachineLearing = ()=>{
 			</Card>
 		</div>
 	);
-}
+};
 
 export default MachineLearing;

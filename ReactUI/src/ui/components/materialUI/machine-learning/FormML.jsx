@@ -1,5 +1,4 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -13,7 +12,15 @@ import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 
-const FormML = (classes, setSearchWord, percentage, setPercentage, algorithm, setAlgorithm, setUploadFile) => {
+const FormML = (
+	classes,
+	setSearchWord,
+	percentage,
+	setPercentage,
+	algorithm,
+	setAlgorithm,
+	setUploadFile
+) => {
 	return (
 		<div>
 			<Card className={classes.root}>
@@ -27,7 +34,9 @@ const FormML = (classes, setSearchWord, percentage, setPercentage, algorithm, se
 								label="Search word"
 								variant="outlined"
 								placeholder={"SearchWord"}
-								onChange={(e) => classes.setSearchWord(e.target.value)}
+								onChange={(e) =>
+									classes.setSearchWord(e.target.value)
+								}
 							/>
 						</Grid>
 						<Grid item xs={4} spacing={1}>

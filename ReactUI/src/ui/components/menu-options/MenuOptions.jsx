@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
 import HomeIcon from "@material-ui/icons/Home";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: theme.mixins.toolbar,
@@ -73,6 +73,6 @@ const MenuOptions = (props) => {
 			</List>
 		</div>
 	);
-}
+};
 
 export default MenuOptions;
