@@ -15,8 +15,7 @@ class CmdFlipRotate {
         const FFMPEG_VF = "-vf";
         const FFMPEG_TRANSPOSE_90 = "transpose=clock";
         const FFMPEG_TRANSPOSE_180 = "transpose=clock,transpose=clock";
-        const FFMPEG_TRANSPOSE_270 =
-            "transpose=clock,transpose=clock,transpose=clock";
+        const FFMPEG_TRANSPOSE_270 = "transpose=clock,transpose=clock,transpose=clock";
         const FFMPEG_H_FLIP = "hflip";
         const FFMPEG_V_FLIP = "vflip";
         let command = "";

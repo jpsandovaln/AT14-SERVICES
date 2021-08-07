@@ -21,4 +21,3 @@ class CmdRatio {
 }
 
 module.exports = CmdRatio;
-

@@ -1,27 +1,35 @@
 const path = require("path");
-const VideoConverter = require("./videoConverter");
-
 /**
  * @Class
  * Build a string which is the command to extract the audio from a video file.
  */
-class BuildCmdObtainAudio extends VideoConverter {
+class BuildCmdObtainAudio {
+
+    constructor() { }
+
     /**
      * @param {string} codecPath The path where video codec is.
      * @param {string} videoPath The video path to transform.
      * @param {string} outputPath The path where the resultant audio file will be.
      */
-    constructor(codecPath, videoPath, outputPath) {
-        super(codecPath, videoPath, outputPath);
-    }
-    returnCommand() {
+    static returnCommand(codecPath, videoPath, outputPath) {
+        const FFMPEG_I = " -i ";
         const FFMPEG_VN = " -vn ";
         const OUTPUT_FORMAT = ".mp3";
+        const QUOTES = '"';
 
-        const command = this.getCommand(
-            FFMPEG_VN + this.QUOTES,
-            path.parse(this.videoPath).name + OUTPUT_FORMAT + this.QUOTES
-        );
+        let command =
+            codecPath +
+            FFMPEG_I +
+            QUOTES +
+            videoPath +
+            QUOTES +
+            FFMPEG_VN +
+            QUOTES +
+            outputPath +
+            path.parse(videoPath).name +
+            OUTPUT_FORMAT +
+            QUOTES
         return command;
     }
 }

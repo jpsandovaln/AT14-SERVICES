@@ -2,7 +2,7 @@
  * @Class
  * Build a string command for change the scale of the video. 
  */
- class CmdQuality {
+class CmdQuality {
     constructor() { }
 
     /**
@@ -21,5 +21,3 @@
 }
 
 module.exports = CmdQuality;
-
-

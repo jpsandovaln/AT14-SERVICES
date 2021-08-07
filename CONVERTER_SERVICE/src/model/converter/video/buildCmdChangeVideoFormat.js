@@ -1,11 +1,12 @@
 const path = require("path");
-const VideoConverter = require("./videoConverter");
+const BuildCmdObtainFrames = require("./buildCmdObtainFrames");
+const Cmd = require("./cmd");
 /**
  * @Class
  * Build a string which is the command for change the formar of a video, its quality,
  * its resolution, and the number of images per minuto.
  */
-class BuildCmdChangeVideoFormat extends VideoConverter {
+class BuildCmdChangeVideoFormat {
     /**
      * @param {string} codecPath The path where video codec is.
      * @param {string} videoPath The video path to transform.
@@ -15,27 +16,26 @@ class BuildCmdChangeVideoFormat extends VideoConverter {
      * @param {string} outputPath The path where the resultant imeges will be.
      * @param {string} outputFormat The output format for the resultant video.
      */
-    constructor(videoPath) {
-        super(videoPath);
-    }
+    constructor() { }
 
-    returnCommand(ratio, scale, quality, outputFormat) {
-        const FFMPEG_RATIO = " -r ";
-        const FFMPEG_SCALE = " -s ";
-        const FFMPEG_QUALITY = " -qscale ";
+    static returnCommand(codecPath, videoPath, parameters, outputPath, outputFormat) {
+        const FFMPEG_I = " -i ";
         const CONVERT = "_converted";
-        const command = this.getCommand(
-            (ratio === undefined ? "" : FFMPEG_RATIO + ratio) +
-                (scale === undefined ? "" : FFMPEG_SCALE + scale) +
-                (quality === undefined ? "" : FFMPEG_QUALITY + quality) +
-                this.SPACE +
-                this.QUOTES,
-            path.parse(this.videoPath).name +
-                CONVERT +
-                outputFormat +
-                this.QUOTES
-        );
-
+        const QUOTES = '"';
+        const SPACE = " "
+        const command =
+            codecPath +
+            FFMPEG_I +
+            QUOTES +
+            videoPath +
+            QUOTES +
+            SPACE +
+            Cmd.returnCommand(parameters) +
+            QUOTES +
+            outputPath +
+            path.parse(videoPath).name +
+            outputFormat +
+            QUOTES
         return command;
     }
 }
