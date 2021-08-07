@@ -12,7 +12,7 @@ class Routes {
         router.get('/data', getData);
         router.delete('/delete/:id', deleteDataById);
         router.get('/find/:id', findDataById);
-        router.patch('/update/:id', updateDataById);
+        router.put('/update/:id', updateDataById);
         router.post(
             "/ChangeImageFormat",
             controllerImagenes.endPointToChangeImageFormat
