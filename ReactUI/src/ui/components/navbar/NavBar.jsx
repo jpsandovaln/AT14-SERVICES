@@ -28,7 +28,7 @@ const useStyle = makeStyles((theme) => ({
 	},
 }));
 
-function NavBar(onClick) {
+const NavBar = (onClick) =>{
 	const classes = useStyle();
 
 	return (

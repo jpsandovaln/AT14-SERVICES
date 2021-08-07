@@ -3,8 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import UploadImages from "../../components/images-upload";
-import CenteredTabs from "../../components/tab-panel/TabPanel";
+
 import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";

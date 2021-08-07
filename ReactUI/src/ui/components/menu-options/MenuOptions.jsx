@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function MenuOptions(props) {
+const MenuOptions = (props) => {
 	const classes = useStyles();
 
 	const testContent = [
@@ -48,7 +48,7 @@ function MenuOptions(props) {
 		{
 			title: "Machine Learning",
 			icon: <DashboardIcon style={{ color: "#fff" }} />,
-			path: "/FileUpload",
+			path: "/MachineAnalize",
 		},
 	];
 

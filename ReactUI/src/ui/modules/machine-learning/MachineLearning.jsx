@@ -13,8 +13,8 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 
-import TableML from "./machine-learning/TableML";
-import FormML from "./machine-learning/FormML";
+import TableML from "../../components/materialUI/machine-learning/TableML";
+import FormML from "../../components/materialUI/machine-learning/FormML";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Tables() {
+const MachineLearing = ()=>{
 	const urlML = "http://localhost:8080/analizeZip";
 
 	const [data, setResponse] = React.useState([]);
@@ -54,6 +54,7 @@ export default function Tables() {
 		dataArray.append("zipFile", uploadFile);
 
 		const fetchData = () => {
+			setResponse([]);
 			axios
 				.post(urlML, dataArray, {
 					headers: {
@@ -114,3 +115,5 @@ export default function Tables() {
 		</div>
 	);
 }
+
+export default MachineLearing;
