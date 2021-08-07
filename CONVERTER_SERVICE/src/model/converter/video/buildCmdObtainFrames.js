@@ -3,7 +3,6 @@
  * Build a string which is the command to extract the frames from a video.
  */
 class BuildCmdObtainFrames {
-
     constructor() { }
 
     /**
@@ -21,12 +20,14 @@ class BuildCmdObtainFrames {
         const COMMA = ",";
         const SPACE = " ";
         let parameter = "";
-        const parScale = (param.frameScale === undefined ? "" : 'scale=' + param.frameScale + ':-1');
-        const parGreyS = (param.greyScale === 'true' ? 'hue=s=0' : '');
+        const parScale =
+            param.frameScale === undefined ? "" : "scale=" + param.frameScale + ":-1";
+        const parGreyS = param.greyScale === "true" ? "hue=s=0" : "";
         const parFps = "fps=fps=" + param.timeBetweenFrames;
-        if (parScale != '') parameter = parameter + parScale;
-        if (parameter != '') (parGreyS != '' ? parameter = parameter + COMMA + parGreyS : parameter);
-        else (parGreyS != '' ? parameter = parameter + parGreyS : parameter);
+        if (parScale != "") parameter = parameter + parScale;
+        if (parameter != "")
+            parGreyS != "" ? (parameter = parameter + COMMA + parGreyS) : parameter;
+        else parGreyS != "" ? (parameter = parameter + parGreyS) : parameter;
         if (parameter != "") parameter = parameter + COMMA + parFps;
         else parameter = parFps;
 
@@ -45,7 +46,7 @@ class BuildCmdObtainFrames {
             outputPath +
             IMAGE_NAME +
             outputFormat +
-            QUOTES
+            QUOTES;
         return command;
     }
 }

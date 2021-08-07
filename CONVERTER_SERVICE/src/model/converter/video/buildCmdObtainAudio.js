@@ -4,7 +4,6 @@ const path = require("path");
  * Build a string which is the command to extract the audio from a video file.
  */
 class BuildCmdObtainAudio {
-
     constructor() { }
 
     /**
@@ -29,7 +28,7 @@ class BuildCmdObtainAudio {
             outputPath +
             path.parse(videoPath).name +
             OUTPUT_FORMAT +
-            QUOTES
+            QUOTES;
         return command;
     }
 }

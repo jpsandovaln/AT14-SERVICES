@@ -6,7 +6,6 @@ const Cmd = require("./cmd");
  * its resolution, and the number of images per minuto.
  */
 class BuildCmdChangeVideoFormat {
-
     constructor() { }
 
     /**
@@ -16,11 +15,17 @@ class BuildCmdChangeVideoFormat {
      * @param {string} outputPath The path where the resultant imeges will be.
      * @param {string} outputFormat The output format for the resultant video.
      */
-    static returnCommand(codecPath, videoPath, parameters, outputPath, outputFormat) {
+    static returnCommand(
+        codecPath,
+        videoPath,
+        parameters,
+        outputPath,
+        outputFormat
+    ) {
         const FFMPEG_I = " -i ";
         const CONVERT = "_converted";
         const QUOTES = '"';
-        const SPACE = " "
+        const SPACE = " ";
         const command =
             codecPath +
             FFMPEG_I +
@@ -33,7 +38,7 @@ class BuildCmdChangeVideoFormat {
             outputPath +
             path.parse(videoPath).name +
             outputFormat +
-            QUOTES
+            QUOTES;
         return command;
     }
 }
