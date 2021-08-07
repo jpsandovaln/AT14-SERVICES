@@ -3,7 +3,7 @@ const uploadFile = require("../middleware/upload");
 const fs = require("fs");
 const MasterVideoConverter = require("../model/converter/video/masterVideoConverter");
 const Compiler = require("../model/converter/compiler");
-const Url = require('../database/url_model');
+const FileModel = require("../database/fileModel");
 const Zip = require("../middleware/zipping");
 const baseUrl = process.env.BASE_URL;
 
@@ -31,16 +31,16 @@ const upload = async (req, res) => {
 
         res.status(200).send({
             name: req.file.originalname,
-            url: baseUrl + req.file.originalname,
+            filePath: baseUrl + req.file.originalname,
             params: req.body
         });
 
-        const url = new Url({name: req.file.originalname, url: baseUrl+req.file.originalname});
-        url.save(function(err, doc) {
+        const fileModel = new FileModel({name: req.file.originalname, filePath: baseUrl+req.file.originalname});
+        fileModel.save(function(err, doc) {
         if (err) return console.error(err);
             console.log("Document inserted successfully!");
         });
-
+            
         zipping.zipDownload(req, res);
 
     } catch (err) {
@@ -95,29 +95,29 @@ const download = (req, res) => {
 };
 
 const getData = async(req, res)=>{
-    const data = await Url.find().lean().exec();
+    const data = await FileModel.find().lean().exec();
     res.status(200).send({data});
 }
 
-const findDataById= async(req, res)=>{
-    const {id} = req.params;
-    const data = await Url.findById(id);
+const findDataById = async(req, res)=>{
+    const data = await FileModel.findById(req.params.id);
     res.status(200).send({data});
 }
 
 const deleteDataById = async(req, res)=>{
-    const {id} = req.params;
-    const removeData= await Url.remove({_id: id});
-    res.status(200).send({removeData});
+    const deleteData= await FileModel.deleteOne({_id: req.params.id});
+    res.status(200).send({deleteData});
 }
 
-const updateDataById= async(req, res)=>{
-    const {id} = req.params;
-    const updatedData= await Url.updateOne(
-        {_id: id},
-        {$set: {name: req.body.name }});
-    res.status(200).send(updatedData);
+const updateDataById = async(req, res)=>{
+    const updatedData= await FileModel.updateOne(
+        {_id: req.params.id},
+        {$set: {name: req.params.name }});
+        res.status(200).send({updatedData});
+       
 }
+      
+
 
 module.exports = {
     upload,
