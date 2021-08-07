@@ -22,3 +22,11 @@ CONVERTER_PATH
 OUTPUT_PATH
 ZIP_PATH
 ```
+
+### checksum
+
+```
+npm install md5
+```
+
+    
