@@ -3,6 +3,7 @@ const BuildCmdObtainFrames = require("../model/converter/video/buildCmdObtainFra
 const BuildCmdObtainAudio = require("../model/converter/video/buildCmdObtainAudio");
 const uploadFilesMiddleware = require("../middleware/uploadFiles");
 const Compiler = require("../model/compiler");
+const FileModel = require("../database/fileModel");
 const path = require("path");
 var fs = require("fs");
 
@@ -56,7 +57,42 @@ const changeVideoFormat = async (req, res) => {
         { message: resultPathAudio },
     ]);
 
+    const fileModel = new FileModel({name: req.file.originalname, filePath: resultPathVideoFormat, checksum: 'checksum'});
+        fileModel.save(function(err, doc) {
+        if (err) return console.error(err);
+            console.log("Document inserted successfully!");
+    });
+
     zipping.zipDownload(req, res);
 };
 
-module.exports = changeVideoFormat;
+const getData = async(req, res)=>{
+    const data = await FileModel.find().lean().exec();
+    res.status(200).send({data});
+}
+
+const findDataById = async(req, res)=>{
+    const data = await FileModel.findById(req.params.id);
+    res.status(200).send({data});
+}
+
+const deleteDataById = async(req, res)=>{
+    const deleteData= await FileModel.deleteOne({_id: req.params.id});
+    res.status(200).send({deleteData});
+}
+
+const updateDataById = async(req, res)=>{
+    const updatedData= await FileModel.updateOne(
+        {_id: req.params.id},
+        {$set: {name: req.params.name }});
+        res.status(200).send({updatedData});
+       
+}
+
+module.exports = {
+    changeVideoFormat,
+    getData,
+    deleteDataById,
+    findDataById,
+    updateDataById
+} 
