@@ -1,5 +1,4 @@
 const path = require("path");
-const BuildCmdObtainFrames = require("./buildCmdObtainFrames");
 const Cmd = require("./cmd");
 /**
  * @Class
@@ -7,17 +6,16 @@ const Cmd = require("./cmd");
  * its resolution, and the number of images per minuto.
  */
 class BuildCmdChangeVideoFormat {
+
+    constructor() { }
+
     /**
      * @param {string} codecPath The path where video codec is.
      * @param {string} videoPath The video path to transform.
-     * @param {string} ratio The number of images per minute (Undefined by default).
-     * @param {string} scale The resolution (width x height) of the video that we want to obtain (Undefined by default).
-     * @param {string} quality The quality of the video that we want to obtein (values between 0 - 31, being 0 the highest quality - Undefined by default).
+     * @param {string} parameters The object where will be the necesary parameters for the command.
      * @param {string} outputPath The path where the resultant imeges will be.
      * @param {string} outputFormat The output format for the resultant video.
      */
-    constructor() { }
-
     static returnCommand(codecPath, videoPath, parameters, outputPath, outputFormat) {
         const FFMPEG_I = " -i ";
         const CONVERT = "_converted";

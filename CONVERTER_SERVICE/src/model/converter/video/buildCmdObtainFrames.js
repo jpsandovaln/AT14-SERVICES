@@ -3,15 +3,16 @@
  * Build a string which is the command to extract the frames from a video.
  */
 class BuildCmdObtainFrames {
+
+    constructor() { }
+
     /**
      * @param {string} codecPath The path where video codec is.
      * @param {string} videoPath The video path to transform.
+     * @param {string} param The object where will be the necessary parameters for the command..
      * @param {string} outputPath The path where the resultant imeges will be.
-     * @param {string} timeBetweenFrames The time to wait to extract the frames.
      * @param {string} outputFormat The output format for the resultant images, it can be: .bmp, .jpg, .png.
      */
-    constructor() { }
-
     static returnCommand(codecPath, videoPath, param, outputPath, outputFormat) {
         const FFMPEG_I = " -i ";
         const FFMPEG_VF = " -vf ";
@@ -23,28 +24,28 @@ class BuildCmdObtainFrames {
         const parScale = (param.frameScale === undefined ? "" : 'scale=' + param.frameScale + ':-1');
         const parGreyS = (param.greyScale === 'true' ? 'hue=s=0' : '');
         const parFps = "fps=fps=" + param.timeBetweenFrames;
-        if(parScale != '') parameter = parameter + parScale;
-        if(parameter != '') (parGreyS != '' ? parameter = parameter + COMMA + parGreyS : parameter);            
+        if (parScale != '') parameter = parameter + parScale;
+        if (parameter != '') (parGreyS != '' ? parameter = parameter + COMMA + parGreyS : parameter);
         else (parGreyS != '' ? parameter = parameter + parGreyS : parameter);
-        if(parameter != "") parameter = parameter + COMMA + parFps;
+        if (parameter != "") parameter = parameter + COMMA + parFps;
         else parameter = parFps;
-        
-        let command = 
-                codecPath +
-                FFMPEG_I +
-                QUOTES +
-                videoPath +
-                QUOTES +  
-                FFMPEG_VF + 
-                QUOTES +
-                parameter +
-                QUOTES +
-                SPACE +
-                QUOTES +
-                outputPath +
-                IMAGE_NAME +
-                outputFormat +
-                QUOTES
+
+        let command =
+            codecPath +
+            FFMPEG_I +
+            QUOTES +
+            videoPath +
+            QUOTES +
+            FFMPEG_VF +
+            QUOTES +
+            parameter +
+            QUOTES +
+            SPACE +
+            QUOTES +
+            outputPath +
+            IMAGE_NAME +
+            outputFormat +
+            QUOTES
         return command;
     }
 }
