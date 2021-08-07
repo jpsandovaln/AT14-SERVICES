@@ -1,3 +1,4 @@
+const ParameterInvalidException = require("../../common/exception/parameter_exception");
 const Parameter = require("./parameter");
 
 class PythonParameter extends Parameter {
@@ -17,7 +18,7 @@ class PythonParameter extends Parameter {
 
     validate() {
         if (!this._filePath || !this._pythonBinaryPath) {
-            throw new Error('parameter invalid.');
+            throw new ParameterInvalidException('parameter invalid.', 'SAB-0124588');
         }
     }
 }
