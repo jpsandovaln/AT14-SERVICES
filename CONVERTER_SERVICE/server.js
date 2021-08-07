@@ -4,7 +4,7 @@ const Routes = require("./src/routes");
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27018/converterDB')
+mongoose.connect('mongodb://localhost:27018/converterDB',{ useNewUrlParser: true, useUnifiedTopology: true })
     .then(db => console.log('Db is connected to', db.connection.host))
     .catch(err=> console.error(err));
 
