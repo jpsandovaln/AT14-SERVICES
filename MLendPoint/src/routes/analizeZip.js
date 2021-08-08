@@ -9,27 +9,6 @@ const analizeCocoSSD = require("../middleware/analizeCocoSSD");
 const analizeMobilNet = require("../middleware/analizeMobilNet");
 const BuildArrayImages = require("../middleware/buildArrayImages");
 
-router.get("/", (req, res) => {
-    const json = {
-        name: "Video",
-        objects: {
-            dogs: [
-                {
-                    positionX: 40,
-                    positionY: 40
-                }
-            ],
-            cats: [
-                {
-                    positionX: 40,
-                    positionY: 40
-                }
-            ]
-        }
-    };
-    res.json(json);
-});
-
 router.post("/", upload.single("zipFile"), async (req, res) => {
     const file = req.file;
     /*if (!file) {
