@@ -64,13 +64,12 @@ const FormVideoConveter = () => {
 		dataArray.append("vflip", vflip);
 		dataArray.append("hflip", hflip);
 		dataArray.append("outputFormat", outputFormat);
-		dataArray.append("audioFormat", audioFormat);	
+		dataArray.append("audioFormat", audioFormat);
 		dataArray.append("obtainFrames", obtainFrames);
 		dataArray.append("frameScale", frameScale);
 		dataArray.append("obtainAudio", obtainAudio);
 
 		dataArray.append("extractAudioFormat", extractAudioFormat);
-
 
 		const fetchData = () => {
 			axios
