@@ -5,13 +5,11 @@ const FileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  filePath: {
+  path: {
     type: String,
-    required: true,
   },
   checksum: {
     type: String,
-    required: true,
   },
 });
 
