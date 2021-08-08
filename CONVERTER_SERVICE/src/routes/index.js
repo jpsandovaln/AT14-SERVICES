@@ -8,20 +8,17 @@ const {
     deleteDataById,
     findDataById,
     updateDataById,
-} = require("../controller/file.controller");
+} = require("../controller/VideoController");
+const uploadFilesMiddleware = require("../middleware/uploadFiles");
 
 class Routes {
     constructor(app) {
         
-        router.post("/videoConverter", changeVideoFormat);
-        router.post("/converter", controller.upload);
-        router.post("/upload", controller.upload);
-        router.get("/files", controller.getListFiles);
-        router.get("/files/:name", controller.download);
-        router.get("/data", getData);
-        router.delete("/delete/:id", deleteDataById);
-        router.get("/find/:id", findDataById);
-        router.put("/update/:id", updateDataById);
+        router.post("/videoConverter", [uploadFilesMiddleware],changeVideoFormat.changeVideoFormat);
+        router.get("/file", getData);
+        router.delete("/file/:id", deleteDataById);
+        router.get("/file/:id", findDataById);
+        router.put("/file/:id", updateDataById);
 
         app.use(router);
     }
