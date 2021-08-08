@@ -21,7 +21,7 @@ class CommandBuilder extends ImageCommands {
             result = this.interpreter.validateCommand(commandCreator) + commandCreator.getValue();
             finalCommand += result;
         }
-        //
+        //Only for testing purposes
         console.log(finalCommand);
     }
 }

@@ -57,7 +57,3 @@ test("CommandSchema.setDataType() - A new CommandSchema element should be create
     const expected = 'number';
     expect(result).toBe(expected);
 })
-/*
-const CommandSchemaPort = new CommandSchema('-p', 0, 'number')
-const CommandSchemaLogging = new CommandSchema('-l', false, 'boolean')
-const CommandSchemaDir = new CommandSchema('-d', '', 'string')*/

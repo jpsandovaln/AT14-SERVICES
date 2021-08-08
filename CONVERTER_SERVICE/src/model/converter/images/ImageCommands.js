@@ -27,4 +27,3 @@ class ImageCommands {
 }
 
 module.exports = ImageCommands;
-
