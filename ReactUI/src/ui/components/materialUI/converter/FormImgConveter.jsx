@@ -25,6 +25,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 
 import Box from "@material-ui/core/Box";
+import Slider from "@material-ui/core/Slider";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {},
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const TabPanel = (props) =>{
+const TabPanel = (props) => {
 	const { children, value, index, ...other } = props;
 
 	return (
@@ -54,19 +55,19 @@ const TabPanel = (props) =>{
 			)}
 		</div>
 	);
-}
+};
 
-const a11yProps = (index)=> {
+const a11yProps = (index) => {
 	return {
 		id: `full-width-tab-${index}`,
 		"aria-controls": `full-width-tabpanel-${index}`,
 	};
-}
+};
 const valuetext = (value) => {
 	return `${value}°C`;
-}
+};
 
-const FormImgConveter = (
+const FormImgConverter = (
 	setSearchWord,
 	percentage,
 	setPercentage,
@@ -80,6 +81,14 @@ const FormImgConveter = (
 	const [value, setValue] = React.useState(0);
 	const [flipVertical, setflipVertical] = React.useState("flipVertical");
 	const [flipHorizon, setFlipHorizon] = React.useState("flipHorizon");
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+
+	const handleChangeIndex = (index) => {
+		setValue(index);
+	};
 
 	const handleChangeRadio = (event) => {
 		setflipVertical(event.target.flipVertical);
@@ -115,9 +124,9 @@ const FormImgConveter = (
 				</Grid>
 				<Grid item xs={7}>
 					<Card className={classes.paper}>
-						<CardHeader subheader="Video Format" />
+						<CardHeader subheader="Image Format" />
 						<CardContent>
-							<Grid container spacing={3}>
+							<Grid container spacing={6}>
 								<Grid item xs>
 									<FormControl
 										variant="outlined"
@@ -125,18 +134,11 @@ const FormImgConveter = (
 										fullWidth
 									>
 										<InputLabel id="demo-simple-select-outlined-label">
-											Output Format
+											Output Formart
 										</InputLabel>
 										<Select
 											labelId="demo-simple-select-outlined-label"
 											id="demo-simple-select-outlined"
-											/*value={algorithm}
-															onChange={(e) =>
-																setAlgorithm(
-																	e.target
-																		.value
-																)
-															}*/
 											label="Output Format"
 										>
 											<MenuItem value="">
@@ -151,73 +153,36 @@ const FormImgConveter = (
 										</Select>
 									</FormControl>
 								</Grid>
+							</Grid>
+							<Grid container spacing={6}>
 								<Grid item xs>
 									<FormControl
 										variant="outlined"
 										className={classes.formControl}
 										fullWidth
 									>
-										<InputLabel id="demo-simple-select-outlined-label">
-											Fps
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											/*value={algorithm}
-															onChange={(e) =>
-																setAlgorithm(
-																	e.target
-																		.value
-																)
-															}*/
-											label="Fps"
-										>
-											<MenuItem value="">
-												<em>-</em>
-											</MenuItem>
-											<MenuItem value={"CocoSSD"}>
-												Val1
-											</MenuItem>
-											<MenuItem value={"MovilNet"}>
-												Val2
-											</MenuItem>
-										</Select>
-									</FormControl>
-								</Grid>
-								<Grid item xs>
-									<FormControl
-										variant="outlined"
-										className={classes.formControl}
-										fullWidth
-									>
-										<InputLabel id="demo-simple-select-outlined-label">
-											Scale
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											/*value={algorithm}
-															onChange={(e) =>
-																setAlgorithm(
-																	e.target
-																		.value
-																)
-															}*/
-											label="Scale"
-										>
-											<MenuItem value="">
-												<em>-</em>
-											</MenuItem>
-											<MenuItem value={"CocoSSD"}>
-												Val1
-											</MenuItem>
-											<MenuItem value={"MovilNet"}>
-												Val2
-											</MenuItem>
-										</Select>
+										<div className={classes.root}>
+											<Typography
+												id="discrete-slider-small-steps"
+												gutterBottom
+											>
+												Small steps
+											</Typography>
+											<Slider
+												defaultValue={0.00000005}
+												getAriaValueText={valuetext}
+												aria-labelledby="discrete-slider-small-steps"
+												step={0.00000001}
+												marks
+												min={-0.00000005}
+												max={0.0000001}
+												valueLabelDisplay="auto"
+											/>
+										</div>
 									</FormControl>
 								</Grid>
 							</Grid>
+
 							<Grid container spacing={6}>
 								<Grid item xs>
 									<FormControl
@@ -231,13 +196,6 @@ const FormImgConveter = (
 										<Select
 											labelId="demo-simple-select-outlined-label"
 											id="demo-simple-select-outlined"
-											/*value={algorithm}
-															onChange={(e) =>
-																setAlgorithm(
-																	e.target
-																		.value
-																)
-															}*/
 											label="Audio format"
 										>
 											<MenuItem value="">
@@ -252,46 +210,13 @@ const FormImgConveter = (
 										</Select>
 									</FormControl>
 								</Grid>
-								<Grid item xs>
-									<FormControl
-										variant="outlined"
-										className={classes.formControl}
-										fullWidth
-									>
-										<InputLabel id="demo-simple-select-outlined-label">
-											Quality
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											/*value={algorithm}
-															onChange={(e) =>
-																setAlgorithm(
-																	e.target
-																		.value
-																)
-															}*/
-											label="Quality"
-										>
-											<MenuItem value="">
-												<em>-</em>
-											</MenuItem>
-											<MenuItem value={"CocoSSD"}>
-												Val1
-											</MenuItem>
-											<MenuItem value={"MovilNet"}>
-												Val2
-											</MenuItem>
-										</Select>
-									</FormControl>
-								</Grid>
 							</Grid>
 						</CardContent>
 					</Card>
 				</Grid>
 				<Grid item xs={5}>
 					<Card className={classes.paper}>
-						<CardHeader subheader="Flip and rotate" />
+						<CardHeader subheader="Effects" />
 						<CardContent>
 							<Grid container spacing={3}>
 								<Grid item xs>
@@ -300,66 +225,52 @@ const FormImgConveter = (
 										className={classes.formControl}
 										fullWidth
 									>
-										<InputLabel id="demo-simple-select-outlined-label">
-											Scale
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											/*value={algorithm}
-															onChange={(e) =>
-																setAlgorithm(
-																	e.target
-																		.value
-																)
-															}*/
-											label="Scale"
-										>
-											<MenuItem value="">
-												<em>-</em>
-											</MenuItem>
-											<MenuItem value={"CocoSSD"}>
-												Val1
-											</MenuItem>
-											<MenuItem value={"MovilNet"}>
-												Val2
-											</MenuItem>
-										</Select>
+										<div className={classes.root}>
+											<Typography
+												id="discrete-slider-small-steps"
+												gutterBottom
+											>
+												Small steps
+											</Typography>
+											<Slider
+												defaultValue={0.00000005}
+												getAriaValueText={valuetext}
+												aria-labelledby="discrete-slider-small-steps"
+												step={0.00000001}
+												marks
+												min={-0.00000005}
+												max={0.0000001}
+												valueLabelDisplay="auto"
+											/>
+										</div>
 									</FormControl>
 								</Grid>
 							</Grid>
 							<Grid container spacing={6}>
 								<Grid item xs>
-									<FormControl component="fieldset">
-										<RadioGroup
-											aria-label="gender"
-											name="gender1"
-											value={flipHorizon}
-											onChange={handleChangeRadio}
-										>
-											<FormControlLabel
-												value="Flip horizon"
-												control={<Radio />}
-												label="Flip horizon"
+									<FormControl
+										variant="outlined"
+										className={classes.formControl}
+										fullWidth
+									>
+										<div className={classes.root}>
+											<Typography
+												id="discrete-slider-small-steps"
+												gutterBottom
+											>
+												Small steps
+											</Typography>
+											<Slider
+												defaultValue={0.00000005}
+												getAriaValueText={valuetext}
+												aria-labelledby="discrete-slider-small-steps"
+												step={0.00000001}
+												marks
+												min={-0.00000005}
+												max={0.0000001}
+												valueLabelDisplay="auto"
 											/>
-										</RadioGroup>
-									</FormControl>
-								</Grid>
-
-								<Grid item xs>
-									<FormControl component="fieldset">
-										<RadioGroup
-											aria-label="gender"
-											name="gender1"
-											value={flipVertical}
-											onChange={handleChangeRadio1}
-										>
-											<FormControlLabel
-												value="Flip vertical"
-												control={<Radio />}
-												label="Flip vertical"
-											/>
-										</RadioGroup>
+										</div>
 									</FormControl>
 								</Grid>
 							</Grid>
@@ -371,111 +282,26 @@ const FormImgConveter = (
 			<Grid container spacing={3}>
 				<Grid item xs={5}>
 					<Card className={classes.paper}>
-						<CardHeader subheader="Video Format" />
+						<CardHeader subheader="Filters" />
 						<CardContent>
 							<Grid container spacing={6}>
-								<Grid item xs>
-									<FormControl
-										variant="outlined"
-										className={classes.formControl}
-										fullWidth
-									>
-										<InputLabel id="demo-simple-select-outlined-label">
-											Frames
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											/*value={algorithm}
-															onChange={(e) =>
-																setAlgorithm(
-																	e.target
-																		.value
-																)
-															}*/
-											label="Frames"
-										>
-											<MenuItem value="">
-												<em>-</em>
-											</MenuItem>
-											<MenuItem value={"Val1"}>
-												Val1
-											</MenuItem>
-											<MenuItem value={"Val2"}>
-												Val2
-											</MenuItem>
-										</Select>
-									</FormControl>
-								</Grid>
 								<Grid item xs>
 									<FormControl component="fieldset">
 										<RadioGroup
 											aria-label="gender"
 											name="gender1"
 											value={value}
-											onChange={handleChangeRadio1}
+											onChange={handleChange}
 										>
 											<FormControlLabel
-												value="obtainFrames"
+												value="monochrome"
 												control={<Radio />}
-												label="Obtain frames"
+												label="Monochrome"
 											/>
-										</RadioGroup>
-									</FormControl>
-								</Grid>
-							</Grid>
-						</CardContent>
-					</Card>
-					<br></br>
-					<Card className={classes.paper}>
-						<CardHeader subheader="Obtain Audio" />
-						<CardContent>
-							<Grid container spacing={6}>
-								<Grid item xs>
-									<FormControl
-										variant="outlined"
-										className={classes.formControl}
-										fullWidth
-									>
-										<InputLabel id="demo-simple-select-outlined-label">
-											Audio format
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											/*value={algorithm}
-															onChange={(e) =>
-																setAlgorithm(
-																	e.target
-																		.value
-																)
-															}*/
-											label="Audio format"
-										>
-											<MenuItem value="">
-												<em>-</em>
-											</MenuItem>
-											<MenuItem value={"Val1"}>
-												Val1
-											</MenuItem>
-											<MenuItem value={"Val2"}>
-												Val2
-											</MenuItem>
-										</Select>
-									</FormControl>
-								</Grid>
-								<Grid item xs>
-									<FormControl component="fieldset">
-										<RadioGroup
-											aria-label="gender"
-											name="gender1"
-											value={value}
-											onChange={handleChangeRadio1}
-										>
 											<FormControlLabel
-												value="obtainAudio"
+												value="grayScale"
 												control={<Radio />}
-												label="Obtain Audio"
+												label="Gray Scale"
 											/>
 										</RadioGroup>
 									</FormControl>
@@ -563,4 +389,4 @@ const FormImgConveter = (
 	);
 };
 
-export default FormImgConveter;
+export default FormImgConverter;

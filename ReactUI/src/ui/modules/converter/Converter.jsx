@@ -59,12 +59,8 @@ const a11yProps = (index) => {
 
 const Converter = (props) => {
 	const classes = useStyles();
-	const content = props;
-	const bull = <span className={classes.bullet}>•</span>;
 	const theme = useTheme();
 	const [value, setValue] = React.useState(0);
-	const [flipVertical, setflipVertical] = React.useState("flipVertical");
-	const [flipHorizon, setFlipHorizon] = React.useState("flipHorizon");
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -72,13 +68,6 @@ const Converter = (props) => {
 
 	const handleChangeIndex = (index) => {
 		setValue(index);
-	};
-
-	const handleChangeRadio = (event) => {
-		setflipVertical(event.target.flipVertical);
-	};
-	const handleChangeRadio1 = (event) => {
-		setFlipHorizon(event.target.flipHorizon);
 	};
 
 	return (
