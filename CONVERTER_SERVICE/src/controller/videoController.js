@@ -1,10 +1,10 @@
 const BuildCmdChangeVideoFormat = require("../model/converter/video/buildCmdChangeVideoFormat");
 const BuildCmdObtainFrames = require("../model/converter/video/buildCmdObtainFrames");
 const BuildCmdObtainAudio = require("../model/converter/video/buildCmdObtainAudio");
-const uploadFilesMiddleware = require("../middleware/uploadFiles");
 const Compiler = require("../model/compiler");
 const FileModel = require("../database/fileModel");
 const path = require("path");
+const Md5File = require("../utilities/checksum");
 var fs = require("fs");
 
 const changeVideoFormat = async (req, res) => {
@@ -24,6 +24,7 @@ const changeVideoFormat = async (req, res) => {
         outputPath,
         outputFormat
     );
+
     await compiler.execute(cmdVideoFormat);
     const resultPathVideoFormat =
         outputPath + path.parse(VideoNameFile).name + outputFormat;
@@ -32,6 +33,7 @@ const changeVideoFormat = async (req, res) => {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
     }
+
     const cmdObtainFrames = BuildCmdObtainFrames.returnCommand(
         codecPath,
         videoPath,
@@ -39,6 +41,7 @@ const changeVideoFormat = async (req, res) => {
         dir + "/",
         outputFrames
     );
+
     await compiler.execute(cmdObtainFrames);
     const resultPathFrames = dir;
 
@@ -47,52 +50,60 @@ const changeVideoFormat = async (req, res) => {
         videoPath,
         outputPath
     );
+    
     await compiler.execute(cmdObtainAudio);
     const resultPathAudio = outputPath + path.parse(VideoNameFile).name + ".mp3";
+
+    const hash = Md5File.getMD5File(videoPath);
+    const resulthash = hash;
 
     res.send([
         { message: resultPathVideoFormat },
         { message: resultPathFrames },
         { message: resultPathAudio },
+        { message: resulthash },
     ]);
 
-    const fileModel = new FileModel({name: req.file.originalname, path: resultPathVideoFormat, checksum: 'checksum'});
-        fileModel.save(function(err, doc) {
+    const fileModel = new FileModel({
+        name: req.file.originalname,
+        path: resultPathVideoFormat,
+        checksum: hash,
+    });
+    fileModel.save(function (err, doc) {
         if (err) return console.error(err);
-            console.log("Document inserted successfully!");
+        console.log("Document inserted successfully!");
     });
 
     //zipping.zipDownload(req, res);
 };
 
-const getData = async(req, res)=>{
+const getData = async (req, res) => {
     const data = await FileModel.find().lean().exec();
-    res.status(200).send({data});
-}
+    res.status(200).send({ data });
+};
 
-const findDataById = async(req, res)=>{
+const findDataById = async (req, res) => {
     const data = await FileModel.findById(req.params.id);
-    res.status(200).send({data});
-}
+    res.status(200).send({ data });
+};
 
-const deleteDataById = async(req, res)=>{
-    const deleteData= await FileModel.deleteOne({_id: req.params.id});
-    res.status(200).send({deleteData});
-}
+const deleteDataById = async (req, res) => {
+    const deleteData = await FileModel.deleteOne({ _id: req.params.id });
+    res.status(200).send({ deleteData });
+};
 
-const updateDataById = async(req, res)=>{
-    const updatedData= await FileModel.updateOne(
-        {_id: req.params.id},
-        {$set: {name: req.body.name }}
+const updateDataById = async (req, res) => {
+    const updatedData = await FileModel.updateOne(
+        { _id: req.params.id },
+        { $set: { name: req.body.name } }
     );
-    res.status(200).send({updatedData});
-               
-}
+    res.status(200).send({ updatedData });
+};
 
 module.exports = {
     changeVideoFormat,
     getData,
     deleteDataById,
     findDataById,
-    updateDataById
-} 
+    updateDataById,
+};
