@@ -4,7 +4,7 @@
     "description": "Node.js Express Rest APIs to Upload/Download Files",
     "main": "server.js",
     "scripts": {
-        "start": "node src/server.js"
+        "start": "node server.js"
     },
     "keywords": [
         "node js",
@@ -16,14 +16,15 @@
         "express",
         "multer"
     ],
-    "author": "Cris T.",
+    "author": "AT-14",
     "license": "ISC",
     "dependencies": {
         "adm-zip": "^0.5.5",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
         "express": "^4.17.1",
-        "mongoose": "^5.13.4",
+        "md5-file": "^5.0.0",
+        "mongoose": "^5.13.5",
         "multer": "^1.4.2"
     }
 }

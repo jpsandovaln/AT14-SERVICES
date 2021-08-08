@@ -4,7 +4,7 @@ const Routes = require("./src/routes");
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27018/converterDB')
+mongoose.connect('mongodb://localhost:27018/converterDB',{ useNewUrlParser: true, useUnifiedTopology: true })
     .then(db => console.log('Db is connected to', db.connection.host))
     .catch(err=> console.error(err));
 
@@ -16,6 +16,7 @@ class Index {
         port = 8080
     ) {
         app.use(cors(corsOptions));
+        app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
         new Routes(app);
         this.init(port);
