@@ -8,7 +8,6 @@ const path = require("path");
 var fs = require("fs");
 
 const changeVideoFormat = async (req, res) => {
-    await uploadFilesMiddleware(req, res);
     const VideoNameFile = req.file.filename;
     const videoPath = __dirname + "/../middleware/resource/" + VideoNameFile;
     const codecPath = __dirname + "/../../thirdParty/ffmpeg.exe";
@@ -57,13 +56,13 @@ const changeVideoFormat = async (req, res) => {
         { message: resultPathAudio },
     ]);
 
-    const fileModel = new FileModel({name: req.file.originalname, filePath: resultPathVideoFormat, checksum: 'checksum'});
+    const fileModel = new FileModel({name: req.file.originalname, path: resultPathVideoFormat, checksum: 'checksum'});
         fileModel.save(function(err, doc) {
         if (err) return console.error(err);
             console.log("Document inserted successfully!");
     });
 
-    zipping.zipDownload(req, res);
+    //zipping.zipDownload(req, res);
 };
 
 const getData = async(req, res)=>{
@@ -84,9 +83,10 @@ const deleteDataById = async(req, res)=>{
 const updateDataById = async(req, res)=>{
     const updatedData= await FileModel.updateOne(
         {_id: req.params.id},
-        {$set: {name: req.params.name }});
-        res.status(200).send({updatedData});
-       
+        {$set: {name: req.body.name }}
+    );
+    res.status(200).send({updatedData});
+               
 }
 
 module.exports = {
