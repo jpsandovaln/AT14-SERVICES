@@ -1,39 +1,42 @@
-const multer = require('multer');
-const path = require('path');
-const util = require('util');
+const multer = require("multer");
+const path = require("path");
+const util = require("util");
 const FileModel = require("../database/fileModel");
+
+require("dotenv").config("../../.env");
+const uploadPath = process.env.UPLOAD_PATH;
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, __dirname + '/resource');
+        cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname));
     },
 });
 
-let objectFile= null;
-async function  fileFilter (req, file, cb) {
-    objectFile= await FileModel.findOne({name: file.originalname});
-    if(objectFile) {
-       cb(null, false);
-    }else{
+let objectFile = null;
+async function fileFilter(req, file, cb) {
+    objectFile = await FileModel.findOne({ name: file.originalname });
+    if (objectFile) {
+        cb(null, false);
+    } else {
         cb(null, true);
     }
 }
 
 const uploadFiles = multer({
     storage: storage,
-    fileFilter: fileFilter
-}).single('file');
+    fileFilter: fileFilter,
+}).single("file");
 
 const updateFile = async (req, res, next) => {
     await util.promisify(uploadFiles)(req, res);
-    if(objectFile) {
-        res.status(200).json({path: objectFile.path});
-    }else{
+    if (objectFile) {
+        res.status(200).json({ path: objectFile.path });
+    } else {
         next();
-    }   
-}
+    }
+};
 
 module.exports = updateFile;

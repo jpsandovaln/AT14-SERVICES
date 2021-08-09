@@ -1,4 +1,3 @@
-
 const BuildCmdChangeVideoFormat = require('../model/converter/video/buildCmdChangeVideoFormat');
 const BuildCmdObtainFrames = require('../model/converter/video/buildCmdObtainFrames');
 const BuildCmdObtainAudio = require('../model/converter/video/buildCmdObtainAudio');
@@ -6,6 +5,8 @@ const Compiler = require('../model/compiler');
 const path = require("path");
 var fs = require('fs');
 require("dotenv").config("../../.env");
+const Md5File = require("../utilities/checksum");
+
 const codecPath = process.env.CONVERTER_PATH;
 const uploadPath = process.env.UPLOAD_PATH;
 const videoPath = process.env.VIDEO_PATH;
@@ -49,7 +50,7 @@ class VideoServices {
         const resultPathVideoFormat = videoPath + path.parse(this.nameFile).name + this.outputFormat;
         return resultPathVideoFormat;
     }
-
+   
     obtainFrames() {
         if(this.body.obtainFrames == 'true') {
             const dir = zipPath + path.parse(this.nameFile).name;

@@ -6,4 +6,5 @@ class Md5File {
         return hash;
     }
 }
+
 module.exports = Md5File;

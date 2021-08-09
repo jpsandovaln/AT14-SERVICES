@@ -1,60 +1,20 @@
-const BuildCmdChangeVideoFormat = require("../model/converter/video/buildCmdChangeVideoFormat");
-const BuildCmdObtainFrames = require("../model/converter/video/buildCmdObtainFrames");
-const BuildCmdObtainAudio = require("../model/converter/video/buildCmdObtainAudio");
-const Compiler = require("../model/compiler");
 const FileModel = require("../database/fileModel");
 const path = require("path");
 const Md5File = require("../utilities/checksum");
 var fs = require("fs");
+const VideoServices = require("../middleware/videoService");
+require("dotenv").config("../../.env");
 
 const changeVideoFormat = async (req, res) => {
-    const VideoNameFile = req.file.filename;
-    const videoPath = __dirname + "/../middleware/resource/" + VideoNameFile;
-    const codecPath = __dirname + "/../../thirdParty/ffmpeg.exe";
-    const outputPath = __dirname + "/../middleware/filesProcessor/";
-    const outputFormat = req.body.outputFormat;
-    const outputFrames = req.body.outputFormatFrames;
+    const nameFile = req.file.filename;
+    const uploadPath = process.env.UPLOAD_PATH;
+    const videoServices = new VideoServices(req.body, nameFile);
 
-    compiler = new Compiler();
+    const resultPathVideoFormat = await videoServices.changeVideoFormat();
+    const resultPathFrames = await videoServices.obtainFrames();
+    const resultPathAudio = await videoServices.obtainAudio();
 
-    const cmdVideoFormat = BuildCmdChangeVideoFormat.returnCommand(
-        codecPath,
-        videoPath,
-        req.body,
-        outputPath,
-        outputFormat
-    );
-
-    await compiler.execute(cmdVideoFormat);
-    const resultPathVideoFormat =
-        outputPath + path.parse(VideoNameFile).name + outputFormat;
-
-    const dir = outputPath + path.parse(VideoNameFile).name;
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-    }
-
-    const cmdObtainFrames = BuildCmdObtainFrames.returnCommand(
-        codecPath,
-        videoPath,
-        req.body,
-        dir + "/",
-        outputFrames
-    );
-
-    await compiler.execute(cmdObtainFrames);
-    const resultPathFrames = dir;
-
-    const cmdObtainAudio = BuildCmdObtainAudio.returnCommand(
-        codecPath,
-        videoPath,
-        outputPath
-    );
-    
-    await compiler.execute(cmdObtainAudio);
-    const resultPathAudio = outputPath + path.parse(VideoNameFile).name + ".mp3";
-
-    const hash = Md5File.getMD5File(videoPath);
+    const hash = Md5File.getMD5File(uploadPath + nameFile);
     const resulthash = hash;
 
     res.send([

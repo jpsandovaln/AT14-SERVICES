@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const controllerImagenes = require("../controller/ImagesController");
+//const controllerImagenes = require("../controller/ImagesController");
 const changeVideoFormat = require("../controller/VideoController");
-const controller = require("../controller/file.controller");
+//const controller = require("../controller/file.controller");
 const {
     getData,
     deleteDataById,
