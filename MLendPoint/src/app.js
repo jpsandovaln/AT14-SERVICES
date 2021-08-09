@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const homeRouter = require("./routes/home");
 const analizeZip = require("./routes/analizeZip");
 const analizeImages = require("./routes/analizeImages");
@@ -9,7 +10,8 @@ app.use(cors());
 
 const port = process.env.PORT || 8080;
 
-app.use(express.static("../public/"));
+app.use(express.static(path.join(__dirname, '../public')));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

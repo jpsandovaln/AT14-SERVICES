@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function SideBar(props) {
+const SideBar = (props) => {
 	const { window } = props;
 	const page = props.page;
 	const classes = useStyles();
@@ -90,7 +90,7 @@ function SideBar(props) {
 			</main>
 		</div>
 	);
-}
+};
 
 SideBar.propTypes = {
 	window: PropTypes.func,

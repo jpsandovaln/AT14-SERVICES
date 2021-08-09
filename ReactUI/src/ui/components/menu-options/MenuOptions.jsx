@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
 import HomeIcon from "@material-ui/icons/Home";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: theme.mixins.toolbar,
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function MenuOptions(props) {
+const MenuOptions = () => {
 	const classes = useStyles();
 
 	const testContent = [
@@ -48,7 +48,7 @@ function MenuOptions(props) {
 		{
 			title: "Machine Learning",
 			icon: <DashboardIcon style={{ color: "#fff" }} />,
-			path: "/FileUpload",
+			path: "/MachineAnalize",
 		},
 	];
 
@@ -73,6 +73,6 @@ function MenuOptions(props) {
 			</List>
 		</div>
 	);
-}
+};
 
 export default MenuOptions;
