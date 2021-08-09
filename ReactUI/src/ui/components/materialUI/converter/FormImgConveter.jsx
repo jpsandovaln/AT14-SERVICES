@@ -34,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		width: 300,
 	},
+	title: {
+		color: "white",
+		fontSize: 12,
+		backgroundColor: "#3a4651",
+		//fontStyle: "italic",
+	},
 }));
 
 const FormImgConverter = () => {
@@ -110,7 +116,11 @@ const FormImgConverter = () => {
 					</Grid>
 					<Grid item xs={7}>
 						<Card className={classes.paper}>
-							<CardHeader subheader="Image Format" />
+							<CardHeader
+								className={classes.title}
+								title="Image Format"
+								titleTypographyProps={{ variant: "h6" }}
+							/>
 							<CardContent>
 								<Grid container spacing={6}>
 									<Grid item xs>
@@ -218,7 +228,11 @@ const FormImgConverter = () => {
 					</Grid>
 					<Grid item xs={5}>
 						<Card className={classes.paper}>
-							<CardHeader subheader="Effects" />
+							<CardHeader
+								className={classes.title}
+								title="Effects"
+								titleTypographyProps={{ variant: "h6" }}
+							/>
 							<CardContent>
 								<Grid container spacing={3}>
 									<Grid item xs>
@@ -294,7 +308,11 @@ const FormImgConverter = () => {
 				<Grid container spacing={3}>
 					<Grid item xs={5}>
 						<Card className={classes.paper}>
-							<CardHeader subheader="Filters" />
+							<CardHeader
+								className={classes.title}
+								title="Filters"
+								titleTypographyProps={{ variant: "h6" }}
+							/>
 							<CardContent>
 								<Grid container spacing={6}>
 									<Grid item xs>
@@ -337,7 +355,11 @@ const FormImgConverter = () => {
 					</Grid>
 					<Grid item xs={7}>
 						<Card className={classes.paper}>
-							<CardHeader subheader="Results" />
+							<CardHeader
+								className={classes.title}
+								title="Results"
+								titleTypographyProps={{ variant: "h6" }}
+							/>
 							<CardContent>
 								<Grid container spacing={3}>
 									<Grid item xs>

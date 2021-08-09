@@ -33,8 +33,6 @@ router.post("/", upload.array("Images"), async (req, res) => {
             pathImage
         );
         let response = await learning.recognition();
-
-        console.info(response);
         res.send(response);
     }
 
@@ -47,8 +45,6 @@ router.post("/", upload.array("Images"), async (req, res) => {
             algorithm
         );
         let response = await learning.recognition();
-
-        console.info(response);
         res.send(response);
     }
 });

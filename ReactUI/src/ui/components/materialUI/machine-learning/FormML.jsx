@@ -24,7 +24,7 @@ const FormML = (
 	return (
 		<div>
 			<Card className={classes.root}>
-				<CardHeader title="Machine Learning Analizer"></CardHeader>
+				<CardHeader title="Machine Learning Analizer" ></CardHeader>
 				<CardContent>
 					<Grid container spacing={1}>
 						<Grid item xs={4} spacing={1}>

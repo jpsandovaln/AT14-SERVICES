@@ -1,7 +1,7 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -23,7 +23,7 @@ import TableRow from "@material-ui/core/TableRow";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	paper: {},
 	input: {
 		display: "none",
@@ -31,6 +31,13 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		width: 300,
 	},
+	title: {
+		color: "white",
+		fontSize: 12,
+		backgroundColor: "#3a4651",
+		//fontStyle: "italic",
+	},
+
 }));
 
 const FormVideoConveter = () => {
@@ -118,7 +125,11 @@ const FormVideoConveter = () => {
 					</Grid>
 					<Grid item xs={7}>
 						<Card className={classes.paper}>
-							<CardHeader subheader="Video Format" />
+							<CardHeader
+								className={classes.title}
+								title="Video Format"
+								titleTypographyProps={{variant:'h6' }}
+							/>
 							<CardContent>
 								<Grid container spacing={3}>
 									<Grid item xs>
@@ -308,7 +319,11 @@ const FormVideoConveter = () => {
 					</Grid>
 					<Grid item xs={5}>
 						<Card className={classes.paper}>
-							<CardHeader subheader="Flip and rotate" />
+							<CardHeader
+								className={classes.title}
+								title="Flip and rotate"
+								titleTypographyProps={{variant:'h6' }}
+							/>
 							<CardContent>
 								<Grid container spacing={3}>
 									<Grid item xs>
@@ -390,7 +405,11 @@ const FormVideoConveter = () => {
 				<Grid container spacing={3}>
 					<Grid item xs={5}>
 						<Card className={classes.paper}>
-							<CardHeader subheader="Video Format" />
+							<CardHeader
+								className={classes.title}
+								title="Video Format"
+								titleTypographyProps={{variant:'h6' }}
+							/>
 							<CardContent>
 								<Grid container spacing={6}>
 									<Grid item xs>
@@ -459,7 +478,11 @@ const FormVideoConveter = () => {
 						</Card>
 						<br></br>
 						<Card className={classes.paper}>
-							<CardHeader subheader="Obtain Audio" />
+							<CardHeader
+								className={classes.title}
+								title="Obtain Audio"
+								titleTypographyProps={{variant:'h6' }}
+							/>
 							<CardContent>
 								<Grid container spacing={6}>
 									<Grid item xs>
@@ -520,7 +543,11 @@ const FormVideoConveter = () => {
 					</Grid>
 					<Grid item xs={7}>
 						<Card className={classes.paper}>
-							<CardHeader subheader="Results" />
+							<CardHeader
+								className={classes.title}
+								title="Results"
+								titleTypographyProps={{variant:'h6' }}
+							/>
 							<CardContent>
 								<Grid container spacing={3}>
 									<Grid item xs>

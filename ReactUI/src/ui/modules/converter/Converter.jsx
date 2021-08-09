@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
 	input: {
 		display: "none",
 	},
+	title: {
+		color: "white",
+		fontSize: 14,
+		backgroundColor: "#3a4651",
+		//fontStyle: "italic",
+	},
 }));
 
 const TabPanel = (props) => {
@@ -93,10 +99,12 @@ const Converter = (props) => {
 									aria-label="full width tabs example"
 								>
 									<Tab
+										className={classes.title}
 										label="Video converter"
 										{...a11yProps(0)}
 									/>
 									<Tab
+										className={classes.title}
 										label="Imagen converter"
 										{...a11yProps(1)}
 									/>
@@ -112,6 +120,7 @@ const Converter = (props) => {
 								onChangeIndex={handleChangeIndex}
 							>
 								<TabPanel
+								
 									value={value}
 									index={0}
 									dir={theme.direction}
