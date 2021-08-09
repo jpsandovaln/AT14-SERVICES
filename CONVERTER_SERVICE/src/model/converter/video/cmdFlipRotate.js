@@ -3,7 +3,7 @@
  * Build a string command which can to flip a video file horizontally, vertically and rotate it in
  * different angles: 90, 180, 270
  */
-class CmdFlipRotate {
+ class CmdFlipRotate {
     constructor() { }
 
     /**
@@ -36,7 +36,10 @@ class CmdFlipRotate {
         } else {
             if (hflip === 'true') parameter = parameter + FFMPEG_H_FLIP;
         }
-        command = command + FFMPEG_VF + SPACE + QUOTES + parameter + QUOTES + SPACE;
+        if(parameter == "")
+            return "";
+        else
+            command = command + FFMPEG_VF + SPACE + QUOTES + parameter + QUOTES + SPACE;
         return command;
     }
 }

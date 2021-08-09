@@ -2,7 +2,7 @@
  * @Class
  * Build a string which is the command to extract the frames from a video.
  */
-class BuildCmdObtainFrames {
+ class BuildCmdObtainFrames {
     constructor() { }
 
     /**
@@ -12,7 +12,7 @@ class BuildCmdObtainFrames {
      * @param {string} outputPath The path where the resultant imeges will be.
      * @param {string} outputFormat The output format for the resultant images, it can be: .bmp, .jpg, .png.
      */
-    static returnCommand(codecPath, videoPath, param, outputPath, outputFormat) {
+    static returnCommand(codecPath, videoPath, param, outputPath) {
         const FFMPEG_I = " -i ";
         const FFMPEG_VF = " -vf ";
         const IMAGE_NAME = "%d";
@@ -22,7 +22,7 @@ class BuildCmdObtainFrames {
         let parameter = "";
         const parScale =
             param.frameScale === undefined ? "" : "scale=" + param.frameScale + ":-1";
-        const parGreyS = param.greyScale === "true" ? "hue=s=0" : "";
+        const parGreyS = param.grayScale === "true" ? "hue=s=0" : "";
         const parFps = "fps=fps=" + param.timeBetweenFrames;
         if (parScale != "") parameter = parameter + parScale;
         if (parameter != "")
@@ -45,7 +45,7 @@ class BuildCmdObtainFrames {
             QUOTES +
             outputPath +
             IMAGE_NAME +
-            outputFormat +
+            param.framesFormat +
             QUOTES;
         return command;
     }
