@@ -26,7 +26,7 @@ import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import Checkbox from "@material-ui/core/Checkbox";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	paper: {},
 	input: {
 		display: "none",
@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 		color: "white",
 		fontSize: 12,
 		backgroundColor: "#3a4651",
-		//fontStyle: "italic",
 	},
 }));
 

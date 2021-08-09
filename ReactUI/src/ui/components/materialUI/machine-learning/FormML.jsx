@@ -13,13 +13,7 @@ import { CardHeader } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 
 const FormML = (
-	classes,
-	setSearchWord,
-	percentage,
-	setPercentage,
-	algorithm,
-	setAlgorithm,
-	setUploadFile
+	classes
 ) => {
 	return (
 		<div>

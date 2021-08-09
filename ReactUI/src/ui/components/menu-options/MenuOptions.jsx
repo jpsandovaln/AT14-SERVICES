@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const MenuOptions = (props) => {
+const MenuOptions = () => {
 	const classes = useStyles();
 
 	const testContent = [

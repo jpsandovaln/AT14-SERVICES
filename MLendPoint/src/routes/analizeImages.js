@@ -10,12 +10,6 @@ const analizeMobilNet = require("../middleware/analizeMobilNet");
 
 router.post("/", upload.array("Images"), async (req, res) => {
     const files = req.files;
-    /*if (!files) {
-      const error = new Error('Please upload a file')
-      error.httpStatusCode = 400
-      return next(error)
-    }*/
-    //res.send(files);
     const searchWord = req.body.searchWord;
     const percentage = req.body.percentage;
     const algorithm = req.body.algorithm;

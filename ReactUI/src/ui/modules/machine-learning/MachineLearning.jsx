@@ -1,17 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
 import { Typography } from "@material-ui/core";
 import axios from "axios";
-
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-
 import Card from "@material-ui/core/Card";
-
 import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
-
 import TableML from "../../components/materialUI/machine-learning/TableML";
 import FormML from "../../components/materialUI/machine-learning/FormML";
 
