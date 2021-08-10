@@ -1,4 +1,4 @@
-const analize = require("../../../MLendPoint/src/middleware/analize");
+const analize = require("./analize");
 
 const analizing = new analize(
     "imagePaths",
