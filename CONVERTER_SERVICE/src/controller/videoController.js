@@ -1,4 +1,3 @@
-const FileModel = require("../database/fileModel");
 const path = require("path");
 const Md5File = require("../utilities/checksum");
 var fs = require("fs");
@@ -22,18 +21,6 @@ const changeVideoFormat = async (req, res) => {
         { message: resultPathAudio },
         { message: resulthash },
     ]);
-
-    const fileModel = new FileModel({
-        name: req.fields.filename,
-        path: resultPathVideoFormat,
-        checksum: hash,
-    });
-    fileModel.save(function (err, doc) {
-        if (err) return console.error(err);
-        console.log("Document inserted successfully!");
-    });
-
-    //zipping.zipDownload(req, res);
 };
 
 module.exports = {
