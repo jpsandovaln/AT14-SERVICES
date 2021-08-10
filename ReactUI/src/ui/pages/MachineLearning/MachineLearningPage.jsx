@@ -1,11 +1,9 @@
 import React from "react";
 import SideBar from "../../modules/sidebar/SideBar";
-import MachineLearning from "../../modules/machine-learning/FileUpload";
-import Table from "../../components/materialUI/AnalizeML";
+import MachineLearning from "../../modules/machine-learning/MachineLearning";
 
-function MachineLearningPage() {
-	// return <SideBar page={MachineLearning} />;
-	return <SideBar page={Table} />;
-}
+const MachineLearningPage = () => {
+	return <SideBar page={MachineLearning} />;
+};
 
 export default MachineLearningPage;

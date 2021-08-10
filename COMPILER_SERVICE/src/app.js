@@ -7,6 +7,7 @@ const JavaCompiler = require('./core/compiler/java_compiler');
 const PythonCompiler = require('./core/compiler/python_compiler');
 
 const Url = require('./model/url_model');
+const ParameterInvalidException = require('./common/exception/parameter_exception');
 
 mongoose.connect('mongodb://localhost:27017/compiler')
     .then(db => console.info('DB is connected'))
@@ -37,14 +38,19 @@ app.post('/compiler', upload.single('file'), async (req, res) => {
     try {
         if (req.body.language === 'python'){
             langCompiler = new PythonCompiler(req.file.path, process.env.EXECUTE_PYTHON32);
-        }
-        if (req.body.language === 'java') {
+        } else if (req.body.language === 'java') {
             langCompiler = new JavaCompiler(req.file.path, process.env.EXECUTE_JAVA8);
+        } else {
+            throw new ParameterInvalidException('Invalid language.', 'SAB-3574');
         }
         const result = await langCompiler.compiler();
         res.send(result);
-    } catch(err) {
-        res.status(err.status).send(err.message);
+    } catch (err) {
+        res.status(err.status).send({
+            message: err.message,
+            type: err.name,
+            code: err.code
+        });
     }
 });
 

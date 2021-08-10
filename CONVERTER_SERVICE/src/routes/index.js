@@ -1,45 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const controllerImagenes = require("../controller/ImagesController");
+const changeVideoFormat = require("../controller/VideoController");
 const controller = require("../controller/file.controller");
+const {
+    getData,
+    deleteDataById,
+    findDataById,
+    updateDataById,
+} = require("../controller/VideoController");
+const uploadFilesMiddleware = require("../middleware/uploadFiles");
+
 class Routes {
     constructor(app) {
-        router.post("/converter", controller.upload);
-        router.post("/upload", controller.upload);
-        router.get("/files", controller.getListFiles);
-        router.get("/files/:name", controller.download);
-        router.post(
-            "/ChangeImageFormat",
-            controllerImagenes.endPointToChangeImageFormat
-        );
-        router.post(
-            "/ChangeImageDirection",
-            controllerImagenes.endPointToChangeImageDirection
-        );
-        router.post(
-            "/ChangeImageDoubling",
-            controllerImagenes.endPointToChangeImageDoubling
-        );
-        router.post(
-            "/ChangeImageMonochrome",
-            controllerImagenes.endPointToChangeImageMonochrome
-        );
-        router.post(
-            "/ChangeImagePaint",
-            controllerImagenes.endPointToChangeImagePaint
-        );
-        router.post(
-            "/ChangeImageQuality",
-            controllerImagenes.endPointToChangeImageQuality
-        );
-        router.post(
-            "/ChangeImageResize",
-            controllerImagenes.endPointToChangeImageResize
-        );
-        router.post(
-            "/ChangeImageToGrayscale",
-            controllerImagenes.endPointToChangeImageToGrayscale
-        );
+        
+        router.post("/videoConverter", [uploadFilesMiddleware],changeVideoFormat.changeVideoFormat);
+        router.get("/file", getData);
+        router.delete("/file/:id", deleteDataById);
+        router.get("/file/:id", findDataById);
+        router.put("/file/:id", updateDataById);
+
         app.use(router);
     }
 }
