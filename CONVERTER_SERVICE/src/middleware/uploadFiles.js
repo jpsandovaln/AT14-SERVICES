@@ -26,6 +26,15 @@ const updateFile = async (req, res, next) => {
         req.fields.filename = result.files.file.name;
         console.log(uploadPath);
         await FileUtil.copyFile(result.files.file.path, uploadPath, result.files.file.name);
+        const fileModel = new FileModel({
+            name: result.files.file.name,
+            path: uploadPath + result.files.file.name,
+            checksum: result.checksum,
+        });
+        fileModel.save(function (err, doc) {
+            if (err) return console.error(err);
+            console.log("Document inserted successfully!");
+        });
         next();
     }
 };
