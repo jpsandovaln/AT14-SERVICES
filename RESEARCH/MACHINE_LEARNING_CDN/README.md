@@ -1,6 +1,12 @@
 # AT14-SERVICES
 
-If someone want use Tensorflow and CocoSsd You have to install using NPM
+Install Anaconda
+Install Jupyter Notebook
 
-npm i @tensorflow/tfjs
-npm i @tensorflow-models/coco-ssd
+### Need to install the next libraries
+
+pip install tensorflow
+pip install numpy
+pip install pillow
+
+install -c conda-forge matplotlib
