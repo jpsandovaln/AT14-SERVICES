@@ -16,20 +16,16 @@ const updateFile = async (req, res, next) => {
     });
 
     req.fields = result;
-    console.log(result);
-    console.log(result.files);
-    console.log(result.files.file);
-    console.log(result.files.file.path);
     const objectFile= await FileModel.findOne({checksum: result.checksum});
     if(objectFile) {
-        // get info from database
         req.fields.uploadpath = objectFile.path;
-        req.fields.filename = objectFile.filename;
+        req.fields.filename = objectFile.name;
         next();
     } else {
-        req.fields.uploadpath = uploadPath;
+        req.fields.uploadpath = uploadPath + result.files.file.name;
         req.fields.filename = result.files.file.name;
-        FileUtil.copyFile(result.files.file.path, uploadPath, result.files.file.name);
+        console.log(uploadPath);
+        await FileUtil.copyFile(result.files.file.path, uploadPath, result.files.file.name);
         next();
     }
 };
