@@ -13,8 +13,7 @@ const changeVideoFormat = async (req, res) => {
     const resultPathVideoFormat = await videoServices.changeVideoFormat();
     const resultPathFrames = await videoServices.obtainFrames();
     const resultPathAudio = await videoServices.obtainAudio();
-
-    const hash = Md5File.getMD5File(uploadPath + nameFile);
+    const hash = Md5File.getMD5File(uploadPath);
     const resulthash = hash;
 
     res.send([
@@ -25,7 +24,7 @@ const changeVideoFormat = async (req, res) => {
     ]);
 
     const fileModel = new FileModel({
-        name: req.file.originalname,
+        name: req.fields.filename,
         path: resultPathVideoFormat,
         checksum: hash,
     });
