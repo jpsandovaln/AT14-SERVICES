@@ -1,16 +1,12 @@
-Install Docker Desktop on Windows:
-    https://docs.docker.com/docker-for-windows/install/
+# AT14-SERVICES
 
-Install Docker Desktop on Mac:
-    https://docs.docker.com/docker-for-mac/install/
+Install Anaconda
+Install Jupyter Notebook
 
-Install Docker Desktop on Linux:
-    https://help.wnpower.com/hc/es/articles/360048910771-C%C3%B3mo-instalar-Docker-en-tu-servidor-con-Ubuntu
+### Need to install the next libraries
 
-for run Docker:
-    docker-compose up -d
+pip install tensorflow
+pip install numpy
+pip install pillow
 
-We can check if our DB is running correctly with the following command:
-    docker ps
-
-
+install -c conda-forge matplotlib
