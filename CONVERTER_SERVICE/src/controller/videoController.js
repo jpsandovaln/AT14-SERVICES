@@ -6,9 +6,9 @@ const VideoServices = require("../middleware/videoService");
 require("dotenv").config("../../.env");
 
 const changeVideoFormat = async (req, res) => {
-    const nameFile = req.file.filename;
-    const uploadPath = process.env.UPLOAD_PATH;
-    const videoServices = new VideoServices(req.body, nameFile);
+    const nameFile = req.fields.filename;
+    const uploadPath = req.fields.uploadpath;
+    const videoServices = new VideoServices(req.fields, nameFile);
 
     const resultPathVideoFormat = await videoServices.changeVideoFormat();
     const resultPathFrames = await videoServices.obtainFrames();

@@ -1,67 +1,37 @@
-const multer = require("multer");
 const path = require("path");
-const util = require("util");
 const FileModel = require("../database/fileModel");
 const formidable = require('formidable');
+const FileUtil = require('../utilities/fileUtil');
 
 require("dotenv").config("../../.env");
 const uploadPath = process.env.UPLOAD_PATH;
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        console.log('hello destination');
-        cb(null, uploadPath);
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname));
-    },
-});
-
-/*let objectFile = null;
-async function fileFilter(req, file, cb) {
-    objectFile = await FileModel.findOne({ checksum: req.body.checksum });
-    console.log(objectFile);
-    if (objectFile) {
-        cb(null, false);
-    } else {
-        cb(null, true);
-    }
-}*/
-
-const uploadFiles = multer({
-    storage: storage,
-    //fileFilter: fileFilter,
-}).single("file");
-
 const updateFile = async (req, res, next) => {
     const form = formidable({ multiples: true });
  
-    await new Promise((resolve, reject) => {
-        form.parse(req, async (err, fields, files) => {
-            console.log(fields);
-            const objectFile= await FileModel.findOne({checksum: fields.checksum});
-            console.log(objectFile);
-            if(objectFile) {
-               // res.status(200).json({path: objectFile.path});
-                const filePathDB= objectFile.path;
-                next();
-            } else {
-                console.log('1');
-                await util.promisify(uploadFiles);
-                console.log('2');
-               // console.log(req);
-                next();
-            }
+    const result = await new Promise((resolve, reject) => {
+        form.parse(req, (err, fields, files) => {
+            resolve({ ...fields, files });
         });
     });
 
-/*const updateFile = async (req, res, next) => {
-    await util.promisify(uploadFiles)(req, res);
-    if (objectFile) {
-        res.status(200).json({ path: objectFile.path });
-    } else {
+    req.fields = result;
+    console.log(result);
+    console.log(result.files);
+    console.log(result.files.file);
+    console.log(result.files.file.path);
+    const objectFile= await FileModel.findOne({checksum: result.checksum});
+    if(objectFile) {
+        // get info from database
+        req.fields.uploadpath = objectFile.path;
+        req.fields.filename = objectFile.filename;
         next();
-    }*/
+    } else {
+        req.fields.uploadpath = uploadPath;
+        req.fields.filename = result.files.file.name;
+        FileUtil.copyFile(result.files.file.path, uploadPath, result.files.file.name);
+        next();
+    }
 };
 
 module.exports = updateFile;
