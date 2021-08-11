@@ -31,9 +31,6 @@ const useStyles = makeStyles(() => ({
 	input: {
 		display: "none",
 	},
-	root: {
-		width: 300,
-	},
 	title: {
 		color: "white",
 		fontSize: 12,
@@ -113,7 +110,7 @@ const FormImgConverter = () => {
 							</CardContent>
 						</Card>
 					</Grid>
-					<Grid item xs={7}>
+					<Grid item xs={4}>
 						<Card className={classes.paper}>
 							<CardHeader
 								className={classes.title}
@@ -225,7 +222,7 @@ const FormImgConverter = () => {
 							</CardContent>
 						</Card>
 					</Grid>
-					<Grid item xs={5}>
+					<Grid item xs={4}>
 						<Card className={classes.paper}>
 							<CardHeader
 								className={classes.title}
@@ -302,10 +299,7 @@ const FormImgConverter = () => {
 							</CardContent>
 						</Card>
 					</Grid>
-				</Grid>
-
-				<Grid container spacing={3}>
-					<Grid item xs={5}>
+					<Grid item xs={4}>
 						<Card className={classes.paper}>
 							<CardHeader
 								className={classes.title}
@@ -352,7 +346,10 @@ const FormImgConverter = () => {
 							</CardContent>
 						</Card>
 					</Grid>
-					<Grid item xs={7}>
+				</Grid>
+
+				<Grid container spacing={4}>
+					<Grid item xs={12}>
 						<Card className={classes.paper}>
 							<CardHeader
 								className={classes.title}
@@ -381,45 +378,21 @@ const FormImgConverter = () => {
 											>
 												<TableHead>
 													<TableRow>
-														<TableCell>
-															Algorithm
+														<TableCell align="center">
+															Name
 														</TableCell>
-														<TableCell align="right">
-															Word
-														</TableCell>
-														<TableCell align="right">
-															Percentage
-														</TableCell>
-														<TableCell align="right">
-															Second
-														</TableCell>
-														<TableCell align="right">
-															Image
-														</TableCell>
-														<TableCell align="right">
-															Options
+														<TableCell align="center">
+															Link
 														</TableCell>
 													</TableRow>
 												</TableHead>
 												<TableBody>
 													<TableRow>
-														<TableCell align="right">
-															123
+														<TableCell align="center">
+															Name
 														</TableCell>
-														<TableCell align="right">
-															asd
-														</TableCell>
-														<TableCell align="right">
-															123
-														</TableCell>
-														<TableCell align="right">
-															asd
-														</TableCell>
-														<TableCell align="right">
-															123
-														</TableCell>
-														<TableCell align="right">
-															asd
+														<TableCell align="center">
+															Link
 														</TableCell>
 													</TableRow>
 												</TableBody>

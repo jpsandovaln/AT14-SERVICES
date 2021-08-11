@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-class ObtainDirectory{
-    constructor() {}
+class ObtainDirectory {
+    constructor() { }
 
     filesList(path) {
         return fs.readdirSync(path);

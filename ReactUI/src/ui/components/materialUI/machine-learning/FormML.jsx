@@ -6,22 +6,33 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 
-const FormML = (
-	classes
-) => {
+const useStyles = makeStyles((theme) => ({
+	title: {
+		color: "white",
+		fontSize: 12,
+		backgroundColor: "#3a4651",
+	},
+}));
+
+const FormML = (classes) => {
+	const clase = useStyles();
 	return (
 		<div>
-			<Card className={classes.root}>
-				<CardHeader title="Machine Learning Analizer" ></CardHeader>
+			<Card className={clase.root}>
+				<CardHeader
+					title="Machine Learning Analizer"
+					className={clase.title}
+					titleTypographyProps={{ variant: "h6" }}
+				></CardHeader>
 				<CardContent>
 					<Grid container spacing={1}>
-						<Grid item xs={4} spacing={1}>
+						<Grid item md={4} xs={12} spacing={1}>
 							<TextField
 								fullWidth
 								id="outlined-basic"
@@ -33,7 +44,7 @@ const FormML = (
 								}
 							/>
 						</Grid>
-						<Grid item xs={4} spacing={1}>
+						<Grid item md={4} xs={12} spacing={1}>
 							<FormControl
 								variant="outlined"
 								className={classes.formControl}
@@ -67,7 +78,7 @@ const FormML = (
 								</Select>
 							</FormControl>
 						</Grid>
-						<Grid item xs={4} spacing={1}>
+						<Grid item md={4} xs={12} spacing={1}>
 							<FormControl
 								variant="outlined"
 								className={classes.formControl}
@@ -97,7 +108,7 @@ const FormML = (
 								</Select>
 							</FormControl>
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item md={12} xs={12}>
 							<div className={classes.root}>
 								<input
 									accept="zip/*"

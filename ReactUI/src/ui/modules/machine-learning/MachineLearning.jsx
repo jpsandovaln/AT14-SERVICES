@@ -26,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
 	input: {
 		display: "",
 	},
+	title: {
+		color: "white",
+		fontSize: 12,
+		backgroundColor: "#3a4651",
+	},
 }));
 
 const MachineLearing = () => {
@@ -90,7 +95,11 @@ const MachineLearing = () => {
 			</form>
 			<br />
 			<Card>
-				<CardHeader title="Results"></CardHeader>
+				<CardHeader
+					title="Results"
+					className={classes.title}
+					titleTypographyProps={{ variant: "h6" }}
+				></CardHeader>
 				<CardContent>
 					<TableML
 						classes={classes}

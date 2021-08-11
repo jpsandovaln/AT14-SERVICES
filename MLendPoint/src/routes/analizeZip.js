@@ -10,44 +10,20 @@ const analizeMobilNet = require("../middleware/analizeMobilNet");
 const BuildArrayImages = require("../middleware/buildArrayImages");
 
 router.get("/", (req, res) => {
-    const json = {
-        name: "Video",
-        objects: {
-            dogs: [
-                {
-                    positionX: 40,
-                    positionY: 40,
-                },
-            ],
-            cats: [
-                {
-                    positionX: 40,
-                    positionY: 40,
-                },
-            ],
-        },
-    };
+    const json = {};
     res.json(json);
 });
 
 router.post("/", upload.single("zipFile"), async (req, res) => {
     const file = req.file;
-    /*if (!file) {
-        const error = new Error("Please upload a file");
-        error.httpStatusCode = 400;
-        return next(error);
-    }*/
-    //res.send(file)
-
     const searchWord = req.body.searchWord;
     const percentage = req.body.percentage;
     const zipNameFile = req.file.filename;
     const pathFile = req.file.path;
     const algorithm = req.body.algorithm;
-    /*HARD CODE*/
     const extension = path.extname(file.originalname);
-    const  fileName= path.basename(file.originalname,extension);
-    
+    const fileName = path.basename(file.originalname, extension);
+
     const pathImage =
         "http://localhost:8080/unZipFiles/" +
         path.parse(zipNameFile).name +
@@ -66,7 +42,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const zipPath = obtainDirectory.filesList(unzipOutput);
     const imagePaths = obtainDirectory.filesList(unzipOutput + "/" + zipPath);
 
-    const files = buildArrayImages.buildArrayImages(imagePaths, unzipOutput,fileName);
+    const files = buildArrayImages.buildArrayImages(imagePaths, unzipOutput, fileName);
 
     if (algorithm == "CocoSSD") {
         const learning = new analizeCocoSSD(

@@ -1,7 +1,7 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -37,7 +37,6 @@ const useStyles = makeStyles(() => ({
 		backgroundColor: "#3a4651",
 		//fontStyle: "italic",
 	},
-
 }));
 
 const FormVideoConveter = () => {
@@ -128,7 +127,7 @@ const FormVideoConveter = () => {
 							<CardHeader
 								className={classes.title}
 								title="Video Format"
-								titleTypographyProps={{variant:'h6' }}
+								titleTypographyProps={{ variant: "h6" }}
 							/>
 							<CardContent>
 								<Grid container spacing={3}>
@@ -322,7 +321,7 @@ const FormVideoConveter = () => {
 							<CardHeader
 								className={classes.title}
 								title="Flip and rotate"
-								titleTypographyProps={{variant:'h6' }}
+								titleTypographyProps={{ variant: "h6" }}
 							/>
 							<CardContent>
 								<Grid container spacing={3}>
@@ -403,12 +402,12 @@ const FormVideoConveter = () => {
 				</Grid>
 
 				<Grid container spacing={3}>
-					<Grid item xs={5}>
+					<Grid item xs={6}>
 						<Card className={classes.paper}>
 							<CardHeader
 								className={classes.title}
-								title="Video Format"
-								titleTypographyProps={{variant:'h6' }}
+								title="Frames"
+								titleTypographyProps={{ variant: "h6" }}
 							/>
 							<CardContent>
 								<Grid container spacing={6}>
@@ -476,12 +475,13 @@ const FormVideoConveter = () => {
 								</Grid>
 							</CardContent>
 						</Card>
-						<br></br>
+					</Grid>
+					<Grid item xs={6}>
 						<Card className={classes.paper}>
 							<CardHeader
 								className={classes.title}
 								title="Obtain Audio"
-								titleTypographyProps={{variant:'h6' }}
+								titleTypographyProps={{ variant: "h6" }}
 							/>
 							<CardContent>
 								<Grid container spacing={6}>
@@ -541,12 +541,12 @@ const FormVideoConveter = () => {
 							</CardContent>
 						</Card>
 					</Grid>
-					<Grid item xs={7}>
+					<Grid item xs={12}>
 						<Card className={classes.paper}>
 							<CardHeader
 								className={classes.title}
 								title="Results"
-								titleTypographyProps={{variant:'h6' }}
+								titleTypographyProps={{ variant: "h6" }}
 							/>
 							<CardContent>
 								<Grid container spacing={3}>
@@ -570,45 +570,21 @@ const FormVideoConveter = () => {
 											>
 												<TableHead>
 													<TableRow>
-														<TableCell>
-															Algorithm
+														<TableCell align="center">
+															Name
 														</TableCell>
-														<TableCell align="right">
-															Word
-														</TableCell>
-														<TableCell align="right">
-															Percentage
-														</TableCell>
-														<TableCell align="right">
-															Second
-														</TableCell>
-														<TableCell align="right">
-															Image
-														</TableCell>
-														<TableCell align="right">
-															Options
+														<TableCell align="center">
+															Link
 														</TableCell>
 													</TableRow>
 												</TableHead>
 												<TableBody>
 													<TableRow>
-														<TableCell align="right">
-															123
+														<TableCell align="center">
+															Name
 														</TableCell>
-														<TableCell align="right">
-															asd
-														</TableCell>
-														<TableCell align="right">
-															123
-														</TableCell>
-														<TableCell align="right">
-															asd
-														</TableCell>
-														<TableCell align="right">
-															123
-														</TableCell>
-														<TableCell align="right">
-															asd
+														<TableCell align="center">
+															Link
 														</TableCell>
 													</TableRow>
 												</TableBody>

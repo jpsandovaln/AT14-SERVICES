@@ -1,5 +1,4 @@
 const MobilNet = require("../controllers/MobilNet");
-const path = require("path");
 const analize = require("./analize");
 const JsonResponse = require("./jsonResponse");
 
