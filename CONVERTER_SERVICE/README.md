@@ -29,4 +29,15 @@ ZIP_PATH
 npm install md5
 ```
 
+### for the program to run correctly
+```
+Create / verify the following folders inside the resources folder:
+audio
+image
+outputPath
+upload
+video
+zip
+```
     
+
