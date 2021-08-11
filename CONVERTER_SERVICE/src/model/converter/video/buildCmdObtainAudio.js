@@ -11,7 +11,7 @@ class BuildCmdObtainAudio {
      * @param {string} videoPath The video path to transform.
      * @param {string} outputPath The path where the resultant audio file will be.
      */
-    static returnCommand(codecPath, videoPath, outputPath) {
+    static returnCommand(codecPath, videoPath, resultName, outputPath) {
         const FFMPEG_I = " -i ";
         const FFMPEG_VN = " -vn ";
         const OUTPUT_FORMAT = ".mp3";
@@ -26,7 +26,7 @@ class BuildCmdObtainAudio {
             FFMPEG_VN +
             QUOTES +
             outputPath +
-            path.parse(videoPath).name +
+            resultName +
             OUTPUT_FORMAT +
             QUOTES;
         return command;

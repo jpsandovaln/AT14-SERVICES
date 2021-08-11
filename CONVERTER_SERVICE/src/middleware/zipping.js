@@ -1,20 +1,39 @@
-require("dotenv").config("../../.env");
 const fs = require("fs");
-const outputPath = process.env.OUTPUT_PATH;
-const zipPath = process.env.ZIP_PATH;
-const to_zip = fs.readdirSync(outputPath);
-const admz = require("adm-zip");
-
+const path = require("path");
+const AdmZip = require("adm-zip");
 class Zip {
-    zipDownload(req, res) {
-        const zip = new admz();
-        for (var k = 0; k < to_zip.length; k++) {
-            zip.addLocalFile(outputPath + to_zip[k]);
-        }
-        const downloadName = `${Date.now()}.zip`;
-        const data = zip.toBuffer();
+    constructor() { }
 
-        zip.writeZip(zipPath + downloadName + "/");
+    zipImages(framesPath) {
+        if(fs.existsSync(framesPath)) {
+            var listFiles = this.obtainDirectory(framesPath);
+            console.log(listFiles);
+            const zip = new AdmZip();
+            listFiles.forEach((file) => {
+                zip.addLocalFile(framesPath + "/" + file);
+            });
+            var willSendthis = zip.toBuffer();
+            zip.writeZip(framesPath + ".zip");
+            return framesPath + ".zip";
+        }
+        else{
+            return "";
+        }        
+    }
+
+    zipFiles(framesNamePath, audioPath, videoPath) {
+        const zipAll = new AdmZip();     
+        const zipImage = this.zipImages(framesNamePath);
+        if(fs.existsSync(audioPath)) {zipAll.addLocalFile(audioPath)};
+        if(fs.existsSync(videoPath)) {zipAll.addLocalFile(videoPath)};
+        if(fs.existsSync(zipImage)) {zipAll.addLocalFile(zipImage)};
+        var willSendthis2 = zipAll.toBuffer();
+        zipAll.writeZip(framesNamePath + "_all_files.zip");
+        return framesNamePath + "_all_files.zip";
+    }
+
+    obtainDirectory(path) {
+        return fs.readdirSync(path);
     }
 }
 
