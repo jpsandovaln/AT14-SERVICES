@@ -82,7 +82,7 @@ const Converter = () => {
 				<Typography color="textPrimary">Convert</Typography>
 			</Breadcrumbs>
 
-			<Container>
+			
 				<Card className={classes.root}>
 					<CardContent>
 						<div className={classes.root}>
@@ -134,7 +134,7 @@ const Converter = () => {
 						</div>
 					</CardContent>
 				</Card>
-			</Container>
+			
 		</div>
 	);
 };

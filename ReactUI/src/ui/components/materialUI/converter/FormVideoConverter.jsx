@@ -99,7 +99,7 @@ const FormVideoConveter = () => {
 	return (
 		<div>
 			<form onSubmit={submitFormVideo}>
-				<Grid container spacing={3}>
+				<Grid container spacing={3} xs={12}>
 					<Grid item xs={12}>
 						<Card className={classes.paper}>
 							<CardContent>

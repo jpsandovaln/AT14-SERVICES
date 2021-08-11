@@ -16,4 +16,5 @@ o	Microsoft Build Tools 2019
 •	Need to install Node v16.6.1
 o	Have to install also chocolatey, there is an installation that comes with the node
 •	Install python 3.5 and python 3.6 or latest version
- 
+•       You have to create a folder called "images" inside the folder "public", like this "public/images/"
+•       You have to create a folder called "unZipFiles" inside the folder "public", like this "public/unZipFiles/"
