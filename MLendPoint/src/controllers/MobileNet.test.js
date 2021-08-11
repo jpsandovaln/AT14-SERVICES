@@ -1,6 +1,7 @@
 const MobilNet = require("./MobilNet");
 const path = require("path");
 const { test, expect } = require("@jest/globals");
+require("dotenv").config("../../src/.env");
 
 test("Verify that model return an empty object array with parameters: Imagen, SearchWord, and Percentage those with values pathImagen, dog, and 0.1", async () => {
     const obj = new MobilNet(
