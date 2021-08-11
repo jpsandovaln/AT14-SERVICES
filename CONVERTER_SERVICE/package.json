@@ -4,7 +4,8 @@
     "description": "Node.js Express Rest APIs to Upload/Download Files",
     "main": "server.js",
     "scripts": {
-        "start": "node src/server.js"
+        "start": "node src/server.js",
+        "controller": "node src/controller/image/Controller.js"
     },
     "keywords": [
         "node js",
