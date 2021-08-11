@@ -12,7 +12,7 @@ function returnMetadata(executablePathMetadata, filePath) {
 }
 
 function execute(command) {
-    new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         exec(command, (err, stdout, stderr) => {
             if (err) {
                 reject(err);
@@ -24,6 +24,7 @@ function execute(command) {
 }
 
 async function fetching(executablePathMetadata, filePath) {
+
     const metadata = await execute(returnMetadata(executablePathMetadata, filePath));
     return metadata;
 }
