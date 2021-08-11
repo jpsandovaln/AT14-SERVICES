@@ -1,7 +1,3 @@
-const cocoSsd = require('@tensorflow-models/coco-ssd');
-const tf = require('@tensorflow/tfjs-node');
-const fs = require('fs');
-
 /**
  * @Class
  * Build an instance 
@@ -18,14 +14,18 @@ class MachineLearing {
 
     constructor(imagePath, searchWord, percentage) {
         if (new.target === MachineLearing)
-            throw Error('Abstract class cannot be Instantiated');
+            throw new Error('MachineLearing abstract class cannot be instantiated');
         this.image = imagePath;
         this.searchWord = searchWord;
         this.percentage = percentage;
         this.predictions = undefined;
     }
 
-}
 
+    async getJSON(parameter) {
+        throw new Error('getJSON() must be implementrd');
+    }
+
+}
 
 module.exports = MachineLearing;

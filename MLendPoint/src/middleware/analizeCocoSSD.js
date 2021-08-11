@@ -1,5 +1,4 @@
 const CocoSSD = require("../controllers/CocoSSD");
-const path = require("path");
 const analize = require("./analize");
 const JsonResponse = require("./jsonResponse");
 
@@ -12,7 +11,7 @@ class analizeCocoSSD extends analize {
         algorithm,
         pathImage
     ) {
-        super(imagePaths, searchWord, percentage, secondsToString, algorithm,pathImage);
+        super(imagePaths, searchWord, percentage, secondsToString, algorithm, pathImage);
     }
     async recognition() {
         let response = [];

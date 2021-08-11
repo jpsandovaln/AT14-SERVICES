@@ -1,5 +1,6 @@
 const mobilenet = require('@tensorflow-models/mobilenet');
 const tfnode = require('@tensorflow/tfjs-node');
+const MachineLearing = require('./MachineLearing');
 const fs = require('fs');
 
 /**
@@ -8,7 +9,7 @@ const fs = require('fs');
  * 
  */
 
-class MobilNet extends require("./MachineLearing") {
+class MobilNet extends MachineLearing {
 
     /**
      * @param {string} imagePath The path where image is.
@@ -50,14 +51,5 @@ class MobilNet extends require("./MachineLearing") {
         return arrParse;
     }
 }
-
-
-/*async function callAsync() {
-    const obj = new MobilNet(__dirname+'/../../public/images/1.jpg', 'dog', 0.1);
-    const result = await obj.getJSON();
-    console.log(result);
-}
-callAsync();
-*/
 
 module.exports = MobilNet;

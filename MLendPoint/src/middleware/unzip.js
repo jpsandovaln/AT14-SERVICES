@@ -8,9 +8,9 @@ class UnZip {
         let nameFile = path.parse(zipPath).name;
         const zip = new AdmZip(zipPath);
         var zipEntries = zip.getEntries();
-        
+
         zip.extractAllTo(outPath, true);
-        
+
     }
 }
 
