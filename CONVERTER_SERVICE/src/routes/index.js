@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const changeVideoFormat = require("../controller/VideoController");
+const { changeVideoFormat, download } = require("../controller/VideoController");
 const {
     getData,
     deleteDataById,
@@ -16,8 +16,9 @@ class Routes {
         router.post(
             "/videoConverter",
             [uploadFilesMiddleware],
-            changeVideoFormat.changeVideoFormat
+            changeVideoFormat
         );
+        router.get("/files/:name", download);
         router.get("/file", getData);
         router.delete("/file/:id", deleteDataById);
         router.get("/file/:id", findDataById);

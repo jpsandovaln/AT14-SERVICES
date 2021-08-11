@@ -18,6 +18,7 @@ class BuildCmdChangeVideoFormat {
     static returnCommand(
         codecPath,
         videoPath,
+        resultName,
         parameters,
         outputPath,
         outputFormat
@@ -36,7 +37,7 @@ class BuildCmdChangeVideoFormat {
             Cmd.returnCommand(parameters) +
             QUOTES +
             outputPath +
-            path.parse(videoPath).name +
+            resultName +
             outputFormat +
             QUOTES;
         return command;
