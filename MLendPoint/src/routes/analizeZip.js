@@ -46,7 +46,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const algorithm = req.body.algorithm;
     /*HARD CODE*/
     const extension = path.extname(file.originalname);
-    const  fileName= path.basename(file.originalname,extension);
+    const fileName= path.basename(file.originalname,extension);
     
     const pathImage =
         "http://localhost:8080/unZipFiles/" +
