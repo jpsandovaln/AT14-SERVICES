@@ -13,18 +13,12 @@ import { CardHeader } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 
 const FormML = (
-	classes,
-	setSearchWord,
-	percentage,
-	setPercentage,
-	algorithm,
-	setAlgorithm,
-	setUploadFile
+	classes
 ) => {
 	return (
 		<div>
 			<Card className={classes.root}>
-				<CardHeader title="Machine Learning Analizer"></CardHeader>
+				<CardHeader title="Machine Learning Analizer" ></CardHeader>
 				<CardContent>
 					<Grid container spacing={1}>
 						<Grid item md={4}  xs={12} spacing={1}>

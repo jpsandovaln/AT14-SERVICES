@@ -12,7 +12,14 @@ class analizeMobilNet extends analize {
         algorithm,
         pathImage
     ) {
-        super(imagePaths, searchWord, percentage, secondsToString, algorithm,pathImage);
+        super(
+            imagePaths,
+            searchWord,
+            percentage,
+            secondsToString,
+            algorithm,
+            pathImage
+        );
     }
     async recognition() {
         let response = [];

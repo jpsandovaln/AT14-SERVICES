@@ -17,10 +17,15 @@ import FormVideoConverter from "../../components/materialUI/converter/FormVideoC
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	paper: {},
 	input: {
 		display: "none",
+	},
+	title: {
+		color: "white",
+		fontSize: 14,
+		backgroundColor: "#3a4651",
 	},
 }));
 
@@ -42,7 +47,7 @@ const TabPanel = (props) => {
 			)}
 		</div>
 	);
-}
+};
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -55,9 +60,9 @@ const a11yProps = (index) => {
 		id: `full-width-tab-${index}`,
 		"aria-controls": `full-width-tabpanel-${index}`,
 	};
-}
+};
 
-const Converter = (props) => {
+const Converter = () => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [value, setValue] = React.useState(0);
@@ -93,10 +98,12 @@ const Converter = (props) => {
 									aria-label="full width tabs example"
 								>
 									<Tab
+										className={classes.title}
 										label="Video converter"
 										{...a11yProps(0)}
 									/>
 									<Tab
+										className={classes.title}
 										label="Imagen converter"
 										{...a11yProps(1)}
 									/>
@@ -132,6 +139,6 @@ const Converter = (props) => {
 			</Container>
 		</div>
 	);
-}
+};
 
 export default Converter;

@@ -8,7 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-const TableML = (classes, open, setOpen, data, setResponse) => {
+const TableML = (classes) => {
 	return (
 		<div>
 			<TableContainer>
@@ -39,7 +39,7 @@ const TableML = (classes, open, setOpen, data, setResponse) => {
 										{row.Word}
 									</TableCell>
 									<TableCell align="right">
-										{row.Percentage}
+										{(row.Percentage + 100).toFixed(0)} %
 									</TableCell>
 									<TableCell align="right">
 										{row.Second}

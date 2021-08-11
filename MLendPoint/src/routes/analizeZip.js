@@ -45,16 +45,19 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const pathFile = req.file.path;
     const algorithm = req.body.algorithm;
     /*HARD CODE*/
+    const extension = path.extname(file.originalname);
+    const  fileName= path.basename(file.originalname,extension);
+    
     const pathImage =
         "http://localhost:8080/unZipFiles/" +
         path.parse(zipNameFile).name +
-        "/images/";
-
+        "/" +
+        fileName +
+        "/";
     const obtainDirectory = new ObtainDirectory();
     const buildArrayImages = new BuildArrayImages();
     const unzip = new UnZip();
     const secondsToString = new SecondsToString();
-
 
     const unzipOutput =
         __dirname + "/../../public/unZipFiles/" + path.parse(zipNameFile).name;
@@ -63,7 +66,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const zipPath = obtainDirectory.filesList(unzipOutput);
     const imagePaths = obtainDirectory.filesList(unzipOutput + "/" + zipPath);
 
-    const files = buildArrayImages.buildArrayImages(imagePaths, unzipOutput);
+    const files = buildArrayImages.buildArrayImages(imagePaths, unzipOutput,fileName);
 
     if (algorithm == "CocoSSD") {
         const learning = new analizeCocoSSD(
@@ -75,7 +78,6 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
             pathImage
         );
         let response = await learning.recognition();
-
         res.send(response);
     }
 
@@ -89,8 +91,6 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
             pathImage
         );
         let response = await learning.recognition();
-
-        console.info(response);
         res.send(response);
     }
 });
