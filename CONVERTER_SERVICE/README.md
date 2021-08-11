@@ -29,7 +29,7 @@ ZIP_PATH
 npm install md5
 ```
 
-### for the program to run correctly
+### Requirements to correctly run the program
 ```
 Create / verify the following folders inside the resources folder:
 audio
