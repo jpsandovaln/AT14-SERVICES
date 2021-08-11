@@ -24,5 +24,5 @@ const changeVideoFormat = async (req, res) => {
 };
 
 module.exports = {
-    changeVideoFormat
+    changeVideoFormat,
 };
