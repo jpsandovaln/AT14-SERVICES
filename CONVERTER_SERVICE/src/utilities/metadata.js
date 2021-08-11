@@ -24,7 +24,8 @@ function execute(command) {
 }
 
 async function fetching(executablePathMetadata, filePath) {
-    return await execute(returnMetadata(executablePathMetadata, filePath));
+    const metadata = await execute(returnMetadata(executablePathMetadata, filePath));
+    return metadata;
 }
 
 module.exports = fetching, returnMetadata;
