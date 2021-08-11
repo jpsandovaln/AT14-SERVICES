@@ -7,7 +7,7 @@ const getMetadata = async (req, res) => {
     const executePathExiftool = process.env.CONVERTER_PATH_EXIFTOOL;
     const uploadPath = process.env.UPLOAD_PATH;
     const nameFile = req.file.filename;
-    metadataP = fetching(executePathExiftool, uploadPath + nameFile);
+    const metadataP = await fetching(executePathExiftool, uploadPath + nameFile);
 
     res.send({ message: metadataP });
 };
