@@ -27,7 +27,7 @@ const FormML = (
 				<CardHeader title="Machine Learning Analizer"></CardHeader>
 				<CardContent>
 					<Grid container spacing={1}>
-						<Grid item xs={4} spacing={1}>
+						<Grid item md={4}  xs={12} spacing={1}>
 							<TextField
 								fullWidth
 								id="outlined-basic"
@@ -39,7 +39,7 @@ const FormML = (
 								}
 							/>
 						</Grid>
-						<Grid item xs={4} spacing={1}>
+						<Grid item md={4}  xs={12} spacing={1}>
 							<FormControl
 								variant="outlined"
 								className={classes.formControl}
@@ -73,7 +73,7 @@ const FormML = (
 								</Select>
 							</FormControl>
 						</Grid>
-						<Grid item xs={4} spacing={1}>
+						<Grid item md={4} xs={12} spacing={1}>
 							<FormControl
 								variant="outlined"
 								className={classes.formControl}
@@ -103,7 +103,7 @@ const FormML = (
 								</Select>
 							</FormControl>
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item md={12}  xs={12}>
 							<div className={classes.root}>
 								<input
 									accept="zip/*"
