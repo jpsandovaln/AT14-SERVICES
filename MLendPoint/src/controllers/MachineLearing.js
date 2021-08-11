@@ -20,8 +20,7 @@ class MachineLearing {
         this.percentage = percentage;
         this.predictions = undefined;
     }
-
-
+    
     async getJSON(parameter) {
         throw new Error('getJSON() must be implementrd');
     }
