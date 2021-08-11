@@ -1,29 +1,31 @@
 const { exec } = require("child_process");
 const { stdout, stderr } = require("process");
 
-returnMetadata=> {
+function returnMetadata(executablePathMetadata, filePath) {
     const SPACE = " ";
     const command =
         executablePathMetadata +
         SPACE +
         filePath
     return command;
+    
 }
 
-execute => {
+function execute(command) {
     new Promise(function (resolve, reject) {
         exec(command, (err, stdout, stderr) => {
             if (err) {
                 reject(err);
             }
-            resolve({ stdout });s
+            resolve({ stdout });
             console.log(stdout);
         });
     });
 }
 
-const fetchingMetadata = async () =>{
-    return await execute(command);
+async function fetching(executablePathMetadata, filePath) {
+    const metadata = await execute(returnMetadata(executablePathMetadata, filePath));
+    return metadata;
 }
 
-module.exports = {fetchingMetadata};
+module.exports = fetching, returnMetadata;

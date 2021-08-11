@@ -1,6 +1,6 @@
 const baseUrl = "http://localhost:8080/";
 const fs = require("fs");
-const uploadImagesMiddleware = require("../middleware/uploadImages");
+const uploadImagesMiddleware = require("../middleware/uploadFiles");
 const BuildCmdChangeImageFormat = require("../model/converter/images/buildCmdChangeImageFormat");
 const BuildCmdChangeImageDirection = require("../model/converter/images/buildCmdChangeImageDirection");
 const BuildCmdChangeImageDoubling = require("../model/converter/images/buildCmdChangeImageDoubling");
