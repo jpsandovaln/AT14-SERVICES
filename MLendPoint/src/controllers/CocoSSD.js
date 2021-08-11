@@ -87,13 +87,13 @@ class CocoSSD extends require("./MachineLearing") {
         return arrParse;
     }
 }
-/*
+
 async function callAsync() {
-    const obj = new CocoSSD(__dirname+'/../../public/images/pastoraleman.jpg', 'DOG', 0.5);
+    const obj = new CocoSSD(__dirname+'/../../public/images/1.jpg', 'DOG', 0.5);
     const result = await obj.getJSON();
     console.log(result);
 }
 callAsync();
-*/
+
 
 module.exports = CocoSSD;
