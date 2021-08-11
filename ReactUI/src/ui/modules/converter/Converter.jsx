@@ -82,59 +82,53 @@ const Converter = () => {
 				<Typography color="textPrimary">Convert</Typography>
 			</Breadcrumbs>
 
-			
-				<Card className={classes.root}>
-					<CardContent>
-						<div className={classes.root}>
-							<AppBar position="static" color="default">
-								<Tabs
-									value={value}
-									onChange={handleChange}
-									indicatorColor="primary"
-									textColor="primary"
-									variant="fullWidth"
-									aria-label="full width tabs example"
-								>
-									<Tab
-										className={classes.title}
-										label="Video converter"
-										{...a11yProps(0)}
-									/>
-									<Tab
-										className={classes.title}
-										label="Imagen converter"
-										{...a11yProps(1)}
-									/>
-								</Tabs>
-							</AppBar>
-							<SwipeableViews
-								axis={
-									theme.direction === "rtl"
-										? "x-reverse"
-										: "x"
-								}
-								index={value}
-								onChangeIndex={handleChangeIndex}
+			<Card className={classes.root}>
+				<CardContent>
+					<div className={classes.root}>
+						<AppBar position="static" color="default">
+							<Tabs
+								value={value}
+								onChange={handleChange}
+								indicatorColor="primary"
+								textColor="primary"
+								variant="fullWidth"
+								aria-label="full width tabs example"
 							>
-								<TabPanel
-									value={value}
-									index={0}
-									dir={theme.direction}
-								>
-									<FormVideoConverter />
-								</TabPanel>
-								<TabPanel
-									value={value}
-									index={1}
-									dir={theme.direction}
-								>
-									<FormImgConveter />
-								</TabPanel>
-							</SwipeableViews>
-						</div>
-					</CardContent>
-				</Card>
-			
+								<Tab
+									className={classes.title}
+									label="Video converter"
+									{...a11yProps(0)}
+								/>
+								<Tab
+									className={classes.title}
+									label="Imagen converter"
+									{...a11yProps(1)}
+								/>
+							</Tabs>
+						</AppBar>
+						<SwipeableViews
+							axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+							index={value}
+							onChangeIndex={handleChangeIndex}
+						>
+							<TabPanel
+								value={value}
+								index={0}
+								dir={theme.direction}
+							>
+								<FormVideoConverter />
+							</TabPanel>
+							<TabPanel
+								value={value}
+								index={1}
+								dir={theme.direction}
+							>
+								<FormImgConveter />
+							</TabPanel>
+						</SwipeableViews>
+					</div>
+				</CardContent>
+			</Card>
 		</div>
 	);
 };
