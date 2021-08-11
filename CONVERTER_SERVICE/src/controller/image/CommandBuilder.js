@@ -21,12 +21,8 @@ class CommandBuilder extends ImageCommands {
             result = this.interpreter.validateCommand(commandCreator) + commandCreator.getValue();
             finalCommand += result;
         }
-        //Only for testing purposes
-        console.log(finalCommand);
+        return finalCommand;
     }
 }
-
-//Harcoded for testing purposes
-new CommandBuilder({ grayScaleImage: true, resizeImage: 'string', qualityImage: 1 });
 
 module.exports = CommandBuilder;

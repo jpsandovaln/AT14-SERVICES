@@ -4,15 +4,11 @@ const TypeDetector = require("./TypeDetector.js");
 
 class Interpreter {
 
-    //Execution
-
     constructor(commandSchemas = []) {
 
         this.commandSchemas = commandSchemas;
         this.typeDetector = new TypeDetector;
     }
-
-    //Functions
 
     validateCommandId(command = new Command, commandSchema = new CommandSchema) {
 

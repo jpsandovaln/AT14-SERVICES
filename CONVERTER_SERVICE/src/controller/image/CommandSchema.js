@@ -6,8 +6,6 @@ class CommandSchema {
         this.command = command;
     }
 
-    //get and set the id
-
     getId() {
 
         return this.id;
@@ -16,8 +14,6 @@ class CommandSchema {
 
         this.id = id;
     }
-
-    //get and set the command
 
     getCommand() {
 

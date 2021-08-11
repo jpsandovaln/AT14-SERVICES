@@ -6,8 +6,6 @@ class Command {
         this.value = value;
     }
 
-    //get and set the "id"
-
     getId() {
 
         return this.id;
@@ -16,8 +14,6 @@ class Command {
 
         this.id = id;
     }
-
-    //get and set the value
 
     getValue() {
 
