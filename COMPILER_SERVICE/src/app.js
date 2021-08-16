@@ -3,11 +3,11 @@ const multer = require('multer');
 const mongoose = require('mongoose');
 const fs = require('fs');
 require('dotenv').config({ path: '../.env'});
-const JavaCompiler = require('./core/compiler/java_compiler');
-const PythonCompiler = require('./core/compiler/python_compiler');
+const CompilerFactory = require('./core/compiler/compiler_factory');
 
 const Url = require('./model/url_model');
 const ParameterInvalidException = require('./common/exception/parameter_exception');
+const { prependOnceListener } = require('./model/url_model');
 
 mongoose.connect('mongodb://localhost:27017/compiler')
     .then(db => console.info('DB is connected'))
@@ -34,15 +34,19 @@ app.post('/compiler', upload.single('file'), async (req, res) => {
     url.save();
     
     let langCompiler = {};
+    let binary = '';
 
+    if (req.body.language === 'python') {
+        binary = process.env.EXECUTE_PYTHON32;
+    } else {
+        binary = process.env.EXECUTE_JAVA8;
+    }
     try {
-        if (req.body.language === 'python'){
-            langCompiler = new PythonCompiler(req.file.path, process.env.EXECUTE_PYTHON32);
-        } else if (req.body.language === 'java') {
-            langCompiler = new JavaCompiler(req.file.path, process.env.EXECUTE_JAVA8);
-        } else {
-            throw new ParameterInvalidException('Invalid language.', 'SAB-3574');
-        }
+         langCompiler = CompilerFactory.getInstance(
+            req.body.language,
+            req.file.path,
+            binary
+        );
         const result = await langCompiler.compiler();
         res.send(result);
     } catch (err) {
