@@ -1,0 +1,26 @@
+{
+    "name": "typescript",
+    "version": "1.0.0",
+    "description": "TypeScript example to learn the basics",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./build/server.js",
+        "build": "npx tsc -p .",
+        "dev": "nodemon ./src/server.ts",
+        "test": "jest"
+    },
+    "author": "Cris T",
+    "license": "ISC",
+    "dependencies": {
+        "@types/express": "^4.17.13",
+        "@types/node": "^16.6.1",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "nodemon": "^2.0.12",
+        "ts-node": "^10.2.0",
+        "typescript": "^4.3.5"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.12"
+    }
+}
