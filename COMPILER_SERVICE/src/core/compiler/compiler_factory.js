@@ -1,6 +1,7 @@
 const Compiler = require("./compiler");
 const JavaCompiler = require("./java_compiler");
 const PythonCompiler = require("./python_compiler");
+const CShardCompiler = require("./cshard_compiler_adapter");
 
 class CompilerFactory {
     static getInstance(lang, path, binary) {
@@ -9,6 +10,9 @@ class CompilerFactory {
         }
         if (lang === "python") {
             return new PythonCompiler(path, binary);
+        }
+        if (lang === "cshard") {
+            return new CShardCompiler(path, binary);
         }
         throw new Error("Invalid language");
     }
