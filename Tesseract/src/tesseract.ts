@@ -1,7 +1,6 @@
 import { createWorker } from "tesseract.js";
-import tess from "tesseract.js";
 
-const worker = createWorker();
+const worker:any = createWorker();
 (async () => {
   await worker.load();
   await worker.loadLanguage("eng");
