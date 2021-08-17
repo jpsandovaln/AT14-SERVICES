@@ -18,6 +18,15 @@ In this project we use as dependency of node.js
 
 ### Usage
 
+Install Typescript compiler:
+
+`npm install -g typescript`
+
+- Verify compiler:
+
+  `tsc --version` -> `Version 4.^`
+
+
 Now you can install the npm-package for this project:
 
 `npm install`
