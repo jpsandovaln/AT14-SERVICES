@@ -24,7 +24,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles(() => ({
-	paper: {},
+	card: {
+		height: "100%",
+	},
 	input: {
 		display: "none",
 	},
@@ -101,7 +103,7 @@ const FormVideoConveter = () => {
 			<form onSubmit={submitFormVideo}>
 				<Grid container spacing={3} xs={12}>
 					<Grid item xs={12}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardContent>
 								<input
 									accept="video/"
@@ -109,6 +111,7 @@ const FormVideoConveter = () => {
 									id="contained-button-file"
 									multiple
 									type="file"
+									required
 								/>
 								<label htmlFor="contained-button-file">
 									<Button
@@ -123,7 +126,7 @@ const FormVideoConveter = () => {
 						</Card>
 					</Grid>
 					<Grid item xs={7}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardHeader
 								className={classes.title}
 								title="Video Format"
@@ -150,6 +153,7 @@ const FormVideoConveter = () => {
 													)
 												}
 												label="Output Format"
+												required
 											>
 												<MenuItem value="">
 													<em>-</em>
@@ -195,6 +199,7 @@ const FormVideoConveter = () => {
 													setRatio(e.target.value)
 												}
 												label="Fps"
+												required
 											>
 												<MenuItem value="">
 													<em>-</em>
@@ -224,23 +229,24 @@ const FormVideoConveter = () => {
 													setScale(e.target.value)
 												}
 												label="Scale"
+												required
 											>
 												<MenuItem value="">
 													<em>-</em>
 												</MenuItem>
-												<MenuItem value={"1280 x 720"}>
+												<MenuItem value={"1280x720"}>
 													1280 x 720
 												</MenuItem>
-												<MenuItem value={"854 x 480"}>
+												<MenuItem value={"854x480"}>
 													854 x 480
 												</MenuItem>
-												<MenuItem value={"640 x 360"}>
+												<MenuItem value={"640x360"}>
 													640 x 360
 												</MenuItem>
-												<MenuItem value={"426 x 240"}>
+												<MenuItem value={"426x240"}>
 													426 x 240
 												</MenuItem>
-												<MenuItem value={"256 x 144"}>
+												<MenuItem value={"256x144"}>
 													256 x 144
 												</MenuItem>
 											</Select>
@@ -267,6 +273,7 @@ const FormVideoConveter = () => {
 													)
 												}
 												label="Audio format"
+												required
 											>
 												<MenuItem value="">
 													<em>-</em>
@@ -300,10 +307,8 @@ const FormVideoConveter = () => {
 													setQuality(e.target.value)
 												}
 												label="Quality"
+												required
 											>
-												<MenuItem value="">
-													<em>-</em>
-												</MenuItem>
 												{[...Array(31)].map((x, i) => (
 													<MenuItem value={i + 1}>
 														{i + 1}
@@ -317,7 +322,7 @@ const FormVideoConveter = () => {
 						</Card>
 					</Grid>
 					<Grid item xs={5}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardHeader
 								className={classes.title}
 								title="Flip and rotate"
@@ -342,10 +347,8 @@ const FormVideoConveter = () => {
 													setAngle(e.target.value)
 												}
 												label="Scale"
+												required
 											>
-												<MenuItem value="">
-													<em>-</em>
-												</MenuItem>
 												<MenuItem value={"90"}>
 													90
 												</MenuItem>
@@ -403,7 +406,7 @@ const FormVideoConveter = () => {
 
 				<Grid container spacing={3}>
 					<Grid item xs={6}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardHeader
 								className={classes.title}
 								title="Frames"
@@ -430,10 +433,8 @@ const FormVideoConveter = () => {
 														e.target.value
 													)
 												}
+												required
 											>
-												<MenuItem value="">
-													<em>-</em>
-												</MenuItem>
 												<MenuItem value={"854"}>
 													854
 												</MenuItem>
@@ -477,7 +478,7 @@ const FormVideoConveter = () => {
 						</Card>
 					</Grid>
 					<Grid item xs={6}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardHeader
 								className={classes.title}
 								title="Obtain Audio"
@@ -504,10 +505,8 @@ const FormVideoConveter = () => {
 													)
 												}
 												label="Audio format"
+												required
 											>
-												<MenuItem value="">
-													<em>-</em>
-												</MenuItem>
 												<MenuItem value={".mp3"}>
 													.mp3
 												</MenuItem>
@@ -542,7 +541,7 @@ const FormVideoConveter = () => {
 						</Card>
 					</Grid>
 					<Grid item xs={12}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardHeader
 								className={classes.title}
 								title="Results"

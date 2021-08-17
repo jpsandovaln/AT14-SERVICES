@@ -27,7 +27,9 @@ import Slider from "@material-ui/core/Slider";
 import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles(() => ({
-	paper: {},
+	card: {
+		height: "100%",
+	},
 	input: {
 		display: "none",
 	},
@@ -89,7 +91,7 @@ const FormImgConverter = () => {
 			<form onSubmit={submitFormVideo}>
 				<Grid container spacing={3}>
 					<Grid item xs={12}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardContent>
 								<input
 									accept="image/*"
@@ -97,6 +99,7 @@ const FormImgConverter = () => {
 									id="contained-button-file"
 									multiple
 									type="file"
+									required
 								/>
 								<label htmlFor="contained-button-file">
 									<Button
@@ -111,7 +114,7 @@ const FormImgConverter = () => {
 						</Card>
 					</Grid>
 					<Grid item xs={4}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardHeader
 								className={classes.title}
 								title="Image Format"
@@ -138,6 +141,7 @@ const FormImgConverter = () => {
 														e.target.value
 													)
 												}
+												required
 											>
 												<MenuItem value="">
 													<em>-</em>
@@ -205,6 +209,7 @@ const FormImgConverter = () => {
 														e.target.value
 													)
 												}
+												required
 											>
 												<MenuItem value="">
 													<em>-</em>
@@ -223,7 +228,7 @@ const FormImgConverter = () => {
 						</Card>
 					</Grid>
 					<Grid item xs={4}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardHeader
 								className={classes.title}
 								title="Effects"
@@ -300,7 +305,7 @@ const FormImgConverter = () => {
 						</Card>
 					</Grid>
 					<Grid item xs={4}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardHeader
 								className={classes.title}
 								title="Filters"
@@ -350,7 +355,7 @@ const FormImgConverter = () => {
 
 				<Grid container spacing={4}>
 					<Grid item xs={12}>
-						<Card className={classes.paper}>
+						<Card className={classes.card}>
 							<CardHeader
 								className={classes.title}
 								title="Results"

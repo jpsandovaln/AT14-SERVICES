@@ -42,6 +42,7 @@ const FormML = (classes) => {
 								onChange={(e) =>
 									classes.setSearchWord(e.target.value)
 								}
+								required
 							/>
 						</Grid>
 						<Grid item md={4} xs={12} spacing={1}>
@@ -61,6 +62,7 @@ const FormML = (classes) => {
 										classes.setPercentage(e.target.value)
 									}
 									label="Percentage"
+									required
 								>
 									<MenuItem value="">
 										<em>-</em>
@@ -95,6 +97,7 @@ const FormML = (classes) => {
 										classes.setAlgorithm(e.target.value)
 									}
 									label="Algorithm"
+									required
 								>
 									<MenuItem value="">
 										<em>-</em>
@@ -118,6 +121,7 @@ const FormML = (classes) => {
 									onChange={(e) =>
 										classes.setUploadFile(e.target.files[0])
 									}
+									required
 								/>
 							</div>
 						</Grid>
