@@ -1,4 +1,7 @@
 const Compile = require('./compiler');
+const Calculate = require('./facade/operation/calculate');
+const OperationFacade = require('./facade/operation_facade');
+const Employee = require('./facade/Person/employee');
 
 class Main {
     constructor(value) {
@@ -36,6 +39,18 @@ class Main {
 main.evaluateAge();
 main.datatype(); */
 
-const compiler = new Compile();
-compiler.execute('d:/HelloWorld.java');
+/* const compiler = new Compile();
+compiler.execute('d:/HelloWorld.java'); */
 
+/*const calculate = new Calculate();
+const employee = new Employee('Juan', 'Perez');
+
+console.info('calculation made by ' + employee.firstName);
+console.info(calculate.add(5, 6));*/
+
+OperationFacade.calculate({
+    firstName: 'Pepe',
+    lastName: 'Vargas',
+    val1: 8,
+    val2: 10
+});
