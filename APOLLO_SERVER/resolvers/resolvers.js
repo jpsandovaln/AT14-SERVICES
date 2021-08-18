@@ -2,11 +2,11 @@ const fetch = require("node-fetch");
 
 const resolvers = {
     Query: {
-      videos:()=> fetchVideos()
+      files:()=> fetchFiles()
     },
 };
 
-function fetchVideos() {
+function fetchFiles() {
     return fetch("http://localhost:8080/file/")
       .then(res => res.json())
       .then(json => json.data);
