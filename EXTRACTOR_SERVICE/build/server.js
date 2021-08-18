@@ -13,7 +13,7 @@ class Server {
     constructor() {
         this.setConfigs();
         this.init(port);
-        this.test();
+        //this.test();
     }
     init(port) {
         app.listen(port, () => {
@@ -25,11 +25,11 @@ class Server {
         app.use(express_1.default.urlencoded({ extended: true }));
         new routes_1.Routes(app);
     }
-    test() {
-        app.get("/", (req, res) => {
+    /*test(): void {
+        app.get("/", (req: Request, res: Response): void => {
             res.json({ message: "testing purposes" });
         });
-    }
+    }*/
     print(string) {
         console.log(string);
     }

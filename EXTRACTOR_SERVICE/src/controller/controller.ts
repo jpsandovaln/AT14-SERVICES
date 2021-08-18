@@ -1,8 +1,12 @@
-const test = async (req: Request, res: Response): Promise<void> => {
-    try {
-    } catch (err) {
-        console.log(err);
-    }
-};
+import { json } from "express";
 
-export { test };
+class Controller {
+    test(object: Object) {
+        return json(object);
+    }
+    print(): void {
+        console.log("testing purposes");
+    }
+}
+
+export { Controller };

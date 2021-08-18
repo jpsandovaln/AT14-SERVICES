@@ -1,11 +1,14 @@
+import { Controller } from "../controller/controller";
 import express from "express";
-import { test } from "../controller/controller";
+
+const controller = new Controller();
 
 const router = express.Router();
 
 class Routes {
     constructor(app = express()) {
-        router.get("/test");
+        router.get("/test", controller.test({ message: "test" }));
+        router.get("/", controller.print);
         app.use(router);
     }
 }

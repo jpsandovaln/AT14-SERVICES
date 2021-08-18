@@ -10,7 +10,7 @@ class Server {
     constructor() {
         this.setConfigs();
         this.init(port);
-        this.test();
+        //this.test();
     }
 
     init(port: number): void {
@@ -25,11 +25,11 @@ class Server {
         new Routes(app);
     }
 
-    test(): void {
+    /*test(): void {
         app.get("/", (req: Request, res: Response): void => {
             res.json({ message: "testing purposes" });
         });
-    }
+    }*/
 
     print(string: string): void {
         console.log(string);
