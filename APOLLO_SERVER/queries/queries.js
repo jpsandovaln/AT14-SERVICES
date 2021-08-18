@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
-  type Video{
+  type File{
     _id: String
     name: String
     path: String
@@ -9,7 +9,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    videos:[Video]
+    files:[File]
   }
 `;
 
