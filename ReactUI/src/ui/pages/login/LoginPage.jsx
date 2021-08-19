@@ -21,12 +21,13 @@ const responseGoogle = (response) => {
 const Login = () => {
 	const classStyles = makeStyles((theme) => ({
 		paper: {
-			marginTop: theme.spacing(10),
+			marginTop: theme.spacing(30),
 			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
 			padding: 40,
-			height: "60%",
+
+			//backgroundColor: "transparent",
 		},
 		avatar: {
 			margin: theme.spacing(1),
@@ -38,9 +39,10 @@ const Login = () => {
 			marginTop: theme.spacing(1),
 		},
 		container: {
-			opacity: "90%",
-			marginTop: theme.spacing(10),
-			backgroundColor: "transparent",
+			opacity: "100",
+		},
+		font: {
+			color: "#11a0bd",
 		},
 	}));
 	const classes = classStyles();
@@ -62,7 +64,11 @@ const Login = () => {
 						alt="dog"
 						src="http://localhost:8081/at14.gif"
 					></Avatar>
-					<Typography component="h1" variant="h5">
+					<Typography
+						component="h1"
+						variant="h5"
+						className={classes.font}
+					>
 						Login
 					</Typography>
 					<form className={classes.form} noValidate>

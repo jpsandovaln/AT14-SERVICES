@@ -45,19 +45,6 @@ const Home = () => {
 							title="Contemplative Reptile"
 						/>
 					</Card>
-					<br></br>
-					<Card>
-						<Grid align="center">
-							<GoogleLogin
-								clientId="726629848709-g7mmqrelcc0fauka4vfimnbl16tvp2q5.apps.googleusercontent.com"
-								buttonText="Login"
-								onSuccess={responseGoogle}
-								onFailure={responseGoogle}
-								cookiePolicy={"single_host_origin"}
-							/>
-							<br></br>
-						</Grid>
-					</Card>
 				</Grid>
 			</Grid>
 		</div>
