@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import GoogleLogin from "react-google-login";
-import FacebookLogin from "react-facebook-login";
 
 const styles = makeStyles((theme) => ({
 	root: {
@@ -21,14 +20,6 @@ const styles = makeStyles((theme) => ({
 
 const responseGoogle = (response) => {
 	console.log(response);
-};
-
-const responseFacebook = (response) => {
-	console.log(response);
-};
-
-const componentClicked = () => {
-	console.log("event onClick");
 };
 
 const Home = () => {
@@ -64,14 +55,7 @@ const Home = () => {
 								onFailure={responseGoogle}
 								cookiePolicy={"single_host_origin"}
 							/>
-							<FacebookLogin
-								appId="235788085092305"
-								autoLoad={true}
-								fields="name,email,picture"
-								onClick={componentClicked}
-								callback={responseFacebook}
-							/>
-							,
+							<br></br>
 						</Grid>
 					</Card>
 				</Grid>
