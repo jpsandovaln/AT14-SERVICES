@@ -37,14 +37,25 @@ const Login = () => {
 			width: "100%",
 			marginTop: theme.spacing(1),
 		},
+		container: {
+			opacity: "90%",
+			marginTop: theme.spacing(10),
+			backgroundColor: "transparent",
+		},
 	}));
 	const classes = classStyles();
 
 	return (
 		<div className="Login">
 			<video src="background.mp4" autoPlay loop muted></video>
-			<Container component="main" maxWidth="xs">
+
+			<Container
+				component="main"
+				maxWidth="xs"
+				className={classes.container}
+			>
 				<CssBaseline />
+				<br></br>
 				<Paper className={classes.paper}>
 					<Avatar
 						className={classes.avatar}
@@ -52,7 +63,7 @@ const Login = () => {
 						src="http://localhost:8081/at14.gif"
 					></Avatar>
 					<Typography component="h1" variant="h5">
-						Sign In
+						Login
 					</Typography>
 					<form className={classes.form} noValidate>
 						<TextField
@@ -84,7 +95,7 @@ const Login = () => {
 							color="primary"
 							className={classes.submit}
 						>
-							Sign In
+							Login
 						</Button>
 						<br></br>
 						<br></br>
