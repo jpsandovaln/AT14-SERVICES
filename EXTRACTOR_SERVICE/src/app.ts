@@ -10,7 +10,6 @@ class App {
     constructor() {
         this.setConfigs();
         this.init(port);
-        //this.test();
     }
 
     init(port: number): void {
@@ -24,12 +23,6 @@ class App {
         app.use(express.urlencoded({ extended: true }));
         new Routes(app);
     }
-
-    /*test(): void {
-        app.get("/", (req: Request, res: Response): void => {
-            res.json({ message: "testing purposes" });
-        });
-    }*/
 }
 
 new App();
