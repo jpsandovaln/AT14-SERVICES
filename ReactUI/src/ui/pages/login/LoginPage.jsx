@@ -8,8 +8,10 @@ import {
 	TextField,
 	Button,
 	Divider,
+	Grid,
 } from "@material-ui/core";
 import React from "react";
+import GoogleLogin from "react-google-login";
 
 const responseGoogle = (response) => {
 	console.log(response);
@@ -80,8 +82,24 @@ const Login = () => {
 					>
 						Sign In
 					</Button>
+					<br></br>
+					<br></br>
 					<Divider variant="middle" />
 				</form>
+
+				<div>
+					<br></br>
+					<Grid align="center">
+						<GoogleLogin
+							clientId="726629848709-g7mmqrelcc0fauka4vfimnbl16tvp2q5.apps.googleusercontent.com"
+							buttonText="Login"
+							onSuccess={responseGoogle}
+							onFailure={responseGoogle}
+							cookiePolicy={"single_host_origin"}
+						/>
+						<br></br>
+					</Grid>
+				</div>
 			</Paper>
 		</Container>
 	);
