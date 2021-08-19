@@ -41,12 +41,16 @@ const VideoForm = (promps) => {
 							<input
 								accept="video/"
 								className={classes.input}
-								id="contained-button-file"
+								id="contained-button-video"
+								name="contained-button-video"
 								multiple
 								type="file"
 								required
+								onChange={
+									promps.setFileVideo
+								}
 							/>
-							<label htmlFor="contained-button-file">
+							<label htmlFor="contained-button-video">
 								<Button
 									variant="contained"
 									color="primary"
@@ -84,6 +88,7 @@ const VideoForm = (promps) => {
 												promps.setOutputFormat(
 													e.target.value
 												)
+											
 											}
 											label="Output Format"
 											required

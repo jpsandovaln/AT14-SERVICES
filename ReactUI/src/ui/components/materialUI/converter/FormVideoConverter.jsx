@@ -2,9 +2,11 @@ import React from "react";
 import axios from "axios";
 import VideoForm from "./VideoForm";
 import TableVideoForm from "./TableVideoForm";
+import Md5File from "../../../../utilities/checksum";
 
 const FormVideoConveter = () => {
 	const urlML = "http://localhost:8080/imageFinder";
+	const md5File = new Md5File();
 
 	const [data, setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
@@ -21,7 +23,22 @@ const FormVideoConveter = () => {
 	const [obtainAudio, setObtainAudio] = React.useState("");
 	const [open, setOpen] = React.useState(false);
 
-	const submitFormVideo = (event) => {
+	let [hashVideo, setHashVideo] = React.useState();
+	
+	const setFileVideo = async (e) => {
+		let file = e.target.files[0];
+		hashVideo = await md5File.readFile(file);
+		console.warn(hashVideo);
+		setHashVideo(hashVideo);
+	};
+
+	//let videoFile = document.getElementById('contained-button-video');
+	
+	const submitFormVideo = async (event) => {
+		/**console.warn(event)
+
+		videoFile.addEventListener("change", setFileVideo)*/
+		
 		event.preventDefault();
 		setOpen(true);
 		const dataArray = new FormData();
@@ -37,6 +54,7 @@ const FormVideoConveter = () => {
 		dataArray.append("obtainFrames", obtainFrames);
 		dataArray.append("frameScale", frameScale);
 		dataArray.append("obtainAudio", obtainAudio);
+		dataArray.append("hash", hashVideo);
 
 		dataArray.append("extractAudioFormat", extractAudioFormat);
 
@@ -75,6 +93,7 @@ const FormVideoConveter = () => {
 					frameScale={frameScale}
 					obtainAudio={obtainAudio}
 					extractAudioFormat={extractAudioFormat}
+					//fileVideo= {fileVideo}
 					setOutputFormat={setOutputFormat}
 					setRatio={setRatio}
 					setScale={setScale}
@@ -87,6 +106,7 @@ const FormVideoConveter = () => {
 					setObtainFrames={setObtainFrames}
 					setExtractAudioFormat={setExtractAudioFormat}
 					setObtainAudio={setObtainAudio}
+					setFileVideo={setFileVideo}
 				/>
 				<TableVideoForm />
 			</form>
