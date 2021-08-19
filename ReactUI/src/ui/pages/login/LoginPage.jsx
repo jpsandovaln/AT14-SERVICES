@@ -1,8 +1,14 @@
-import { Card, Container, Grid, makeStyles, Paper } from "@material-ui/core";
+import {
+	Container,
+	makeStyles,
+	Paper,
+	Avatar,
+	CssBaseline,
+} from "@material-ui/core";
 import React from "react";
 
 const Login = () => {
-	const paperStyle = makeStyles((theme) => ({
+	const classStyles = makeStyles((theme) => ({
 		paper: {
 			marginTop: theme.spacing(8),
 			display: "flex",
@@ -11,11 +17,23 @@ const Login = () => {
 			padding: 40,
 			height: "50vh",
 		},
+		avatar: {
+			margin: theme.spacing(1),
+			width: theme.spacing(15),
+			height: theme.spacing(15),
+		},
 	}));
-	const classes = paperStyle();
+	const classes = classStyles();
 	return (
 		<Container component="main" maxWidth="xs">
-			<Paper className={classes.paper}></Paper>
+			<CssBaseline />
+			<Paper className={classes.paper}>
+				<Avatar
+					className={classes.avatar}
+					alt="dog"
+					src="http://localhost:8081/at14.gif"
+				></Avatar>
+			</Paper>
 		</Container>
 	);
 };
