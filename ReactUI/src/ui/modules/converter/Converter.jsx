@@ -12,6 +12,7 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import FormImgConveter from "../../components/materialUI/converter/FormImgConveter";
 import FormVideoConverter from "../../components/materialUI/converter/FormVideoConverter";
+import FormDocumentConverter from "../../components/materialUI/converter/FormDocumentConverter";
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
@@ -104,6 +105,11 @@ const Converter = () => {
 									label="Imagen converter"
 									{...a11yProps(1)}
 								/>
+								<Tab
+									className={classes.title}
+									label="Document converter"
+									{...a11yProps(2)}
+								/>
 							</Tabs>
 						</AppBar>
 						<SwipeableViews
@@ -124,6 +130,13 @@ const Converter = () => {
 								dir={theme.direction}
 							>
 								<FormImgConveter />
+							</TabPanel>
+							<TabPanel
+								value={value}
+								index={2}
+								dir={theme.direction}
+							>
+								<FormDocumentConverter />
 							</TabPanel>
 						</SwipeableViews>
 					</div>
