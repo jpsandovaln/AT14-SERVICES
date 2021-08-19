@@ -7,8 +7,7 @@ const router = express.Router();
 
 class Routes {
     constructor(app = express()) {
-        router.get("/test", controller.test({ message: "test" }));
-        router.get("/", controller.print);
+        router.get("/", controller.test);
         app.use(router);
     }
 }

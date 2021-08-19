@@ -2,11 +2,11 @@ import cors from "cors";
 import express, { Request, Response } from "express";
 import { Routes } from "./routes";
 
-const corsOptions: Object = { origin: "http://localhost:8081" };
-const port: number = 8080;
+const corsOptions: Object = { origin: "http://localhost:8080" };
+const port: number = 3000;
 const app = express();
 
-class Server {
+class App {
     constructor() {
         this.setConfigs();
         this.init(port);
@@ -15,7 +15,7 @@ class Server {
 
     init(port: number): void {
         app.listen(port, (): void => {
-            this.print("Running at http://localhost:" + port);
+            console.log("Running at http://localhost:" + port);
         });
     }
 
@@ -30,10 +30,6 @@ class Server {
             res.json({ message: "testing purposes" });
         });
     }*/
-
-    print(string: string): void {
-        console.log(string);
-    }
 }
 
-new Server();
+new App();

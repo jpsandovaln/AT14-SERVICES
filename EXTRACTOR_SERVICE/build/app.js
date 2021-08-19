@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const routes_1 = require("./routes");
-const corsOptions = { origin: "http://localhost:8081" };
-const port = 8080;
+const corsOptions = { origin: "http://localhost:8080" };
+const port = 3000;
 const app = express_1.default();
-class Server {
+class App {
     constructor() {
         this.setConfigs();
         this.init(port);
@@ -17,7 +17,7 @@ class Server {
     }
     init(port) {
         app.listen(port, () => {
-            this.print("Running at http://localhost:" + port);
+            console.log("Running at http://localhost:" + port);
         });
     }
     setConfigs() {
@@ -25,13 +25,5 @@ class Server {
         app.use(express_1.default.urlencoded({ extended: true }));
         new routes_1.Routes(app);
     }
-    /*test(): void {
-        app.get("/", (req: Request, res: Response): void => {
-            res.json({ message: "testing purposes" });
-        });
-    }*/
-    print(string) {
-        console.log(string);
-    }
 }
-new Server();
+new App();

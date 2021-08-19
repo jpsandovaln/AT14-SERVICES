@@ -10,8 +10,7 @@ const controller = new controller_1.Controller();
 const router = express_1.default.Router();
 class Routes {
     constructor(app = express_1.default()) {
-        //router.get("/test", controller.test({ message: "test" }));
-        router.get("/", controller.print);
+        router.get("/", controller.test);
         app.use(router);
     }
 }

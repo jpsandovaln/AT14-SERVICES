@@ -1,12 +1,9 @@
-import { json } from "express";
+import express from "express";
 
 class Controller {
-    test(object: Object) {
-        return json(object);
-    }
-    print(): void {
-        console.log("testing purposes");
-    }
+    test = (req: express.Request, res: express.Response): void => {
+        res.json({ params: "testing purposes" });
+    };
 }
 
 export { Controller };
