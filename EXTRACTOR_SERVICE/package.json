@@ -4,9 +4,7 @@
     "description": "TypeScript example to learn the basics",
     "main": "index.js",
     "scripts": {
-        "start": "node ./build/server.js",
-        "build": "npx tsc -p .",
-        "dev": "nodemon ./src/server.ts",
+        "start": "npx tsc-watch --project . --outDir ./build --onSuccess \"nodemon ./build/app.js\"",
         "test": "jest"
     },
     "author": "Cris T",

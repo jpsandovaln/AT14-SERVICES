@@ -1,12 +1,14 @@
-import { json } from "express";
+import express from "express";
 
 class Controller {
-    test(object: Object) {
-        return json(object);
+    params: Object;
+
+    constructor(params: Object) {
+        this.params = params;
     }
-    print(): void {
-        console.log("testing purposes");
-    }
+    test = (req: express.Request, res: express.Response): void => {
+        res.json(this.params);
+    };
 }
 
 export { Controller };
