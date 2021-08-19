@@ -1,4 +1,5 @@
 const fetch = require("node-fetch");
+require("dotenv").config("../../.env");
 
 const resolvers = {
     Query: {
@@ -7,7 +8,7 @@ const resolvers = {
 };
 
 function fetchFiles() {
-    return fetch("http://localhost:8080/file/")
+    return fetch(process.env.CONVERT_APP_URL)
       .then(res => res.json())
       .then(json => json.data);
 }
