@@ -1,19 +1,35 @@
-version: "3"
-
+version: '3.8'
 services:
+  ReactUI:
+    build:
+      context: ./ReactUI
+      dockerfile: Dockerfile
+    image: image_ui  
+    env_file: 
+      - ./ReactUI/.env
+    container_name: container_ui
+    ports:
+      - 3000:8081
+    networks:
+      - my-network-name
+  MLendPoint:
+    build:
+      context: ./MLendPoint
+      dockerfile: Dockerfile
+    image: image_ml  
+    env_file: 
+      - ./MLendPoint/src/.env
+    container_name: container_ml
+    ports:
+      - 8080:8080
+    networks:
+      - my-network-name      
   mongo_db:
     image: mongo:latest
     volumes:
       - ./db:/data
     ports:
       - "27018:27017"
-
-  backup_db:
-    image: intersoftlab/mongodb-backup
-    environment:
-      - MONGODB_HOST=mongo_db
-      - MONGODB_PORT=27017
-      - MAX_BACKUPS=30
-      - INIT_BACKUP=true
-    volumes:
-      - ./backups:/backups
+networks:
+  my-network-name:
+    
