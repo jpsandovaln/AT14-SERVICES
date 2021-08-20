@@ -5,7 +5,7 @@ import TableVideoForm from "./TableVideoForm";
 import Md5File from "../../../../utilities/checksum";
 
 const FormVideoConveter = () => {
-	const urlML = "http://localhost:8080/imageFinder";
+	const urlML = "http://localhost:8080/videoConverter";
 	const md5File = new Md5File();
 
 	const [data, setResponse] = React.useState([]);
@@ -25,28 +25,26 @@ const FormVideoConveter = () => {
 	const [open, setOpen] = React.useState(false);
 
 	let [hashVideo, setHashVideo] = React.useState();
-	
+
 	const setFileVideo = async (e) => {
 		let file = e.target.files[0];
 		hashVideo = await md5File.readFile(file);
 		console.warn(hashVideo);
 		setHashVideo(hashVideo);
 
-		setUploadFile(e.target.files[0])
+		setUploadFile(e.target.files[0]);
 	};
 
 	//let videoFile = document.getElementById('contained-button-video');
-	
+
 	const submitFormVideo = async (event) => {
 		/**console.warn(event)
 
 		videoFile.addEventListener("change", setFileVideo)*/
-		
+
 		event.preventDefault();
 		setOpen(true);
 		const dataArray = new FormData();
-
-
 
 		dataArray.append("ratio", ratio);
 		dataArray.append("scale", scale);
@@ -111,14 +109,16 @@ const FormVideoConveter = () => {
 					setFrameScale={setFrameScale}
 					setObtainFrames={setObtainFrames}
 					setExtractAudioFormat={setExtractAudioFormat}
+					F
 					setObtainAudio={setObtainAudio}
 					setFileVideo={setFileVideo}
 				/>
-				<TableVideoForm 
-										open={open}
-										setOpen={setOpen}
-										data={data}
-										setResponse={setResponse}/>
+				<TableVideoForm
+					open={open}
+					setOpen={setOpen}
+					data={data}
+					setResponse={setResponse}
+				/>
 			</form>
 		</div>
 	);
