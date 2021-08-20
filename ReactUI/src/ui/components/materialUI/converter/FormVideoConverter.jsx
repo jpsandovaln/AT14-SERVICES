@@ -8,7 +8,7 @@ const FormVideoConveter = () => {
 	const urlML = "http://localhost:8080/videoConverter";
 	const md5File = new Md5File();
 
-	const [data, setResponse] = React.useState();
+	const [data, setResponse] = React.useState([]);
 	const [uploadFile, setUploadFile] = React.useState(null);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [ratio, setRatio] = React.useState("");
@@ -37,7 +37,7 @@ const FormVideoConveter = () => {
 
 	const submitFormVideo = (event) => {
 
-		event.preventDefault();
+		event.preventDefault([]);
 		setOpen(true);
 		const dataArray = new FormData();
 

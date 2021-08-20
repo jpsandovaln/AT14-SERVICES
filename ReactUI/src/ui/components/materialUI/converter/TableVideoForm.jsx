@@ -65,7 +65,7 @@ const TableVideoForm = (classes) => {
 										<TableHead>
 											<TableRow>
 												<TableCell align="center">
-													Name
+													Word
 												</TableCell>
 												<TableCell align="center">
 													File Path
@@ -74,18 +74,17 @@ const TableVideoForm = (classes) => {
 										</TableHead>
 
 										<TableBody>
-											{
-												<TableRow
-													key={classes.data.name}
-												>
-													<TableCell align="center">
-														{classes.data.name}
-													</TableCell>
-													<TableCell align="center">
-														{classes.data.filePath}
-													</TableCell>
-												</TableRow>
-											}
+											{classes.data &&
+												classes.data.map((row) => (
+													<TableRow key={row.name}>
+														<TableCell align="center">
+															{row.name}
+														</TableCell>
+														<TableCell align="center">
+															{row.filePath}
+														</TableCell>
+													</TableRow>
+												))}
 										</TableBody>
 									</Table>
 								</TableContainer>
