@@ -6,6 +6,7 @@ import MachineLearningPage from "./ui/pages/MachineLearning/MachineLearningPage"
 import LoginPage from "./ui/pages/login/LoginPage";
 
 const App = () => {
+	let isLoggedIn = false;
 	return (
 		<Router>
 			<Switch>
@@ -13,10 +14,14 @@ const App = () => {
 				<Route
 					exact
 					path="/Home"
-					component={() => <HomePage authorized={false} />}
+					component={() => <HomePage authorized={isLoggedIn} />}
 				/>
 
-				<Route exact path="/Converter" component={ConverterPage} />
+				<Route
+					exact
+					path="/Converter"
+					component={() => <ConverterPage authorized={isLoggedIn} />}
+				/>
 				<Route
 					exact
 					path="/MachineAnalize"
