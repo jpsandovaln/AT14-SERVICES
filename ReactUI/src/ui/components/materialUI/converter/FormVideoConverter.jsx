@@ -3,6 +3,25 @@ import axios from "axios";
 import VideoForm from "./VideoForm";
 import TableVideoForm from "./TableVideoForm";
 import Md5File from "../../../../utilities/checksum";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+	card: {
+		height: "100%",
+	},
+	input: {
+		display: "none",
+	},
+	root: {
+		width: 300,
+	},
+	title: {
+		color: "white",
+		fontSize: 12,
+		backgroundColor: "#3a4651",
+	},
+}));
+
 
 const FormVideoConveter = () => {
 	const urlML = "http://localhost:8080/videoConverter";
@@ -36,7 +55,7 @@ const FormVideoConveter = () => {
 	};
 
 	//let videoFile = document.getElementById('contained-button-video');
-
+	const classes = useStyles();
 	const submitFormVideo = async (event) => {
 		/**console.warn(event)
 
@@ -109,11 +128,11 @@ const FormVideoConveter = () => {
 					setFrameScale={setFrameScale}
 					setObtainFrames={setObtainFrames}
 					setExtractAudioFormat={setExtractAudioFormat}
-					F
 					setObtainAudio={setObtainAudio}
 					setFileVideo={setFileVideo}
 				/>
 				<TableVideoForm
+					classes={classes}
 					open={open}
 					setOpen={setOpen}
 					data={data}
