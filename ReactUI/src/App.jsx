@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import HomePage from "./ui/pages/Home/HomePage";
 import ConverterPage from "./ui/pages/Converter/ConverterPage";
 import MachineLearningPage from "./ui/pages/MachineLearning/MachineLearningPage";
@@ -11,7 +10,12 @@ const App = () => {
 		<Router>
 			<Switch>
 				<Route exact path="/" component={LoginPage} />
-				<Route exact path="/Home" component={HomePage} />
+				<Route
+					exact
+					path="/Home"
+					component={() => <HomePage authorized={false} />}
+				/>
+
 				<Route exact path="/Converter" component={ConverterPage} />
 				<Route
 					exact

@@ -8,7 +8,6 @@ import {
 	Button,
 	Divider,
 	Grid,
-	Box,
 } from "@material-ui/core";
 import React from "react";
 import GoogleLogin from "react-google-login";
