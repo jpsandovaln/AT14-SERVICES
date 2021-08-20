@@ -4,6 +4,7 @@ import HomePage from "./ui/pages/Home/HomePage";
 import ConverterPage from "./ui/pages/Converter/ConverterPage";
 import MachineLearningPage from "./ui/pages/MachineLearning/MachineLearningPage";
 import LoginPage from "./ui/pages/login/LoginPage";
+import MachineLearing from "./ui/modules/machine-learning/MachineLearning";
 
 const App = () => {
 	let isLoggedIn = false;
@@ -25,7 +26,9 @@ const App = () => {
 				<Route
 					exact
 					path="/MachineAnalize"
-					component={MachineLearningPage}
+					component={() => (
+						<MachineLearningPage authorized={isLoggedIn} />
+					)}
 				/>
 			</Switch>
 		</Router>
