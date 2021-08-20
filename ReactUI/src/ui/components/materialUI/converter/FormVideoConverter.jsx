@@ -60,7 +60,7 @@ const FormVideoConveter = () => {
 		dataArray.append("frameScale", frameScale);
 		dataArray.append("obtainAudio", obtainAudio);
 		dataArray.append("hash", hashVideo);
-		dataArray.append("file", uploadFile);
+		dataArray.append("checksum", uploadFile);
 
 		dataArray.append("extractAudioFormat", extractAudioFormat);
 
@@ -114,7 +114,11 @@ const FormVideoConveter = () => {
 					setObtainAudio={setObtainAudio}
 					setFileVideo={setFileVideo}
 				/>
-				<TableVideoForm />
+				<TableVideoForm 
+										open={open}
+										setOpen={setOpen}
+										data={data}
+										setResponse={setResponse}/>
 			</form>
 		</div>
 	);

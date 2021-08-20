@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const TableVideoForm = () => {
+const TableVideoForm = (promp) => {
 	const classes = useStyles();
 
 	return (
@@ -58,7 +58,7 @@ const TableVideoForm = () => {
 							<Grid item xs>
 								<TableContainer component={Paper}>
 									<Table
-										className={classes.table}
+										className={promp.table}
 										size="small"
 										aria-label="a dense table"
 									>
@@ -73,14 +73,17 @@ const TableVideoForm = () => {
 											</TableRow>
 										</TableHead>
 										<TableBody>
-											<TableRow>
-												<TableCell align="center">
-													Name
-												</TableCell>
-												<TableCell align="center">
-													Link
-												</TableCell>
-											</TableRow>
+											{promp.data &&
+												promp.data.map((row) => (
+													<TableRow>
+														<TableCell align="center">
+															{row.name}
+														</TableCell>
+														<TableCell align="center">
+															{row.filePath}
+														</TableCell>
+													</TableRow>
+												))}
 										</TableBody>
 									</Table>
 								</TableContainer>
