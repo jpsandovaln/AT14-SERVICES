@@ -1,5 +1,5 @@
 require("dotenv").config("../../.env");
-const zipPath = process.env.ZIP_PATH;
+const outputPath = process.env.OUTPUT_PATH;
 const path = require("path");
 const Md5File = require("../utilities/checksum");
 var fs = require("fs");
@@ -13,11 +13,11 @@ const changeVideoFormat = async (req, res) => {
     const videoServices = new VideoServices(req.fields, nameFile, resultName);    
 
     const resultPathVideoFormat = await videoServices.changeVideoFormat();
-    const resultPathFrames = await videoServices.obtainFrames();
-    const resultPathAudio = await videoServices.obtainAudio();
+    const resultPathFrames = (req.fields.obtainFrames == 'true' ? await videoServices.obtainFrames() : "");
+    const resultPathAudio = (req.fields.obtainAudio == 'true' ? await videoServices.obtainAudio() : "");
     const zip = new Zip();
-    const pathFramesZip = await zip.zipImages(resultPathFrames);
-    const resultZipPath = await zip.zipFiles(resultPathFrames, pathFramesZip, resultPathAudio, resultPathVideoFormat);
+    const pathFramesZip = (resultPathFrames != "" ? await zip.zipImages(resultPathFrames) : "");
+    const resultZipPath = await zip.zipFiles(outputPath + resultName, pathFramesZip, resultPathAudio, resultPathVideoFormat);
     const nameZipFile = path.basename(resultZipPath);
 
     res.status(200).send({
@@ -29,7 +29,7 @@ const changeVideoFormat = async (req, res) => {
 
 const download = (req, res) => {
     const fileName = req.params.name;
-    const directoryPath = zipPath + fileName; 
+    const directoryPath = outputPath + fileName; 
 
     res.download(directoryPath, fileName, (err) => {
         if (err) {
