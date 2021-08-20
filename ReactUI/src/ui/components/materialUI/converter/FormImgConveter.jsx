@@ -84,10 +84,8 @@ const FormImgConverter = () => {
 					setGreyScale={setGreyScale}
 					setMonochrome={setMonochrome}
 				/>
-				<TableImgForm/>
+				<TableImgForm />
 			</form>
-
-			
 		</div>
 	);
 };
