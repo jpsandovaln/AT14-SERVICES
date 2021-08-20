@@ -9,6 +9,7 @@ const FormVideoConveter = () => {
 	const md5File = new Md5File();
 
 	const [data, setResponse] = React.useState([]);
+	const [uploadFile, setUploadFile] = React.useState(null);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [ratio, setRatio] = React.useState("");
 	const [scale, setScale] = React.useState("");
@@ -30,6 +31,8 @@ const FormVideoConveter = () => {
 		hashVideo = await md5File.readFile(file);
 		console.warn(hashVideo);
 		setHashVideo(hashVideo);
+
+		setUploadFile(e.target.files[0])
 	};
 
 	//let videoFile = document.getElementById('contained-button-video');
@@ -43,6 +46,8 @@ const FormVideoConveter = () => {
 		setOpen(true);
 		const dataArray = new FormData();
 
+
+
 		dataArray.append("ratio", ratio);
 		dataArray.append("scale", scale);
 		dataArray.append("quality", quality);
@@ -55,6 +60,7 @@ const FormVideoConveter = () => {
 		dataArray.append("frameScale", frameScale);
 		dataArray.append("obtainAudio", obtainAudio);
 		dataArray.append("hash", hashVideo);
+		dataArray.append("file", uploadFile);
 
 		dataArray.append("extractAudioFormat", extractAudioFormat);
 

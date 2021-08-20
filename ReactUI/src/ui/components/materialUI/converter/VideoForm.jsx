@@ -137,7 +137,6 @@ const VideoForm = (promps) => {
 												promps.setRatio(e.target.value)
 											}
 											label="Fps"
-											required
 										>
 											<MenuItem value="">
 												<em>-</em>
@@ -167,7 +166,6 @@ const VideoForm = (promps) => {
 												promps.setScale(e.target.value)
 											}
 											label="Scale"
-											required
 										>
 											<MenuItem value="">
 												<em>-</em>
@@ -211,7 +209,6 @@ const VideoForm = (promps) => {
 												)
 											}
 											label="Audio format"
-											required
 										>
 											<MenuItem value="">
 												<em>-</em>
@@ -247,7 +244,6 @@ const VideoForm = (promps) => {
 												)
 											}
 											label="Quality"
-											required
 										>
 											{[...Array(31)].map((x, i) => (
 												<MenuItem value={i + 1}>
@@ -287,7 +283,6 @@ const VideoForm = (promps) => {
 												promps.setAngle(e.target.value)
 											}
 											label="Scale"
-											required
 										>
 											<MenuItem value={"90"}>90</MenuItem>
 											<MenuItem value={"180"}>
@@ -371,7 +366,7 @@ const VideoForm = (promps) => {
 													e.target.value
 												)
 											}
-											required
+
 										>
 											<MenuItem value={"854"}>
 												854
@@ -443,7 +438,7 @@ const VideoForm = (promps) => {
 												)
 											}
 											label="Audio format"
-											required
+
 										>
 											<MenuItem value={".mp3"}>
 												.mp3
