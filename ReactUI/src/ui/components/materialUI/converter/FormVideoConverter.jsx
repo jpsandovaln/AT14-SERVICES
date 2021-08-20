@@ -59,8 +59,8 @@ const FormVideoConveter = () => {
 		dataArray.append("obtainFrames", obtainFrames);
 		dataArray.append("frameScale", frameScale);
 		dataArray.append("obtainAudio", obtainAudio);
-		dataArray.append("hash", hashVideo);
-		dataArray.append("checksum", uploadFile);
+		dataArray.append("checksum", hashVideo);
+		dataArray.append("file", uploadFile);
 
 		dataArray.append("extractAudioFormat", extractAudioFormat);
 
