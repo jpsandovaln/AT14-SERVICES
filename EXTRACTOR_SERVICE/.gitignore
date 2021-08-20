@@ -104,6 +104,9 @@ dist
 # TernJS port file
 .tern-port
 
+# Project builded to JS
+build
+
 # Tesseract
 eng.traineddata
 assets/
