@@ -56,7 +56,7 @@ const TableVideoForm = (classes) => {
 						</Grid>
 						<Grid container spacing={6}>
 							<Grid item xs>
-								<TableContainer component={Paper}>
+								<TableContainer>
 									<Table
 										className={classes.table}
 										size="small"
@@ -68,19 +68,24 @@ const TableVideoForm = (classes) => {
 													Name
 												</TableCell>
 												<TableCell align="center">
-													Link
+													File Path
 												</TableCell>
 											</TableRow>
 										</TableHead>
+
 										<TableBody>
-											{classes.data &&
-												classes.data.map((row) => (
-													<TableRow key={row.name}>
-														<TableCell align="center">
-															{row.filePath}
-														</TableCell>
-													</TableRow>
-												))}
+											{
+												<TableRow
+													key={classes.data.name}
+												>
+													<TableCell align="center">
+														{classes.data.name}
+													</TableCell>
+													<TableCell align="center">
+														{classes.data.filePath}
+													</TableCell>
+												</TableRow>
+											}
 										</TableBody>
 									</Table>
 								</TableContainer>

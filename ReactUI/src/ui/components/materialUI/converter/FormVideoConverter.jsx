@@ -3,31 +3,12 @@ import axios from "axios";
 import VideoForm from "./VideoForm";
 import TableVideoForm from "./TableVideoForm";
 import Md5File from "../../../../utilities/checksum";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles(() => ({
-	card: {
-		height: "100%",
-	},
-	input: {
-		display: "none",
-	},
-	root: {
-		width: 300,
-	},
-	title: {
-		color: "white",
-		fontSize: 12,
-		backgroundColor: "#3a4651",
-	},
-}));
-
 
 const FormVideoConveter = () => {
 	const urlML = "http://localhost:8080/videoConverter";
 	const md5File = new Md5File();
 
-	const [data, setResponse] = React.useState([]);
+	const [data, setResponse] = React.useState();
 	const [uploadFile, setUploadFile] = React.useState(null);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [ratio, setRatio] = React.useState("");
@@ -54,12 +35,7 @@ const FormVideoConveter = () => {
 		setUploadFile(e.target.files[0]);
 	};
 
-	//let videoFile = document.getElementById('contained-button-video');
-	const classes = useStyles();
-	const submitFormVideo = async (event) => {
-		/**console.warn(event)
-
-		videoFile.addEventListener("change", setFileVideo)*/
+	const submitFormVideo = (event) => {
 
 		event.preventDefault();
 		setOpen(true);
@@ -78,10 +54,10 @@ const FormVideoConveter = () => {
 		dataArray.append("obtainAudio", obtainAudio);
 		dataArray.append("checksum", hashVideo);
 		dataArray.append("file", uploadFile);
-
 		dataArray.append("extractAudioFormat", extractAudioFormat);
 
 		const fetchData = () => {
+			setResponse();
 			axios
 				.post(urlML, dataArray, {
 					headers: {
@@ -116,7 +92,6 @@ const FormVideoConveter = () => {
 					frameScale={frameScale}
 					obtainAudio={obtainAudio}
 					extractAudioFormat={extractAudioFormat}
-					//fileVideo= {fileVideo}
 					setOutputFormat={setOutputFormat}
 					setRatio={setRatio}
 					setScale={setScale}
@@ -132,7 +107,6 @@ const FormVideoConveter = () => {
 					setFileVideo={setFileVideo}
 				/>
 				<TableVideoForm
-					classes={classes}
 					open={open}
 					setOpen={setOpen}
 					data={data}
