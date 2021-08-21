@@ -12,13 +12,14 @@ import {
 } from "@material-ui/core";
 
 import GoogleLogin from "react-google-login";
+
 import "./loginPage.css";
 
 const Login = (props) => {
 	const logginSuccess = (res) => {
-		//redirex /home  /dentrode /authorize true
 		console.log("Success:", res.profileObj);
 		props.setIsLogin(true);
+		props.history.push("/home");
 	};
 
 	const logginFailure = (res) => {

@@ -14,25 +14,40 @@ const App = () => {
 				<Route
 					exact
 					path="/"
-					component={() => <LoginPage setIsLogin={setIsLogin} />}
+					component={(props) => (
+						<LoginPage
+							setIsLogin={setIsLogin}
+							history={props.history}
+						/>
+					)}
 				/>
 
 				<Route
 					exact
 					path="/Home"
-					component={() => <HomePage authorized={true} />}
+					component={(props) => (
+						<HomePage isLogin={isLogin} history={props.history} />
+					)}
 				/>
 
 				<Route
 					exact
 					path="/Converter"
-					component={() => <ConverterPage authorized={isLogin} />}
+					component={(props) => (
+						<ConverterPage
+							isLogin={isLogin}
+							history={props.history}
+						/>
+					)}
 				/>
 				<Route
 					exact
 					path="/MachineAnalize"
-					component={() => (
-						<MachineLearningPage authorized={isLogin} />
+					component={(props) => (
+						<MachineLearningPage
+							isLogin={isLogin}
+							history={props.history}
+						/>
 					)}
 				/>
 			</Switch>

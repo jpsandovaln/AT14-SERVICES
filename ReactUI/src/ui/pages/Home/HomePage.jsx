@@ -6,7 +6,7 @@ import Home from "../../modules/home/Home";
 
 const HomePage = (props) => {
 	if (!props.authorized) {
-		return <Redirect to="/" />;
+		props.history.push("/");
 	}
 	return <SideBar page={Home} />;
 };
