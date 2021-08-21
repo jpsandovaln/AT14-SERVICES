@@ -8,6 +8,7 @@ const CompilerFactory = require('./core/compiler/compiler_factory');
 const Url = require('./model/url_model');
 const ParameterInvalidException = require('./common/exception/parameter_exception');
 const { prependOnceListener } = require('./model/url_model');
+const CShardCode = require('./core/compiler/code/cshard_code');
 
 mongoose.connect('mongodb://localhost:27017/compiler')
     .then(db => console.info('DB is connected'))
@@ -42,7 +43,7 @@ app.post('/compiler', upload.single('file'), async (req, res) => {
         binary = process.env.EXECUTE_JAVA8;
     }
     try {
-         langCompiler = CompilerFactory.getInstance(
+        langCompiler = CompilerFactory.getInstance(
             req.body.language,
             req.file.path,
             binary

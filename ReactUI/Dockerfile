@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14-alpine
 
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
@@ -12,8 +12,8 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-ARG APP_PORT=8080
+ARG APP_PORT=8081
 
 EXPOSE ${APP_PORT}
 
-CMD ["node", "./src/app.js"]
+CMD [ "npm", "start" ]

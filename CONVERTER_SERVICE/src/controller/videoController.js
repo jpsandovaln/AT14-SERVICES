@@ -16,7 +16,8 @@ const changeVideoFormat = async (req, res) => {
     const resultPathFrames = await videoServices.obtainFrames();
     const resultPathAudio = await videoServices.obtainAudio();
     const zip = new Zip();
-    const resultZipPath = zip.zipFiles(resultPathFrames, resultPathAudio, resultPathVideoFormat);
+    const pathFramesZip = await zip.zipImages(resultPathFrames);
+    const resultZipPath = await zip.zipFiles(resultPathFrames, pathFramesZip, resultPathAudio, resultPathVideoFormat);
     const nameZipFile = path.basename(resultZipPath);
 
     res.status(200).send({
@@ -35,6 +36,9 @@ const download = (req, res) => {
             res.status(500).send({
                 message: "Could not download the file. " + err,
             });
+        }
+        else {
+            res.send({ message: "successful download" });
         }
     });
 };

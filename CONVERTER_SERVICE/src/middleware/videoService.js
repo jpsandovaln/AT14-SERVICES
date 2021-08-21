@@ -45,7 +45,7 @@ class VideoServices {
 
     async changeVideoFormat() {
         const cmdVideoFormat = BuildCmdChangeVideoFormat.returnCommand(codecPath, this.filePath, this.resultName, this.paramVideoFormat(), videoPath, this.outputFormat);
-        this.compiler.execute(cmdVideoFormat);
+        await this.compiler.execute(cmdVideoFormat);
         const resultPathVideoFormat = videoPath + this.resultName + this.outputFormat;
         return resultPathVideoFormat;
     }
@@ -57,7 +57,7 @@ class VideoServices {
                 fs.mkdirSync(dir);
             }
             const cmdObtainFrames = BuildCmdObtainFrames.returnCommand(codecPath, this.filePath, this.paramObtainFrames(), dir + "/");
-            this.compiler.execute(cmdObtainFrames);
+            await this.compiler.execute(cmdObtainFrames);
             return dir;
         }        
         else
