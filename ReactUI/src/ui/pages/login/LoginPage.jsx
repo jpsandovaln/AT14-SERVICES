@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
 	makeStyles,
 	Paper,
@@ -9,15 +10,22 @@ import {
 	Divider,
 	Grid,
 } from "@material-ui/core";
-import React from "react";
+
 import GoogleLogin from "react-google-login";
 import "./loginPage.css";
 
-const responseGoogle = (response) => {
-	console.log(response);
-};
+const Login = (props) => {
+	const logginSuccess = (res) => {
+		//redirex /home  /dentrode /authorize true
+		console.log("Success:", res.profileObj);
+		props.setIsLogin(true);
+	};
 
-const Login = () => {
+	const logginFailure = (res) => {
+		console.log("Failed loggin:", res);
+		props.setIsLogin(false);
+	};
+
 	const classStyles = makeStyles((theme) => ({
 		paper: {
 			marginTop: theme.spacing(30),
@@ -106,8 +114,8 @@ const Login = () => {
 								<GoogleLogin
 									clientId="726629848709-g7mmqrelcc0fauka4vfimnbl16tvp2q5.apps.googleusercontent.com"
 									buttonText="Login"
-									onSuccess={responseGoogle}
-									onFailure={responseGoogle}
+									onSuccess={logginSuccess}
+									onFailure={logginFailure}
 									cookiePolicy={"single_host_origin"}
 								/>
 								<br></br>

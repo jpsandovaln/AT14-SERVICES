@@ -3,7 +3,7 @@ import SideBar from "../../modules/sidebar/SideBar";
 import MachineLearning from "../../modules/machine-learning/MachineLearning";
 import { Redirect } from "react-router";
 const MachineLearningPage = ({ authorized }) => {
-	if (!authorized) {
+	if (authorized) {
 		return <Redirect to="/" />;
 	}
 

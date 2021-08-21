@@ -1,10 +1,11 @@
 import React from "react";
-import SideBar from "../../modules/sidebar/SideBar";
-import Home from "../../modules/home/Home";
 import { Redirect } from "react-router";
 
-const HomePage = ({ authorized }) => {
-	if (!authorized) {
+import SideBar from "../../modules/sidebar/SideBar";
+import Home from "../../modules/home/Home";
+
+const HomePage = (props) => {
+	if (!props.authorized) {
 		return <Redirect to="/" />;
 	}
 	return <SideBar page={Home} />;
