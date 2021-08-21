@@ -31,6 +31,4 @@ services:
     ports:
       - "27018:27017"
 networks:
-  my-network-name:    
-    name: custom_name
-    
+  my-network-name:
