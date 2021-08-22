@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import HomePage from "./ui/pages/Home/HomePage";
 import ConverterPage from "./ui/pages/Converter/ConverterPage";
 import MachineLearningPage from "./ui/pages/MachineLearning/MachineLearningPage";
+import ExtractorServicePage from "./ui/pages/ExtractorService/ExtractorMetadataPage";
 
 const App = () => {
 	return (
@@ -16,6 +16,8 @@ const App = () => {
 					path="/MachineAnalize"
 					component={MachineLearningPage}
 				/>
+				<Route exact path="/ExtractorService" component={ExtractorServicePage} />
+
 			</Switch>
 		</Router>
 	);

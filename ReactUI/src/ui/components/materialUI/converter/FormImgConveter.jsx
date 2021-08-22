@@ -20,7 +20,6 @@ const useStyles = makeStyles(() => ({
 
 const FormImgConverter = () => {
 	const classes = useStyles();
-
 	const [data, setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [imageSize, setImageSize] = React.useState("");

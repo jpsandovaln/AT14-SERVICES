@@ -11,7 +11,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
 import HomeIcon from "@material-ui/icons/Home";
 import { Link } from "react-router-dom";
-
+import AppsIcon from '@material-ui/icons/Apps';
 const useStyles = makeStyles((theme) => ({
 	toolbar: theme.mixins.toolbar,
 	colors: {
@@ -49,6 +49,11 @@ const MenuOptions = () => {
 			title: "Machine Learning",
 			icon: <DashboardIcon style={{ color: "#fff" }} />,
 			path: "/MachineAnalize",
+		},
+		{
+			title: "Extractor Service",
+			icon: <AppsIcon style={{ color: "#fff" }} />,
+			path: "/ExtractorService",
 		},
 	];
 

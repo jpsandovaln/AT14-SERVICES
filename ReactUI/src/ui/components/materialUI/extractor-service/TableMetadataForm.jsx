@@ -7,7 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-const TableML = (classes) => {
+const TableMetadata = (classes) => {
 	return (
 		<div>
 			<TableContainer>
@@ -18,12 +18,7 @@ const TableML = (classes) => {
 				>
 					<TableHead>
 						<TableRow>
-							<TableCell align="center">Algorithm</TableCell>
-							<TableCell align="center">Word</TableCell>
-							<TableCell align="center">Percentage</TableCell>
-							<TableCell align="center">Second</TableCell>
 							<TableCell align="center">Image</TableCell>
-							<TableCell align="center">Options</TableCell>
 						</TableRow>
 					</TableHead>
 
@@ -72,4 +67,4 @@ const TableML = (classes) => {
 	);
 };
 
-export default TableML;
+export default TableMetadata;

@@ -13,7 +13,7 @@ const drawerWidth = 240;
 
 const useStyle = makeStyles((theme) => ({
 	appBar: {
-		backgroundColor: "#01579b",
+		backgroundColor: "#9da2a3",
 		[theme.breakpoints.up("sm")]: {
 			width: "100%",
 			marginLeft: drawerWidth,

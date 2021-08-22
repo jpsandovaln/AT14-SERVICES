@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
-import DocumentForm from "./DocumentForm";
-import TableDocumentForm from "./TableDocumentForm";
+import DocumentPptForm from "./DocumentPptForm";
+import TablePptForm from "./TablePptForm";
 
-const FormDocumentConveter = () => {
+const FormPptConveter = () => {
 	const urlML = "http://localhost:8080/imageFinder";
 
 	const [data, setResponse] = React.useState([]);
@@ -62,7 +62,7 @@ const FormDocumentConveter = () => {
 	return (
 		<div>
 			<form onSubmit={submitFormVideo}>
-				<DocumentForm
+				<DocumentPptForm
 					ratio={ratio}
 					scale={scale}
 					quality={quality}
@@ -88,10 +88,10 @@ const FormDocumentConveter = () => {
 					setExtractAudioFormat={setExtractAudioFormat}
 					setObtainAudio={setObtainAudio}
 				/>
-				<TableDocumentForm />
+				<TablePptForm />
 			</form>
 		</div>
 	);
 };
 
-export default FormDocumentConveter;
+export default FormPptConveter;

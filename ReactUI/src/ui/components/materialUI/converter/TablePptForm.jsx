@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const TableDocumentForm = () => {
+const TablePptForm = () => {
 	const classes = useStyles();
 
 	return (
@@ -93,4 +93,4 @@ const TableDocumentForm = () => {
 	);
 };
 
-export default TableDocumentForm;
+export default TablePptForm;

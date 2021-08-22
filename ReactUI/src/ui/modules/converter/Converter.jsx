@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import PropTypes from "prop-types";
@@ -12,7 +11,8 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import FormImgConveter from "../../components/materialUI/converter/FormImgConveter";
 import FormVideoConverter from "../../components/materialUI/converter/FormVideoConverter";
-import FormDocumentConverter from "../../components/materialUI/converter/FormDocumentConverter";
+import FormPdfConverter from "../../components/materialUI/converter/FormPdfConverter";
+import FormPptConverter from "../../components/materialUI/converter/FormPptConverter";
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
@@ -107,8 +107,13 @@ const Converter = () => {
 								/>
 								<Tab
 									className={classes.title}
-									label="Document converter"
+									label="Pdf converter"
 									{...a11yProps(2)}
+								/>
+								<Tab
+									className={classes.title}
+									label="Ppt converter"
+									{...a11yProps(3)}
 								/>
 							</Tabs>
 						</AppBar>
@@ -136,7 +141,14 @@ const Converter = () => {
 								index={2}
 								dir={theme.direction}
 							>
-								<FormDocumentConverter />
+								<FormPdfConverter />
+							</TabPanel>
+							<TabPanel
+								value={value}
+								index={3}
+								dir={theme.direction}
+							>
+								<FormPptConverter />
 							</TabPanel>
 						</SwipeableViews>
 					</div>
