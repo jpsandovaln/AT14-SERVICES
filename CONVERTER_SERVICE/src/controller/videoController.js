@@ -1,8 +1,6 @@
 require("dotenv").config("../../.env");
 const outputPath = process.env.OUTPUT_PATH;
 const path = require("path");
-const Md5File = require("../utilities/checksum");
-var fs = require("fs");
 const Zip = require("../middleware/zipping");
 const VideoServices = require("../middleware/videoService");
 require("dotenv").config("../../.env");

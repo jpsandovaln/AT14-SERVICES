@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { changeVideoFormat, download } = require("../controller/VideoController");
+const { framesZipML, downloadMLZip } = require("../controller/MLController");
 const {
     getData,
     deleteDataById,
@@ -13,12 +14,10 @@ const getMetadata = require("../controller/metadataController");
 class Routes {
     constructor(app) {
         router.get("/filesMetadata", getMetadata);
-        router.post(
-            "/videoConverter",
-            [uploadFilesMiddleware],
-            changeVideoFormat
-        );
+        router.post("/videoConverter", [uploadFilesMiddleware], changeVideoFormat);        
         router.get("/files/:name", download);
+        router.post("/frames", framesZipML);
+        router.get("/framesZipML/:name", downloadMLZip);        
         router.get("/file", getData);
         router.delete("/file/:id", deleteDataById);
         router.get("/file/:id", findDataById);
