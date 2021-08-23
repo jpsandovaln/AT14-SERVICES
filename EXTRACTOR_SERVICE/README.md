@@ -10,7 +10,8 @@ In this project we use as dependency of node.js
 
 ### Diagram Classes
 
-![image](https://res.cloudinary.com/marcandea/image/upload/v1629741272/samples/extractor_diagram_class_f4o7hl.png)
+![image](https://res.cloudinary.com/marcandea/image/upload/v1629742108/samples/extract_diagram_ryv8jq.png)
+
 ### Documentation
 
 [Tesseract OCR](https://github.com/tesseract-ocr/tessdoc#tesseract-user-manual)
@@ -21,6 +22,7 @@ In this project we use as dependency of node.js
 
 Use node version: `16.7.0`
 
+___
 ### Usage
 
 First at all, you can use: `npm ci` or `npm install` to install packages of the project.
