@@ -1,4 +1,4 @@
-/* THIS FILE IT'S ONLY FOR EXECUTE METHOD
+/* THIS FILE IT'S ONLY FOR EXECUTE METHODS
   - Available until to consume with a service.
 */
 
@@ -8,6 +8,7 @@ import { ImageToTextBySize } from "./imageToTextBySize";
 import { ImageToPDF } from "./imageToPDF";
 import { IBase } from "./interfaces/iBase";
 import { IImage } from "./interfaces/iImage";
+import { Extractor } from "./extractor";
 
 const worker = createWorker();
 const linkEnglishChino = "https://res.cloudinary.com/marcandea/image/upload/v1629733958/samples/text-eng-chin_kxe165.png";
@@ -19,7 +20,7 @@ const imageBasic: IBase = {
   language: "eng+chi_tra",
   path: pathEnglishChino,
 };
-const imageToText = new ImageToText(imageBasic);
+const extractorImg: Extractor = new ImageToText(imageBasic);
 //
 
 // Object Base to get a part of image
@@ -29,13 +30,13 @@ const rectanglePart = {
   width: 500,
   height: 250,
 };
-const imageBS: IImage = {
+const imageToCropped: IImage = {
   worker: worker,
   language: "eng",
   path: "https://telegram.org/file/811140100/2/maZcBXgwrmE.306486/5bd7c8f4708afe28f8",
   rectangle: rectanglePart,
 };
-const imageToTextBySize = new ImageToTextBySize(imageBS);
+const extractorCroppedImage: Extractor = new ImageToTextBySize(imageToCropped);
 //
 
 // Object Base to convert in PDF
@@ -44,11 +45,11 @@ const imageToDocument: IBase = {
   language: "eng+chi_tra",
   path: linkEnglishChino,
 };
-const imageToPDF = new ImageToPDF(imageToDocument);
+const extractorImageToPDF: Extractor = new ImageToPDF(imageToDocument);
 //
 
 /* EXECUTE METHODS */
 
-// (async () => console.log(await imageToTextBySize.getText()))();
-// (async () => console.log(await imageToText.getText()))();
-(async () => console.log(await imageToPDF.getText()))();
+// (async () => console.log(await extractorImg.extract()))();
+// (async () => console.log(await extractorCroppedImage.extract()))();
+(async () => console.log(await extractorImageToPDF.extract()))();
