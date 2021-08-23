@@ -25,16 +25,18 @@ Run:
 
 `npm start`
 
-    If you have an error maybe you to create the **build** folder in the level of src, routes, etc...
+If you have an error maybe you to create the **build** folder in the level of src, routes, etc...
 
-    If you are inside EXTRACTOR_SERVICE:
-    
+If you are inside EXTRACTOR_SERVICE:
+
     `mkdir build`
 
 The above command create the .js files of the project and run the application in port 3000.
 
 Execute methods of Tesseract:
+
 `node build/model/tesseract/execute.js`
 
-### Execute.js
-It's a method that have the hardcode executions of tesseract and those will consume by a service.
+### execute.js
+
+It's a file that have the hardcode executions of tesseract and those will consume by a service.
