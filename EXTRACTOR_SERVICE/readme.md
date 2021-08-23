@@ -2,15 +2,19 @@
 
 Project in typescript that extract text from an image and get metadata of files.
 
-### Tesseract model
+## Tesseract model
 
 We are using Tesseract OCR (Optical Character Recognition) to extract text from images.
 
 In this project we use as dependency of node.js
 
+### Diagram Classes
+
+![image](./assets/FirstDiagramClassModelTesseract.png)
 ### Documentation
 
 [Tesseract OCR](https://github.com/tesseract-ocr/tessdoc#tesseract-user-manual)
+
 [Tesseract.js](https://github.com/naptha/tesseract.js)
 
 ### Dependencies
