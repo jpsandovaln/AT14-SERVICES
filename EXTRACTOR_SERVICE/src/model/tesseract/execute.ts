@@ -1,13 +1,35 @@
 // import { createWorker } from "tesseract.js";
 import { createWorker } from "tesseract.js";
 import { ImageToText } from "./imageToText";
+import { ImageToTextBySize } from "./imageToTextBySize";
+import { IBase } from "./interfaces/iBase";
+import { IImage } from "./interfaces/iImage";
 
 const worker = createWorker();
 
-const imageToText = new ImageToText(
-  worker,
-  "eng",
-  "https://telegram.org/file/811140100/2/maZcBXgwrmE.306486/5bd7c8f4708afe28f8"
-);
+const imageBasic: IBase = {
+  worker: worker,
+  language: "eng",
+  path: "https://telegram.org/file/811140100/2/maZcBXgwrmE.306486/5bd7c8f4708afe28f8",
+}
+const imageToText = new ImageToText(imageBasic);
 
-(async () => console.log(await imageToText.getText()))();
+const rectanglePart = {
+  left: 0,
+  top: 0,
+  width: 500,
+  height: 250,
+};
+
+const imageBS: IImage = {
+  worker: worker,
+  language: "eng",
+  path: "https://telegram.org/file/811140100/2/maZcBXgwrmE.306486/5bd7c8f4708afe28f8",
+  rectangle: rectanglePart
+}
+
+const imageToTextBySize = new ImageToTextBySize(imageBS);
+
+(async () => console.log(await imageToTextBySize.getText()))();
+
+// (async () => console.log(await imageToText.getText()))();

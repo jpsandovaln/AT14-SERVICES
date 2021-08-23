@@ -1,9 +1,7 @@
+import { IBase } from "./interfaces/iBase";
+
 export abstract class Tesseract {
-  constructor(
-    protected worker: any,
-    public language: string,
-    public path: string
-  ) {}
+  constructor(protected properties: IBase) {}
 
   abstract loadWorker(): void;
 
