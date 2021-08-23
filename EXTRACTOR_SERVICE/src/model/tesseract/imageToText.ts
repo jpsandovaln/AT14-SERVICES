@@ -1,31 +1,24 @@
-import { createWorker } from "tesseract.js";
+import { Tesseract } from "./tesseractBase";
 
-const worker = createWorker();
-export class ImageToText {
-  language: string;
-  imagePath: string;
-  text: string;
-
-  constructor(language: string, imagePath: string) {
-    this.language = language;
-    this.imagePath = imagePath;
-    this.text = "";
+export class ImageToText extends Tesseract {
+  constructor(worker: any, language: string, path: string) {
+    super(worker, language, path);
   }
 
-  public initializeExtractor = async () => {
-    await worker.load();
-    await worker.loadLanguage(this.language);
-    await worker.initialize(this.language);
-  };
+  async loadWorker() {
+    // ah re con el console
+    console.log(this.path + this.language);
+    await this.worker.load();
+    await this.worker.loadLanguage(this.language);
+    await this.worker.initialize(this.language);
+  }
 
-  public extractText = async () => {
+  public async getText() {
+    await this.loadWorker();
     const {
       data: { text },
-    } = await worker.recognize(this.imagePath);
-    this.text = text;
-  };
-
-  public getText(){
-    return this.text;
+    } = await this.worker.recognize(this.path);
+    await this.worker.terminate();
+    return text;
   }
 }
