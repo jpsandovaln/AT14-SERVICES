@@ -10,7 +10,7 @@ In this project we use as dependency of node.js
 
 ### Diagram Classes
 
-![image](./assets/FirstDiagramClassModelTesseract.png)
+![image](https://res.cloudinary.com/marcandea/image/upload/v1629735411/samples/FirstDiagramClassModelTesseract_ajjzlg.png)
 ### Documentation
 
 [Tesseract OCR](https://github.com/tesseract-ocr/tessdoc#tesseract-user-manual)
