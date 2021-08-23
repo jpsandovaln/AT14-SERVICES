@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import HomePage from "./ui/pages/Home/HomePage";
 import ConverterPage from "./ui/pages/Converter/ConverterPage";
 import MachineLearningPage from "./ui/pages/MachineLearning/MachineLearningPage";
-import ApolloClient from "./ui/graphql/App";
+import ReportConvertPage from "./ui/pages/ReportConvert/ReportConvertPage";
 
 const App = () => {
 	return (
@@ -17,7 +17,7 @@ const App = () => {
 					path="/MachineAnalize"
 					component={MachineLearningPage}
 				/>
-				<Route exact path="/graphql" component={ApolloClient} />
+				<Route exact path="/graphql" component={ReportConvertPage} />
 			</Switch>
 		</Router>
 	);
