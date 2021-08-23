@@ -22,9 +22,7 @@ export class ImageToPDF extends Tesseract {
 
   public async getText(): Promise<object> {
     await this.loadWorker();
-    const {
-      data: { text },
-    } = await this.worker.recognize(this.path);
+    await this.worker.recognize(this.path);
     const { data } = await this.worker.getPDF("Tesseract OCR Result");
     fs.writeFileSync("tesseract-ocr-result.pdf", Buffer.from(data));
     await this.worker.terminate();

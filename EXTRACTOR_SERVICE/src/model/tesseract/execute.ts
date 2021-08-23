@@ -1,4 +1,7 @@
-// import { createWorker } from "tesseract.js";
+/* THIS FILE IT'S ONLY FOR EXECUTE METHOD
+  - Available until to consume with a service.
+*/
+
 import { createWorker } from "tesseract.js";
 import { ImageToText } from "./imageToText";
 import { ImageToTextBySize } from "./imageToTextBySize";
@@ -40,5 +43,5 @@ const imageToPDF = new ImageToPDF(imageBS);
 /* EXECUTE METHODS */
 
 // (async () => console.log(await imageToTextBySize.getText()))();
-(async () => console.log(await imageToText.getText()))();
-// (async () => console.log(await imageToPDF.getText()))();
+// (async () => console.log(await imageToText.getText()))();
+(async () => console.log(await imageToPDF.getText()))();
