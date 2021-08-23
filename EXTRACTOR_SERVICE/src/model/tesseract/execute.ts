@@ -10,12 +10,14 @@ import { IBase } from "./interfaces/iBase";
 import { IImage } from "./interfaces/iImage";
 
 const worker = createWorker();
+const linkEnglishChino = "https://res.cloudinary.com/marcandea/image/upload/v1629733958/samples/text-eng-chin_kxe165.png";
+const pathEnglishChino = "/home/marc/at14/prog101/projects/AT14-SERVICES/EXTRACTOR_SERVICE/assets/text-eng-chin.png"
 
 // Object Base to extract text.
 const imageBasic: IBase = {
   worker: worker,
-  language: "eng",
-  path: "https://telegram.org/file/811140100/2/maZcBXgwrmE.306486/5bd7c8f4708afe28f8",
+  language: "eng+chi_tra",
+  path: pathEnglishChino,
 };
 const imageToText = new ImageToText(imageBasic);
 //
@@ -37,7 +39,12 @@ const imageToTextBySize = new ImageToTextBySize(imageBS);
 //
 
 // Object Base to convert in PDF
-const imageToPDF = new ImageToPDF(imageBS);
+const imageToDocument: IBase = {
+  worker: worker,
+  language: "eng+chi_tra",
+  path: linkEnglishChino,
+};
+const imageToPDF = new ImageToPDF(imageToDocument);
 //
 
 /* EXECUTE METHODS */
