@@ -8,8 +8,17 @@ const typeDefs = gql`
     checksum: String
   }
 
+  type MachineLearning{
+    Algorithm: String
+		Word: String
+		Percentage: String
+		Second: String
+		PathImage: String
+  }
+  
   type Query {
     files:[File]
+    ML:[MachineLearning]
   }
 `;
 
