@@ -10,7 +10,7 @@ In this project we use as dependency of node.js
 
 ### Diagram Classes
 
-![image](https://res.cloudinary.com/marcandea/image/upload/v1629735411/samples/FirstDiagramClassModelTesseract_ajjzlg.png)
+![image](https://res.cloudinary.com/marcandea/image/upload/v1629741272/samples/extractor_diagram_class_f4o7hl.png)
 ### Documentation
 
 [Tesseract OCR](https://github.com/tesseract-ocr/tessdoc#tesseract-user-manual)
@@ -33,9 +33,10 @@ If you have an error maybe you to create the **build** folder in the level of sr
 
 If you are inside EXTRACTOR_SERVICE:
 
-    `mkdir build`
+    mkdir build
 
-The above command create the .js files of the project and run the application in port 3000.
+___
+The above commands create the .js files of the project and run the application in port 3000.
 
 Execute methods of Tesseract:
 
