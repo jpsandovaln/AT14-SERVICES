@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import { checkPostRequestBody } from "../../middleware/checks";
 import { upload } from "./provider/imageProvider";
+import { createWorker } from "tesseract.js";
+
+const worker = createWorker({});
 
 export default [
     {
-        path: "/uploadImages",
+        path: "/extract",
         method: "post",
         handler: [
             checkPostRequestBody,
@@ -31,9 +34,20 @@ export default [
                             });
                         }
 
-                        return res
-                            .status(200)
-                            .send("File uploaded Successfully");
+                        if (file) {
+                            await worker.load();
+                            await worker.loadLanguage("eng");
+                            await worker.initialize("eng");
+
+                            const {
+                                data: { text },
+                            } = await worker.recognize(
+                                process.env.ROOT + file.path
+                            );
+                            return res.status(200).send(text);
+                        }
+
+                        await worker.terminate();
                     } catch (err) {
                         return res.status(200).json({
                             status: "failed",
