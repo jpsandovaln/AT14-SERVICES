@@ -3,11 +3,11 @@
 */
 
 import { createWorker } from "tesseract.js";
-import { ImageToText } from "./imageToText";
-import { ImageToTextBySize } from "./imageToTextBySize";
-import { ImageToPDF } from "./imageToPDF";
+import { ExtractToText } from "./extractToText";
+import { ExtractCroppedImage } from "./extractCroppedImage";
+import { ExtractToPDF } from "./extractToPDF";
 import { IBase } from "./interfaces/iBase";
-import { IImage } from "./interfaces/iImage";
+import { ICropped } from "./interfaces/iCropped";
 import { Extractor } from "./extractor";
 
 const worker = createWorker();
@@ -20,7 +20,7 @@ const imageBasic: IBase = {
   language: "eng+chi_tra",
   path: pathEnglishChino,
 };
-const extractorImg: Extractor = new ImageToText(imageBasic);
+const extractorImg: Extractor = new ExtractToText(imageBasic);
 //
 
 // Object Base to get a part of image
@@ -30,13 +30,13 @@ const rectanglePart = {
   width: 500,
   height: 250,
 };
-const imageToCropped: IImage = {
+const imageToCropped: ICropped = {
   worker: worker,
   language: "eng",
   path: "https://telegram.org/file/811140100/2/maZcBXgwrmE.306486/5bd7c8f4708afe28f8",
   rectangle: rectanglePart,
 };
-const extractorCroppedImage: Extractor = new ImageToTextBySize(imageToCropped);
+const extractorCroppedImage: Extractor = new ExtractCroppedImage(imageToCropped);
 //
 
 // Object Base to convert in PDF
@@ -45,11 +45,11 @@ const imageToDocument: IBase = {
   language: "eng+chi_tra",
   path: linkEnglishChino,
 };
-const extractorImageToPDF: Extractor = new ImageToPDF(imageToDocument);
+const extractorImageToPDF: Extractor = new ExtractToPDF(imageToDocument);
 //
 
 /* EXECUTE METHODS */
 
 // (async () => console.log(await extractorImg.extract()))();
 // (async () => console.log(await extractorCroppedImage.extract()))();
-(async () => console.log(await extractorImageToPDF.extract()))();
+// (async () => console.log(await extractorImageToPDF.extract()))();

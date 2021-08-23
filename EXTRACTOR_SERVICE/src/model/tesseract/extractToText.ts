@@ -1,7 +1,7 @@
 import { IBase } from "./interfaces/iBase";
 import { Extractor } from "./extractor";
 
-export class ImageToText extends Extractor {
+export class ExtractToText extends Extractor {
 
   constructor(properties: IBase) {
     super(properties);

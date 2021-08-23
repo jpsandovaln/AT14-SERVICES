@@ -1,10 +1,10 @@
-import { IImage } from "./interfaces/iImage";
+import { ICropped } from "./interfaces/iCropped";
 import { Extractor } from "./extractor";
 
-export class ImageToTextBySize extends Extractor {
+export class ExtractCroppedImage extends Extractor {
   private rectangle: object;
 
-  constructor(properties: IImage) {
+  constructor(properties: ICropped) {
     super(properties);
     this.rectangle = properties.rectangle;
   }

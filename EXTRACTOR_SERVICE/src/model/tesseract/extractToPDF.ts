@@ -2,7 +2,7 @@ import { IBase } from "./interfaces/iBase";
 import { Extractor } from "./extractor";
 import * as fs from "fs";
 
-export class ImageToPDF extends Extractor {
+export class ExtractToPDF extends Extractor {
 
   constructor(properties: IBase) {
     super(properties);

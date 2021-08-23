@@ -1,5 +1,5 @@
 import { IBase } from "./iBase";
 
-export interface IImage extends IBase{
+export interface ICropped extends IBase{
   rectangle: object;
 }
