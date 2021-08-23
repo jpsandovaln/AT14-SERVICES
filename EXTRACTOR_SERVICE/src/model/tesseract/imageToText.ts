@@ -2,9 +2,9 @@ import { IBase } from "./interfaces/iBase";
 import { Tesseract } from "./tesseractBase";
 
 export class ImageToText extends Tesseract {
-  worker: any;
-  language: string;
-  path: string;
+  private worker: any;
+  private language: string;
+  private path: string;
 
   constructor(properties: IBase) {
     super(properties);
@@ -13,13 +13,13 @@ export class ImageToText extends Tesseract {
     this.path = properties.path;
   }
 
-  async loadWorker() {
+  public async loadWorker(): Promise<void> {
     await this.worker.load();
     await this.worker.loadLanguage(this.language);
     await this.worker.initialize(this.language);
   }
 
-  public async getText() {
+  public async getText(): Promise<Text> {
     await this.loadWorker();
     const {
       data: { text },

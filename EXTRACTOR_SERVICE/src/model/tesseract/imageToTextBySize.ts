@@ -2,10 +2,10 @@ import { IImage } from "./interfaces/iImage";
 import { Tesseract } from "./tesseractBase";
 
 export class ImageToTextBySize extends Tesseract {
-  public worker: any;
-  public language: string;
-  public path: string;
-  public rectangle: object;
+  private worker: any;
+  private language: string;
+  private path: string;
+  private rectangle: object;
 
   constructor(properties: IImage) {
     super(properties);
@@ -15,13 +15,13 @@ export class ImageToTextBySize extends Tesseract {
     this.rectangle = properties.rectangle;
   }
 
-  async loadWorker() {
+  public async loadWorker(): Promise<void> {
     await this.worker.load();
     await this.worker.loadLanguage(this.language);
     await this.worker.initialize(this.language);
   }
 
-  public async getText() {
+  public async getText(): Promise<Text> {
     const rectangle = this.rectangle;
     await this.loadWorker();
     const {

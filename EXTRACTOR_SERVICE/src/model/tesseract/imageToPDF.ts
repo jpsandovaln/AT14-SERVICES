@@ -3,9 +3,9 @@ import { Tesseract } from "./tesseractBase";
 import * as fs from "fs";
 
 export class ImageToPDF extends Tesseract {
-  worker: any;
-  language: string;
-  path: string;
+  private worker: any;
+  private language: string;
+  private path: string;
 
   constructor(properties: IBase) {
     super(properties);
@@ -14,13 +14,13 @@ export class ImageToPDF extends Tesseract {
     this.path = properties.path;
   }
 
-  async loadWorker() {
+  public async loadWorker(): Promise<void> {
     await this.worker.load();
     await this.worker.loadLanguage(this.language);
     await this.worker.initialize(this.language);
   }
 
-  public async getText() {
+  public async getText(): Promise<object> {
     await this.loadWorker();
     const {
       data: { text },
