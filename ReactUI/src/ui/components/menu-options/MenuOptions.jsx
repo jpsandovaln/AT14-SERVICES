@@ -9,6 +9,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
+import AssessmentIcon from '@material-ui/icons/Assessment';
 import HomeIcon from "@material-ui/icons/Home";
 import { Link } from "react-router-dom";
 
@@ -50,6 +51,11 @@ const MenuOptions = () => {
 			icon: <DashboardIcon style={{ color: "#fff" }} />,
 			path: "/MachineAnalize",
 		},
+		{
+			title: "Report Convert",
+			icon: <AssessmentIcon style={{ color: "#fff" }} />,
+			path: "/graphql",
+		},		
 	];
 
 	return (
