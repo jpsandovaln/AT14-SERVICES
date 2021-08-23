@@ -8,11 +8,12 @@ const {
     updateDataById,
 } = require("../controller/fileController");
 const uploadFilesMiddleware = require("../middleware/uploadFiles");
-const getMetadata = require("../controller/metadataController");
+const { obtainMetadata, downloadMetadata } = require("../controller/metadataController");
 
 class Routes {
     constructor(app) {
-        router.get("/filesMetadata", getMetadata);
+        router.post("/filesMetadata", obtainMetadata);
+        router.get("/filesMetadata/:name", downloadMetadata);
         router.post(
             "/videoConverter",
             [uploadFilesMiddleware],

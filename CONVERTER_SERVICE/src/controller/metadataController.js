@@ -1,15 +1,38 @@
 require("dotenv").config("../../.env");
-const fetching = require("../utilities/metadata");
+const { fetching } = require("../utilities/metadata");
 const uploadFileMiddleware = require("../middleware/uploadFilesWithoutHush");
+const path = require("path");
+const executePathExiftool = process.env.CONVERTER_PATH_EXIFTOOL;
+const uploadPath = process.env.UPLOAD_PATH;
+const outputPath = process.env.OUTPUT_PATH;
 
-const getMetadata = async (req, res) => {
+const obtainMetadata = async (req, res) => {
     await uploadFileMiddleware(req, res);
-    const executePathExiftool = process.env.CONVERTER_PATH_EXIFTOOL;
-    const uploadPath = process.env.UPLOAD_PATH;
     const nameFile = req.file.filename;
-    const metadataP = await fetching(executePathExiftool, uploadPath + nameFile);
+    const resultPath = await fetching(executePathExiftool, uploadPath + nameFile, nameFile, outputPath);
 
-    res.send({ message: metadataP });
+    res.status(200).send({
+        name: nameFile,
+        filePath:
+            "http://localhost:8080/filesMetadata/" + path.basename(resultPath),
+        params: req.body,
+    });
 };
 
-module.exports = getMetadata;
+const downloadMetadata = (req, res) => {
+    const fileName = req.params.name;
+    const directoryPath = outputPath + fileName;
+
+    res.download(directoryPath, fileName, (err) => {
+        if (err) {
+            res.status(500).send({
+                message: "Could not download the file. " + err,
+            });
+        }
+    });
+};
+
+module.exports = {
+    obtainMetadata,
+    downloadMetadata,
+};
