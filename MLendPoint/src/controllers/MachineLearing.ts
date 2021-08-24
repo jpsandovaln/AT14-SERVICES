@@ -26,11 +26,6 @@ class MachineLearing {
         this.percentage = percentage;
         this.predictions = undefined;
     }
-
-    //TODO: verify that this parameter must be removed
-    async getJSON(parameter) {
-        throw new Error("getJSON() must be implementrd");
-    }
 }
 
 export default MachineLearing;
