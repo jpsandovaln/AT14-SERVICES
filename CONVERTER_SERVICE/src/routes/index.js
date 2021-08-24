@@ -10,6 +10,7 @@ const {
 } = require("../controller/fileController");
 const uploadFilesMiddleware = require("../middleware/uploadFiles");
 const getMetadata = require("../controller/metadataController");
+const cors = require('cors')
 
 class Routes {
     constructor(app) {
@@ -22,7 +23,7 @@ class Routes {
         router.delete("/file/:id", deleteDataById);
         router.get("/file/:id", findDataById);
         router.put("/file/:id", updateDataById);
-
+        app.use(cors());
         app.use(router);
     }
 }

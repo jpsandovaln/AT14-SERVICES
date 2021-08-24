@@ -15,15 +15,18 @@ const framesZipML = async (req, res) => {
 
     const resultPathFrames = await videoServices.obtainFrames();
     const zip = new Zip();
-    const pathFramesZip = resultPathFrames != "" ? await zip.zipImages(resultPathFrames) : "";
+    const pathFramesZip =
+        resultPathFrames != "" ? await zip.zipImages(resultPathFrames) : "";
     const nameZipFile = path.basename(pathFramesZip);
 
-    res.status(200).send([
+    res.sendFile(pathFramesZip)
+
+    /*res.status(200).send([
         {
             name: nameFile,
             filePath: "http://localhost:8080/framesZipML/" + nameZipFile,
         },
-    ]);
+    ]);*/
 };
 
 const downloadMLZip = (req, res) => {
