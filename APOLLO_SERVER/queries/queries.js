@@ -20,6 +20,11 @@ const typeDefs = gql`
     files:[File]
     ML:[MachineLearning]
   }
+
+  type Mutation {
+    updateFiles(_id: String, name: String, checksum: String): File
+    addFiles(_id: String, name: String, checksum: String): File
+  }  
 `;
 
 module.exports= {

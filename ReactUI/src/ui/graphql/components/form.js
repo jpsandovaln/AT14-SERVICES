@@ -7,11 +7,12 @@ function Form() {
   const [path, setPath] = useState("");
   const [checksum, setChecksum] = useState("");
 
-  const [createFile, { error }] = useMutation(CREATE_FILE_MUTATION);
+  const [addFiles, { error }] = useMutation(CREATE_FILE_MUTATION);
 
-  const addFile = () => {
-    createFile({
+  const setSubmit = () => {
+    const data = addFiles({
       variables: {
+        _id:'',
         name: name,
         path: path,
         checksum: checksum
@@ -33,20 +34,19 @@ function Form() {
       />
       <input
         type="text"
-        placeholder="Path"
-        onChange={(e) => {
-          setPath(e.target.value);
-        }}
-      />
-      <input
-        type="text"
         placeholder="Checksum"
         onChange={(e) => {
           setChecksum(e.target.value);
         }}
       />
-
-      <button onClick={addFile}> Create File</button>
+      <input
+        type="text"
+        placeholder="Path"
+        onChange={(e) => {
+          setPath(e.target.value);
+        }}
+      />
+      <button onClick={setSubmit}> Create File</button>
     </div>
   );
 }

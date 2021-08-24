@@ -1,17 +1,14 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_FILE_MUTATION = gql`
-  mutation fileMutation(
-      $name: String,
-      $path: String,
-      $checksum: String
+mutation Mutation($_id: String, $name: String, $checksum: String) {
+  addFiles(_id: $_id,
+   name: $name,
+   checksum: $checksum
     ) {
-    createFile(
-      name: $name,
-      path: $path,
-      checksum: $checksum
-    ) {
-      _id
-    }
-  }
+     _id
+     checksum
+     name    
+   }
+ }
 `;
