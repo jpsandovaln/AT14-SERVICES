@@ -39,7 +39,7 @@ const MenuOptions = () => {
 		{
 			title: "Home",
 			icon: <HomeIcon style={{ color: "#fff" }} />,
-			path: "/",
+			path: "/home",
 		},
 		{
 			title: "Converter",
