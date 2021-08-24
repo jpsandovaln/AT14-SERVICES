@@ -1,11 +1,17 @@
 class analize {
+    _imagePaths: string;
+    _searchWord: string;
+    _percentage: number;
+    _secondsToString: number;
+    _algorithm: string;
+    _pathImage: string;
     constructor(
-        imagePaths,
-        searchWord,
-        percentage,
-        secondsToString,
-        algorithm,
-        pathImage
+        imagePaths: string,
+        searchWord: string,
+        percentage: number,
+        secondsToString: number,
+        algorithm: string,
+        pathImage: string
     ) {
         this._imagePaths = imagePaths;
         this._searchWord = searchWord;
