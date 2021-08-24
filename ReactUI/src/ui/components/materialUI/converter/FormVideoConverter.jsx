@@ -21,26 +21,31 @@ const FormVideoConveter = () => {
 	const [frameScale, setFrameScale] = React.useState("");
 	const [obtainFrames, setObtainFrames] = React.useState(false);
 	const [extractAudioFormat, setExtractAudioFormat] = React.useState("");
+	const [nameVideo, setNameVideo] = React.useState("Select a video file");
 	const [obtainAudio, setObtainAudio] = React.useState("");
 	const [open, setOpen] = React.useState(false);
 
 	let [hashVideo, setHashVideo] = React.useState();
 
 	const setFileVideo = async (e) => {
-		let file = e.target.files[0];
-		hashVideo = await md5File.readFile(file);
-		console.warn(hashVideo);
-		setHashVideo(hashVideo);
-
-		setUploadFile(e.target.files[0]);
+		let videoFile = document.getElementById("contained-button-video");
+		if (videoFile.files.length > 0) {
+			let file = e.target.files[0];
+			hashVideo = await md5File.readFile(file);
+			console.warn(hashVideo);
+			setNameVideo(videoFile.files.item(0).name);
+			setHashVideo(hashVideo);
+			setUploadFile(e.target.files[0]);
+		} else {
+			setNameVideo("Select a video file");
+			setUploadFile(null);
+		}
 	};
 
 	const submitFormVideo = (event) => {
-
 		event.preventDefault([]);
 		setOpen(true);
 		const dataArray = new FormData();
-
 		dataArray.append("ratio", ratio);
 		dataArray.append("scale", scale);
 		dataArray.append("quality", quality);
@@ -92,6 +97,7 @@ const FormVideoConveter = () => {
 					frameScale={frameScale}
 					obtainAudio={obtainAudio}
 					extractAudioFormat={extractAudioFormat}
+					nameVideo={nameVideo}
 					setOutputFormat={setOutputFormat}
 					setRatio={setRatio}
 					setScale={setScale}
@@ -105,6 +111,7 @@ const FormVideoConveter = () => {
 					setExtractAudioFormat={setExtractAudioFormat}
 					setObtainAudio={setObtainAudio}
 					setFileVideo={setFileVideo}
+					setNameVideo={setNameVideo}
 				/>
 				<TableVideoForm
 					open={open}

@@ -1,5 +1,4 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -66,7 +65,7 @@ const TableVideoForm = (classes) => {
 										<TableHead>
 											<TableRow>
 												<TableCell align="center">
-													Word
+													Name
 												</TableCell>
 												<TableCell align="center">
 													File Path
@@ -82,7 +81,17 @@ const TableVideoForm = (classes) => {
 															{row.name}
 														</TableCell>
 														<TableCell align="center">
-															{row.filePath}
+															<a
+																href={
+																	row.filePath
+																}
+																without
+																rel="noreferrer"
+																target="_blank"
+																download
+															>
+																Download
+															</a>
 														</TableCell>
 													</TableRow>
 												))}
