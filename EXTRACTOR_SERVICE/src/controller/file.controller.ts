@@ -1,6 +1,10 @@
 import express from "express";
 import { Upload } from "../middleware/upload";
 
+import { createWorker } from "tesseract.js";
+
+const worker = createWorker({});
+
 const upload = new Upload();
 
 class FileController {
@@ -13,14 +17,17 @@ class FileController {
                     .status(400)
                     .send({ message: "Please upload a file!" });
             }
+            if (req.file) {
+                await worker.load();
+                await worker.loadLanguage("eng");
+                await worker.initialize("eng");
 
-            res.status(200).send({
-                message:
-                    "Uploaded the file successfully: " + req.file.originalname,
-            });
+                const {
+                    data: { text },
+                } = await worker.recognize(req.file.path);
+                return res.status(200).send(text);
+            }
         } catch (err: any) {
-            console.log(err);
-
             if (err.code == "LIMIT_FILE_SIZE") {
                 return res.status(500).send({
                     message: "File size cannot be larger than 2MB!",
