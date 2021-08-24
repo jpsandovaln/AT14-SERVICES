@@ -5,6 +5,7 @@ class UnZip {
     constructor() {}
 
     extractZip(zipPath: string, outPath: string) {
+        //TODO: delete nameFile and zipEntries
         let nameFile = path.parse(zipPath).name;
         const zip = new AdmZip(zipPath);
         var zipEntries = zip.getEntries();
@@ -13,4 +14,4 @@ class UnZip {
     }
 }
 
-module.exports = UnZip;
+export default UnZip;

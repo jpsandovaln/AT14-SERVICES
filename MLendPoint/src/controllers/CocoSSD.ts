@@ -1,5 +1,5 @@
 import cocoSsd from "@tensorflow-models/coco-ssd";
-import tf from "@tensorflow/tfjs-node";
+import tf, { Tensor3D } from "@tensorflow/tfjs-node";
 import MachineLearing from "./MachineLearing";
 import fs from "fs";
 
@@ -24,7 +24,7 @@ class CocoSSD extends MachineLearing {
         const image = fs.readFileSync(this.image);
         const processInput = tf.node.decodeImage(image);
         const model = await cocoSsd.load();
-        const predictions = await model.detect(processInput);
+        const predictions = await model.detect(processInput as Tensor3D);
         return predictions;
     }
 
@@ -45,7 +45,7 @@ class CocoSSD extends MachineLearing {
         return this.parse(arr);
     }
 
-    parse(arr: Array) {
+    parse(arr) {
         let arrParse = new Array();
         arr.forEach((element) => {
             let arrAux = {
