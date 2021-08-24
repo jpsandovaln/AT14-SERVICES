@@ -1,16 +1,15 @@
-const cocoSsd = require('@tensorflow-models/coco-ssd');
-const tf = require('@tensorflow/tfjs-node');
-const MachineLearing = require('./MachineLearing');
-const fs = require('fs');
+import cocoSsd from "@tensorflow-models/coco-ssd";
+import tf from "@tensorflow/tfjs-node";
+import MachineLearing from "./MachineLearing";
+import fs from "fs";
 
 /**
  * @Class
  * Build an instance from Machine Learning
- * 
+ *
  */
 
 class CocoSSD extends MachineLearing {
-
     /**
      * @param {string} imagePath The path where image is.
      * @param {string} searchWord The word to search.
@@ -34,8 +33,11 @@ class CocoSSD extends MachineLearing {
         this.predictions = await this.loadModel();
         let arr = new Array();
         this.predictions.forEach((element) => {
-            let searchWord = new RegExp(this.searchWord, 'i');
-            if (element.class.search(searchWord) != -1 && element.score >= this.percentage) {
+            let searchWord = new RegExp(this.searchWord, "i");
+            if (
+                element.class.search(searchWord) != -1 &&
+                element.score >= this.percentage
+            ) {
                 quantity = quantity + 1;
                 arr.push(element);
             }
@@ -46,11 +48,14 @@ class CocoSSD extends MachineLearing {
     parse(arr) {
         let arrParse = new Array();
         arr.forEach((element) => {
-            let arrAux = { className: element.class, probability: element.score };
+            let arrAux = {
+                className: element.class,
+                probability: element.score
+            };
             arrParse.push(arrAux);
         });
         return arrParse;
     }
 }
 
-module.exports = CocoSSD;
+export default CocoSSD;
