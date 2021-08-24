@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 12,
 		backgroundColor: "#3a4651",
 	},
+	input: {
+		display: "none",
+	},
 }));
 
 const FormML = (classes) => {
@@ -111,19 +114,39 @@ const FormML = (classes) => {
 								</Select>
 							</FormControl>
 						</Grid>
-						<Grid item md={12} xs={12}>
+						<Grid item md={2} xs={2}>
 							<div className={classes.root}>
 								<input
-									accept="zip/*"
-									className={classes.input}
-									id="contained-button-file"
+									accept="video/"
+									className={clase.input}
+									id="contained-button-videoFile"
+									name="inputVideo"
 									type="file"
-									onChange={(e) =>
-										classes.setUploadFile(e.target.files[0])
+									onChange={
+										classes.nameFromVideo	
 									}
 									required
 								/>
+								<label htmlFor="contained-button-videoFile">
+									<Button
+										variant="contained"
+										color="primary"
+										component="span"
+									>
+										Upload
+									</Button>
+								</label>
 							</div>
+						</Grid>
+						<Grid item md={6} xs={6}>
+							<TextField
+								fullWidth
+								id="outlined-basic"
+								
+								variant="outlined"
+								value={classes.nameVideo}
+								disabled
+							/>
 						</Grid>
 					</Grid>
 				</CardContent>
