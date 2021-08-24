@@ -44,9 +44,10 @@ const NavBar = (onClick) => {
 					<MenuIcon />
 				</IconButton>
 				<Typography variant="h6" noWrap>
-					SNIFFER DOG
-				</Typography>
+					SNIFFER DOG 
+				</Typography> 
 			</Toolbar>
+			
 		</AppBar>
 	);
 };

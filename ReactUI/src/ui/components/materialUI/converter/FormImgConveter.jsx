@@ -28,6 +28,7 @@ const FormImgConverter = () => {
 	const [paintEffect, setPaintEffect] = React.useState("");
 	const [greyScale, setGreyScale] = React.useState("");
 	const [monochrome, setMonochrome] = React.useState("");
+	const [quality, setQuality] = React.useState("");
 	const [open, setOpen] = React.useState(false);
 
 	const submitFormVideo = (event) => {
@@ -43,6 +44,7 @@ const FormImgConverter = () => {
 		dataArray.append("paintEffect", paintEffect);
 		dataArray.append("greyScale", greyScale);
 		dataArray.append("monochrome", monochrome);
+		dataArray.append("quality", quality);
 
 		const fetchData = () => {
 			axios
@@ -75,6 +77,7 @@ const FormImgConverter = () => {
 					paintEffect={paintEffect}
 					greyScale={greyScale}
 					monochrome={monochrome}
+					quality={quality}
 					setOutputFormat={setOutputFormat}
 					setImageSize={setImageSize}
 					setAudioFormat={setAudioFormat}
@@ -82,6 +85,7 @@ const FormImgConverter = () => {
 					setPaintEffect={setPaintEffect}
 					setGreyScale={setGreyScale}
 					setMonochrome={setMonochrome}
+					setQuality={setQuality}
 				/>
 				<TableImgForm/>
 			</form>

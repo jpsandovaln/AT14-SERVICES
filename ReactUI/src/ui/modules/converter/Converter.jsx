@@ -11,8 +11,8 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import FormImgConveter from "../../components/materialUI/converter/FormImgConveter";
 import FormVideoConverter from "../../components/materialUI/converter/FormVideoConverter";
-import FormPdfConverter from "../../components/materialUI/converter/FormPdfConverter";
-import FormPptConverter from "../../components/materialUI/converter/FormPptConverter";
+import FormAudioConverter from "../../components/materialUI/converter/FormAudioConverter"
+import FormDocumentConverter from "../../components/materialUI/converter/FormDocumentConverter";
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
@@ -97,22 +97,22 @@ const Converter = () => {
 							>
 								<Tab
 									className={classes.title}
-									label="Video converter"
+									label="Video"
 									{...a11yProps(0)}
 								/>
 								<Tab
 									className={classes.title}
-									label="Imagen converter"
+									label="Image"
 									{...a11yProps(1)}
 								/>
 								<Tab
 									className={classes.title}
-									label="Pdf converter"
+									label="Audio"
 									{...a11yProps(2)}
 								/>
 								<Tab
 									className={classes.title}
-									label="Ppt converter"
+									label="Document"
 									{...a11yProps(3)}
 								/>
 							</Tabs>
@@ -141,14 +141,14 @@ const Converter = () => {
 								index={2}
 								dir={theme.direction}
 							>
-								<FormPdfConverter />
+								<FormAudioConverter />
 							</TabPanel>
 							<TabPanel
 								value={value}
 								index={3}
 								dir={theme.direction}
 							>
-								<FormPptConverter />
+								<FormDocumentConverter />
 							</TabPanel>
 						</SwipeableViews>
 					</div>

@@ -1,59 +1,95 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { TextField } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { CardHeader } from "@material-ui/core";
-import CardActions from "@material-ui/core/CardActions";
+import axios from "axios";
+import MetadataForm from "./MetadataForm";
+import TableMetadataForm from "./TableMetadataForm";
 
-const useStyles = makeStyles((theme) => ({
-	title: {
-		color: "white",
-		fontSize: 12,
-		backgroundColor: "#3a4651",
-	},
-}));
+const FormMetadata = () => {
+	const urlML = "http://localhost:8080/imageFinder";
 
-const FormMetadata = (classes) => {
-	const clase = useStyles();
+	const [data, setResponse] = React.useState([]);
+	const [outputFormat, setOutputFormat] = React.useState("");
+	const [ratio, setRatio] = React.useState("");
+	const [scale, setScale] = React.useState("");
+	const [audioFormat, setAudioFormat] = React.useState("");
+	const [quality, setQuality] = React.useState("");
+	const [angle, setAngle] = React.useState("");
+	const [hflip, sethFlip] = React.useState(false);
+	const [vflip, setvFlip] = React.useState(false);
+	const [frameScale, setFrameScale] = React.useState("");
+	const [obtainFrames, setObtainFrames] = React.useState(false);
+	const [extractAudioFormat, setExtractAudioFormat] = React.useState("");
+	const [obtainAudio, setObtainAudio] = React.useState("");
+	const [open, setOpen] = React.useState(false);
+
+	const submitFormMetadata = (event) => {
+		event.preventDefault();
+		setOpen(true);
+		const dataArray = new FormData();
+
+		dataArray.append("ratio", ratio);
+		dataArray.append("scale", scale);
+		dataArray.append("quality", quality);
+		dataArray.append("angle", angle);
+		dataArray.append("vflip", vflip);
+		dataArray.append("hflip", hflip);
+		dataArray.append("outputFormat", outputFormat);
+		dataArray.append("audioFormat", audioFormat);
+		dataArray.append("obtainFrames", obtainFrames);
+		dataArray.append("frameScale", frameScale);
+		dataArray.append("obtainAudio", obtainAudio);
+
+		dataArray.append("extractAudioFormat", extractAudioFormat);
+
+		const fetchData = () => {
+			axios
+				.post(urlML, dataArray, {
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				})
+				.then((res) => {
+					setResponse(res.data);
+					setOpen(false);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		};
+
+		fetchData();
+	};
+
 	return (
 		<div>
-			<Card className={clase.root}>
-				<CardHeader
-					title="Metadata extractor"
-					className={clase.title}
-					titleTypographyProps={{ variant: "h6" }}
-				></CardHeader>
-				<CardContent>
-					<Grid container spacing={1}>
-						<Grid item md={12} xs={12}>
-							<div className={classes.root}>
-								<input
-									accept="zip/*"
-									className={classes.input}
-									id="contained-button-file"
-									type="file"
-									onChange={(e) =>
-										classes.setUploadFile(e.target.files[0])
-									}
-									required
-								/>
-							</div>
-						</Grid>
-					</Grid>
-				</CardContent>
-				<CardActions>
-					<Button type="submit" variant="contained" color="primary">
-						Analyze
-					</Button>
-				</CardActions>
-			</Card>
+			<form onSubmit={submitFormMetadata}>
+				<MetadataForm
+					ratio={ratio}
+					scale={scale}
+					quality={quality}
+					angle={angle}
+					vflip={vflip}
+					hflip={hflip}
+					outputFormat={outputFormat}
+					audioFormat={audioFormat}
+					obtainFrames={obtainFrames}
+					frameScale={frameScale}
+					obtainAudio={obtainAudio}
+					extractAudioFormat={extractAudioFormat}
+					setOutputFormat={setOutputFormat}
+					setRatio={setRatio}
+					setScale={setScale}
+					setAudioFormat={setAudioFormat}
+					setQuality={setQuality}
+					setAngle={setAngle}
+					sethFlip={sethFlip}
+					setvFlip={setvFlip}
+					setFrameScale={setFrameScale}
+					setObtainFrames={setObtainFrames}
+					setExtractAudioFormat={setExtractAudioFormat}
+					setObtainAudio={setObtainAudio}
+				/>
+				<TableMetadataForm />
+			</form>
 		</div>
 	);
 };

@@ -1,113 +1,131 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
-import axios from "axios";
-import Link from "@material-ui/core/Link";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { CardHeader } from "@material-ui/core";
-import TableMetadata from "../../components/materialUI/extractor-service/TableMetadataForm";
+import PropTypes from "prop-types";
+import SwipeableViews from "react-swipeable-views";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Box from "@material-ui/core/Box";
+import FormImgExt from "../../components/materialUI/extractor-service/FormImgExt";
 import FormMetadata from "../../components/materialUI/extractor-service/FormMetadata"
+import Link from "@material-ui/core/Link";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		"& > *": {
-			margin: theme.spacing(1),
-			width: "100%",
-		},
-		flexGrow: 1,
-	},
-	paper: {
-		padding: theme.spacing(1),
-		textAlign: "center",
-		color: theme.palette.text.secondary,
-	},
+const useStyles = makeStyles(() => ({
+	paper: {},
 	input: {
-		display: "",
+		display: "none",
 	},
 	title: {
 		color: "white",
-		fontSize: 12,
+		fontSize: 14,
 		backgroundColor: "#3a4651",
 	},
 }));
 
-const ExtractService = () => {
-	const urlML = "http://localhost:8080/analizeZip";
-
-	const [data, setResponse] = React.useState([]);
-	const [uploadFile, setUploadFile] = React.useState(null);
-	const [searchWord, setSearchWord] = React.useState("");
-	const [algorithm, setAlgorithm] = React.useState("");
-	const [percentage, setPercentage] = React.useState("");
-	const [open, setOpen] = React.useState(false);
-
-	const submitForm = (event) => {
-		event.preventDefault();
-		setOpen(true);
-		const dataArray = new FormData();
-		dataArray.append("searchWord", searchWord);
-		dataArray.append("algorithm", algorithm);
-		dataArray.append("percentage", percentage);
-		dataArray.append("zipFile", uploadFile);
-
-		const fetchData = () => {
-			setResponse([]);
-			axios
-				.post(urlML, dataArray, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					setResponse(res.data);
-					setOpen(false);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
-
-		fetchData();
-	};
-
-	const classes = useStyles();
+const TabPanel = (props) => {
+	const { children, value, index, ...other } = props;
 
 	return (
-		<div>
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`full-width-tabpanel-${index}`}
+			aria-labelledby={`full-width-tab-${index}`}
+			{...other}
+		>
+			{value === index && (
+				<Box p={3}>
+					<Typography>{children}</Typography>
+				</Box>
+			)}
+		</div>
+	);
+};
+
+TabPanel.propTypes = {
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired,
+};
+
+const a11yProps = (index) => {
+	return {
+		id: `full-width-tab-${index}`,
+		"aria-controls": `full-width-tabpanel-${index}`,
+	};
+};
+
+const ExtractService = () => {
+	const classes = useStyles();
+	const theme = useTheme();
+	const [value, setValue] = React.useState(0);
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+
+	const handleChangeIndex = (index) => {
+		setValue(index);
+	};
+
+	return (
+		<div className={classes.root}>
 			<Breadcrumbs aria-label="breadcrumb">
 				<Link color="inherit" href="/" onClick={""}>
 					Home
 				</Link>
-				<Typography color="textPrimary">Metadata</Typography>
+				<Typography color="textPrimary">Extractor Service</Typography>
 			</Breadcrumbs>
-			<form onSubmit={submitForm}>
-				<FormMetadata
-					classes={classes}
-					setSearchWord={setSearchWord}
-					percentage={percentage}
-					setPercentage={setPercentage}
-					algorithm={algorithm}
-					setAlgorithm={setAlgorithm}
-					setUploadFile={setUploadFile}
-				/>
-			</form>
-			<br />
-			<Card>
-				<CardHeader
-					title="Results"
-					className={classes.title}
-					titleTypographyProps={{ variant: "h6" }}
-				></CardHeader>
+
+			<Card className={classes.root}>
 				<CardContent>
-					<TableMetadata
-						classes={classes}
-						open={open}
-						setOpen={setOpen}
-						data={data}
-						setResponse={setResponse}
-					/>
+					<div className={classes.root}>
+						<AppBar position="static" color="default">
+							<Tabs
+								value={value}
+								onChange={handleChange}
+								indicatorColor="primary"
+								textColor="primary"
+								variant="fullWidth"
+								aria-label="full width tabs example"
+							>
+								<Tab
+									className={classes.title}
+									label="Metadata"
+									{...a11yProps(0)}
+								/>
+								<Tab
+									className={classes.title}
+									label="Image Text"
+									{...a11yProps(1)}
+								/>
+							</Tabs>
+						</AppBar>
+						<SwipeableViews
+							axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+							index={value}
+							onChangeIndex={handleChangeIndex}
+						>
+							<TabPanel
+								value={value}
+								index={0}
+								dir={theme.direction}
+							>
+								<FormMetadata/>
+							</TabPanel>
+							<TabPanel
+								value={value}
+								index={1}
+								dir={theme.direction}
+							>
+								<FormImgExt/>
+							</TabPanel>
+						</SwipeableViews>
+					</div>
 				</CardContent>
 			</Card>
 		</div>

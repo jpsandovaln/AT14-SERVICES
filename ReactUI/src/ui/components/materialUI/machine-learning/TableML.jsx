@@ -26,7 +26,6 @@ const TableML = (classes) => {
 							<TableCell align="center">Options</TableCell>
 						</TableRow>
 					</TableHead>
-
 					<TableBody>
 						{classes.data &&
 							classes.data.map((row) => (
