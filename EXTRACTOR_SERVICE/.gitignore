@@ -111,4 +111,5 @@ build
 eng.traineddata
 assets/
 chi_tra.traineddata
+eng.traineddata
 tesseract-ocr-result.pdf
