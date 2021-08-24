@@ -3,13 +3,7 @@
  * Build an instance
  *
  */
-interface Persona {
-    cabeza: string;
-    dedos: number;
-    altoChato: boolean;
-    rubio?: boolean;
-}
-const pepe: Persona = { cabeza: "grande", dedos: 5, altoChato: true };
+
 class MachineLearing {
     image: string;
     searchWord: string;
