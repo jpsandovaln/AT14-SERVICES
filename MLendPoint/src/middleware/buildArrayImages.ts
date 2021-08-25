@@ -1,12 +1,16 @@
 class BuildArrayImages {
-    buildArrayImages(imagePaths, unzipOutput, filename) {
-        let files = [];
+    buildArrayImages(
+        imagePaths: string,
+        unzipOutput: string,
+        filename: string
+    ) {
+        let files: Array<object> = [];
         for (let index = 0; index < imagePaths.length; index++) {
             let element = {
                 originalname: imagePaths[index],
                 mimetype: "image/jpeg",
                 filename: imagePaths[index],
-                path: unzipOutput + "/" + filename + "/" + imagePaths[index],
+                path: unzipOutput + "/" + filename + "/" + imagePaths[index]
             };
             files.push(element);
         }
@@ -14,4 +18,4 @@ class BuildArrayImages {
     }
 }
 
-module.exports = BuildArrayImages;
+export default BuildArrayImages;
