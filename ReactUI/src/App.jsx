@@ -9,7 +9,6 @@ import ReportConvertPage from "./ui/pages/ReportConvert/ReportConvertPage";
 
 const App = () => {
 	const [isLogin, setIsLogin] = useState(false);
-	console.log("isLogin", isLogin);
 	return (
 		<Router>
 			<Switch>

@@ -10,9 +10,7 @@ import {
 	Divider,
 	Grid,
 } from "@material-ui/core";
-
 import GoogleLogin from "react-google-login";
-
 import "./loginPage.css";
 
 const Login = (props) => {

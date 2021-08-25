@@ -39,7 +39,7 @@ const FormAudioConveter = () => {
 					setOpen(false);
 				})
 				.catch((error) => {
-					console.log(error);
+					return(error);
 				});
 		};
 
