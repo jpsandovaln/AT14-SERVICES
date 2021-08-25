@@ -2,14 +2,14 @@ class analize {
     _imagePaths: string;
     _searchWord: string;
     _percentage: number;
-    _secondsToString: number;
+    _secondsToString: JSON;
     _algorithm: string;
     _pathImage: string;
     constructor(
         imagePaths: string,
         searchWord: string,
         percentage: number,
-        secondsToString: number,
+        secondsToString: JSON,
         algorithm: string,
         pathImage: string
     ) {
@@ -63,4 +63,4 @@ class analize {
     }
 }
 
-module.exports = analize;
+export default analize;

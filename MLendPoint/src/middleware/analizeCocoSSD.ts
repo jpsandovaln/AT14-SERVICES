@@ -1,17 +1,24 @@
-const CocoSSD = require("../controllers/CocoSSD");
-const analize = require("./analize");
-const JsonResponse = require("./jsonResponse");
+import CocoSSD from "../controllers/CocoSSD";
+import analize from "./analize";
+import JsonResponse from "./jsonResponse";
 
 class analizeCocoSSD extends analize {
     constructor(
-        imagePaths,
-        searchWord,
-        percentage,
-        secondsToString,
-        algorithm,
-        pathImage
+        imagePaths: string,
+        searchWord: string,
+        percentage: number,
+        secondsToString: JSON,
+        algorithm: string,
+        pathImage: string
     ) {
-        super(imagePaths, searchWord, percentage, secondsToString, algorithm, pathImage);
+        super(
+            imagePaths,
+            searchWord,
+            percentage,
+            secondsToString,
+            algorithm,
+            pathImage
+        );
     }
     async recognition() {
         let response = [];
@@ -36,4 +43,4 @@ class analizeCocoSSD extends analize {
         return response;
     }
 }
-module.exports = analizeCocoSSD;
+export default analizeCocoSSD;

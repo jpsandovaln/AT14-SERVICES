@@ -45,7 +45,7 @@ class CocoSSD extends MachineLearing {
         return this.parse(arr);
     }
 
-    parse(arr) {
+    parse(arr: Array) {
         let arrParse = new Array();
         arr.forEach((element) => {
             let arrAux = {

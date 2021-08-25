@@ -2,13 +2,12 @@ import path from "path";
 
 class JsonResponse {
     response(
-        result,
+        result: any, //TODO: review type of data
         algorithm: string,
-        searchWord: string,
-        secondsToString,
-        image,
-        response,
-        pathImage
+        secondsToString: JSON,
+        image: any, //TODO: review type of data
+        response: Array<object>,
+        pathImage: string
     ) {
         if (result[0] !== undefined) {
             const objectResult = result[0];
@@ -27,4 +26,4 @@ class JsonResponse {
     }
 }
 
-module.exports = JsonResponse;
+export default JsonResponse;
