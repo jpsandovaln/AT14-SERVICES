@@ -11,9 +11,7 @@ const JAVA_SPACE = ' ';
 
 class JavaCommand extends Command{
     build(parameter) {
-        if (!parameter) {
-            throw new ParameterInvalidException('Java parameter invalid.', 'SAB-0125478');
-        }
+        parameter.validate();
         try {
             const command =
                 parameter.javaBinaryPath + JAVA_COMPILER +

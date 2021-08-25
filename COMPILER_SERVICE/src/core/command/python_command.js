@@ -6,9 +6,7 @@ const PYTHON_COMPILER = 'python ';
 
 class PythonCommand extends Command{
     build(parameter) {
-        if (!parameter) {
-            throw new ParameterInvalidException('Python parameter invalid.', 'SAB-0125478');
-        }
+        parameter.validate();
         try {
             const command =
                 parameter.pythonBinaryPath + PYTHON_COMPILER +

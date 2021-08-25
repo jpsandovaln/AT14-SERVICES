@@ -2,6 +2,8 @@ const Compile = require('./compiler');
 const Calculate = require('./facade/operation/calculate');
 const OperationFacade = require('./facade/operation_facade');
 const Employee = require('./facade/Person/employee');
+const Computer = require('./memento/computer');
+const CareTaker = require('./memento/caretaker');
 
 class Main {
     constructor(value) {
@@ -48,9 +50,39 @@ const employee = new Employee('Juan', 'Perez');
 console.info('calculation made by ' + employee.firstName);
 console.info(calculate.add(5, 6));*/
 
-OperationFacade.calculate({
+/* OperationFacade.calculate({
     firstName: 'Pepe',
     lastName: 'Vargas',
     val1: 8,
     val2: 10
-});
+});*/
+
+/*const computer1 = new Computer('unix', '16GB', '1TB');
+computer1.toString();
+
+
+const computer2 = new Computer('win', '128MB', '128MB');
+computer2.toString();*/
+
+const computer1 = new Computer('unix', '16GB', '1TB');
+computer1.toString();
+console.info('*************************');
+const caretaker = new CareTaker();
+caretaker.addComputer(1, computer1.backup());
+
+computer1.op = 'win';
+computer1.memory = '128MB';
+computer1.hdd = '512GB'
+
+computer1.toString();
+console.info('*************************');
+caretaker.addComputer(2, computer1.backup());
+
+
+computer1.restore(caretaker.getComputer(1));
+computer1.toString();
+console.info('*************************');
+
+computer1.restore(caretaker.getComputer(2));
+computer1.toString();
+console.info('*************************');
