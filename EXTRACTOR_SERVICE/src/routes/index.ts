@@ -7,7 +7,8 @@ const router = express.Router();
 
 class Routes {
     constructor(app = express()) {
-        router.get("/upload", controller.upload);
+        router.post("/upload", controller.extractText);
+        router.post("/extractToPDF", controller.extractToPDF);
         app.use(router);
     }
 }
