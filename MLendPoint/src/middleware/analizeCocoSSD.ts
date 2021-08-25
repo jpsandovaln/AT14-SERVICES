@@ -21,7 +21,7 @@ class analizeCocoSSD extends analize {
         );
     }
     async recognition() {
-        let response = [];
+        let response: JsonResponse = [];
         for (const image of this.imagePaths) {
             const machineLearning = new CocoSSD(
                 image.path,
