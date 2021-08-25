@@ -1,5 +1,11 @@
+const fs = require("fs");
+const path = require("path");
 const Parameter = require("./parameter");
 const ParameterInvalidException = require('../../common/exception/parameter_exception');
+const NotNullOrEmptyValidation = require("../../common/validation/not_null_or_empty_validation");
+const FileValidation = require("../../common/validation/file_validation");
+const FolderValidation = require("../../common/validation/folder_validation");
+const Context = require("../../common/validation/context");
 
 class JavaParameter extends Parameter {
 
@@ -17,9 +23,14 @@ class JavaParameter extends Parameter {
     }
 
     validate() {
-        if (!this._filePath || !this._javaBinaryPath) {
-            throw new ParameterInvalidException('parameter invalid.', 'SAB-0124587');
-        }
+        const strategies = [];
+        strategies.push(new NotNullOrEmptyValidation("filePath", this._filePath));
+        /*strategies.push(new NotNullOrEmptyValidation("javaBinaryPath", this._javaBinaryPath));
+        strategies.push(new FileValidation(this._filePath, [".java"]));
+        strategies.push(new FolderValidation(this._javaBinaryPath));*/
+
+        const context = new Context(strategies);
+        context.validate();
     }
 }
 
