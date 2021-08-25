@@ -25,9 +25,9 @@ class JavaParameter extends Parameter {
     validate() {
         const strategies = [];
         strategies.push(new NotNullOrEmptyValidation("filePath", this._filePath));
-        /*strategies.push(new NotNullOrEmptyValidation("javaBinaryPath", this._javaBinaryPath));
+        strategies.push(new NotNullOrEmptyValidation("javaBinaryPath", this._javaBinaryPath));
         strategies.push(new FileValidation(this._filePath, [".java"]));
-        strategies.push(new FolderValidation(this._javaBinaryPath));*/
+        strategies.push(new FolderValidation(this._javaBinaryPath));
 
         const context = new Context(strategies);
         context.validate();
