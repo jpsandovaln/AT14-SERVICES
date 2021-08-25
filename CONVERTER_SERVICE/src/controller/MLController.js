@@ -4,29 +4,24 @@ const path = require("path");
 const Zip = require("../middleware/zipping");
 const VideoServices = require("../middleware/videoService");
 const uploadFileMiddleware = require("../middleware/uploadFilesWithoutHush");
-require("dotenv").config("../../.env");
 
 const framesZipML = async (req, res) => {
     await uploadFileMiddleware(req, res);
     const nameFile = req.file.filename;
-    console.log(nameFile);
     const resultName = Date.now();
     const videoServices = new VideoServices(req.body, nameFile, resultName);
 
     const resultPathFrames = await videoServices.obtainFrames();
     const zip = new Zip();
-    const pathFramesZip =
-        resultPathFrames != "" ? await zip.zipImages(resultPathFrames) : "";
+    const pathFramesZip = resultPathFrames != "" ? await zip.zipImages(resultPathFrames) : "";
     const nameZipFile = path.basename(pathFramesZip);
 
-    res.sendFile(pathFramesZip)
-
-    /*res.status(200).send([
+    res.status(200).send([
         {
             name: nameFile,
             filePath: "http://localhost:8080/framesZipML/" + nameZipFile,
         },
-    ]);*/
+    ]);
 };
 
 const downloadMLZip = (req, res) => {
