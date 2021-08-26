@@ -1,5 +1,5 @@
-const CommandSchema = require("../../../controller/image/CommandSchema.js");
-const Interpreter = require("../../../controller/image/Interpreter.js");
+const CommandSchema = require("./CommandSchema.js");
+const Interpreter = require("./Interpreter.js");
 
 class ImageCommands {
 
