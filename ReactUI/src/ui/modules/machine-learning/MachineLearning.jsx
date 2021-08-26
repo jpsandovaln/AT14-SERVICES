@@ -9,6 +9,8 @@ import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import TableML from "../../components/materialUI/machine-learning/TableML";
 import FormML from "../../components/materialUI/machine-learning/FormML";
+import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -95,6 +97,11 @@ const MachineLearing = () => {
 			</form>
 			<br />
 			<Card>
+				<CardActions>
+					<Button type="submit" variant="contained" color="primary">
+						Analyze
+					</Button>
+				</CardActions>
 				<CardHeader
 					title="Results"
 					className={classes.title}

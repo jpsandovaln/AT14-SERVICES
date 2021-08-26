@@ -8,7 +8,6 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import GetFiles from "./components/getFiles";
-import Form from "./components/form";
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import { Typography } from "@material-ui/core";

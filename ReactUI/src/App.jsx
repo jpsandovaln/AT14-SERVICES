@@ -3,15 +3,12 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import HomePage from "./ui/pages/Home/HomePage";
 import ConverterPage from "./ui/pages/Converter/ConverterPage";
 import MachineLearningPage from "./ui/pages/MachineLearning/MachineLearningPage";
-<<<<<<< HEAD
+import ExtractorServicePage from "./ui/pages/ExtractorService/ExtractorPage";
 import LoginPage from "./ui/pages/login/LoginPage";
-=======
 import ReportConvertPage from "./ui/pages/ReportConvert/ReportConvertPage";
->>>>>>> develop
 
 const App = () => {
 	const [isLogin, setIsLogin] = useState(false);
-	console.log("isLogin", isLogin);
 	return (
 		<Router>
 			<Switch>
@@ -30,7 +27,8 @@ const App = () => {
 					exact
 					path="/Home"
 					component={(props) => (
-						<HomePage isLogin={isLogin} history={props.history} />
+						<HomePage isLogin={isLogin} 
+						history={props.history} />
 					)}
 				/>
 
@@ -54,10 +52,24 @@ const App = () => {
 						/>
 					)}
 				/>
-				<Route exact path="/graphql" component={ReportConvertPage} />
+				<Route 
+					exact 
+					path="/ExtractorService" 
+					component={(props) => (
+						<ExtractorServicePage
+							isLogin={isLogin}
+							history={props.history}
+						/>
+					)}
+				/>
+				<Route 
+					exact 
+					path="/graphql" 
+					component={ReportConvertPage} 
+				/>
 			</Switch>
 		</Router>
-	);
-};
+	
+	)};
 
 export default App;
