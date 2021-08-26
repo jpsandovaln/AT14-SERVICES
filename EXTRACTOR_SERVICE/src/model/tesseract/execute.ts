@@ -11,7 +11,7 @@ import { ICropped } from "./interfaces/iCropped";
 import { Extractor } from "./extractor";
 
 const worker = createWorker();
-const linkEnglishChino = "https://res.cloudinary.com/marcandea/image/upload/v1629733958/samples/text-eng-chin_kxe165.png";
+const linkEnglishChino = "ttps://res.cloudinary.com/marcandea/image/upload/v1629733958/samples/text-eng-chin_kxe165.png";
 const pathEnglishChino = "D:/prog101/AT14/AT14-SERVICES/EXTRACTOR_SERVICE/assets/a.png"
 
 // Object Base to extract text.
@@ -33,10 +33,10 @@ const rectanglePart = {
 const imageToCropped: ICropped = {
   worker: worker,
   language: "eng",
-  path: "https://telegram.org/file/811140100/2/maZcBXgwrmE.306486/5bd7c8f4708afe28f8",
+  path: "ttps://telegram.org/file/811140100/2/maZcBXgwrmE.306486/5bd7c8f4708afe28f8",
   rectangle: rectanglePart,
 };
-//const extractorCroppedImage: Extractor = new ExtractCroppedImage(imageToCropped);
+const extractorCroppedImage: Extractor = new ExtractCroppedImage(imageToCropped);
 //
 
 // Object Base to convert in PDF
@@ -45,11 +45,11 @@ const imageToDocument: IBase = {
   language: "eng+chi_tra",
   path: linkEnglishChino,
 };
-//const extractorImageToPDF: Extractor = new ExtractToPDF(imageToDocument);
+// const extractorImageToPDF: Extractor = new ExtractToPDF(imageToDocument);
 //
 
 /* EXECUTE METHODS */
 
 // (async () => console.log(await extractorImg.extract()))();
-// (async () => console.log(await extractorCroppedImage.extract()))();
+(async () => console.log(await extractorCroppedImage.extract()))();
 // (async () => console.log(await extractorImageToPDF.extract()))();
