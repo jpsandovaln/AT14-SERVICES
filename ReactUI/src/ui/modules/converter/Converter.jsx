@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import PropTypes from "prop-types";
@@ -12,6 +11,8 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import FormImgConveter from "../../components/materialUI/converter/FormImgConveter";
 import FormVideoConverter from "../../components/materialUI/converter/FormVideoConverter";
+import FormAudioConverter from "../../components/materialUI/converter/FormAudioConverter"
+import FormDocumentConverter from "../../components/materialUI/converter/FormDocumentConverter";
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
@@ -96,13 +97,23 @@ const Converter = () => {
 							>
 								<Tab
 									className={classes.title}
-									label="Video converter"
+									label="Video"
 									{...a11yProps(0)}
 								/>
 								<Tab
 									className={classes.title}
-									label="Imagen converter"
+									label="Image"
 									{...a11yProps(1)}
+								/>
+								<Tab
+									className={classes.title}
+									label="Audio"
+									{...a11yProps(2)}
+								/>
+								<Tab
+									className={classes.title}
+									label="Document"
+									{...a11yProps(3)}
 								/>
 							</Tabs>
 						</AppBar>
@@ -124,6 +135,20 @@ const Converter = () => {
 								dir={theme.direction}
 							>
 								<FormImgConveter />
+							</TabPanel>
+							<TabPanel
+								value={value}
+								index={2}
+								dir={theme.direction}
+							>
+								<FormAudioConverter />
+							</TabPanel>
+							<TabPanel
+								value={value}
+								index={3}
+								dir={theme.direction}
+							>
+								<FormDocumentConverter />
 							</TabPanel>
 						</SwipeableViews>
 					</div>

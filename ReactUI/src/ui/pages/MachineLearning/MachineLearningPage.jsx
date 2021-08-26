@@ -2,7 +2,7 @@ import React from "react";
 import SideBar from "../../modules/sidebar/SideBar";
 import MachineLearning from "../../modules/machine-learning/MachineLearning";
 
-const MachineLearningPage = () => {
+const MachineLearningPage = ({ props }) => {
 	return <SideBar page={MachineLearning} />;
 };
 

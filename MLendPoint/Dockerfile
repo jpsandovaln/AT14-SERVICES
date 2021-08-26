@@ -1,13 +1,19 @@
-FROM node:10.13-alpine
+FROM node:14
 
-WORKDIR /app
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-COPY ["package.json", "package-lock.json*", "./"]
+WORKDIR /home/node/app
+
+COPY package*.json ./
+
+USER node
 
 RUN npm install
 
-COPY . .
+COPY --chown=node:node . .
 
-EXPOSE 3000
+ARG APP_PORT=8080
 
-CMD npm start
+EXPOSE ${APP_PORT}
+
+CMD ["node", "./src/app.js"]

@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
-import CardActions from "@material-ui/core/CardActions";
+
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -150,11 +150,6 @@ const FormML = (classes) => {
 						</Grid>
 					</Grid>
 				</CardContent>
-				<CardActions>
-					<Button type="submit" variant="contained" color="primary">
-						Analyze
-					</Button>
-				</CardActions>
 			</Card>
 		</div>
 	);
