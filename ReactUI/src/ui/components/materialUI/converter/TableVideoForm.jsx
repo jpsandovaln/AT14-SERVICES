@@ -11,6 +11,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import TableBody from "@material-ui/core/TableBody";
 
 const useStyles = makeStyles(() => ({
 	card: {
