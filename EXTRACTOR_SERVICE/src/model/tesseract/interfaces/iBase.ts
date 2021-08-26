@@ -1,5 +1,5 @@
 export interface IBase {
-    worker: object;
-    language: string;
-    path: string;
-  }
+	worker: object;
+	language: string;
+	path: string;
+}
