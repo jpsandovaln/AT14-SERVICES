@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { ICropped } from "./interfaces/iCropped";
 import { Extractor } from "./extractor";
 
@@ -15,7 +16,7 @@ export class ExtractCroppedImage extends Extractor {
 		const {
 			data: { text },
 		} = await this.worker.recognize(this.path, { rectangle });
-		await this.worker.terminate();
+		//await this.worker.terminate();
 		return text;
 	}
 }

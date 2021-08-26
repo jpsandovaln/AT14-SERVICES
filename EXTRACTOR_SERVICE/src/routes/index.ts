@@ -9,23 +9,8 @@ class Routes {
     constructor(app = express()) {
         router.post("/upload", controller.extractText);
         router.post("/extractToPDF", controller.extractToPDF);
+        router.post("/extractCroppedImage", controller.extractCroppedImage);
         app.use(router);
     }
 }
 export { Routes };
-
-/*
-const express = require("express");
-const router = express.Router();
-const controller = require("../controller/file.controller");
-
-let routes = (app) => {
-    router.post("/upload", controller.upload);
-    router.get("/files", controller.getListFiles);
-    router.get("/files/:name", controller.download);
-
-    app.use(router);
-};
-
-module.exports = routes;
-*/
