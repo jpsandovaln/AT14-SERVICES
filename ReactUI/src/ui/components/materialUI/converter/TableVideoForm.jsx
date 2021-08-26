@@ -1,5 +1,4 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -11,6 +10,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -29,15 +29,15 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const TableVideoForm = () => {
-	const classes = useStyles();
+const TableVideoForm = (classes) => {
+	const clas = useStyles();
 
 	return (
 		<Grid container spacing={3}>
 			<Grid item xs={12}>
-				<Card className={classes.card}>
+				<Card className={clas.card}>
 					<CardHeader
-						className={classes.title}
+						className={clas.title}
 						title="Results"
 						titleTypographyProps={{ variant: "h6" }}
 					/>
@@ -55,7 +55,7 @@ const TableVideoForm = () => {
 						</Grid>
 						<Grid container spacing={6}>
 							<Grid item xs>
-								<TableContainer component={Paper}>
+								<TableContainer>
 									<Table
 										className={classes.table}
 										size="small"
@@ -67,11 +67,35 @@ const TableVideoForm = () => {
 													Name
 												</TableCell>
 												<TableCell align="center">
-													Link
+													File Path
 												</TableCell>
 											</TableRow>
 										</TableHead>
+										<TableBody>
+											{classes.data &&
+												classes.data.map((row) => (
+													<TableRow key={row.name}>
+														<TableCell align="center">
+															{row.name}
+														</TableCell>
+														<TableCell align="center">
+															<a
+																href={
+																	row.filePath
+																}
+																without
+																rel="noreferrer"
+																target="_blank"
+																download
+															>
+																Download
+															</a>
+														</TableCell>
+													</TableRow>
+												))}
+										</TableBody>
 									</Table>
+									{classes.open ? <LinearProgress /> : ""}
 								</TableContainer>
 							</Grid>
 						</Grid>

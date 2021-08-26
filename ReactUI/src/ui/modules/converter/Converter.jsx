@@ -77,7 +77,7 @@ const Converter = () => {
 	return (
 		<div className={classes.root}>
 			<Breadcrumbs aria-label="breadcrumb">
-				<Link color="inherit" href="/" onClick={""}>
+				<Link color="inherit" href="/">
 					Home
 				</Link>
 				<Typography color="textPrimary">Convert</Typography>
