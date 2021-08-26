@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { changeVideoFormat, download } = require("../controller/VideoController");
+const { changeVideoFormat, download } = require("../controller/videoController");
 const { framesZipML, downloadMLZip } = require("../controller/MLController");
 const {
     getData,
