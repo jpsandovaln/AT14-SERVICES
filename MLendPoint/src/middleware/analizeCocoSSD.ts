@@ -1,15 +1,16 @@
 import CocoSSD from "../controllers/CocoSSD";
 import analize from "./analize";
 import JsonResponse from "./jsonResponse";
+import SecondsToString from "./secondToString";
 
 class analizeCocoSSD extends analize {
     constructor(
-        imagePaths,
-        searchWord,
-        percentage,
-        secondsToString,
-        algorithm,
-        pathImage
+        imagePaths: any,
+        searchWord: string,
+        percentage: number,
+        secondsToString: SecondsToString,
+        algorithm: string,
+        pathImage: string
     ) {
         super(
             imagePaths,
@@ -20,15 +21,15 @@ class analizeCocoSSD extends analize {
             pathImage
         );
     }
-    async recognition() {
-        let response = [];
+    async recognition(): Promise<any> {
+        let response: JsonResponse[] = [];
         for (const image of this.imagePaths) {
             const machineLearning = new CocoSSD(
                 image.path,
                 this.searchWord,
                 this.percentage
             );
-            const result = await machineLearning.getJSON();
+            const result: Promise<CocoSSD> = await machineLearning.getJSON();
             const jsonResponse = new JsonResponse();
             response = jsonResponse.response(
                 result,
