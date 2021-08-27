@@ -14,6 +14,10 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+import Brightness2Icon from '@material-ui/icons/Brightness2';
 
 const drawerWidth = 240;
 const useStyle = makeStyles((theme) => ({
@@ -57,14 +61,14 @@ const NavBar = (onClick) => {
 	const [auth, setAuth] = React.useState(true);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
+	const [state, setState] = React.useState({
+		checkedA: true,
+		checkedB: true,
+	  });
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
 	  };
-  
-	const handleChange = (event) => {
-	  setAuth(event.target.checked);
-	};
   
 	const handleMenu = (event) => {
 	  setAnchorEl(event.currentTarget);
@@ -73,6 +77,44 @@ const NavBar = (onClick) => {
 	const handleClose = () => {
 	  setAnchorEl(null);
 	};
+
+	const handleChange = (event) => {
+		setState({ ...state, [event.target.name]: event.target.checked });
+	  };
+
+	  const AntSwitch = withStyles((theme) => ({
+		root: {
+		  width: 28,
+		  height: 16,
+		  padding: 0,
+		  display: 'flex',
+		},
+		switchBase: {
+		  padding: 2,
+		  color: theme.palette.grey[500],
+		  '&$checked': {
+			transform: 'translateX(12px)',
+			color: theme.palette.common.white,
+			'& + $track': {
+			  opacity: 1,
+			  backgroundColor: theme.palette.primary.main,
+			  borderColor: theme.palette.primary.main,
+			},
+		  },
+		},
+		thumb: {
+		  width: 12,
+		  height: 12,
+		  boxShadow: 'none',
+		},
+		track: {
+		  border: `1px solid ${theme.palette.grey[500]}`,
+		  borderRadius: 16 / 2,
+		  opacity: 1,
+		  backgroundColor: theme.palette.common.white,
+		},
+		checked: {},
+	  }))(Switch);
 
 	return (
 		<div className={classes.root}>
@@ -96,7 +138,6 @@ const NavBar = (onClick) => {
 					<Typography variant="h6" className={classes.title} noWrap>
 						SNIFFER DOG
 					</Typography> 
-					{auth && (
 						<div>
 							<IconButton 
 								aria-label="display more actions" 
@@ -118,8 +159,6 @@ const NavBar = (onClick) => {
                 				<MenuItem onClick={handleClose}>My account</MenuItem>
 							</Menu>
 						</div>
-					)}
-					{auth && (
 						<div>
 							<IconButton 
 							aria-label="display more actions" 
@@ -137,11 +176,25 @@ const NavBar = (onClick) => {
 								open={Boolean(anchorEl)}
 								onClose={handleClose}
 							>
-								<MenuItem onClick={handleClose}>Mode</MenuItem>
+							<IconButton
+							>
+							<FormGroup>
+									<Typography component="div">
+										<Grid component="label" 
+										container alignItems="center" spacing={1}
+										>
+										<Grid item><WbSunnyIcon/></Grid>
+										<Grid item>
+											<AntSwitch checked={state.checkedC} onChange={handleChange} name="checkedC"  />
+										</Grid>
+										<Grid item><Brightness2Icon/></Grid>
+										</Grid>
+									</Typography>
+									</FormGroup>
+							</IconButton>
                 				<MenuItem onClick={handleClose}>Language</MenuItem>
 							</Menu>
 						</div>
-					)}
 				</Toolbar>
 			</AppBar>
 
