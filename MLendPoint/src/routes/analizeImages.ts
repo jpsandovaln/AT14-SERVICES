@@ -27,7 +27,7 @@ router.post("/", upload.array("Images"), async (req, res) => {
             algorithm,
             pathImage
         );
-        let response = await learning.recognition();
+        const response = await learning.recognition();
         res.send(response);
     }
 
@@ -39,7 +39,7 @@ router.post("/", upload.array("Images"), async (req, res) => {
             secondsToString,
             algorithm
         );
-        let response = await learning.recognition();
+        const response = await learning.recognition();
         res.send(response);
     }
 });
