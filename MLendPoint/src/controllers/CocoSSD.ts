@@ -31,9 +31,9 @@ class CocoSSD extends MachineLearing {
     async getJSON() {
         let quantity = 0;
         this.predictions = await this.loadModel();
-        let arr = new Array();
+        let arr = [];
         this.predictions.forEach((element) => {
-            let searchWord = new RegExp(this.searchWord, "i");
+            const searchWord = new RegExp(this.searchWord, "i");
             if (
                 element.class.search(searchWord) != -1 &&
                 element.score >= this.percentage
@@ -46,9 +46,9 @@ class CocoSSD extends MachineLearing {
     }
 
     parse(arr) {
-        let arrParse = new Array();
+        let arrParse = [];
         arr.forEach((element) => {
-            let arrAux = {
+            const arrAux = {
                 className: element.class,
                 probability: element.score
             };
