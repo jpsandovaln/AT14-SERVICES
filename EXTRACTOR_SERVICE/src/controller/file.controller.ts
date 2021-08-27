@@ -59,7 +59,7 @@ class FileController {
             if (req.file) {
                 const imageBasic: IBase = {
                     worker: worker,
-                    language: "eng+chi_tra",
+                    language: req.body.language,
                     path: req.file.path,
                   };
                   const pdf: Extractor = new ExtractToPDF(imageBasic);
@@ -93,14 +93,14 @@ class FileController {
             }
             if (req.file) {
                 const rectanglePart = {
-                    left: 0,
-                    top: 0,
-                    width: 500,
-                    height: 250,
+                    left: req.body.left,
+                    top: req.body.top,
+                    width: req.body.width,
+                    height: req.body.height,
                   };
                   const imageToCropped: ICropped = {
                     worker: worker,
-                    language: "eng",
+                    language: req.body.language,
                     path: req.file.path,
                     rectangle: rectanglePart,
                   };
