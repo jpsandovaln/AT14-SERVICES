@@ -43,4 +43,4 @@ class analizeCocoSSD extends analize {
         return response;
     }
 }
-module.exports = analizeCocoSSD;
+export default analizeCocoSSD;

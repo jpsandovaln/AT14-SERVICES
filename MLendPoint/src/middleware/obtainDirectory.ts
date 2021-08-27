@@ -9,4 +9,4 @@ class ObtainDirectory {
     }
 }
 
-module.exports = ObtainDirectory;
+export default ObtainDirectory;

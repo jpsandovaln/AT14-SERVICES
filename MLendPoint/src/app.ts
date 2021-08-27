@@ -1,10 +1,10 @@
-import express = require("express");
-import path = require("path");
-import homeRouter = require("./routes/home");
-import analizeZip = require("./routes/analizeZip");
-import analizeImages = require("./routes/analizeImages");
-import aboutRouter = require("./routes/about");
-import cors = require("cors");
+import express from "express";
+import path from "path";
+import homeRouter from "./routes/home";
+import analizeZip from "./routes/analizeZip";
+import analizeImages from "./routes/analizeImages";
+import aboutRouter from "./routes/about";
+import cors from "cors";
 
 const app = express();
 app.use(cors());

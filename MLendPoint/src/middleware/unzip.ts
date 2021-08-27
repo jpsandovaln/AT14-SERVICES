@@ -2,8 +2,6 @@ import AdmZip from "adm-zip";
 import path from "path";
 
 class UnZip {
-    constructor() {}
-
     extractZip(zipPath, outPath) {
         let nameFile = path.parse(zipPath).name;
         const zip = new AdmZip(zipPath);
@@ -13,4 +11,4 @@ class UnZip {
     }
 }
 
-module.exports = UnZip;
+export default UnZip;

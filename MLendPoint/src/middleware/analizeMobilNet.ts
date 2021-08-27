@@ -43,4 +43,4 @@ class analizeMobilNet extends analize {
         return response;
     }
 }
-module.exports = analizeMobilNet;
+export default analizeMobilNet;
