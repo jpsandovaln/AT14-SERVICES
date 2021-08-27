@@ -53,7 +53,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
             algorithm,
             pathImage
         );
-        let response = await learning.recognition();
+        const response = await learning.recognition();
         res.send(response);
     }
 
@@ -66,7 +66,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
             algorithm,
             pathImage
         );
-        let response = await learning.recognition();
+        const response = await learning.recognition();
         res.send(response);
     }
 });
