@@ -3,9 +3,9 @@ import path from "path";
 
 class UnZip {
     extractZip(zipPath, outPath) {
-        let nameFile = path.parse(zipPath).name;
+        const nameFile = path.parse(zipPath).name;
         const zip = new AdmZip(zipPath);
-        var zipEntries = zip.getEntries();
+        const zipEntries = zip.getEntries();
 
         zip.extractAllTo(outPath, true);
     }
