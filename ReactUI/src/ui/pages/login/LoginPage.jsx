@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import GoogleLogin from "react-google-login";
 import "./loginPage.css";
+import Link from '@material-ui/core/Link';
 
 const Login = (props) => {
 	const logginSuccess = (res) => {
@@ -27,7 +28,7 @@ const Login = (props) => {
 
 	const classStyles = makeStyles((theme) => ({
 		paper: {
-			marginTop: theme.spacing(30),
+			marginTop: theme.spacing(5),
 			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
@@ -51,7 +52,27 @@ const Login = (props) => {
 	return (
 		<div className="Login">
 			<video src="background.mp4" autoPlay loop muted></video>
-
+			<Typography
+				component="h6"
+				variant="h7"
+				className={classes.font}
+				>
+				¿What is SnifferDog?
+			</Typography>
+			<Typography
+				component="h6"
+				variant="h7"
+				className={classes.font}
+				>
+				About us
+			</Typography>
+			<Typography
+				component="h6"
+				variant="h7"
+				className={classes.font}
+				>
+				Support
+			</Typography>
 			<Grid container>
 				<Grid item xs={8}></Grid>
 				<Grid item xs={3}>
@@ -123,6 +144,27 @@ const Login = (props) => {
 					</Paper>
 				</Grid>
 			</Grid>
+			<Typography
+				component="h6"
+				variant="h6"
+				className={classes.font}
+				>
+				© Copyright 2021 SnifferDog.?
+
+			</Typography>
+			<Link
+  				component="button"
+  				variant="body2"
+ 				onClick={() => {
+  				}}
+			>
+  			FundacionJala
+			</Link>
+			<Avatar
+				className={classes.Button}
+				alt="FundacionJala"
+				src="http://localhost:8081/fundacion_jala_logo.svg"
+			></Avatar>
 		</div>
 	);
 };

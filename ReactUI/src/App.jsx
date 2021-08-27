@@ -7,8 +7,9 @@ import ExtractorServicePage from "./ui/pages/ExtractorService/ExtractorPage";
 import LoginPage from "./ui/pages/login/LoginPage";
 import ReportConvertPage from "./ui/pages/ReportConvert/ReportConvertPage";
 
-const App = () => {
+function App () {
 	const [isLogin, setIsLogin] = useState(false);
+	
 	return (
 		<Router>
 			<Switch>
@@ -65,7 +66,12 @@ const App = () => {
 				<Route 
 					exact 
 					path="/graphql" 
-					component={ReportConvertPage} 
+					component={(props) =>(
+						<ReportConvertPage
+							isLogin={isLogin}
+							history={props.history}
+						/>
+					)} 
 				/>
 			</Switch>
 		</Router>
