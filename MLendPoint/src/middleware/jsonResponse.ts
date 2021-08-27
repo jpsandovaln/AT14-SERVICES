@@ -1,14 +1,14 @@
 import path from "path";
 
 class JsonResponse {
-    response(
-        result,
-        algorithm,
-        searchWord,
-        secondsToString,
-        image,
-        response,
-        pathImage
+    response: any(
+        result: any,
+        algorithm: string,
+        searchWord: string,
+        secondsToString: any,
+        image: any,
+        response: any,
+        pathImage: any
     ) {
         if (result[0] !== undefined) {
             const objectResult = result[0];

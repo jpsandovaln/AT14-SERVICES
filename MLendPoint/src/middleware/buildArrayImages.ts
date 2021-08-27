@@ -2,7 +2,7 @@ class BuildArrayImages {
     buildArrayImages(imagePaths, unzipOutput) {
         let files = [];
         for (let index = 0; index < imagePaths.length; index++) {
-            let element = {
+            const element = {
                 originalname: imagePaths[index],
                 mimetype: "image/jpeg",
                 filename: imagePaths[index],
