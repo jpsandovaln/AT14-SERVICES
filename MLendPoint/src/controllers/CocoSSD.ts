@@ -16,11 +16,11 @@ class CocoSSD extends MachineLearing {
      * @param {number} percentage Percentage of probability to search.
      */
 
-    constructor(image, searchWord, percentage) {
+    constructor(image: any, searchWord: string, percentage: number) {
         super(image, searchWord, percentage);
     }
 
-    async loadModel() {
+    async loadModel(): Promise<cocoSsd.DetectedObject[]> {
         const image = fs.readFileSync(this.image);
         const processInput = tf.node.decodeImage(image);
         const model = await cocoSsd.load();
