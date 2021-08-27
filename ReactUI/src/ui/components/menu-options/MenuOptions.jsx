@@ -12,6 +12,7 @@ import AutorenewIcon from "@material-ui/icons/Autorenew";
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import HomeIcon from "@material-ui/icons/Home";
 import { Link } from "react-router-dom";
+import AppsIcon from '@material-ui/icons/Apps';
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: theme.mixins.toolbar,
@@ -39,7 +40,7 @@ const MenuOptions = () => {
 		{
 			title: "Home",
 			icon: <HomeIcon style={{ color: "#fff" }} />,
-			path: "/",
+			path: "/home",
 		},
 		{
 			title: "Converter",
@@ -50,6 +51,11 @@ const MenuOptions = () => {
 			title: "Machine Learning",
 			icon: <DashboardIcon style={{ color: "#fff" }} />,
 			path: "/MachineAnalize",
+		},
+		{
+			title: "Extractor Service",
+			icon: <AppsIcon style={{ color: "#fff" }} />,
+			path: "/ExtractorService",
 		},
 		{
 			title: "Report Convert",

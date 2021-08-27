@@ -9,6 +9,8 @@ import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import TableML from "../../components/materialUI/machine-learning/TableML";
 import FormML from "../../components/materialUI/machine-learning/FormML";
+import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -32,8 +34,9 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: "#3a4651",
 	},
 }));
-
+let fileRecived = "";
 const MachineLearing = () => {
+	//const urlVC = "http://localhost:8083/frames";
 	const urlML = "http://localhost:8080/analizeZip";
 
 	const [data, setResponse] = React.useState([]);
@@ -41,16 +44,60 @@ const MachineLearing = () => {
 	const [searchWord, setSearchWord] = React.useState("");
 	const [algorithm, setAlgorithm] = React.useState("");
 	const [percentage, setPercentage] = React.useState("");
+	const [nameVideo, setNameVideo] = React.useState("Select a video file");
 	const [open, setOpen] = React.useState(false);
+
+	/*const obtainFrames = true;
+	const frameScale = 400;
+	const grayScale = true;*/
+
+	const nameFromVideo = async (e) => {
+		let videoFile = document.getElementById("contained-button-videoFile");
+
+		if (videoFile.files.length > 0) {
+			setNameVideo(videoFile.files.item(0).name);
+			setUploadFile(e.target.files[0]);
+		} else {
+			setNameVideo("Select a video file");
+			setUploadFile(null);
+		}
+	};
 
 	const submitForm = (event) => {
 		event.preventDefault();
 		setOpen(true);
+
+		/*const dataArrayConvert = new FormData();
+		dataArrayConvert.append("obtainFrames", obtainFrames);
+		dataArrayConvert.append("frameScale", frameScale);
+		dataArrayConvert.append("grayScale", grayScale);
+		dataArrayConvert.append("file", uploadFile);
+
+		const fetchDataConvert = () => {
+			setResponse([]);
+			axios
+				.post(urlVC, dataArrayConvert, {
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				})
+				.then((res) => {
+					//setResponse(res.data);
+					fileRecived = res.data;
+					setOpen(false);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		};
+		fetchDataConvert();*/
+
 		const dataArray = new FormData();
 		dataArray.append("searchWord", searchWord);
 		dataArray.append("algorithm", algorithm);
 		dataArray.append("percentage", percentage);
 		dataArray.append("zipFile", uploadFile);
+		//dataArray.append("zipFile", fileRecived);
 
 		const fetchData = () => {
 			setResponse([]);
@@ -82,7 +129,7 @@ const MachineLearing = () => {
 				</Link>
 				<Typography color="textPrimary">Machine Learning</Typography>
 			</Breadcrumbs>
-			<form onSubmit={submitForm}>
+			<form name="videoForm" onSubmit={submitForm}>
 				<FormML
 					classes={classes}
 					setSearchWord={setSearchWord}
@@ -91,10 +138,18 @@ const MachineLearing = () => {
 					algorithm={algorithm}
 					setAlgorithm={setAlgorithm}
 					setUploadFile={setUploadFile}
+					nameFromVideo={nameFromVideo}
+					setNameVideo={setNameVideo}
+					nameVideo={nameVideo}
 				/>
 			</form>
 			<br />
 			<Card>
+				<CardActions>
+					<Button type="submit" variant="contained" color="primary">
+						Analyze
+					</Button>
+				</CardActions>
 				<CardHeader
 					title="Results"
 					className={classes.title}
