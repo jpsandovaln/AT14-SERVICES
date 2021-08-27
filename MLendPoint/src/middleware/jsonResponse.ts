@@ -1,11 +1,12 @@
 import path from "path";
+import SecondsToString from "./secondToString";
 
 class JsonResponse {
     response(
         result: any,
         algorithm: string,
         searchWord: string,
-        secondsToString: any,
+        secondsToString: SecondsToString,
         image: any,
         response: any,
         pathImage: any

@@ -1,9 +1,4 @@
 "use strict";
-/**
- * @Class
- * Build an instance
- *
- */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -56,10 +51,10 @@ var MachineLearing = /** @class */ (function () {
         this.percentage = percentage;
         this.predictions = undefined;
     }
-    MachineLearing.prototype.getJSON = function (parameter) {
+    MachineLearing.prototype.getJSON = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                throw new Error("getJSON() must be implementrd");
+                throw new Error("getJSON() must be implemented");
             });
         });
     };

@@ -1,14 +1,15 @@
 import MobilNet from "../controllers/MobilNet";
 import analize from "./analize";
 import JsonResponse from "./jsonResponse";
+import SecondsToString from "./secondToString";
 
 class analizeMobilNet extends analize {
     constructor(
         imagePaths,
-        searchWord,
-        percentage,
-        secondsToString,
-        algorithm,
+        searchWord: string,
+        percentage: number,
+        secondsToString: SecondsToString,
+        algorithm: string,
         pathImage
     ) {
         super(

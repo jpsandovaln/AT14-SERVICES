@@ -17,11 +17,11 @@ router.get("/", (req, res) => {
 
 router.post("/", upload.single("zipFile"), async (req, res) => {
     const file = req.file;
-    const searchWord = req.body.searchWord;
-    const percentage = req.body.percentage;
+    const searchWord: string = req.body.searchWord;
+    const percentage: number = req.body.percentage;
     const zipNameFile = req.file.filename;
     const pathFile = req.file.path;
-    const algorithm = req.body.algorithm;
+    const algorithm: string = req.body.algorithm;
     const extension = path.extname(file.originalname);
     const fileName = path.basename(file.originalname, extension);
 

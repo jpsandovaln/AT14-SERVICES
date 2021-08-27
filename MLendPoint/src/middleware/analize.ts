@@ -14,7 +14,7 @@ class analize {
         percentage: number,
         secondsToString: SecondsToString,
         algorithm: string,
-        pathImage: any
+        pathImage: string
     ) {
         this._imagePaths = imagePaths;
         this._searchWord = searchWord;

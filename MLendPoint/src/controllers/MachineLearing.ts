@@ -17,7 +17,7 @@ class MachineLearing {
      * @param {number} percentage Percentage of probability to search.
      */
 
-    constructor(imagePath: any, searchWord: string, percentage: number) {
+    constructor(imagePath: string, searchWord: string, percentage: number) {
         if (new.target === MachineLearing)
             throw new Error(
                 "MachineLearing abstract class cannot be instantiated"
@@ -28,8 +28,8 @@ class MachineLearing {
         this.predictions = undefined;
     }
 
-    async getJSON(parameter) {
-        throw new Error("getJSON() must be implementrd");
+    async getJSON(): Promise<void> {
+        throw new Error("getJSON() must be implemented");
     }
 }
 

@@ -16,7 +16,7 @@ class CocoSSD extends MachineLearing {
      * @param {number} percentage Percentage of probability to search.
      */
 
-    constructor(image: any, searchWord: string, percentage: number) {
+    constructor(image: string, searchWord: string, percentage: number) {
         super(image, searchWord, percentage);
     }
 
@@ -28,7 +28,7 @@ class CocoSSD extends MachineLearing {
         return predictions;
     }
 
-    async getJSON() {
+    async getJSON(): Promise<any> {
         let quantity = 0;
         this.predictions = await this.loadModel();
         let arr = [];
@@ -42,6 +42,7 @@ class CocoSSD extends MachineLearing {
                 arr.push(element);
             }
         });
+
         return this.parse(arr);
     }
 
