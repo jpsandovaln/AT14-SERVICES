@@ -28,8 +28,8 @@ class FileController {
                     path: req.file.path,
                 };
                 const text: Extractor = new ExtractToText(imageBasic);
-                const result: Extractor = await text.extract();
-                                    
+                const result: Extractor = await text.extract();   
+
                 return res.status(200).send(result);
             }
             await worker.terminate();     
@@ -61,10 +61,10 @@ class FileController {
                     worker: worker,
                     language: req.body.language,
                     path: req.file.path,
-                  };
-                  const pdf: Extractor = new ExtractToPDF(imageBasic);
-                  const result: Extractor = await pdf.extract();
-                                  
+                };
+                const pdf: Extractor = new ExtractToPDF(imageBasic);
+                const result: Extractor = await pdf.extract();     
+
                 return res.status(200).send(result);
             }
             await worker.terminate();
@@ -75,7 +75,7 @@ class FileController {
                     message: "File size cannot be larger than 2MB!",
                 });
             }
-
+            
             res.status(500).send({
                 message: `Could not upload the file ${err}`,
             });
@@ -97,16 +97,16 @@ class FileController {
                     top: req.body.top,
                     width: req.body.width,
                     height: req.body.height,
-                  };
-                  const imageToCropped: ICropped = {
+                };
+                const imageToCropped: ICropped = {
                     worker: worker,
                     language: req.body.language,
                     path: req.file.path,
                     rectangle: rectanglePart,
-                  };
-                  const cropped: Extractor = new ExtractCroppedImage(imageToCropped);
-                  const result: Extractor = await cropped.extract();
-                                  
+                };
+                const cropped: Extractor = new ExtractCroppedImage(imageToCropped);
+                const result: Extractor = await cropped.extract();
+                      
                 return res.status(200).send(result);
             }
             await worker.terminate();
