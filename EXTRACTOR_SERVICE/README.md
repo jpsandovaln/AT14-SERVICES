@@ -2,6 +2,26 @@
 
 Project in typescript that extract text from an image and get metadata of files.
 
+## Project setup
+
+`npm install`
+
+### Run
+
+`npm start`
+
+### .env
+```
+Create a .env file with direccions:
+ROOT
+PORT
+```
+### Requirements to correctly run the program
+```
+Create / verify the following folder inside the public folder:
+uploads
+```
+
 ## Tesseract model
 
 We are using Tesseract OCR (Optical Character Recognition) to extract text from images.
