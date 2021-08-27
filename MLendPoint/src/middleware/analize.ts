@@ -1,11 +1,20 @@
+import SecondsToString from "./secondToString";
+interface analize {
+    _imagePaths: any;
+    _searchWord: string;
+    _percentage: number;
+    _secondsToString: SecondsToString;
+    _algorithm: string;
+    _pathImage: string;
+}
 class analize {
     constructor(
-        imagePaths,
-        searchWord,
-        percentage,
-        secondsToString,
-        algorithm,
-        pathImage
+        imagePaths: any,
+        searchWord: string,
+        percentage: number,
+        secondsToString: SecondsToString,
+        algorithm: string,
+        pathImage: any
     ) {
         this._imagePaths = imagePaths;
         this._searchWord = searchWord;
@@ -15,44 +24,44 @@ class analize {
         this._pathImage = pathImage;
     }
 
-    get imagePaths() {
+    get imagePaths(): any {
         return this._imagePaths;
     }
-    set imagePaths(imagePaths) {
+    set imagePaths(imagePaths: any) {
         this._imagePaths = imagePaths;
     }
 
-    get searchWord() {
+    get searchWord(): string {
         return this._searchWord;
     }
-    set searchWord(searchWord) {
+    set searchWord(searchWord: string) {
         this._searchWord = searchWord;
     }
-    get percentage() {
+    get percentage(): number {
         return this._percentage;
     }
-    set percentage(percentage) {
+    set percentage(percentage: number) {
         this._percentage = percentage;
     }
 
-    get secondsToString() {
+    get secondsToString(): SecondsToString {
         return this._secondsToString;
     }
-    set secondsToString(secondsToString) {
+    set secondsToString(secondsToString: SecondsToString) {
         this._secondsToString = secondsToString;
     }
 
-    get algorithm() {
+    get algorithm(): string {
         return this._algorithm;
     }
-    set algorithm(algorithm) {
+    set algorithm(algorithm: string) {
         this._algorithm = algorithm;
     }
 
-    get pathImage() {
+    get pathImage(): string {
         return this._pathImage;
     }
-    set pathImage(pathImage) {
+    set pathImage(pathImage: string) {
         this._pathImage = pathImage;
     }
 }
