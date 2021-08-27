@@ -1,7 +1,7 @@
 import path from "path";
 
 class JsonResponse {
-    response: any(
+    response(
         result: any,
         algorithm: string,
         searchWord: string,
@@ -9,7 +9,7 @@ class JsonResponse {
         image: any,
         response: any,
         pathImage: any
-    ) {
+    ): any {
         if (result[0] !== undefined) {
             const objectResult = result[0];
             const objectResponse = {
