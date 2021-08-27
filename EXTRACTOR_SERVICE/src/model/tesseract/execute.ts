@@ -33,7 +33,7 @@ const rectanglePart = {
 const imageToCropped: ICropped = {
   worker: worker,
   language: "eng",
-  path: "ttps://telegram.org/file/811140100/2/maZcBXgwrmE.306486/5bd7c8f4708afe28f8",
+  path: "",
   rectangle: rectanglePart,
 };
 const extractorCroppedImage: Extractor = new ExtractCroppedImage(imageToCropped);

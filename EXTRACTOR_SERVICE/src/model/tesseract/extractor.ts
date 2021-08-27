@@ -22,6 +22,8 @@ export abstract class Extractor {
 		await this.worker.initialize(this.language);
 	}
 
+	abstract validate(): any;
+
 	/**
 	 * Create the neccessary actions to extract text from an image.
 	 * It returns and object or text, according to the method
