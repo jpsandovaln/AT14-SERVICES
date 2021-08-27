@@ -1,6 +1,6 @@
 import { ICropped } from "./interfaces/iCropped";
 import { Extractor } from "./extractor";
-import { ExtractorException } from "../../common/exception/extractorException";
+import { CroppedImageException } from "../../common/exception/croppedImageException";
 import { Message } from "../../common/exception/message";
 import { ExceptionType } from "../../common/exception/exceptionType";
 

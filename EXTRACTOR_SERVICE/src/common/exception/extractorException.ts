@@ -1,8 +1,18 @@
-import { Exception } from "./exception";
-import { Message } from "./message";
+export class ExtractorException extends Error {
+	private _status: string;
+	private _code: string;
 
-export class ExtractorException extends Exception{
-    constructor(message: Message){
-        super(message);
-    }
+	constructor(message: any, status: string, code: string) {
+		super(message);
+		this._status = status;
+		this._code = code;
+	}
+
+	get status(): string  {
+		return this._status;
+	}
+
+	get code(): string  {
+		return this._code;
+	}
 }
