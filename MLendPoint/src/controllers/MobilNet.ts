@@ -31,9 +31,9 @@ class MobilNet extends MachineLearing {
     async getJSON() {
         let quantity = 0;
         this.predictions = await this.loadmodel();
-        let arr = new Array();
+        let arr = [];
         this.predictions.forEach((element) => {
-            let searchWord = new RegExp(this.searchWord, "i");
+            const searchWord = new RegExp(this.searchWord, "i");
             if (
                 element.className.search(searchWord) != -1 &&
                 element.probability >= this.percentage
@@ -46,7 +46,7 @@ class MobilNet extends MachineLearing {
     }
 
     parse(arr) {
-        let arrParse = new Array();
+        let arrParse = [];
         arr.forEach((element) => {
             arrParse.push(element);
         });
