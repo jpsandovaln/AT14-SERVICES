@@ -1,13 +1,14 @@
-const express = require("express");
-const path = require("path");
-const upload = require("../middleware/imageFilter");
-const ObtainDirectory = require("../middleware/obtainDirectory");
+import express from "express";
+import path from "path";
+import upload from "../middleware/imageFilter";
+import ObtainDirectory from "../middleware/obtainDirectory";
+import UnZip from "../middleware/unzip";
+import SecondsToString from "../middleware/secondToString";
+import analizeCocoSSD from "../middleware/analizeCocoSSD";
+import analizeMobilNet from "../middleware/analizeMobilNet";
+import BuildArrayImages from "../middleware/buildArrayImages";
+
 const router = express.Router();
-const UnZip = require("../middleware/unzip");
-const SecondsToString = require("../middleware/secondToString");
-const analizeCocoSSD = require("../middleware/analizeCocoSSD");
-const analizeMobilNet = require("../middleware/analizeMobilNet");
-const BuildArrayImages = require("../middleware/buildArrayImages");
 
 router.get("/", (req, res) => {
     const json = {};
@@ -40,7 +41,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     unzip.extractZip(pathFile, unzipOutput);
 
     const zipPath = obtainDirectory.filesList(unzipOutput);
-    
+
     const files = buildArrayImages.buildArrayImages(zipPath, unzipOutput);
 
     if (algorithm == "CocoSSD") {

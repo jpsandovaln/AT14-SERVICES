@@ -1,16 +1,17 @@
-const express = require("express");
+import express = require("express");
+import path = require("path");
+import homeRouter = require("./routes/home");
+import analizeZip = require("./routes/analizeZip");
+import analizeImages = require("./routes/analizeImages");
+import aboutRouter = require("./routes/about");
+import cors = require("cors");
+
 const app = express();
-const path = require("path");
-const homeRouter = require("./routes/home");
-const analizeZip = require("./routes/analizeZip");
-const analizeImages = require("./routes/analizeImages");
-const aboutRouter = require("./routes/about");
-const cors = require('cors')
 app.use(cors());
 
 const port = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

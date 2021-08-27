@@ -1,16 +1,15 @@
-const mobilenet = require('@tensorflow-models/mobilenet');
-const tfnode = require('@tensorflow/tfjs-node');
-const MachineLearing = require('./MachineLearing');
-const fs = require('fs');
+import mobilenet from "@tensorflow-models/mobilenet";
+import tfnode from "@tensorflow/tfjs-node";
+import MachineLearing from "./MachineLearing";
+import fs from "fs";
 
 /**
  * @Class
  * Build an instance from Machine Learning
- * 
+ *
  */
 
 class MobilNet extends MachineLearing {
-
     /**
      * @param {string} imagePath The path where image is.
      * @param {string} searchWord The word to search.
@@ -34,8 +33,11 @@ class MobilNet extends MachineLearing {
         this.predictions = await this.loadmodel();
         let arr = new Array();
         this.predictions.forEach((element) => {
-            let searchWord = new RegExp(this.searchWord, 'i');
-            if (element.className.search(searchWord) != -1 && element.probability >= this.percentage) {
+            let searchWord = new RegExp(this.searchWord, "i");
+            if (
+                element.className.search(searchWord) != -1 &&
+                element.probability >= this.percentage
+            ) {
                 quantity = quantity + 1;
                 arr.push(element);
             }

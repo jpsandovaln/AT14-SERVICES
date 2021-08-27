@@ -1,8 +1,8 @@
-const AdmZip = require("adm-zip");
-const path = require("path");
+import AdmZip from "adm-zip";
+import path from "path";
 
 class UnZip {
-    constructor() { }
+    constructor() {}
 
     extractZip(zipPath, outPath) {
         let nameFile = path.parse(zipPath).name;
@@ -10,7 +10,6 @@ class UnZip {
         var zipEntries = zip.getEntries();
 
         zip.extractAllTo(outPath, true);
-
     }
 }
 

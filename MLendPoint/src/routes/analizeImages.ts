@@ -1,12 +1,13 @@
-const express = require("express");
-const path = require("path");
-const upload = require("../middleware/imageFilter");
-const ObtainDirectory = require("../middleware/obtainDirectory");
+import express from "express";
+import path from "path";
+import upload from "../middleware/imageFilter";
+import ObtainDirectory from "../middleware/obtainDirectory";
+import UnZip from "../middleware/unzip";
+import SecondsToString from "../middleware/secondToString";
+import analizeCocoSSD from "../middleware/analizeCocoSSD";
+import analizeMobilNet from "../middleware/analizeMobilNet";
+
 const router = express.Router();
-const UnZip = require("../middleware/unzip");
-const SecondsToString = require("../middleware/secondToString");
-const analizeCocoSSD = require("../middleware/analizeCocoSSD");
-const analizeMobilNet = require("../middleware/analizeMobilNet");
 
 router.post("/", upload.array("Images"), async (req, res) => {
     const files = req.files;

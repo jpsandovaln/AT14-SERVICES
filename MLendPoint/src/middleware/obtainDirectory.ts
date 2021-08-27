@@ -1,8 +1,8 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
 class ObtainDirectory {
-    constructor() { }
+    constructor() {}
 
     filesList(path) {
         return fs.readdirSync(path);

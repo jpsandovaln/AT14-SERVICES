@@ -1,6 +1,6 @@
-const MobilNet = require("../controllers/MobilNet");
-const analize = require("./analize");
-const JsonResponse = require("./jsonResponse");
+import MobilNet from "../controllers/MobilNet";
+import analize from "./analize";
+import JsonResponse from "./jsonResponse";
 
 class analizeMobilNet extends analize {
     constructor(
