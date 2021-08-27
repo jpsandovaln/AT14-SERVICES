@@ -1,9 +1,6 @@
 import { IBase } from "./interfaces/iBase";
 import { Extractor } from "./extractor";
 import * as fs from "fs";
-// import { ExtractorException } from "../../common/exception/extractorException";
-import { ExceptionType } from "../../common/exception/exceptionType";
-import { Message } from "../../common/exception/message";
 export class ExtractToPDF extends Extractor {
 	constructor(properties: IBase) {
 		super(properties);
