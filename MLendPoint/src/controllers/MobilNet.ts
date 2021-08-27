@@ -54,4 +54,4 @@ class MobilNet extends MachineLearing {
     }
 }
 
-module.exports = MobilNet;
+export default MobilNet;

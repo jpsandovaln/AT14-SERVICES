@@ -58,4 +58,4 @@ class CocoSSD extends MachineLearing {
     }
 }
 
-module.exports = CocoSSD;
+export default CocoSSD;
