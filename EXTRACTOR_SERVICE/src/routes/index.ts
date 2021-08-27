@@ -2,7 +2,6 @@ import { FileController } from "../controller/file.controller";
 import express from "express";
 
 const controller = new FileController();
-
 const router = express.Router();
 
 class Routes {

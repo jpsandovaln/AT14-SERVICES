@@ -12,7 +12,6 @@ export class ExtractToPDF extends Extractor {
 		await this.worker.recognize(this.path);
 		const { data } = await this.worker.getPDF("Tesseract OCR Result");
 		fs.writeFileSync("public/uploads/tesseract-ocr-result.pdf", Buffer.from(data));
-		//await this.worker.terminate();
 		return data;
 	}
 }

@@ -11,7 +11,6 @@ export class ExtractToText extends Extractor {
 		const {
 			data: { text },
 		} = await this.worker.recognize(this.path);
-		//await this.worker.terminate();
 		return text;
 	}
 }
