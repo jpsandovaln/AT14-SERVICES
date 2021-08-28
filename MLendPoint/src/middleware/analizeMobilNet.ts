@@ -5,12 +5,12 @@ import SecondsToString from "./secondToString";
 
 class analizeMobilNet extends analize {
     constructor(
-        imagePaths,
+        imagePaths: any,
         searchWord: string,
         percentage: number,
         secondsToString: SecondsToString,
         algorithm: string,
-        pathImage
+        pathImage: string
     ) {
         super(
             imagePaths,
@@ -21,7 +21,7 @@ class analizeMobilNet extends analize {
             pathImage
         );
     }
-    async recognition() {
+    async recognition(): Promise<JsonResponse> {
         let response = [];
         for (const image of this.imagePaths) {
             const machineLearning = new MobilNet(
