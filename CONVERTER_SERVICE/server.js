@@ -4,7 +4,7 @@ const Routes = require("./src/routes");
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27018/converterDB',{ useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://192.168.1.101:27018/converterDB',{ useNewUrlParser: true, useUnifiedTopology: true })
     .then(db => console.log('Db is connected to', db.connection.host))
     .catch(err=> console.error(err));
 
@@ -13,7 +13,7 @@ global.__basedir = __dirname;
 class Index {
     constructor(
         corsOptions = { origin: "http://localhost:8081" },
-        port = 8080
+        port = 4000
     ) {
         app.use(cors(corsOptions));
         app.use(express.json());

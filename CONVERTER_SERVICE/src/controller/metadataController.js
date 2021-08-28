@@ -1,4 +1,4 @@
-require("dotenv").config("../../.env");
+require("dotenv").config();
 const { fetching } = require("../utilities/metadata");
 const uploadFileMiddleware = require("../middleware/uploadFilesWithoutHush");
 const path = require("path");
@@ -14,7 +14,7 @@ const obtainMetadata = async (req, res) => {
     res.status(200).send({
         name: nameFile,
         filePath:
-            "http://localhost:8080/filesMetadata/" + path.basename(resultPath),
+            "http://localhost:4000/filesMetadata/" + path.basename(resultPath),
         params: req.body,
     });
 };

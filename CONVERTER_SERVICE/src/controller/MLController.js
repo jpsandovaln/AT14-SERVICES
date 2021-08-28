@@ -1,4 +1,4 @@
-require("dotenv").config("../../.env");
+require("dotenv").config();
 const zipPath = process.env.ZIP_PATH;
 const path = require("path");
 const Zip = require("../middleware/zipping");
@@ -19,7 +19,7 @@ const framesZipML = async (req, res) => {
     res.status(200).send([
         {
             name: nameFile,
-            filePath: "http://localhost:8080/framesZipML/" + nameZipFile,
+            filePath: "http://localhost:4000/framesZipML/" + nameZipFile,
         },
     ]);
 };

@@ -1,9 +1,8 @@
-require("dotenv").config("../../.env");
+require("dotenv").config();
 const outputPath = process.env.OUTPUT_PATH;
 const path = require("path");
 const Zip = require("../middleware/zipping");
 const VideoServices = require("../middleware/videoService");
-require("dotenv").config("../../.env");
 
 const changeVideoFormat = async (req, res) => {
     const nameFile = req.fields.filename;
@@ -26,7 +25,7 @@ const changeVideoFormat = async (req, res) => {
     res.status(200).send([
         {
             name: nameFile,
-            filePath: "http://localhost:8080/files/" + nameZipFile,
+            filePath: "http://localhost:4000/files/" + nameZipFile,
         },
     ]);
 };

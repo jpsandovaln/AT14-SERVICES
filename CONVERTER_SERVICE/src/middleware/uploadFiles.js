@@ -4,7 +4,7 @@ const formidable = require('formidable');
 const FileUtil = require('../utilities/fileUtil');
 const Md5File = require("../utilities/checksum");
 
-require("dotenv").config("../../.env");
+require("dotenv").config();
 const uploadPath = process.env.UPLOAD_PATH;
 
 const updateFile = async (req, res, next) => {
