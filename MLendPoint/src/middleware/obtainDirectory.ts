@@ -1,8 +1,7 @@
 import fs from "fs";
-import path from "path";
 
 class ObtainDirectory {
-    filesList(path) {
+    filesList(path: string): string[] {
         return fs.readdirSync(path);
     }
 }

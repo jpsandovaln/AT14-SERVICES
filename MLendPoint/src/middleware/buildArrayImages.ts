@@ -1,5 +1,5 @@
 class BuildArrayImages {
-    buildArrayImages(imagePaths: string, unzipOutput: string): any {
+    buildArrayImages(imagePaths: string[], unzipOutput: string): any {
         const files = [];
         for (let index = 0; index < imagePaths.length; index++) {
             const element = {

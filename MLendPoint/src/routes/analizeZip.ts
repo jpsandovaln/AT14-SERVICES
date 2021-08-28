@@ -16,11 +16,11 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", upload.single("zipFile"), async (req, res) => {
-    const file = req.file;
+    const file: any = req.file;
     const searchWord: string = req.body.searchWord;
     const percentage: number = req.body.percentage;
-    const zipNameFile = req.file.filename;
-    const pathFile = req.file.path;
+    const zipNameFile: any = file.filename;
+    const pathFile = file.path;
     const algorithm: string = req.body.algorithm;
     const extension = path.extname(file.originalname);
     const fileName = path.basename(file.originalname, extension);
@@ -40,7 +40,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
         __dirname + "/../../public/unZipFiles/" + path.parse(zipNameFile).name;
     unzip.extractZip(pathFile, unzipOutput);
 
-    const zipPath = obtainDirectory.filesList(unzipOutput);
+    const zipPath: string[] = obtainDirectory.filesList(unzipOutput);
 
     const files = buildArrayImages.buildArrayImages(zipPath, unzipOutput);
 

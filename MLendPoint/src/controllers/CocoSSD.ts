@@ -22,7 +22,7 @@ class CocoSSD extends MachineLearing {
 
     async loadModel(): Promise<cocoSsd.DetectedObject[]> {
         const image = fs.readFileSync(this.image);
-        const processInput = tf.node.decodeImage(image);
+        const processInput: any = tf.node.decodeImage(image);
         const model = await cocoSsd.load();
         const predictions = await model.detect(processInput);
         return predictions;
@@ -31,8 +31,8 @@ class CocoSSD extends MachineLearing {
     async getJSON(): Promise<any> {
         let quantity = 0;
         this.predictions = await this.loadModel();
-        let arr = [];
-        this.predictions.forEach((element) => {
+        const arr: any = [];
+        this.predictions.forEach((element: any) => {
             const searchWord = new RegExp(this.searchWord, "i");
             if (
                 element.class.search(searchWord) != -1 &&
@@ -47,8 +47,8 @@ class CocoSSD extends MachineLearing {
     }
 
     parse(arr: any): any {
-        let arrParse = [];
-        arr.forEach((element) => {
+        const arrParse: any = [];
+        arr.forEach((element: any) => {
             const arrAux = {
                 className: element.class,
                 probability: element.score

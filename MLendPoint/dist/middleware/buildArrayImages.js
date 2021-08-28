@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class BuildArrayImages {
     buildArrayImages(imagePaths, unzipOutput) {
-        let files = [];
+        const files = [];
         for (let index = 0; index < imagePaths.length; index++) {
             const element = {
                 originalname: imagePaths[index],
