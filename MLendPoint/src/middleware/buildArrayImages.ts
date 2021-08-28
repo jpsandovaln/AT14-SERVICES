@@ -1,6 +1,6 @@
 class BuildArrayImages {
-    buildArrayImages(imagePaths, unzipOutput) {
-        let files = [];
+    buildArrayImages(imagePaths: string, unzipOutput: string): any {
+        const files = [];
         for (let index = 0; index < imagePaths.length; index++) {
             const element = {
                 originalname: imagePaths[index],
