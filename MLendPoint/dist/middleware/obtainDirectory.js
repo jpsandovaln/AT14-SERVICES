@@ -3,14 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs_1 = __importDefault(require("fs"));
-var ObtainDirectory = /** @class */ (function () {
-    function ObtainDirectory() {
-    }
-    ObtainDirectory.prototype.filesList = function (path) {
+const fs_1 = __importDefault(require("fs"));
+class ObtainDirectory {
+    filesList(path) {
         return fs_1.default.readdirSync(path);
-    };
-    return ObtainDirectory;
-}());
+    }
+}
 exports.default = ObtainDirectory;
-//# sourceMappingURL=obtainDirectory.js.map

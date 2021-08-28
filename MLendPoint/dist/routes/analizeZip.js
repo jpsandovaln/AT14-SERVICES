@@ -8,95 +8,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var path_1 = __importDefault(require("path"));
-var imageFilter_1 = __importDefault(require("../middleware/imageFilter"));
-var obtainDirectory_1 = __importDefault(require("../middleware/obtainDirectory"));
-var unzip_1 = __importDefault(require("../middleware/unzip"));
-var secondToString_1 = __importDefault(require("../middleware/secondToString"));
-var analizeCocoSSD_1 = __importDefault(require("../middleware/analizeCocoSSD"));
-var analizeMobilNet_1 = __importDefault(require("../middleware/analizeMobilNet"));
-var buildArrayImages_1 = __importDefault(require("../middleware/buildArrayImages"));
-var router = express_1.default.Router();
-router.get("/", function (req, res) {
-    var json = {};
+const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
+const imageFilter_1 = __importDefault(require("../middleware/imageFilter"));
+const obtainDirectory_1 = __importDefault(require("../middleware/obtainDirectory"));
+const unzip_1 = __importDefault(require("../middleware/unzip"));
+const secondToString_1 = __importDefault(require("../middleware/secondToString"));
+const analizeCocoSSD_1 = __importDefault(require("../middleware/analizeCocoSSD"));
+const analizeMobilNet_1 = __importDefault(require("../middleware/analizeMobilNet"));
+const buildArrayImages_1 = __importDefault(require("../middleware/buildArrayImages"));
+const router = express_1.default.Router();
+router.get("/", (req, res) => {
+    const json = {};
     res.json(json);
 });
-router.post("/", imageFilter_1.default.single("zipFile"), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var file, searchWord, percentage, zipNameFile, pathFile, algorithm, extension, fileName, pathImage, obtainDirectory, buildArrayImages, unzip, secondsToString, unzipOutput, zipPath, files, learning, response, learning, response;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                file = req.file;
-                searchWord = req.body.searchWord;
-                percentage = req.body.percentage;
-                zipNameFile = req.file.filename;
-                pathFile = req.file.path;
-                algorithm = req.body.algorithm;
-                extension = path_1.default.extname(file.originalname);
-                fileName = path_1.default.basename(file.originalname, extension);
-                pathImage = "http://localhost:8080/unZipFiles/" +
-                    path_1.default.parse(zipNameFile).name +
-                    "/" +
-                    fileName +
-                    "/";
-                obtainDirectory = new obtainDirectory_1.default();
-                buildArrayImages = new buildArrayImages_1.default();
-                unzip = new unzip_1.default();
-                secondsToString = new secondToString_1.default();
-                unzipOutput = __dirname + "/../../public/unZipFiles/" + path_1.default.parse(zipNameFile).name;
-                unzip.extractZip(pathFile, unzipOutput);
-                zipPath = obtainDirectory.filesList(unzipOutput);
-                files = buildArrayImages.buildArrayImages(zipPath, unzipOutput);
-                if (!(algorithm == "CocoSSD")) return [3 /*break*/, 2];
-                learning = new analizeCocoSSD_1.default(files, searchWord, percentage, secondsToString, algorithm, pathImage);
-                return [4 /*yield*/, learning.recognition()];
-            case 1:
-                response = _a.sent();
-                res.send(response);
-                _a.label = 2;
-            case 2:
-                if (!(algorithm == "MobilNet")) return [3 /*break*/, 4];
-                learning = new analizeMobilNet_1.default(files, searchWord, percentage, secondsToString, algorithm, pathImage);
-                return [4 /*yield*/, learning.recognition()];
-            case 3:
-                response = _a.sent();
-                res.send(response);
-                _a.label = 4;
-            case 4: return [2 /*return*/];
-        }
-    });
-}); });
+router.post("/", imageFilter_1.default.single("zipFile"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const file = req.file;
+    const searchWord = req.body.searchWord;
+    const percentage = req.body.percentage;
+    const zipNameFile = req.file.filename;
+    const pathFile = req.file.path;
+    const algorithm = req.body.algorithm;
+    const extension = path_1.default.extname(file.originalname);
+    const fileName = path_1.default.basename(file.originalname, extension);
+    const pathImage = "http://localhost:8080/unZipFiles/" +
+        path_1.default.parse(zipNameFile).name +
+        "/" +
+        fileName +
+        "/";
+    const obtainDirectory = new obtainDirectory_1.default();
+    const buildArrayImages = new buildArrayImages_1.default();
+    const unzip = new unzip_1.default();
+    const secondsToString = new secondToString_1.default();
+    const unzipOutput = __dirname + "/../../public/unZipFiles/" + path_1.default.parse(zipNameFile).name;
+    unzip.extractZip(pathFile, unzipOutput);
+    const zipPath = obtainDirectory.filesList(unzipOutput);
+    const files = buildArrayImages.buildArrayImages(zipPath, unzipOutput);
+    if (algorithm == "CocoSSD") {
+        const learning = new analizeCocoSSD_1.default(files, searchWord, percentage, secondsToString, algorithm, pathImage);
+        const response = yield learning.recognition();
+        res.send(response);
+    }
+    if (algorithm == "MobilNet") {
+        const learning = new analizeMobilNet_1.default(files, searchWord, percentage, secondsToString, algorithm, pathImage);
+        const response = yield learning.recognition();
+        res.send(response);
+    }
+}));
 exports.default = router;
-//# sourceMappingURL=analizeZip.js.map

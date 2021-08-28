@@ -1,7 +1,7 @@
-import mobilenet from "@tensorflow-models/mobilenet";
-import tfnode from "@tensorflow/tfjs-node";
+import * as mobilenet from "@tensorflow-models/mobilenet";
+import * as tfnode from "@tensorflow/tfjs-node";
 import MachineLearing from "./MachineLearing";
-import fs from "fs";
+import * as fs from "fs";
 
 /**
  * @Class
@@ -16,23 +16,23 @@ class MobilNet extends MachineLearing {
      * @param {number} percentage Percentage of probability to search.
      */
 
-    constructor(image, searchWord, percentage) {
+    constructor(image: any, searchWord: string, percentage: number) {
         super(image, searchWord, percentage);
     }
 
-    async loadmodel() {
+    async loadmodel(): Promise<any> {
         const image = fs.readFileSync(this.image);
-        const tfimage = tfnode.node.decodeImage(image);
+        const tfimage: any = tfnode.node.decodeImage(image);
         const model = await mobilenet.load();
         const predictions = await model.classify(tfimage);
         return predictions;
     }
 
-    async getJSON() {
+    async getJSON(): Promise<any> {
         let quantity = 0;
         this.predictions = await this.loadmodel();
-        let arr = [];
-        this.predictions.forEach((element) => {
+        const arr: any = [];
+        this.predictions.forEach((element: any) => {
             const searchWord = new RegExp(this.searchWord, "i");
             if (
                 element.className.search(searchWord) != -1 &&
@@ -45,9 +45,9 @@ class MobilNet extends MachineLearing {
         return this.parse(arr);
     }
 
-    parse(arr) {
-        let arrParse = [];
-        arr.forEach((element) => {
+    parse(arr: any): any {
+        const arrParse: any[] = [];
+        arr.forEach((element: any) => {
             arrParse.push(element);
         });
         return arrParse;

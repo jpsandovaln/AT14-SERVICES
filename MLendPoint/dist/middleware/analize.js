@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var analize = /** @class */ (function () {
-    function analize(imagePaths, searchWord, percentage, secondsToString, algorithm, pathImage) {
+class analize {
+    constructor(imagePaths, searchWord, percentage, secondsToString, algorithm, pathImage) {
         this._imagePaths = imagePaths;
         this._searchWord = searchWord;
         this._percentage = percentage;
@@ -9,67 +9,41 @@ var analize = /** @class */ (function () {
         this._algorithm = algorithm;
         this._pathImage = pathImage;
     }
-    Object.defineProperty(analize.prototype, "imagePaths", {
-        get: function () {
-            return this._imagePaths;
-        },
-        set: function (imagePaths) {
-            this._imagePaths = imagePaths;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(analize.prototype, "searchWord", {
-        get: function () {
-            return this._searchWord;
-        },
-        set: function (searchWord) {
-            this._searchWord = searchWord;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(analize.prototype, "percentage", {
-        get: function () {
-            return this._percentage;
-        },
-        set: function (percentage) {
-            this._percentage = percentage;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(analize.prototype, "secondsToString", {
-        get: function () {
-            return this._secondsToString;
-        },
-        set: function (secondsToString) {
-            this._secondsToString = secondsToString;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(analize.prototype, "algorithm", {
-        get: function () {
-            return this._algorithm;
-        },
-        set: function (algorithm) {
-            this._algorithm = algorithm;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(analize.prototype, "pathImage", {
-        get: function () {
-            return this._pathImage;
-        },
-        set: function (pathImage) {
-            this._pathImage = pathImage;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return analize;
-}());
+    get imagePaths() {
+        return this._imagePaths;
+    }
+    set imagePaths(imagePaths) {
+        this._imagePaths = imagePaths;
+    }
+    get searchWord() {
+        return this._searchWord;
+    }
+    set searchWord(searchWord) {
+        this._searchWord = searchWord;
+    }
+    get percentage() {
+        return this._percentage;
+    }
+    set percentage(percentage) {
+        this._percentage = percentage;
+    }
+    get secondsToString() {
+        return this._secondsToString;
+    }
+    set secondsToString(secondsToString) {
+        this._secondsToString = secondsToString;
+    }
+    get algorithm() {
+        return this._algorithm;
+    }
+    set algorithm(algorithm) {
+        this._algorithm = algorithm;
+    }
+    get pathImage() {
+        return this._pathImage;
+    }
+    set pathImage(pathImage) {
+        this._pathImage = pathImage;
+    }
+}
 exports.default = analize;
-//# sourceMappingURL=analize.js.map

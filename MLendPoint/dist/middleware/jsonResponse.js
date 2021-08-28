@@ -3,14 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var path_1 = __importDefault(require("path"));
-var JsonResponse = /** @class */ (function () {
-    function JsonResponse() {
-    }
-    JsonResponse.prototype.response = function (result, algorithm, searchWord, secondsToString, image, response, pathImage) {
+const path_1 = __importDefault(require("path"));
+class JsonResponse {
+    response(result, algorithm, searchWord, secondsToString, image, response, pathImage) {
         if (result[0] !== undefined) {
-            var objectResult = result[0];
-            var objectResponse = {
+            const objectResult = result[0];
+            const objectResponse = {
                 Algorithm: algorithm,
                 Word: objectResult.className,
                 Percentage: objectResult.probability,
@@ -20,8 +18,6 @@ var JsonResponse = /** @class */ (function () {
             response.push(objectResponse);
         }
         return response;
-    };
-    return JsonResponse;
-}());
+    }
+}
 exports.default = JsonResponse;
-//# sourceMappingURL=jsonResponse.js.map

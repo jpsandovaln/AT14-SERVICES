@@ -1,12 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var BuildArrayImages = /** @class */ (function () {
-    function BuildArrayImages() {
-    }
-    BuildArrayImages.prototype.buildArrayImages = function (imagePaths, unzipOutput) {
-        var files = [];
-        for (var index = 0; index < imagePaths.length; index++) {
-            var element = {
+class BuildArrayImages {
+    buildArrayImages(imagePaths, unzipOutput) {
+        let files = [];
+        for (let index = 0; index < imagePaths.length; index++) {
+            const element = {
                 originalname: imagePaths[index],
                 mimetype: "image/jpeg",
                 filename: imagePaths[index],
@@ -15,8 +13,6 @@ var BuildArrayImages = /** @class */ (function () {
             files.push(element);
         }
         return files;
-    };
-    return BuildArrayImages;
-}());
+    }
+}
 exports.default = BuildArrayImages;
-//# sourceMappingURL=buildArrayImages.js.map
