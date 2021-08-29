@@ -8,7 +8,7 @@ class HomePage {
         this.routes();
     }
     routes() {
-        this.router.get("/", (req, res) => {
+        this.router.get("/", (req: Request, res: Response) => {
             res.send("I'm home");
         });
     }
