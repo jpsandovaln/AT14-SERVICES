@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import homeRouter from "./routes/home";
+import homePage from "./routes/home";
 import analizeZip from "./routes/analizeZip";
 import analizeImages from "./routes/analizeImages";
 import aboutRouter from "./routes/about";
@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/", homeRouter);
+app.use("/", homePage);
 app.use("/analizeZip", analizeZip);
 app.use("/analizeImages", analizeImages);
 app.use("/about", aboutRouter);

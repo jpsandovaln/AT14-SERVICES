@@ -1,9 +1,19 @@
-import express from "express";
+import { Request, Response, Router } from "express";
 
-const router = express.Router();
+class HomePage {
+    router: Router;
 
-router.get("/", (req, res) => {
-    res.send("I'm home");
-});
+    constructor() {
+        this.router = Router();
+        this.routes();
+    }
+    routes() {
+        this.router.get("/", (req, res) => {
+            res.send("I'm home");
+        });
+    }
+}
+const homePage = new HomePage();
+homePage.routes();
 
-export default router;
+export default homePage.router;

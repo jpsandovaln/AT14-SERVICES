@@ -1,11 +1,17 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
-router.get("/", (req, res) => {
-    res.send("I'm home");
-});
-exports.default = router;
+const express_1 = require("express");
+class HomePage {
+    constructor() {
+        this.router = (0, express_1.Router)();
+        this.routes();
+    }
+    routes() {
+        this.router.get("/", (req, res) => {
+            res.send("I'm home");
+        });
+    }
+}
+const homePage = new HomePage();
+homePage.routes();
+exports.default = homePage.router;
