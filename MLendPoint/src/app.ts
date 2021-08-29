@@ -1,5 +1,5 @@
 import express from "express";
-import path from "path";
+import * as path from "path";
 import homeRouter from "./routes/home";
 import analizeZip from "./routes/analizeZip";
 import analizeImages from "./routes/analizeImages";
