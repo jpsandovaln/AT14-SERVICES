@@ -13,7 +13,7 @@ class HomePage {
         });
     }
 }
-const homePage = new HomePage();
-homePage.routes();
+const homeRouter = new HomePage();
+homeRouter.routes();
 
-export default homePage.router;
+export default homeRouter.router;
