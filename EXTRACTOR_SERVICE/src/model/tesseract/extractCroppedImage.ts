@@ -11,20 +11,6 @@ export class ExtractCroppedImage extends Extractor {
 		this.rectangle = properties.rectangle;
 	}
 
-	// public async extract(): Promise<Text> {
-	// 	const rectangle = this.rectangle;
-	// 	await this.loadWorker();
-	// 	const {
-	// 		data: { text },
-	// 	} = await this.worker
-	// 		.recognize(this.path, { rectangle })
-	// 		.catch((error: any) => {
-	// 			throw new CroppedImageException(error, 'test-', 'oeu');
-	// 		});
-	// 	await this.worker.terminate();
-	// 	return text;
-	// }
-
 	public async extract(): Promise<Text> {
 		this.validateParameter();
 		try {
@@ -35,8 +21,7 @@ export class ExtractCroppedImage extends Extractor {
 			} = await this.worker.recognize(this.path, { rectangle });
 			return text;
 		} catch (error) {
-			// console.log(error);
-			throw new CroppedImageException(error.message, "test-", "oeu");
+			throw new CroppedImageException(error, "test-", "oeu");
 		}
 	}
 }
