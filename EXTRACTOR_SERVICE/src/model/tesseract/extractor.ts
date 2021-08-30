@@ -19,7 +19,7 @@ export abstract class Extractor {
 	 * @protected method
 	 *
 	 */
-	protected async loadWorker(): Promise<void> {
+	public async loadWorker(): Promise<void> {
 		try {
 			await this.worker.load();
 			await this.worker.loadLanguage(this.language);
@@ -39,7 +39,7 @@ export abstract class Extractor {
 	 * @protected method
 	 *
 	 */
-	protected validateParameter(): void {
+	public validateParameter(): void {
 		const emptyParameter = [
 			new EmptyValidation("Path", this.path),
 			new EmptyValidation("Language", this.language),
