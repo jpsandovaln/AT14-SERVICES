@@ -1,5 +1,5 @@
 import shortid from 'shortid';
-import axios from "axios";
+import FormData from 'form-data';
 
 import * as fs from 'fs';
 
@@ -37,22 +37,24 @@ const processUpload = async (upload) => {
 const resolvers = {
   Upload: GraphQLUpload,
   Query: {
-    files: async () => {
+    machines: async () => {
       return await File;
     },
   },
   Mutation: {
-    uploadFile: async (_, args ) => {
+    uploadFileML: async (_, args ) => {
       fs.mkdir('images', { recursive: true }, (err) => {
         if (err) throw err;
       });
-      console.log(args);
+
       const uploadFile = await processUpload(args.file);
-
       const dataArray = new FormData();
-      dataArray.append("name", args.name);
-      dataArray.append("zipFile", uploadFile);      
-
+      dataArray.append("searchWord", args.searchWord);
+      dataArray.append("algorithm", args.algorithm);
+      dataArray.append("percentage", args.percentage);
+      dataArray.append("zipFile", fs.createReadStream(uploadFile.path));      
+      
+      /*
       axios
       .post(urlML, dataArray, {
           headers: {
@@ -65,11 +67,12 @@ const resolvers = {
       .catch((error) => {
           console.log(error);
       });      
+      */
 
-      File.push(uploadFile);
-      //console.log(upload);
+      File.push(dataArray);
+      console.log("xD: "+ dataArray);
       //await File.create(upload);
-      return uploadFile;
+      return dataArray;
     },
   },
 };
