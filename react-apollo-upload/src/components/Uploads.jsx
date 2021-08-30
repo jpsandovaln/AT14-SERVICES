@@ -5,11 +5,11 @@ import gql from 'graphql-tag';
 export const FileQuery = gql`
   {
     machines {
-      algorithm
-      word
-      percentage
-      second
-      pathImage
+      Algorithm
+      Word
+      Percentage
+      Second
+      PathImage
     }
   }
 `;

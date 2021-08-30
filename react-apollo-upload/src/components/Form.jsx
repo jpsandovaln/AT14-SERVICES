@@ -5,8 +5,8 @@ import gql from 'graphql-tag';
 export const UploadMutation = gql`
   mutation uploadFileML($searchWord: String, $algorithm: String, $percentage: String, $file: Upload!) {
     uploadFileML(searchWord: $searchWord, algorithm: $algorithm, percentage: $percentage, file: $file) {
-      algorithm
-      percentage
+      Algorithm
+      Percentage
     }
   }
 `;

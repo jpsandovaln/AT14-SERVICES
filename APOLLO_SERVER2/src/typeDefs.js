@@ -13,12 +13,11 @@ const typeDefs =  gql`
     filename: String!
     mimetype: String!
     path: String!
-    algorithm: String
-    word: String
-    percentage: String
-    second: String
-    pathImage: String
-    searchWord: String
+    Algorithm: String
+    Word: String
+    Percentage: String
+    Second: String
+    PathImage: String
   }
   type Query {
     hello: String
@@ -27,7 +26,7 @@ const typeDefs =  gql`
   }
   type Mutation {
     uploadFile(file: Upload!, name: String): File!
-    uploadFileML(searchWord: String, algorithm: String, percentage: String, file: Upload!): FileML!
+    uploadFileML(searchWord: String, algorithm: String, percentage: String, file: Upload!): [FileML!]
   }
 `;
 
