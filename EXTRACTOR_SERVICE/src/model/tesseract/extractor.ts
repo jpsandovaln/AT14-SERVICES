@@ -1,5 +1,7 @@
+import { LoadWorkerException } from "../../common/exception/loadWorkerException";
 import { ServerException } from "../../common/exception/serverException";
 import { EmptyValidation } from "../../common/validation/emptyValidation";
+import { LanguageValidation } from "../../common/validation/languageValidation";
 import { IBase } from "./interfaces/iBase";
 
 export abstract class Extractor {
@@ -24,15 +26,21 @@ export abstract class Extractor {
 			await this.worker.loadLanguage(this.language);
 			await this.worker.initialize(this.language);
 		} catch (error) {
-			console.log('test euaoe')
-			throw new ServerException(error, 'test', 'test');
+			throw new LoadWorkerException(error, '503-Service Unavailable', 'EXTRACTOR-00');
 		}
 	}
 
-	protected validateParameter(): any {
+	/**
+	 * Validates the parameters and if they aren't correct
+	 * throw an custom error.
+	 * @protected method
+	 *
+	 */
+	protected validateParameter(): void {
 		const emptyParameter = [
 			new EmptyValidation("Path", this.path),
 			new EmptyValidation("Language", this.language),
+			new LanguageValidation(this.language)
 		];
 		emptyParameter.forEach((validation) => {
 			validation.validate();

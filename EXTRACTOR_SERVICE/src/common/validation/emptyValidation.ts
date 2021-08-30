@@ -12,7 +12,11 @@ export class EmptyValidation extends ValidateStrategy {
 
 	validate() {
 		if (!this._value || this._value.trim().length === 0) {
-			throw new ExtractorException('Invalid data parameter: ' + this._parameter, '400 - Bad Request', 'test-code' );
+			throw new ExtractorException(
+				"Invalid data parameter: " + this._parameter,
+				"400 - Bad Request",
+				"EXTRACTOR-ERROR-01"
+			);
 		}
 	}
 }
