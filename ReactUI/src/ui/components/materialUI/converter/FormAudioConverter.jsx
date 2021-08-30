@@ -5,15 +5,14 @@ import TableAudioForm from "./TableAudioForm";
 
 const FormAudioConveter = () => {
 	const urlML = "http://localhost:8080/imageFinder";
-
-	const [data, setResponse] = React.useState([]);
+	const [setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [samplingRate, setsamplingRate] = React.useState("");
 	const [invertAudio, setinvertAudio] = React.useState(false);
 	const [channels, setchannels] = React.useState("");
 	const [audioFade, setaudioFade] = React.useState("");
 	const [bitRate, setbitRate] = React.useState("");
-	const [open, setOpen] = React.useState(false);
+	const [setOpen] = React.useState(false);
 
 	const submitFormVideo = (event) => {
 		event.preventDefault();

@@ -31,7 +31,7 @@ const FormML = (classes) => {
 				<CardHeader
 					title="Machine Learning Analizer"
 					className={clase.title}
-					titleTypographyProps={{ variant: "h6" }}
+					titleTypographyProps={{ variant: "h7" }}
 				></CardHeader>
 				<CardContent>
 					<Grid container spacing={1}>
@@ -130,7 +130,7 @@ const FormML = (classes) => {
 								<label htmlFor="contained-button-videoFile">
 									<Button
 										variant="contained"
-										color="primary"
+										color="#83bbeb"
 										component="span"
 									>
 										Upload
@@ -142,7 +142,6 @@ const FormML = (classes) => {
 							<TextField
 								fullWidth
 								id="outlined-basic"
-								
 								variant="outlined"
 								value={classes.nameVideo}
 								disabled

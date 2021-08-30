@@ -14,14 +14,13 @@ const styles = makeStyles((theme) => ({
 		flexGrow: 1,
 		backgroundColor: theme.palette.background.default,
 		padding: theme.spacing(3),
-	},
+	}
 }));
 
 const Home = () => {
 	const classes = styles();
 	return (
 		<div className={classes.root}>
-			<h2>Home</h2>
 			<Grid
 				container
 				spacing={0}

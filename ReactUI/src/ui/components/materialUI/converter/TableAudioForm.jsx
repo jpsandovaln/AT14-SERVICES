@@ -39,7 +39,7 @@ const TableAudioForm = () => {
 					<CardHeader
 						className={classes.title}
 						title="Results"
-						titleTypographyProps={{ variant: "h6" }}
+						titleTypographyProps={{ variant: "h7" }}
 					/>
 					<CardContent>
 						<Grid container spacing={3}>
@@ -47,7 +47,7 @@ const TableAudioForm = () => {
 								<Button
 									type="submit"
 									variant="contained"
-									color="primary"
+									color="#83bbeb"
 								>
 									Convert
 								</Button>

@@ -33,7 +33,6 @@ const App = () => {
 						/>
 					)}
 				/>
-
 				<Route
 					exact
 					path="/Home"

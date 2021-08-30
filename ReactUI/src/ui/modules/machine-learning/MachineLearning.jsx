@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: "#3a4651",
 	},
 }));
-let fileRecived = "";
 const MachineLearing = () => {
 	//const urlVC = "http://localhost:8083/frames";
 	const urlML = "http://localhost:8080/analizeZip";

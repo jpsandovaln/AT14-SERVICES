@@ -2,15 +2,8 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { CardHeader } from "@material-ui/core";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -49,7 +42,7 @@ const ImageExtForm = (promps) => {
 							<label htmlFor="contained-button-file">
 								<Button
 									variant="contained"
-									color="primary"
+									color="#83bbeb"
 									component="span"
 								>
 									Upload

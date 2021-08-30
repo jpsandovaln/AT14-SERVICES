@@ -47,7 +47,7 @@ const ImgForm = (promp) => {
 						<label htmlFor="contained-button-file">
 							<Button
 								variant="contained"
-								color="primary"
+								color="#83bbeb"
 								component="span"
 							>
 								Upload
@@ -56,15 +56,15 @@ const ImgForm = (promp) => {
 					</CardContent>
 				</Card>
 			</Grid>
-			<Grid item xs={4}>
+			<Grid item xs={12}>
 				<Card className={classes.card}>
 					<CardHeader
 						className={classes.title}
-						title="Format"
-						titleTypographyProps={{ variant: "h6" }}
+						title="Image Processor"
+						titleTypographyProps={{ variant: "h7" }}
 					/>
 					<CardContent>
-						<Grid container spacing={6}>
+						<Grid container spacing={12}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -112,17 +112,8 @@ const ImgForm = (promp) => {
 							</Grid>
 						</Grid>
 					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Resize"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
 					<CardContent>
-					<Grid container spacing={6}>
+					<Grid container spacing={12}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -155,17 +146,8 @@ const ImgForm = (promp) => {
 							</Grid>
 						</Grid>
 					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Rotate"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
 					<CardContent>
-					<Grid container spacing={6}>
+					<Grid container spacing={12}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -197,17 +179,8 @@ const ImgForm = (promp) => {
 							</Grid>
 						</Grid>
 					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Quality"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
 					<CardContent>
-					<Grid container spacing={6}>
+					<Grid container spacing={12}>
 							<Grid item xs>
 							<FormControl
 									variant="outlined"
@@ -240,15 +213,6 @@ const ImgForm = (promp) => {
 							</Grid>
 						</Grid>
 					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Effects"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
 					<CardContent>
 						<Grid container spacing={3}>
 							<Grid item xs>
@@ -315,15 +279,6 @@ const ImgForm = (promp) => {
 							</Grid>
 						</Grid>
 					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Filters"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
 					<CardContent>
 						<Grid container spacing={6}>
 							<Grid item xs>

@@ -6,7 +6,6 @@ import {
 	Typography,
 	TextField,
 	Button,
-	Divider,
 	Grid,
 } from "@material-ui/core";
 import "./loginPage.css";
