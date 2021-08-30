@@ -2,7 +2,6 @@
 import { ICropped } from "./interfaces/iCropped";
 import { Extractor } from "./extractor";
 import { CroppedImageException } from "../../common/exception/croppedImageException";
-import { EmptyValidation } from "../../common/validation/emptyValidation";
 
 export class ExtractCroppedImage extends Extractor {
 	private rectangle: object;
@@ -23,7 +22,11 @@ export class ExtractCroppedImage extends Extractor {
 			await this.worker.terminate();
 			return text;
 		} catch (error) {
-			throw new CroppedImageException(error, "test-", "oeu");
+			throw new CroppedImageException(
+				error,
+				"500-Internal Server Error",
+				"EXTRACTOR-ERROR-04"
+			);
 		}
 	}
 }
