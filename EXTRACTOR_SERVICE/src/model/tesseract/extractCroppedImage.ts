@@ -11,7 +11,7 @@ export class ExtractCroppedImage extends Extractor {
 		this.rectangle = properties.rectangle;
 	}
 
-	public async extract(): Promise<Text> {
+	public async extract(): Promise<string> {
 		this.validateParameter();
 		try {
 			const rectangle = this.rectangle;
