@@ -1,3 +1,4 @@
+require("dotenv").config("../../.env");
 const express = require("express");
 const path = require("path");
 const upload = require("../middleware/imageFilter");
@@ -8,13 +9,16 @@ const SecondsToString = require("../middleware/secondToString");
 const analizeCocoSSD = require("../middleware/analizeCocoSSD");
 const analizeMobilNet = require("../middleware/analizeMobilNet");
 
+const port = process.env.PORT || 8085;
+const hostname = process.env.HOSTNAME || 'localhost';
+
 router.post("/", upload.array("Images"), async (req, res) => {
     const files = req.files;
     const searchWord = req.body.searchWord;
     const percentage = req.body.percentage;
     const algorithm = req.body.algorithm;
-    const pathImage = "http://localhost:8080/images/";
-
+    const pathImage = `http://${hostname}:${port}/images/`;
+    
     const secondsToString = new SecondsToString();
 
     if (algorithm == "CocoSSD") {

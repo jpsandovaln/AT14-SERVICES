@@ -1,3 +1,4 @@
+require("dotenv").config("../.env");
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -8,7 +9,8 @@ const aboutRouter = require("./routes/about");
 const cors = require('cors')
 app.use(cors());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8085;
+const hostname = process.env.HOSTNAME || 'localhost';
 
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -21,5 +23,6 @@ app.use("/analizeImages", analizeImages);
 app.use("/about", aboutRouter);
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening at http://${hostname}:${port}`);
 });
+

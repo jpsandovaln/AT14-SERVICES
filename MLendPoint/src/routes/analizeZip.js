@@ -1,3 +1,4 @@
+require("dotenv").config("../../.env");
 const express = require("express");
 const path = require("path");
 const upload = require("../middleware/imageFilter");
@@ -8,6 +9,9 @@ const SecondsToString = require("../middleware/secondToString");
 const analizeCocoSSD = require("../middleware/analizeCocoSSD");
 const analizeMobilNet = require("../middleware/analizeMobilNet");
 const BuildArrayImages = require("../middleware/buildArrayImages");
+
+const port = process.env.PORT || 8085;
+const hostname = process.env.HOSTNAME || 'localhost';
 
 router.get("/", (req, res) => {
     const json = {};
@@ -25,7 +29,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const fileName = path.basename(file.originalname, extension);
 
     const pathImage =
-        "http://localhost:8080/unZipFiles/" +
+        `http://${hostname}:${port}/unZipFiles/` +
         path.parse(zipNameFile).name +
         "/" +
         fileName +
