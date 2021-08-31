@@ -28,7 +28,7 @@ _is_request = {
 }.__contains__
 
 def _needs_transcode(k):
-    return _is_request(k) or k.startswith('HTTP_') or k.startswith('SSL_') \
+    return _is_request(k) or k.startswith('HTTP_') or k.startswith('SSL_') /
         or (k.startswith('REDIRECT_') and _needs_transcode(k[9:]))
 
 def read_environ():
@@ -249,20 +249,20 @@ class BaseHandler:
         """Transmit version/status/date/server, via self._write()"""
         if self.origin_server:
             if self.client_is_modern():
-                self._write(('HTTP/%s %s\r\n' % (self.http_version,self.status)).encode('iso-8859-1'))
+                self._write(('HTTP/%s %s/r/n' % (self.http_version,self.status)).encode('iso-8859-1'))
                 if 'Date' not in self.headers:
                     self._write(
-                        ('Date: %s\r\n' % format_date_time(time.time())).encode('iso-8859-1')
+                        ('Date: %s/r/n' % format_date_time(time.time())).encode('iso-8859-1')
                     )
                 if self.server_software and 'Server' not in self.headers:
-                    self._write(('Server: %s\r\n' % self.server_software).encode('iso-8859-1'))
+                    self._write(('Server: %s/r/n' % self.server_software).encode('iso-8859-1'))
         else:
-            self._write(('Status: %s\r\n' % self.status).encode('iso-8859-1'))
+            self._write(('Status: %s/r/n' % self.status).encode('iso-8859-1'))
 
     def write(self, data):
         """'write()' callable as specified by PEP 3333"""
 
-        assert type(data) is bytes, \
+        assert type(data) is bytes, /
             "write() argument must be a bytes instance"
 
         if not self.status:

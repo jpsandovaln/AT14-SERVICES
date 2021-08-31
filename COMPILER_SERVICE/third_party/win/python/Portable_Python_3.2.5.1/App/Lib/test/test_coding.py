@@ -23,7 +23,7 @@ class CodingTest(unittest.TestCase):
 
     def test_exec_valid_coding(self):
         d = {}
-        exec('# coding: cp949\na = 5\n', d)
+        exec('# coding: cp949/na = 5/n', d)
         self.assertEqual(d['a'], 5)
 
     def test_file_parse(self):
@@ -34,10 +34,10 @@ class CodingTest(unittest.TestCase):
         filename = TESTFN + ".py"
         f = open(filename, "w")
         try:
-            f.write("# -*- coding: cp1252 -*-\n")
-            f.write("'''A short string\n")
-            f.write("'''\n")
-            f.write("'A very long string %s'\n" % ("X" * 1000))
+            f.write("# -*- coding: cp1252 -*-/n")
+            f.write("'''A short string/n")
+            f.write("'''/n")
+            f.write("'A very long string %s'/n" % ("X" * 1000))
             f.close()
 
             __import__(TESTFN)
@@ -50,10 +50,10 @@ class CodingTest(unittest.TestCase):
 
     def test_error_from_string(self):
         # See http://bugs.python.org/issue6289
-        input = "# coding: ascii\n\N{SNOWMAN}".encode('utf-8')
+        input = "# coding: ascii/n/N{SNOWMAN}".encode('utf-8')
         with self.assertRaises(SyntaxError) as c:
             compile(input, "<string>", "exec")
-        expected = "'ascii' codec can't decode byte 0xe2 in position 16: " \
+        expected = "'ascii' codec can't decode byte 0xe2 in position 16: " /
                    "ordinal not in range(128)"
         self.assertTrue(c.exception.args[0].startswith(expected))
 

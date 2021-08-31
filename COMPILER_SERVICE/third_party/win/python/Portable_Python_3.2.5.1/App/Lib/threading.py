@@ -57,7 +57,7 @@ if __debug__:
                     name = _active[ident].name
                 except KeyError:
                     name = "<OS thread %d>" % ident
-                format = "%s: %s\n" % (name, format)
+                format = "%s: %s/n" % (name, format)
                 _sys.stderr.write(format)
 
 else:
@@ -749,7 +749,7 @@ class Thread(_Verbose):
                 # _sys) in case sys.stderr was redefined since the creation of
                 # self.
                 if _sys:
-                    _sys.stderr.write("Exception in thread %s:\n%s\n" %
+                    _sys.stderr.write("Exception in thread %s:/n%s/n" %
                                       (self.name, _format_exc()))
                 else:
                     # Do the best job possible w/o a huge amt. of code to

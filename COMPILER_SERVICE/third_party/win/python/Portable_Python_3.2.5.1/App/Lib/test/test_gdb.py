@@ -19,12 +19,12 @@ except OSError:
     # This is what "no gdb" looks like.  There may, however, be other
     # errors that manifest this way too.
     raise unittest.SkipTest("Couldn't find gdb on the path")
-gdb_version_number = re.search(b"^GNU gdb [^\d]*(\d+)\.(\d)", gdb_version)
+gdb_version_number = re.search(b"^GNU gdb [^/d]*(/d+)/.(/d)", gdb_version)
 gdb_major_version = int(gdb_version_number.group(1))
 gdb_minor_version = int(gdb_version_number.group(2))
 if gdb_major_version < 7:
     raise unittest.SkipTest("gdb versions before 7.0 didn't support python embedding"
-                            " Saw:\n" + gdb_version.decode('ascii', 'replace'))
+                            " Saw:/n" + gdb_version.decode('ascii', 'replace'))
 
 # Location of custom hooks file in a repository checkout.
 checkout_hook_path = os.path.join(os.path.dirname(sys.executable),
@@ -65,7 +65,7 @@ if "auto-loading has been declined" in gdbpy_errors:
 def gdb_has_frame_select():
     # Does this build of gdb have gdb.Frame.select ?
     stdout, _ = run_gdb("--eval-command=python print(dir(gdb.Frame))")
-    m = re.match(r'.*\[(.*)\].*', stdout)
+    m = re.match(r'.*/[(.*)/].*', stdout)
     if not m:
         raise unittest.SkipTest("Unable to parse output from gdb.Frame.select test")
     gdb_frame_dir = m.group(1).split(', ')
@@ -138,24 +138,24 @@ class DebuggerTests(unittest.TestCase):
         out, err = run_gdb(*args, PYTHONHASHSEED='0')
 
         # Ignore some noise on stderr due to the pending breakpoint:
-        err = err.replace('Function "%s" not defined.\n' % breakpoint, '')
+        err = err.replace('Function "%s" not defined./n' % breakpoint, '')
         # Ignore some other noise on stderr (http://bugs.python.org/issue8600)
         err = err.replace("warning: Unable to find libthread_db matching"
                           " inferior's thread library, thread debugging will"
-                          " not be available.\n",
+                          " not be available./n",
                           '')
         err = err.replace("warning: Cannot initialize thread debugging"
-                          " library: Debugger service failed\n",
+                          " library: Debugger service failed/n",
                           '')
         err = err.replace('warning: Could not load shared library symbols for '
-                          'linux-vdso.so.1.\n'
+                          'linux-vdso.so.1./n'
                           'Do you need "set solib-search-path" or '
-                          '"set sysroot"?\n',
+                          '"set sysroot"?/n',
                           '')
         err = err.replace('warning: Could not load shared library symbols for '
-                          'linux-gate.so.1.\n'
+                          'linux-gate.so.1./n'
                           'Do you need "set solib-search-path" or '
-                          '"set sysroot"?\n',
+                          '"set sysroot"?/n',
                           '')
 
         # Ensure no unexpected error messages:
@@ -178,13 +178,13 @@ class DebuggerTests(unittest.TestCase):
         gdb_output = self.get_stack_trace(source, breakpoint=BREAKPOINT_FN,
                                           cmds_after_breakpoint=cmds_after_breakpoint,
                                           import_site=import_site)
-        # gdb can insert additional '\n' and space characters in various places
+        # gdb can insert additional '/n' and space characters in various places
         # in its output, depending on the width of the terminal it's connected
         # to (using its "wrap_here" function)
-        m = re.match('.*#0\s+builtin_id\s+\(self\=.*,\s+v=\s*(.*?)\)\s+at\s+Python/bltinmodule.c.*',
+        m = re.match('.*#0/s+builtin_id/s+/(self/=.*,/s+v=/s*(.*?)/)/s+at/s+Python/bltinmodule.c.*',
                      gdb_output, re.DOTALL)
         if not m:
-            self.fail('Unexpected gdb output: %r\n%s' % (gdb_output, gdb_output))
+            self.fail('Unexpected gdb output: %r/n%s' % (gdb_output, gdb_output))
         return m.group(1), gdb_output
 
     def assertEndsWith(self, actual, exp_end):
@@ -213,7 +213,7 @@ class PrettyPrintTests(DebuggerTests):
         if not exp_repr:
             exp_repr = repr(val)
         self.assertEqual(gdb_repr, exp_repr,
-                         ('%r did not equal expected %r; full output was:\n%s'
+                         ('%r did not equal expected %r; full output was:/n%s'
                           % (gdb_repr, exp_repr, gdb_output)))
 
     def test_int(self):
@@ -246,13 +246,13 @@ class PrettyPrintTests(DebuggerTests):
         'Verify the pretty-printing of bytes'
         self.assertGdbRepr(b'')
         self.assertGdbRepr(b'And now for something hopefully the same')
-        self.assertGdbRepr(b'string with embedded NUL here \0 and then some more text')
-        self.assertGdbRepr(b'this is a tab:\t'
-                           b' this is a slash-N:\n'
-                           b' this is a slash-R:\r'
+        self.assertGdbRepr(b'string with embedded NUL here /0 and then some more text')
+        self.assertGdbRepr(b'this is a tab:/t'
+                           b' this is a slash-N:/n'
+                           b' this is a slash-R:/r'
                            )
 
-        self.assertGdbRepr(b'this is byte 255:\xff and byte 128:\x80')
+        self.assertGdbRepr(b'this is byte 255:/xff and byte 128:/x80')
 
         self.assertGdbRepr(bytes([b for b in range(255)]))
 
@@ -270,16 +270,16 @@ class PrettyPrintTests(DebuggerTests):
 
         self.assertGdbRepr('')
         self.assertGdbRepr('And now for something hopefully the same')
-        self.assertGdbRepr('string with embedded NUL here \0 and then some more text')
+        self.assertGdbRepr('string with embedded NUL here /0 and then some more text')
 
         # Test printing a single character:
         #    U+2620 SKULL AND CROSSBONES
-        check_repr('\u2620')
+        check_repr('/u2620')
 
         # Test printing a Japanese unicode string
         # (I believe this reads "mojibake", using 3 characters from the CJK
         # Unified Ideographs area, followed by U+3051 HIRAGANA LETTER KE)
-        check_repr('\u6587\u5b57\u5316\u3051')
+        check_repr('/u6587/u5b57/u5316/u3051')
 
         # Test a character outside the BMP:
         #    U+1D121 MUSICAL SYMBOL C CLEF
@@ -343,7 +343,7 @@ class Foo:
 foo = Foo()
 foo.an_int = 42
 id(foo)''')
-        m = re.match(r'<Foo\(an_int=42\) at remote 0x[0-9a-f]+>', gdb_repr)
+        m = re.match(r'<Foo/(an_int=42/) at remote 0x[0-9a-f]+>', gdb_repr)
         self.assertTrue(m,
                         msg='Unexpected new-style class rendering %r' % gdb_repr)
 
@@ -356,7 +356,7 @@ foo = Foo()
 foo += [1, 2, 3]
 foo.an_int = 42
 id(foo)''')
-        m = re.match(r'<Foo\(an_int=42\) at remote 0x[0-9a-f]+>', gdb_repr)
+        m = re.match(r'<Foo/(an_int=42/) at remote 0x[0-9a-f]+>', gdb_repr)
 
         self.assertTrue(m,
                         msg='Unexpected new-style class rendering %r' % gdb_repr)
@@ -371,7 +371,7 @@ class Foo(tuple):
 foo = Foo((1, 2, 3))
 foo.an_int = 42
 id(foo)''')
-        m = re.match(r'<Foo\(an_int=42\) at remote 0x[0-9a-f]+>', gdb_repr)
+        m = re.match(r'<Foo/(an_int=42/) at remote 0x[0-9a-f]+>', gdb_repr)
 
         self.assertTrue(m,
                         msg='Unexpected new-style class rendering %r' % gdb_repr)
@@ -387,7 +387,7 @@ id(foo)''')
         else:
             cmds_after_breakpoint=['backtrace']
 
-        gdb_repr, gdb_output = \
+        gdb_repr, gdb_output = /
             self.get_gdb_repr(source,
                               cmds_after_breakpoint=cmds_after_breakpoint)
         if exprepr:
@@ -402,7 +402,7 @@ id(foo)''')
 
         m = re.match(pattern, gdb_repr)
         if not m:
-            self.fail('Unexpected gdb representation: %r\n%s' % \
+            self.fail('Unexpected gdb representation: %r/n%s' % /
                           (gdb_repr, gdb_output))
 
     def test_NULL_ptr(self):
@@ -451,49 +451,49 @@ id(foo)''')
     def test_selfreferential_list(self):
         '''Ensure that a reference loop involving a list doesn't lead proxyval
         into an infinite loop:'''
-        gdb_repr, gdb_output = \
+        gdb_repr, gdb_output = /
             self.get_gdb_repr("a = [3, 4, 5] ; a.append(a) ; id(a)")
         self.assertEqual(gdb_repr, '[3, 4, 5, [...]]')
 
-        gdb_repr, gdb_output = \
+        gdb_repr, gdb_output = /
             self.get_gdb_repr("a = [3, 4, 5] ; b = [a] ; a.append(b) ; id(a)")
         self.assertEqual(gdb_repr, '[3, 4, 5, [[...]]]')
 
     def test_selfreferential_dict(self):
         '''Ensure that a reference loop involving a dict doesn't lead proxyval
         into an infinite loop:'''
-        gdb_repr, gdb_output = \
+        gdb_repr, gdb_output = /
             self.get_gdb_repr("a = {} ; b = {'bar':a} ; a['foo'] = b ; id(a)")
 
         self.assertEqual(gdb_repr, "{'foo': {'bar': {...}}}")
 
     def test_selfreferential_old_style_instance(self):
-        gdb_repr, gdb_output = \
+        gdb_repr, gdb_output = /
             self.get_gdb_repr('''
 class Foo:
     pass
 foo = Foo()
 foo.an_attr = foo
 id(foo)''')
-        self.assertTrue(re.match('<Foo\(an_attr=<\.\.\.>\) at remote 0x[0-9a-f]+>',
+        self.assertTrue(re.match('<Foo/(an_attr=</././.>/) at remote 0x[0-9a-f]+>',
                                  gdb_repr),
-                        'Unexpected gdb representation: %r\n%s' % \
+                        'Unexpected gdb representation: %r/n%s' % /
                             (gdb_repr, gdb_output))
 
     def test_selfreferential_new_style_instance(self):
-        gdb_repr, gdb_output = \
+        gdb_repr, gdb_output = /
             self.get_gdb_repr('''
 class Foo(object):
     pass
 foo = Foo()
 foo.an_attr = foo
 id(foo)''')
-        self.assertTrue(re.match('<Foo\(an_attr=<\.\.\.>\) at remote 0x[0-9a-f]+>',
+        self.assertTrue(re.match('<Foo/(an_attr=</././.>/) at remote 0x[0-9a-f]+>',
                                  gdb_repr),
-                        'Unexpected gdb representation: %r\n%s' % \
+                        'Unexpected gdb representation: %r/n%s' % /
                             (gdb_repr, gdb_output))
 
-        gdb_repr, gdb_output = \
+        gdb_repr, gdb_output = /
             self.get_gdb_repr('''
 class Foo(object):
     pass
@@ -502,9 +502,9 @@ b = Foo()
 a.an_attr = b
 b.an_attr = a
 id(a)''')
-        self.assertTrue(re.match('<Foo\(an_attr=<Foo\(an_attr=<\.\.\.>\) at remote 0x[0-9a-f]+>\) at remote 0x[0-9a-f]+>',
+        self.assertTrue(re.match('<Foo/(an_attr=<Foo/(an_attr=</././.>/) at remote 0x[0-9a-f]+>/) at remote 0x[0-9a-f]+>',
                                  gdb_repr),
-                        'Unexpected gdb representation: %r\n%s' % \
+                        'Unexpected gdb representation: %r/n%s' % /
                             (gdb_repr, gdb_output))
 
     def test_truncation(self):
@@ -539,7 +539,7 @@ id(a)''')
         gdb_repr, gdb_output = self.get_gdb_repr('import sys; id(sys.stdout.readlines)')
         self.assertTrue(re.match('<built-in method readlines of _io.TextIOWrapper object at remote 0x[0-9a-f]+>',
                                  gdb_repr),
-                        'Unexpected gdb representation: %r\n%s' % \
+                        'Unexpected gdb representation: %r/n%s' % /
                             (gdb_repr, gdb_output))
 
     def test_frames(self):
@@ -552,10 +552,10 @@ id(foo.__code__)''',
                                           breakpoint='builtin_id',
                                           cmds_after_breakpoint=['print (PyFrameObject*)(((PyCodeObject*)v)->co_zombieframe)']
                                           )
-        self.assertTrue(re.match('.*\s+\$1 =\s+Frame 0x[0-9a-f]+, for file <string>, line 3, in foo \(\)\s+.*',
+        self.assertTrue(re.match('.*/s+/$1 =/s+Frame 0x[0-9a-f]+, for file <string>, line 3, in foo /(/)/s+.*',
                                  gdb_output,
                                  re.DOTALL),
-                        'Unexpected gdb representation: %r\n%s' % (gdb_output, gdb_output))
+                        'Unexpected gdb representation: %r/n%s' % (gdb_output, gdb_output))
 
 @unittest.skipIf(python_is_optimized(),
                  "Python was compiled with optimizations")
@@ -568,14 +568,14 @@ class PyListTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-list'])
 
-        self.assertListing('   5    \n'
-                           '   6    def bar(a, b, c):\n'
-                           '   7        baz(a, b, c)\n'
-                           '   8    \n'
-                           '   9    def baz(*args):\n'
-                           ' >10        id(42)\n'
-                           '  11    \n'
-                           '  12    foo(1, 2, 3)\n',
+        self.assertListing('   5    /n'
+                           '   6    def bar(a, b, c):/n'
+                           '   7        baz(a, b, c)/n'
+                           '   8    /n'
+                           '   9    def baz(*args):/n'
+                           ' >10        id(42)/n'
+                           '  11    /n'
+                           '  12    foo(1, 2, 3)/n',
                            bt)
 
     def test_one_abs_arg(self):
@@ -583,10 +583,10 @@ class PyListTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-list 9'])
 
-        self.assertListing('   9    def baz(*args):\n'
-                           ' >10        id(42)\n'
-                           '  11    \n'
-                           '  12    foo(1, 2, 3)\n',
+        self.assertListing('   9    def baz(*args):/n'
+                           ' >10        id(42)/n'
+                           '  11    /n'
+                           '  12    foo(1, 2, 3)/n',
                            bt)
 
     def test_two_abs_args(self):
@@ -594,9 +594,9 @@ class PyListTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-list 1,3'])
 
-        self.assertListing('   1    # Sample script for use by test_gdb.py\n'
-                           '   2    \n'
-                           '   3    def foo(a, b, c):\n',
+        self.assertListing('   1    # Sample script for use by test_gdb.py/n'
+                           '   2    /n'
+                           '   3    def foo(a, b, c):/n',
                            bt)
 
 class StackNavigationTests(DebuggerTests):
@@ -609,8 +609,8 @@ class StackNavigationTests(DebuggerTests):
                                   cmds_after_breakpoint=['py-up'])
         self.assertMultilineMatches(bt,
                                     r'''^.*
-#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 7, in bar \(a=1, b=2, c=3\)
-    baz\(a, b, c\)
+#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 7, in bar /(a=1, b=2, c=3/)
+    baz/(a, b, c/)
 $''')
 
     @unittest.skipUnless(HAS_PYUP_PYDOWN, "test requires py-up/py-down commands")
@@ -619,7 +619,7 @@ $''')
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-down'])
         self.assertEndsWith(bt,
-                            'Unable to find a newer python frame\n')
+                            'Unable to find a newer python frame/n')
 
     @unittest.skipUnless(HAS_PYUP_PYDOWN, "test requires py-up/py-down commands")
     def test_up_at_top(self):
@@ -627,7 +627,7 @@ $''')
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-up'] * 4)
         self.assertEndsWith(bt,
-                            'Unable to find an older python frame\n')
+                            'Unable to find an older python frame/n')
 
     @unittest.skipUnless(HAS_PYUP_PYDOWN, "test requires py-up/py-down commands")
     @unittest.skipIf(python_is_optimized(),
@@ -638,10 +638,10 @@ $''')
                                   cmds_after_breakpoint=['py-up', 'py-down'])
         self.assertMultilineMatches(bt,
                                     r'''^.*
-#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 7, in bar \(a=1, b=2, c=3\)
-    baz\(a, b, c\)
-#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 10, in baz \(args=\(1, 2, 3\)\)
-    id\(42\)
+#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 7, in bar /(a=1, b=2, c=3/)
+    baz/(a, b, c/)
+#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 10, in baz /(args=/(1, 2, 3/)/)
+    id/(42/)
 $''')
 
 class PyBtTests(DebuggerTests):
@@ -653,15 +653,15 @@ class PyBtTests(DebuggerTests):
                                   cmds_after_breakpoint=['py-bt'])
         self.assertMultilineMatches(bt,
                                     r'''^.*
-Traceback \(most recent call first\):
+Traceback /(most recent call first/):
   File ".*gdb_sample.py", line 10, in baz
-    id\(42\)
+    id/(42/)
   File ".*gdb_sample.py", line 7, in bar
-    baz\(a, b, c\)
+    baz/(a, b, c/)
   File ".*gdb_sample.py", line 4, in foo
-    bar\(a, b, c\)
+    bar/(a, b, c/)
   File ".*gdb_sample.py", line 12, in <module>
-    foo\(1, 2, 3\)
+    foo/(1, 2, 3/)
 ''')
 
     @unittest.skipIf(python_is_optimized(),
@@ -672,12 +672,12 @@ Traceback \(most recent call first\):
                                   cmds_after_breakpoint=['py-bt-full'])
         self.assertMultilineMatches(bt,
                                     r'''^.*
-#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 7, in bar \(a=1, b=2, c=3\)
-    baz\(a, b, c\)
-#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 4, in foo \(a=1, b=2, c=3\)
-    bar\(a, b, c\)
-#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 12, in <module> \(\)
-    foo\(1, 2, 3\)
+#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 7, in bar /(a=1, b=2, c=3/)
+    baz/(a, b, c/)
+#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 4, in foo /(a=1, b=2, c=3/)
+    bar/(a, b, c/)
+#[0-9]+ Frame 0x[0-9a-f]+, for file .*gdb_sample.py, line 12, in <module> /(/)
+    foo/(1, 2, 3/)
 ''')
 
 class PyPrintTests(DebuggerTests):
@@ -688,7 +688,7 @@ class PyPrintTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-print args'])
         self.assertMultilineMatches(bt,
-                                    r".*\nlocal 'args' = \(1, 2, 3\)\n.*")
+                                    r".*/nlocal 'args' = /(1, 2, 3/)/n.*")
 
     @unittest.skipIf(python_is_optimized(),
                      "Python was compiled with optimizations")
@@ -697,7 +697,7 @@ class PyPrintTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-up', 'py-print c', 'py-print b', 'py-print a'])
         self.assertMultilineMatches(bt,
-                                    r".*\nlocal 'c' = 3\nlocal 'b' = 2\nlocal 'a' = 1\n.*")
+                                    r".*/nlocal 'c' = 3/nlocal 'b' = 2/nlocal 'a' = 1/n.*")
 
     @unittest.skipIf(python_is_optimized(),
                      "Python was compiled with optimizations")
@@ -705,7 +705,7 @@ class PyPrintTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-print __name__'])
         self.assertMultilineMatches(bt,
-                                    r".*\nglobal '__name__' = '__main__'\n.*")
+                                    r".*/nglobal '__name__' = '__main__'/n.*")
 
     @unittest.skipIf(python_is_optimized(),
                      "Python was compiled with optimizations")
@@ -713,7 +713,7 @@ class PyPrintTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-print len'])
         self.assertMultilineMatches(bt,
-                                    r".*\nbuiltin 'len' = <built-in method len of module object at remote 0x[0-9a-f]+>\n.*")
+                                    r".*/nbuiltin 'len' = <built-in method len of module object at remote 0x[0-9a-f]+>/n.*")
 
 class PyLocalsTests(DebuggerTests):
     @unittest.skipIf(python_is_optimized(),
@@ -722,7 +722,7 @@ class PyLocalsTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-locals'])
         self.assertMultilineMatches(bt,
-                                    r".*\nargs = \(1, 2, 3\)\n.*")
+                                    r".*/nargs = /(1, 2, 3/)/n.*")
 
     @unittest.skipUnless(HAS_PYUP_PYDOWN, "test requires py-up/py-down commands")
     @unittest.skipIf(python_is_optimized(),
@@ -731,7 +731,7 @@ class PyLocalsTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-up', 'py-locals'])
         self.assertMultilineMatches(bt,
-                                    r".*\na = 1\nb = 2\nc = 3\n.*")
+                                    r".*/na = 1/nb = 2/nc = 3/n.*")
 
 def test_main():
     run_unittest(PrettyPrintTests,

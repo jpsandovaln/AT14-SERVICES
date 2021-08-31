@@ -200,8 +200,8 @@ class OutputTestCase(unittest.TestCase):
         encoding = 'ascii'
         cal = calendar.HTMLCalendar()
         self.assertEqual(
-            cal.formatyearpage(2004, encoding=encoding).strip(b' \t\n'),
-            result_2004_html.strip(' \t\n').encode(encoding)
+            cal.formatyearpage(2004, encoding=encoding).strip(b' /t/n'),
+            result_2004_html.strip(' /t/n').encode(encoding)
         )
 
 

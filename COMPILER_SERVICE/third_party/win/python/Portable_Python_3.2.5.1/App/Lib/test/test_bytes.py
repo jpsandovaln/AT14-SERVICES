@@ -82,8 +82,8 @@ class BaseBytesTest(unittest.TestCase):
 
     def test_from_ssize(self):
         self.assertEqual(self.type2test(0), b'')
-        self.assertEqual(self.type2test(1), b'\x00')
-        self.assertEqual(self.type2test(5), b'\x00\x00\x00\x00\x00')
+        self.assertEqual(self.type2test(1), b'/x00')
+        self.assertEqual(self.type2test(5), b'/x00/x00/x00/x00/x00')
         self.assertRaises(ValueError, self.type2test, -1)
 
         self.assertEqual(self.type2test('0', 'ascii'), b'0')
@@ -139,11 +139,11 @@ class BaseBytesTest(unittest.TestCase):
         # Byte comparisons with unicode should always fail!
         # Test this for all expected byte orders and Unicode character
         # sizes.
-        self.assertEqual(self.type2test(b"\0a\0b\0c") == "abc", False)
-        self.assertEqual(self.type2test(b"\0\0\0a\0\0\0b\0\0\0c") == "abc",
+        self.assertEqual(self.type2test(b"/0a/0b/0c") == "abc", False)
+        self.assertEqual(self.type2test(b"/0/0/0a/0/0/0b/0/0/0c") == "abc",
                             False)
-        self.assertEqual(self.type2test(b"a\0b\0c\0") == "abc", False)
-        self.assertEqual(self.type2test(b"a\0\0\0b\0\0\0c\0\0\0") == "abc",
+        self.assertEqual(self.type2test(b"a/0b/0c/0") == "abc", False)
+        self.assertEqual(self.type2test(b"a/0/0/0b/0/0/0c/0/0/0") == "abc",
                             False)
         self.assertEqual(self.type2test() == str(), False)
         self.assertEqual(self.type2test() != str(), True)
@@ -187,7 +187,7 @@ class BaseBytesTest(unittest.TestCase):
                     self.assertEqual(b[start:stop:step], self.type2test(L[start:stop:step]))
 
     def test_encoding(self):
-        sample = "Hello world\n\u1234\u5678\u9abc"
+        sample = "Hello world/n/u1234/u5678/u9abc"
         for enc in ("utf8", "utf16"):
             b = self.type2test(sample, enc)
             self.assertEqual(b, self.type2test(sample.encode(enc)))
@@ -196,16 +196,16 @@ class BaseBytesTest(unittest.TestCase):
         self.assertEqual(b, self.type2test(sample[:-3], "utf-8"))
 
     def test_decode(self):
-        sample = "Hello world\n\u1234\u5678\u9abc\def0\def0"
+        sample = "Hello world/n/u1234/u5678/u9abc/def0/def0"
         for enc in ("utf8", "utf16"):
             b = self.type2test(sample, enc)
             self.assertEqual(b.decode(enc), sample)
-        sample = "Hello world\n\x80\x81\xfe\xff"
+        sample = "Hello world/n/x80/x81/xfe/xff"
         b = self.type2test(sample, "latin1")
         self.assertRaises(UnicodeDecodeError, b.decode, "utf8")
-        self.assertEqual(b.decode("utf8", "ignore"), "Hello world\n")
+        self.assertEqual(b.decode("utf8", "ignore"), "Hello world/n")
         self.assertEqual(b.decode(errors="ignore", encoding="utf8"),
-                         "Hello world\n")
+                         "Hello world/n")
 
     def test_from_int(self):
         b = self.type2test(0)
@@ -270,13 +270,13 @@ class BaseBytesTest(unittest.TestCase):
         b = bytearray([0x1a, 0x2b, 0x30])
         self.assertEqual(self.type2test.fromhex('1a2B30'), b)
         self.assertEqual(self.type2test.fromhex('  1A 2B  30   '), b)
-        self.assertEqual(self.type2test.fromhex('0000'), b'\0\0')
+        self.assertEqual(self.type2test.fromhex('0000'), b'/0/0')
         self.assertRaises(TypeError, self.type2test.fromhex, b'1B')
         self.assertRaises(ValueError, self.type2test.fromhex, 'a')
         self.assertRaises(ValueError, self.type2test.fromhex, 'rt')
         self.assertRaises(ValueError, self.type2test.fromhex, '1a b cd')
-        self.assertRaises(ValueError, self.type2test.fromhex, '\x00')
-        self.assertRaises(ValueError, self.type2test.fromhex, '12   \x00   34')
+        self.assertRaises(ValueError, self.type2test.fromhex, '/x00')
+        self.assertRaises(ValueError, self.type2test.fromhex, '12   /x00   34')
 
     def test_join(self):
         self.assertEqual(self.type2test(b"").join([]), b"")
@@ -367,13 +367,13 @@ class BaseBytesTest(unittest.TestCase):
         self.assertEqual(b.split(b'w'), [b])
 
     def test_split_whitespace(self):
-        for b in (b'  arf  barf  ', b'arf\tbarf', b'arf\nbarf', b'arf\rbarf',
-                  b'arf\fbarf', b'arf\vbarf'):
+        for b in (b'  arf  barf  ', b'arf/tbarf', b'arf/nbarf', b'arf/rbarf',
+                  b'arf/fbarf', b'arf/vbarf'):
             b = self.type2test(b)
             self.assertEqual(b.split(), [b'arf', b'barf'])
             self.assertEqual(b.split(None), [b'arf', b'barf'])
             self.assertEqual(b.split(None, 2), [b'arf', b'barf'])
-        for b in (b'a\x1Cb', b'a\x1Db', b'a\x1Eb', b'a\x1Fb'):
+        for b in (b'a/x1Cb', b'a/x1Db', b'a/x1Eb', b'a/x1Fb'):
             b = self.type2test(b)
             self.assertEqual(b.split(), [b])
         self.assertEqual(self.type2test(b'  a  bb  c  ').split(None, 0), [b'a  bb  c  '])
@@ -385,8 +385,8 @@ class BaseBytesTest(unittest.TestCase):
         self.assertRaises(TypeError, self.type2test(b'a b').split, ' ')
 
     def test_split_unicodewhitespace(self):
-        b = self.type2test(b"\x09\x0A\x0B\x0C\x0D\x1C\x1D\x1E\x1F")
-        self.assertEqual(b.split(), [b'\x1c\x1d\x1e\x1f'])
+        b = self.type2test(b"/x09/x0A/x0B/x0C/x0D/x1C/x1D/x1E/x1F")
+        self.assertEqual(b.split(), [b'/x1c/x1d/x1e/x1f'])
 
     def test_rsplit(self):
         b = self.type2test(b'mississippi')
@@ -395,8 +395,8 @@ class BaseBytesTest(unittest.TestCase):
         self.assertEqual(b.rsplit(b'w'), [b])
 
     def test_rsplit_whitespace(self):
-        for b in (b'  arf  barf  ', b'arf\tbarf', b'arf\nbarf', b'arf\rbarf',
-                  b'arf\fbarf', b'arf\vbarf'):
+        for b in (b'  arf  barf  ', b'arf/tbarf', b'arf/nbarf', b'arf/rbarf',
+                  b'arf/fbarf', b'arf/vbarf'):
             b = self.type2test(b)
             self.assertEqual(b.rsplit(), [b'arf', b'barf'])
             self.assertEqual(b.rsplit(None), [b'arf', b'barf'])
@@ -410,8 +410,8 @@ class BaseBytesTest(unittest.TestCase):
         self.assertRaises(TypeError, self.type2test(b'a b').rsplit, ' ')
 
     def test_rsplit_unicodewhitespace(self):
-        b = self.type2test(b"\x09\x0A\x0B\x0C\x0D\x1C\x1D\x1E\x1F")
-        self.assertEqual(b.rsplit(), [b'\x1c\x1d\x1e\x1f'])
+        b = self.type2test(b"/x09/x0A/x0B/x0C/x0D/x1C/x1D/x1E/x1F")
+        self.assertEqual(b.rsplit(), [b'/x1c/x1d/x1e/x1f'])
 
     def test_partition(self):
         b = self.type2test(b'mississippi')
@@ -426,7 +426,7 @@ class BaseBytesTest(unittest.TestCase):
 
     def test_pickling(self):
         for proto in range(pickle.HIGHEST_PROTOCOL + 1):
-            for b in b"", b"a", b"abc", b"\xffab\x80", b"\0\0\377\0\0":
+            for b in b"", b"a", b"abc", b"/xffab/x80", b"/0/0/377/0/0":
                 b = self.type2test(b)
                 ps = pickle.dumps(b, proto)
                 q = pickle.loads(ps)
@@ -458,10 +458,10 @@ class BaseBytesTest(unittest.TestCase):
         self.assertEqual(b.rstrip(b'pim'), b'mississ')
 
     def test_strip_whitespace(self):
-        b = self.type2test(b' \t\n\r\f\vabc \t\n\r\f\v')
+        b = self.type2test(b' /t/n/r/f/vabc /t/n/r/f/v')
         self.assertEqual(b.strip(), b'abc')
-        self.assertEqual(b.lstrip(), b'abc \t\n\r\f\v')
-        self.assertEqual(b.rstrip(), b' \t\n\r\f\vabc')
+        self.assertEqual(b.lstrip(), b'abc /t/n/r/f/v')
+        self.assertEqual(b.rstrip(), b' /t/n/r/f/vabc')
 
     def test_strip_bytearray(self):
         self.assertEqual(self.type2test(b'abc').strip(memoryview(b'ac')), b'b')
@@ -474,15 +474,15 @@ class BaseBytesTest(unittest.TestCase):
         self.assertRaises(TypeError, self.type2test(b'abc').rstrip, 'b')
 
     def test_ord(self):
-        b = self.type2test(b'\0A\x7f\x80\xff')
+        b = self.type2test(b'/0A/x7f/x80/xff')
         self.assertEqual([ord(b[i:i+1]) for i in range(len(b))],
                          [0, 65, 127, 128, 255])
 
     def test_maketrans(self):
-        transtable = b'\000\001\002\003\004\005\006\007\010\011\012\013\014\015\016\017\020\021\022\023\024\025\026\027\030\031\032\033\034\035\036\037 !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`xyzdefghijklmnopqrstuvwxyz{|}~\177\200\201\202\203\204\205\206\207\210\211\212\213\214\215\216\217\220\221\222\223\224\225\226\227\230\231\232\233\234\235\236\237\240\241\242\243\244\245\246\247\250\251\252\253\254\255\256\257\260\261\262\263\264\265\266\267\270\271\272\273\274\275\276\277\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337\340\341\342\343\344\345\346\347\350\351\352\353\354\355\356\357\360\361\362\363\364\365\366\367\370\371\372\373\374\375\376\377'
+        transtable = b'/000/001/002/003/004/005/006/007/010/011/012/013/014/015/016/017/020/021/022/023/024/025/026/027/030/031/032/033/034/035/036/037 !"#$%&/'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[//]^_`xyzdefghijklmnopqrstuvwxyz{|}~/177/200/201/202/203/204/205/206/207/210/211/212/213/214/215/216/217/220/221/222/223/224/225/226/227/230/231/232/233/234/235/236/237/240/241/242/243/244/245/246/247/250/251/252/253/254/255/256/257/260/261/262/263/264/265/266/267/270/271/272/273/274/275/276/277/300/301/302/303/304/305/306/307/310/311/312/313/314/315/316/317/320/321/322/323/324/325/326/327/330/331/332/333/334/335/336/337/340/341/342/343/344/345/346/347/350/351/352/353/354/355/356/357/360/361/362/363/364/365/366/367/370/371/372/373/374/375/376/377'
         self.assertEqual(self.type2test.maketrans(b'abc', b'xyz'), transtable)
-        transtable = b'\000\001\002\003\004\005\006\007\010\011\012\013\014\015\016\017\020\021\022\023\024\025\026\027\030\031\032\033\034\035\036\037 !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\177\200\201\202\203\204\205\206\207\210\211\212\213\214\215\216\217\220\221\222\223\224\225\226\227\230\231\232\233\234\235\236\237\240\241\242\243\244\245\246\247\250\251\252\253\254\255\256\257\260\261\262\263\264\265\266\267\270\271\272\273\274\275\276\277\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337\340\341\342\343\344\345\346\347\350\351\352\353\354\355\356\357\360\361\362\363\364\365\366\367\370\371\372\373\374xyz'
-        self.assertEqual(self.type2test.maketrans(b'\375\376\377', b'xyz'), transtable)
+        transtable = b'/000/001/002/003/004/005/006/007/010/011/012/013/014/015/016/017/020/021/022/023/024/025/026/027/030/031/032/033/034/035/036/037 !"#$%&/'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[//]^_`abcdefghijklmnopqrstuvwxyz{|}~/177/200/201/202/203/204/205/206/207/210/211/212/213/214/215/216/217/220/221/222/223/224/225/226/227/230/231/232/233/234/235/236/237/240/241/242/243/244/245/246/247/250/251/252/253/254/255/256/257/260/261/262/263/264/265/266/267/270/271/272/273/274/275/276/277/300/301/302/303/304/305/306/307/310/311/312/313/314/315/316/317/320/321/322/323/324/325/326/327/330/331/332/333/334/335/336/337/340/341/342/343/344/345/346/347/350/351/352/353/354/355/356/357/360/361/362/363/364/365/366/367/370/371/372/373/374xyz'
+        self.assertEqual(self.type2test.maketrans(b'/375/376/377', b'xyz'), transtable)
         self.assertRaises(ValueError, self.type2test.maketrans, b'abc', b'xyzq')
         self.assertRaises(TypeError, self.type2test.maketrans, 'abc', 'def')
 
@@ -533,19 +533,19 @@ class BaseBytesTest(unittest.TestCase):
         # issue 11828
         b = self.type2test(b'hello')
         x = self.type2test(b'x')
-        self.assertRaisesRegex(TypeError, r'\bfind\b', b.find,
+        self.assertRaisesRegex(TypeError, r'/bfind/b', b.find,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'\brfind\b', b.rfind,
+        self.assertRaisesRegex(TypeError, r'/brfind/b', b.rfind,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'\bindex\b', b.index,
+        self.assertRaisesRegex(TypeError, r'/bindex/b', b.index,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'\brindex\b', b.rindex,
+        self.assertRaisesRegex(TypeError, r'/brindex/b', b.rindex,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'\bcount\b', b.count,
+        self.assertRaisesRegex(TypeError, r'/bcount/b', b.count,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'\bstartswith\b', b.startswith,
+        self.assertRaisesRegex(TypeError, r'/bstartswith/b', b.startswith,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'\bendswith\b', b.endswith,
+        self.assertRaisesRegex(TypeError, r'/bendswith/b', b.endswith,
                                 x, None, None, None)
 
 
@@ -586,7 +586,7 @@ class BytesTest(BaseBytesTest):
         self.assertEqual(PyBytes_FromFormat(b'%%%c', c_int(ord('_'))), b'%_')
 
         self.assertEqual(PyBytes_FromFormat(b'c:%c', c_int(255)),
-                         b'c:\xff')
+                         b'c:/xff')
         self.assertEqual(PyBytes_FromFormat(b's:%s', c_char_p(b'cstr')),
                          b's:cstr')
 
@@ -598,8 +598,8 @@ class ByteArrayTest(BaseBytesTest):
         self.assertRaises(TypeError, hash, bytearray())
 
     def test_bytearray_api(self):
-        short_sample = b"Hello world\n"
-        sample = short_sample + b"\0"*(20 - len(short_sample))
+        short_sample = b"Hello world/n"
+        sample = short_sample + b"/0"*(20 - len(short_sample))
         tfn = tempfile.mktemp()
         try:
             # Prepare
@@ -638,7 +638,7 @@ class ByteArrayTest(BaseBytesTest):
         def by(s):
             return bytearray(map(ord, s))
         b = by("Hello, world")
-        self.assertEqual(re.findall(br"\w+", b), [by("Hello"), by("world")])
+        self.assertEqual(re.findall(br"/w+", b), [by("Hello"), by("world")])
 
     def test_setitem(self):
         b = bytearray([1, 2, 3])
@@ -847,7 +847,7 @@ class ByteArrayTest(BaseBytesTest):
         self.assertRaises(IndexError, lambda: b.pop(10))
         self.assertRaises(IndexError, lambda: bytearray().pop())
         # test for issue #6846
-        self.assertEqual(bytearray(b'\xff').pop(), 0xff)
+        self.assertEqual(bytearray(b'/xff').pop(), 0xff)
 
     def test_nosort(self):
         self.assertRaises(AttributeError, lambda: bytearray().sort())
@@ -950,12 +950,12 @@ class AssortedBytesTest(unittest.TestCase):
     def test_repr_str(self):
         for f in str, repr:
             self.assertEqual(f(bytearray()), "bytearray(b'')")
-            self.assertEqual(f(bytearray([0])), "bytearray(b'\\x00')")
+            self.assertEqual(f(bytearray([0])), "bytearray(b'//x00')")
             self.assertEqual(f(bytearray([0, 1, 254, 255])),
-                             "bytearray(b'\\x00\\x01\\xfe\\xff')")
+                             "bytearray(b'//x00//x01//xfe//xff')")
             self.assertEqual(f(b"abc"), "b'abc'")
             self.assertEqual(f(b"'"), '''b"'"''') # '''
-            self.assertEqual(f(b"'\""), r"""b'\'"'""") # '
+            self.assertEqual(f(b"'/""), r"""b'/'"'""") # '
 
     def test_compare_bytes_to_bytearray(self):
         self.assertEqual(b"abc" == bytes(b"abc"), True)
@@ -994,7 +994,7 @@ class AssortedBytesTest(unittest.TestCase):
         self.assertTrue(bytes.__doc__.startswith("bytes("), bytes.__doc__)
 
     def test_from_bytearray(self):
-        sample = bytes(b"Hello world\n\x80\x81\xfe\xff")
+        sample = bytes(b"Hello world/n/x80/x81/xfe/xff")
         buf = memoryview(sample)
         b = bytearray(buf)
         self.assertEqual(b, bytearray(sample))
@@ -1003,17 +1003,17 @@ class AssortedBytesTest(unittest.TestCase):
     def test_to_str(self):
         self.assertEqual(str(b''), "b''")
         self.assertEqual(str(b'x'), "b'x'")
-        self.assertEqual(str(b'\x80'), "b'\\x80'")
+        self.assertEqual(str(b'/x80'), "b'//x80'")
         self.assertEqual(str(bytearray(b'')), "bytearray(b'')")
         self.assertEqual(str(bytearray(b'x')), "bytearray(b'x')")
-        self.assertEqual(str(bytearray(b'\x80')), "bytearray(b'\\x80')")
+        self.assertEqual(str(bytearray(b'/x80')), "bytearray(b'//x80')")
 
     def test_literal(self):
         tests =  [
             (b"Wonderful spam", "Wonderful spam"),
             (br"Wonderful spam too", "Wonderful spam too"),
-            (b"\xaa\x00\000\200", "\xaa\x00\000\200"),
-            (br"\xaa\x00\000\200", r"\xaa\x00\000\200"),
+            (b"/xaa/x00/000/200", "/xaa/x00/000/200"),
+            (br"/xaa/x00/000/200", r"/xaa/x00/000/200"),
         ]
         for b, s in tests:
             self.assertEqual(b, bytearray(s, 'latin-1'))

@@ -269,7 +269,7 @@ class AugAssignTest(unittest.TestCase):
         1 << x
         x <<= 1
 
-        test_self.assertEqual(output, '''\
+        test_self.assertEqual(output, '''/
 __add__ called
 __radd__ called
 __iadd__ called

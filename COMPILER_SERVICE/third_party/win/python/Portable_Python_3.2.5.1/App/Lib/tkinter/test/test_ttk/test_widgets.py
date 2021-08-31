@@ -190,12 +190,12 @@ class ComboboxTest(unittest.TestCase):
         self.assertEqual(self.combo['values'], ('1', '', '2'))
 
         # testing values with spaces
-        self.combo['values'] = ['a b', 'a\tb', 'a\nb']
-        self.assertEqual(self.combo['values'], ('a b', 'a\tb', 'a\nb'))
+        self.combo['values'] = ['a b', 'a/tb', 'a/nb']
+        self.assertEqual(self.combo['values'], ('a b', 'a/tb', 'a/nb'))
 
         # testing values with special characters
-        self.combo['values'] = [r'a\tb', '"a"', '} {']
-        self.assertEqual(self.combo['values'], (r'a\tb', '"a"', '} {'))
+        self.combo['values'] = [r'a/tb', '"a"', '} {']
+        self.assertEqual(self.combo['values'], (r'a/tb', '"a"', '} {'))
 
         # out of range
         self.assertRaises(tkinter.TclError, self.combo.current,
@@ -1037,7 +1037,7 @@ class TreeviewTest(unittest.TestCase):
             MockTclObj('first-item'))
 
         # unicode values
-        value = '\xe1ba'
+        value = '/xe1ba'
         item = self.tv.insert('', 'end', values=(value, ))
         self.assertEqual(self.tv.item(item, 'values'), (value, ))
         self.assertEqual(self.tv.item(item, values=None), (value, ))

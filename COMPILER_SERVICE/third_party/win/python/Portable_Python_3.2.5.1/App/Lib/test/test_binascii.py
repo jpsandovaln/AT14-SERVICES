@@ -17,10 +17,10 @@ class BinASCIITest(unittest.TestCase):
 
     type2test = bytes
     # Create binary test data
-    rawdata = b"The quick brown fox jumps over the lazy dog.\r\n"
+    rawdata = b"The quick brown fox jumps over the lazy dog./r/n"
     # Be slow so we don't depend on other modules
     rawdata += bytes(range(256))
-    rawdata += b"\r\nHello world.\n"
+    rawdata += b"/r/nHello world./n"
 
     def setUp(self):
         self.data = self.type2test(self.rawdata)
@@ -125,16 +125,16 @@ class BinASCIITest(unittest.TestCase):
             res += b
         self.assertEqual(res, self.rawdata)
 
-        self.assertEqual(binascii.a2b_uu(b"\x7f"), b"\x00"*31)
-        self.assertEqual(binascii.a2b_uu(b"\x80"), b"\x00"*32)
-        self.assertEqual(binascii.a2b_uu(b"\xff"), b"\x00"*31)
-        self.assertRaises(binascii.Error, binascii.a2b_uu, b"\xff\x00")
+        self.assertEqual(binascii.a2b_uu(b"/x7f"), b"/x00"*31)
+        self.assertEqual(binascii.a2b_uu(b"/x80"), b"/x00"*32)
+        self.assertEqual(binascii.a2b_uu(b"/xff"), b"/x00"*31)
+        self.assertRaises(binascii.Error, binascii.a2b_uu, b"/xff/x00")
         self.assertRaises(binascii.Error, binascii.a2b_uu, b"!!!!")
 
         self.assertRaises(binascii.Error, binascii.b2a_uu, 46*b"!")
 
         # Issue #7701 (crash on a pydebug build)
-        self.assertEqual(binascii.b2a_uu(b'x'), b'!>   \n')
+        self.assertEqual(binascii.b2a_uu(b'x'), b'!>   /n')
 
     def test_crc32(self):
         crc = binascii.crc32(self.type2test(b"Test the CRC-32 of"))
@@ -155,7 +155,7 @@ class BinASCIITest(unittest.TestCase):
 
     def test_hex(self):
         # test hexlification
-        s = b'{s\005\000\000\000worldi\002\000\000\000s\005\000\000\000helloi\001\000\000\0000'
+        s = b'{s/005/000/000/000worldi/002/000/000/000s/005/000/000/000helloi/001/000/000/0000'
         t = binascii.b2a_hex(self.type2test(s))
         u = binascii.a2b_hex(self.type2test(t))
         self.assertEqual(s, u)
@@ -176,23 +176,23 @@ class BinASCIITest(unittest.TestCase):
         self.assertEqual(binascii.a2b_qp(b"=="), b"=")
         self.assertEqual(binascii.a2b_qp(b"=AX"), b"=AX")
         self.assertRaises(TypeError, binascii.b2a_qp, foo="bar")
-        self.assertEqual(binascii.a2b_qp(b"=00\r\n=00"), b"\x00\r\n\x00")
+        self.assertEqual(binascii.a2b_qp(b"=00/r/n=00"), b"/x00/r/n/x00")
         self.assertEqual(
-            binascii.b2a_qp(b"\xff\r\n\xff\n\xff"),
-            b"=FF\r\n=FF\r\n=FF")
+            binascii.b2a_qp(b"/xff/r/n/xff/n/xff"),
+            b"=FF/r/n=FF/r/n=FF")
         self.assertEqual(
-            binascii.b2a_qp(b"0"*75+b"\xff\r\n\xff\r\n\xff"),
-            b"0"*75+b"=\r\n=FF\r\n=FF\r\n=FF")
+            binascii.b2a_qp(b"0"*75+b"/xff/r/n/xff/r/n/xff"),
+            b"0"*75+b"=/r/n=FF/r/n=FF/r/n=FF")
 
-        self.assertEqual(binascii.b2a_qp(b'\0\n'), b'=00\n')
-        self.assertEqual(binascii.b2a_qp(b'\0\n', quotetabs=True), b'=00\n')
-        self.assertEqual(binascii.b2a_qp(b'foo\tbar\t\n'), b'foo\tbar=09\n')
-        self.assertEqual(binascii.b2a_qp(b'foo\tbar\t\n', quotetabs=True),
-                         b'foo=09bar=09\n')
+        self.assertEqual(binascii.b2a_qp(b'/0/n'), b'=00/n')
+        self.assertEqual(binascii.b2a_qp(b'/0/n', quotetabs=True), b'=00/n')
+        self.assertEqual(binascii.b2a_qp(b'foo/tbar/t/n'), b'foo/tbar=09/n')
+        self.assertEqual(binascii.b2a_qp(b'foo/tbar/t/n', quotetabs=True),
+                         b'foo=09bar=09/n')
 
         self.assertEqual(binascii.b2a_qp(b'.'), b'=2E')
-        self.assertEqual(binascii.b2a_qp(b'.\n'), b'=2E\n')
-        self.assertEqual(binascii.b2a_qp(b'a.\n'), b'a.\n')
+        self.assertEqual(binascii.b2a_qp(b'./n'), b'=2E/n')
+        self.assertEqual(binascii.b2a_qp(b'a./n'), b'a./n')
 
     def test_empty_string(self):
         # A test for SF bug #1022953.  Make sure SystemError is not raised.

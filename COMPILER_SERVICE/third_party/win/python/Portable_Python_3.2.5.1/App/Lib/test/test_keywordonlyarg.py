@@ -44,33 +44,33 @@ class KeywordOnlyArgTestCase(unittest.TestCase):
         self.assertRaises(SyntaxError, shouldRaiseSyntaxError, codestr)
 
     def testSyntaxErrorForFunctionDefinition(self):
-        self.assertRaisesSyntaxError("def f(p, *):\n  pass\n")
-        self.assertRaisesSyntaxError("def f(p1, *, p1=100):\n  pass\n")
-        self.assertRaisesSyntaxError("def f(p1, *k1, k1=100):\n  pass\n")
-        self.assertRaisesSyntaxError("def f(p1, *, k1, k1=100):\n  pass\n")
-        self.assertRaisesSyntaxError("def f(p1, *, **k1):\n  pass\n")
-        self.assertRaisesSyntaxError("def f(p1, *, k1, **k1):\n  pass\n")
-        self.assertRaisesSyntaxError("def f(p1, *, None, **k1):\n  pass\n")
-        self.assertRaisesSyntaxError("def f(p, *, (k1, k2), **kw):\n  pass\n")
+        self.assertRaisesSyntaxError("def f(p, *):/n  pass/n")
+        self.assertRaisesSyntaxError("def f(p1, *, p1=100):/n  pass/n")
+        self.assertRaisesSyntaxError("def f(p1, *k1, k1=100):/n  pass/n")
+        self.assertRaisesSyntaxError("def f(p1, *, k1, k1=100):/n  pass/n")
+        self.assertRaisesSyntaxError("def f(p1, *, **k1):/n  pass/n")
+        self.assertRaisesSyntaxError("def f(p1, *, k1, **k1):/n  pass/n")
+        self.assertRaisesSyntaxError("def f(p1, *, None, **k1):/n  pass/n")
+        self.assertRaisesSyntaxError("def f(p, *, (k1, k2), **kw):/n  pass/n")
 
     def testSyntaxForManyArguments(self):
         fundef = "def f("
         for i in range(255):
             fundef += "i%d, "%i
-        fundef += "*, key=100):\n pass\n"
+        fundef += "*, key=100):/n pass/n"
         self.assertRaisesSyntaxError(fundef)
 
         fundef2 = "def foo(i,*,"
         for i in range(255):
             fundef2 += "i%d, "%i
-        fundef2 += "lastarg):\n  pass\n"
+        fundef2 += "lastarg):/n  pass/n"
         self.assertRaisesSyntaxError(fundef2)
 
         # exactly 255 arguments, should compile ok
         fundef3 = "def f(i,*,"
         for i in range(253):
             fundef3 += "i%d, "%i
-        fundef3 += "lastarg):\n  pass\n"
+        fundef3 += "lastarg):/n  pass/n"
         compile(fundef3, "<test>", "single")
 
     def testTooManyPositionalErrorMessage(self):

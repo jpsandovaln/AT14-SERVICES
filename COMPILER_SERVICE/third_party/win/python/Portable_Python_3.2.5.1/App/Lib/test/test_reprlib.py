@@ -31,8 +31,8 @@ class ReprTests(unittest.TestCase):
         expected = repr(s)[:13] + "..." + repr(s)[-14:]
         eq(r(s), expected)
 
-        eq(r("\"'"), repr("\"'"))
-        s = "\""*30+"'"*100
+        eq(r("/"'"), repr("/"'"))
+        s = "/""*30+"'"*100
         expected = repr(s)[:13] + "..." + repr(s)[-14:]
         eq(r(s), expected)
 
@@ -239,7 +239,7 @@ class LongReprTest(unittest.TestCase):
 
     def test_type(self):
         eq = self.assertEqual
-        touch(os.path.join(self.subpkgname, 'foo.py'), '''\
+        touch(os.path.join(self.subpkgname, 'foo.py'), '''/
 class foo(object):
     pass
 ''')
@@ -253,7 +253,7 @@ class foo(object):
         pass
 
     def test_class(self):
-        touch(os.path.join(self.subpkgname, 'bar.py'), '''\
+        touch(os.path.join(self.subpkgname, 'bar.py'), '''/
 class bar:
     pass
 ''')
@@ -262,7 +262,7 @@ class bar:
         self.assertEqual(repr(bar.bar), "<class '%s.bar'>" % bar.__name__)
 
     def test_instance(self):
-        touch(os.path.join(self.subpkgname, 'baz.py'), '''\
+        touch(os.path.join(self.subpkgname, 'baz.py'), '''/
 class baz:
     pass
 ''')
@@ -273,7 +273,7 @@ class baz:
 
     def test_method(self):
         eq = self.assertEqual
-        touch(os.path.join(self.subpkgname, 'qux.py'), '''\
+        touch(os.path.join(self.subpkgname, 'qux.py'), '''/
 class aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:
     def amethod(self): pass
 ''')
@@ -284,7 +284,7 @@ class aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         # Bound method next
         iqux = qux.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa()
         self.assertTrue(repr(iqux.amethod).startswith(
-            '<bound method aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.amethod of <%s.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa object at 0x' \
+            '<bound method aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.amethod of <%s.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa object at 0x' /
             % (qux.__name__,) ))
 
     def test_builtin_function(self):

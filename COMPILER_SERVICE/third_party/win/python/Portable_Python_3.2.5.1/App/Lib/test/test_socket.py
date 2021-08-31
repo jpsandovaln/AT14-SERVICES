@@ -45,7 +45,7 @@ def linux_version():
         return 0, 0, 0
 
 HOST = support.HOST
-MSG = 'Michael Gilfix was here\u1234\r\n'.encode('utf8') ## test unicode string and carriage return
+MSG = 'Michael Gilfix was here/u1234/r/n'.encode('utf8') ## test unicode string and carriage return
 SUPPORTS_IPV6 = socket.has_ipv6 and try_address('::1', family=socket.AF_INET6)
 
 try:
@@ -304,7 +304,7 @@ class GeneralModuleTests(unittest.TestCase):
         sockname = s.getsockname()
         # 2 args
         with self.assertRaises(TypeError) as cm:
-            s.sendto('\u2620', sockname)
+            s.sendto('/u2620', sockname)
         self.assertEqual(str(cm.exception),
                          "'str' does not support the buffer interface")
         with self.assertRaises(TypeError) as cm:
@@ -316,7 +316,7 @@ class GeneralModuleTests(unittest.TestCase):
         self.assertIn('not NoneType',str(cm.exception))
         # 3 args
         with self.assertRaises(TypeError) as cm:
-            s.sendto('\u2620', 0, sockname)
+            s.sendto('/u2620', 0, sockname)
         self.assertEqual(str(cm.exception),
                          "'str' does not support the buffer interface")
         with self.assertRaises(TypeError) as cm:
@@ -491,8 +491,8 @@ class GeneralModuleTests(unittest.TestCase):
             return  # No inet_aton, nothing to check
         # Test that issue1008086 and issue767150 are fixed.
         # It must return 4 bytes.
-        self.assertEqual(b'\x00'*4, socket.inet_aton('0.0.0.0'))
-        self.assertEqual(b'\xff'*4, socket.inet_aton('255.255.255.255'))
+        self.assertEqual(b'/x00'*4, socket.inet_aton('0.0.0.0'))
+        self.assertEqual(b'/xff'*4, socket.inet_aton('255.255.255.255'))
 
     def testIPv4toString(self):
         if not hasattr(socket, 'inet_pton'):
@@ -504,21 +504,21 @@ class GeneralModuleTests(unittest.TestCase):
             (socket.error, ValueError), func, a
         )
 
-        self.assertEqual(b'\x00\x00\x00\x00', f('0.0.0.0'))
-        self.assertEqual(b'\xff\x00\xff\x00', f('255.0.255.0'))
-        self.assertEqual(b'\xaa\xaa\xaa\xaa', f('170.170.170.170'))
-        self.assertEqual(b'\x01\x02\x03\x04', f('1.2.3.4'))
-        self.assertEqual(b'\xff\xff\xff\xff', f('255.255.255.255'))
+        self.assertEqual(b'/x00/x00/x00/x00', f('0.0.0.0'))
+        self.assertEqual(b'/xff/x00/xff/x00', f('255.0.255.0'))
+        self.assertEqual(b'/xaa/xaa/xaa/xaa', f('170.170.170.170'))
+        self.assertEqual(b'/x01/x02/x03/x04', f('1.2.3.4'))
+        self.assertEqual(b'/xff/xff/xff/xff', f('255.255.255.255'))
         assertInvalid(f, '0.0.0.')
         assertInvalid(f, '300.0.0.0')
         assertInvalid(f, 'a.0.0.0')
         assertInvalid(f, '1.2.3.4.5')
         assertInvalid(f, '::1')
 
-        self.assertEqual(b'\x00\x00\x00\x00', g('0.0.0.0'))
-        self.assertEqual(b'\xff\x00\xff\x00', g('255.0.255.0'))
-        self.assertEqual(b'\xaa\xaa\xaa\xaa', g('170.170.170.170'))
-        self.assertEqual(b'\xff\xff\xff\xff', g('255.255.255.255'))
+        self.assertEqual(b'/x00/x00/x00/x00', g('0.0.0.0'))
+        self.assertEqual(b'/xff/x00/xff/x00', g('255.0.255.0'))
+        self.assertEqual(b'/xaa/xaa/xaa/xaa', g('170.170.170.170'))
+        self.assertEqual(b'/xff/xff/xff/xff', g('255.255.255.255'))
         assertInvalid(g, '0.0.0.')
         assertInvalid(g, '300.0.0.0')
         assertInvalid(g, 'a.0.0.0')
@@ -539,18 +539,18 @@ class GeneralModuleTests(unittest.TestCase):
             (socket.error, ValueError), f, a
         )
 
-        self.assertEqual(b'\x00' * 16, f('::'))
-        self.assertEqual(b'\x00' * 16, f('0::0'))
-        self.assertEqual(b'\x00\x01' + b'\x00' * 14, f('1::'))
+        self.assertEqual(b'/x00' * 16, f('::'))
+        self.assertEqual(b'/x00' * 16, f('0::0'))
+        self.assertEqual(b'/x00/x01' + b'/x00' * 14, f('1::'))
         self.assertEqual(
-            b'\x45\xef\x76\xcb\x00\x1a\x56\xef\xaf\xeb\x0b\xac\x19\x24\xae\xae',
+            b'/x45/xef/x76/xcb/x00/x1a/x56/xef/xaf/xeb/x0b/xac/x19/x24/xae/xae',
             f('45ef:76cb:1a:56ef:afeb:bac:1924:aeae')
         )
         self.assertEqual(
-            b'\xad\x42\x0a\xbc' + b'\x00' * 4 + b'\x01\x27\x00\x00\x02\x54\x00\x02',
+            b'/xad/x42/x0a/xbc' + b'/x00' * 4 + b'/x01/x27/x00/x00/x02/x54/x00/x02',
             f('ad42:abc::127:0:254:2')
         )
-        self.assertEqual(b'\x00\x12\x00\x0a' + b'\x00' * 12, f('12:a::'))
+        self.assertEqual(b'/x00/x12/x00/x0a' + b'/x00' * 12, f('12:a::'))
         assertInvalid('0x20::')
         assertInvalid(':::')
         assertInvalid('::0::')
@@ -561,15 +561,15 @@ class GeneralModuleTests(unittest.TestCase):
         assertInvalid('1:2:3:4:5:6:7:8:')
         assertInvalid('1:2:3:4:5:6:7:8:0')
 
-        self.assertEqual(b'\x00' * 12 + b'\xfe\x2a\x17\x40',
+        self.assertEqual(b'/x00' * 12 + b'/xfe/x2a/x17/x40',
             f('::254.42.23.64')
         )
         self.assertEqual(
-            b'\x00\x42' + b'\x00' * 8 + b'\xa2\x9b\xfe\x2a\x17\x40',
+            b'/x00/x42' + b'/x00' * 8 + b'/xa2/x9b/xfe/x2a/x17/x40',
             f('42::a29b:254.42.23.64')
         )
         self.assertEqual(
-            b'\x00\x42\xa8\xb9\x00\x00\x00\x02\xff\xff\xa2\x9b\xfe\x2a\x17\x40',
+            b'/x00/x42/xa8/xb9/x00/x00/x00/x02/xff/xff/xa2/x9b/xfe/x2a/x17/x40',
             f('42:a8b9:0:2:ffff:a29b:254.42.23.64')
         )
         assertInvalid('255.254.253.252')
@@ -588,20 +588,20 @@ class GeneralModuleTests(unittest.TestCase):
             (socket.error, ValueError), func, a
         )
 
-        self.assertEqual('1.0.1.0', f(b'\x01\x00\x01\x00'))
-        self.assertEqual('170.85.170.85', f(b'\xaa\x55\xaa\x55'))
-        self.assertEqual('255.255.255.255', f(b'\xff\xff\xff\xff'))
-        self.assertEqual('1.2.3.4', f(b'\x01\x02\x03\x04'))
-        assertInvalid(f, b'\x00' * 3)
-        assertInvalid(f, b'\x00' * 5)
-        assertInvalid(f, b'\x00' * 16)
+        self.assertEqual('1.0.1.0', f(b'/x01/x00/x01/x00'))
+        self.assertEqual('170.85.170.85', f(b'/xaa/x55/xaa/x55'))
+        self.assertEqual('255.255.255.255', f(b'/xff/xff/xff/xff'))
+        self.assertEqual('1.2.3.4', f(b'/x01/x02/x03/x04'))
+        assertInvalid(f, b'/x00' * 3)
+        assertInvalid(f, b'/x00' * 5)
+        assertInvalid(f, b'/x00' * 16)
 
-        self.assertEqual('1.0.1.0', g(b'\x01\x00\x01\x00'))
-        self.assertEqual('170.85.170.85', g(b'\xaa\x55\xaa\x55'))
-        self.assertEqual('255.255.255.255', g(b'\xff\xff\xff\xff'))
-        assertInvalid(g, b'\x00' * 3)
-        assertInvalid(g, b'\x00' * 5)
-        assertInvalid(g, b'\x00' * 16)
+        self.assertEqual('1.0.1.0', g(b'/x01/x00/x01/x00'))
+        self.assertEqual('170.85.170.85', g(b'/xaa/x55/xaa/x55'))
+        self.assertEqual('255.255.255.255', g(b'/xff/xff/xff/xff'))
+        assertInvalid(g, b'/x00' * 3)
+        assertInvalid(g, b'/x00' * 5)
+        assertInvalid(g, b'/x00' * 16)
 
     def testStringToIPv6(self):
         if not hasattr(socket, 'inet_ntop'):
@@ -617,16 +617,16 @@ class GeneralModuleTests(unittest.TestCase):
             (socket.error, ValueError), f, a
         )
 
-        self.assertEqual('::', f(b'\x00' * 16))
-        self.assertEqual('::1', f(b'\x00' * 15 + b'\x01'))
+        self.assertEqual('::', f(b'/x00' * 16))
+        self.assertEqual('::1', f(b'/x00' * 15 + b'/x01'))
         self.assertEqual(
             'aef:b01:506:1001:ffff:9997:55:170',
-            f(b'\x0a\xef\x0b\x01\x05\x06\x10\x01\xff\xff\x99\x97\x00\x55\x01\x70')
+            f(b'/x0a/xef/x0b/x01/x05/x06/x10/x01/xff/xff/x99/x97/x00/x55/x01/x70')
         )
 
-        assertInvalid(b'\x12' * 15)
-        assertInvalid(b'\x12' * 17)
-        assertInvalid(b'\x12' * 4)
+        assertInvalid(b'/x12' * 15)
+        assertInvalid(b'/x12' * 17)
+        assertInvalid(b'/x12' * 4)
 
     # XXX The following don't test module-level functionality...
 
@@ -764,7 +764,7 @@ class GeneralModuleTests(unittest.TestCase):
                                flags=socket.AI_PASSIVE)
         self.assertEqual(a, b)
         # Issue #6697.
-        self.assertRaises(UnicodeEncodeError, socket.getaddrinfo, 'localhost', '\uD800')
+        self.assertRaises(UnicodeEncodeError, socket.getaddrinfo, 'localhost', '/uD800')
 
     def test_getnameinfo(self):
         # only IP addresses are allowed
@@ -1401,26 +1401,26 @@ class FileObjectInterruptedTestCase(unittest.TestCase):
 
     def _test_readline(self, size=-1, buffering=-1):
         mock_sock = self.MockSocket(recv_funcs=[
-                lambda : b"This is the first line\nAnd the sec",
+                lambda : b"This is the first line/nAnd the sec",
                 self._raise_eintr,
-                lambda : b"ond line is here\n",
+                lambda : b"ond line is here/n",
                 lambda : b"",
                 lambda : b"",  # XXX(gps): io library does an extra EOF read
             ])
         fo = mock_sock._textiowrap_for_test(buffering=buffering)
-        self.assertEqual(fo.readline(size), "This is the first line\n")
-        self.assertEqual(fo.readline(size), "And the second line is here\n")
+        self.assertEqual(fo.readline(size), "This is the first line/n")
+        self.assertEqual(fo.readline(size), "And the second line is here/n")
 
     def _test_read(self, size=-1, buffering=-1):
         mock_sock = self.MockSocket(recv_funcs=[
-                lambda : b"This is the first line\nAnd the sec",
+                lambda : b"This is the first line/nAnd the sec",
                 self._raise_eintr,
-                lambda : b"ond line is here\n",
+                lambda : b"ond line is here/n",
                 lambda : b"",
                 lambda : b"",  # XXX(gps): io library does an extra EOF read
             ])
-        expecting = (b"This is the first line\n"
-                     b"And the second line is here\n")
+        expecting = (b"This is the first line/n"
+                     b"And the second line is here/n")
         fo = mock_sock._textiowrap_for_test(buffering=buffering)
         if buffering == 0:
             data = b''
@@ -1449,14 +1449,14 @@ class FileObjectInterruptedTestCase(unittest.TestCase):
     def _test_readline_no_buffer(self, size=-1):
         mock_sock = self.MockSocket(recv_funcs=[
                 lambda : b"a",
-                lambda : b"\n",
+                lambda : b"/n",
                 lambda : b"B",
                 self._raise_eintr,
                 lambda : b"b",
                 lambda : b"",
             ])
         fo = mock_sock._textiowrap_for_test(buffering=0)
-        self.assertEqual(fo.readline(size), b"a\n")
+        self.assertEqual(fo.readline(size), b"a/n")
         self.assertEqual(fo.readline(size), b"Bb")
 
     def test_no_buffer(self):
@@ -1832,7 +1832,7 @@ class TCPTimeoutTest(SocketTCPTest):
                 pass
             except:
                 self.fail("caught other exception instead of Alarm:"
-                          " %s(%s):\n%s" %
+                          " %s(%s):/n%s" %
                           (sys.exc_info()[:2] + (traceback.format_exc(),)))
             else:
                 self.fail("nothing caught")
@@ -1880,7 +1880,7 @@ class TestLinuxAbstractNamespace(unittest.TestCase):
     UNIX_PATH_MAX = 108
 
     def testLinuxAbstractNamespace(self):
-        address = b"\x00python-test-hello\x00\xff"
+        address = b"/x00python-test-hello/x00/xff"
         with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as s1:
             s1.bind(address)
             s1.listen(1)
@@ -1891,13 +1891,13 @@ class TestLinuxAbstractNamespace(unittest.TestCase):
                     self.assertEqual(s2.getpeername(), address)
 
     def testMaxName(self):
-        address = b"\x00" + b"h" * (self.UNIX_PATH_MAX - 1)
+        address = b"/x00" + b"h" * (self.UNIX_PATH_MAX - 1)
         with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as s:
             s.bind(address)
             self.assertEqual(s.getsockname(), address)
 
     def testNameOverflow(self):
-        address = "\x00" + "h" * self.UNIX_PATH_MAX
+        address = "/x00" + "h" * self.UNIX_PATH_MAX
         with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as s:
             self.assertRaises(socket.error, s.bind, address)
 

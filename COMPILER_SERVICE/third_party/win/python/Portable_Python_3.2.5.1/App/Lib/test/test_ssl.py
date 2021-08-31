@@ -100,7 +100,7 @@ class BasicSocketTests(unittest.TestCase):
     def test_random(self):
         v = ssl.RAND_status()
         if support.verbose:
-            sys.stdout.write("\n RAND_status is %d (%s)\n"
+            sys.stdout.write("/n RAND_status is %d (%s)/n"
                              % (v, (v and "sufficient randomness") or
                                 "insufficient randomness"))
         self.assertRaises(TypeError, ssl.RAND_egd, 1)
@@ -113,7 +113,7 @@ class BasicSocketTests(unittest.TestCase):
         # parsing code
         p = ssl._ssl._test_decode_cert(CERTFILE)
         if support.verbose:
-            sys.stdout.write("\n" + pprint.pformat(p) + "\n")
+            sys.stdout.write("/n" + pprint.pformat(p) + "/n")
         self.assertEqual(p['issuer'],
                          ((('countryName', 'XY'),),
                           (('localityName', 'Castle Anthrax'),),
@@ -134,7 +134,7 @@ class BasicSocketTests(unittest.TestCase):
         # (notably projects.developer.nokia.com:443) wasn't parsed
         p = ssl._ssl._test_decode_cert(NOKIACERT)
         if support.verbose:
-            sys.stdout.write("\n" + pprint.pformat(p) + "\n")
+            sys.stdout.write("/n" + pprint.pformat(p) + "/n")
         self.assertEqual(p['subjectAltName'],
                          (('DNS', 'projects.developer.nokia.com'),
                           ('DNS', 'projects.forum.nokia.com'))
@@ -147,10 +147,10 @@ class BasicSocketTests(unittest.TestCase):
         p2 = ssl.DER_cert_to_PEM_cert(d1)
         d2 = ssl.PEM_cert_to_DER_cert(p2)
         self.assertEqual(d1, d2)
-        if not p2.startswith(ssl.PEM_HEADER + '\n'):
-            self.fail("DER-to-PEM didn't include correct header:\n%r\n" % p2)
-        if not p2.endswith('\n' + ssl.PEM_FOOTER + '\n'):
-            self.fail("DER-to-PEM didn't include correct footer:\n%r\n" % p2)
+        if not p2.startswith(ssl.PEM_HEADER + '/n'):
+            self.fail("DER-to-PEM didn't include correct header:/n%r/n" % p2)
+        if not p2.endswith('/n' + ssl.PEM_FOOTER + '/n'):
+            self.fail("DER-to-PEM didn't include correct footer:/n%r/n" % p2)
 
     def test_openssl_version(self):
         n = ssl.OPENSSL_VERSION_NUMBER
@@ -675,7 +675,7 @@ class NetworkedTests(unittest.TestCase):
                         raise
             s.close()
             if support.verbose:
-                sys.stdout.write("\nNeeded %d calls to do_handshake() to establish session.\n" % count)
+                sys.stdout.write("/nNeeded %d calls to do_handshake() to establish session./n" % count)
 
     def test_get_server_certificate(self):
         with support.transient_internet("svn.python.org"):
@@ -688,7 +688,7 @@ class NetworkedTests(unittest.TestCase):
             except ssl.SSLError as x:
                 #should fail
                 if support.verbose:
-                    sys.stdout.write("%s\n" % x)
+                    sys.stdout.write("%s/n" % x)
             else:
                 self.fail("Got server certificate %s for svn.python.org!" % pem)
 
@@ -696,7 +696,7 @@ class NetworkedTests(unittest.TestCase):
             if not pem:
                 self.fail("No server certificate on svn.python.org:443!")
             if support.verbose:
-                sys.stdout.write("\nVerified certificate for svn.python.org:443 is\n%s\n" % pem)
+                sys.stdout.write("/nVerified certificate for svn.python.org:443 is/n%s/n" % pem)
 
     def test_ciphers(self):
         remote = ("svn.python.org", 443)
@@ -735,9 +735,9 @@ class NetworkedTests(unittest.TestCase):
             try:
                 s.connect(remote)
                 if support.verbose:
-                    sys.stdout.write("\nCipher with %r is %r\n" %
+                    sys.stdout.write("/nCipher with %r is %r/n" %
                                      (remote, s.cipher()))
-                    sys.stdout.write("Certificate is:\n%s\n" %
+                    sys.stdout.write("Certificate is:/n%s/n" %
                                      pprint.pformat(s.getpeercert()))
             finally:
                 s.close()
@@ -786,7 +786,7 @@ else:
                     # or a low-level bug. This should be made more discriminating.
                     self.server.conn_errors.append(e)
                     if self.server.chatty:
-                        handle_error("\n server:  bad connection attempt from " + repr(self.addr) + ":\n")
+                        handle_error("/n server:  bad connection attempt from " + repr(self.addr) + ":/n")
                     self.running = False
                     self.server.stop()
                     self.close()
@@ -795,13 +795,13 @@ else:
                     if self.server.context.verify_mode == ssl.CERT_REQUIRED:
                         cert = self.sslconn.getpeercert()
                         if support.verbose and self.server.chatty:
-                            sys.stdout.write(" client cert is " + pprint.pformat(cert) + "\n")
+                            sys.stdout.write(" client cert is " + pprint.pformat(cert) + "/n")
                         cert_binary = self.sslconn.getpeercert(True)
                         if support.verbose and self.server.chatty:
-                            sys.stdout.write(" cert binary is " + str(len(cert_binary)) + " bytes\n")
+                            sys.stdout.write(" cert binary is " + str(len(cert_binary)) + " bytes/n")
                     cipher = self.sslconn.cipher()
                     if support.verbose and self.server.chatty:
-                        sys.stdout.write(" server: connection cipher is now " + str(cipher) + "\n")
+                        sys.stdout.write(" server: connection cipher is now " + str(cipher) + "/n")
                     return True
 
             def read(self):
@@ -837,35 +837,35 @@ else:
                             self.close()
                         elif stripped == b'over':
                             if support.verbose and self.server.connectionchatty:
-                                sys.stdout.write(" server: client closed connection\n")
+                                sys.stdout.write(" server: client closed connection/n")
                             self.close()
                             return
                         elif (self.server.starttls_server and
                               stripped == b'STARTTLS'):
                             if support.verbose and self.server.connectionchatty:
-                                sys.stdout.write(" server: read STARTTLS from client, sending OK...\n")
-                            self.write(b"OK\n")
+                                sys.stdout.write(" server: read STARTTLS from client, sending OK.../n")
+                            self.write(b"OK/n")
                             if not self.wrap_conn():
                                 return
                         elif (self.server.starttls_server and self.sslconn
                               and stripped == b'ENDTLS'):
                             if support.verbose and self.server.connectionchatty:
-                                sys.stdout.write(" server: read ENDTLS from client, sending OK...\n")
-                            self.write(b"OK\n")
+                                sys.stdout.write(" server: read ENDTLS from client, sending OK.../n")
+                            self.write(b"OK/n")
                             self.sock = self.sslconn.unwrap()
                             self.sslconn = None
                             if support.verbose and self.server.connectionchatty:
-                                sys.stdout.write(" server: connection is now unencrypted...\n")
+                                sys.stdout.write(" server: connection is now unencrypted.../n")
                         else:
                             if (support.verbose and
                                 self.server.connectionchatty):
                                 ctype = (self.sslconn and "encrypted") or "unencrypted"
-                                sys.stdout.write(" server: read %r (%s), sending back %r (%s)...\n"
+                                sys.stdout.write(" server: read %r (%s), sending back %r (%s).../n"
                                                  % (msg, ctype, msg.lower(), ctype))
                             self.write(msg.lower())
                     except socket.error:
                         if self.server.chatty:
-                            handle_error("Test server failure:\n")
+                            handle_error("Test server failure:/n")
                         self.close()
                         self.running = False
                         # normally, we'd just stop here, but for the test
@@ -926,7 +926,7 @@ else:
                     newconn, connaddr = self.sock.accept()
                     if support.verbose and self.chatty:
                         sys.stdout.write(' server:  new connection from '
-                                         + repr(connaddr) + '\n')
+                                         + repr(connaddr) + '/n')
                     handler = self.ConnectionHandler(self, newconn, connaddr)
                     handler.start()
                     handler.join()
@@ -983,7 +983,7 @@ else:
                     else:
                         data = self.recv(1024)
                         if support.verbose:
-                            sys.stdout.write(" server:  read %s from client\n" % repr(data))
+                            sys.stdout.write(" server:  read %s from client/n" % repr(data))
                         if not data:
                             self.close()
                         else:
@@ -992,7 +992,7 @@ else:
                 def handle_close(self):
                     self.close()
                     if support.verbose:
-                        sys.stdout.write(" server:  closed connection %s\n" % self.socket)
+                        sys.stdout.write(" server:  closed connection %s/n" % self.socket)
 
                 def handle_error(self):
                     raise
@@ -1006,7 +1006,7 @@ else:
 
             def handle_accepted(self, sock_obj, addr):
                 if support.verbose:
-                    sys.stdout.write(" server:  new connection from %s:%s\n" %addr)
+                    sys.stdout.write(" server:  new connection from %s:%s/n" %addr)
                 self.ConnectionHandler(sock_obj, self.certfile)
 
             def handle_error(self):
@@ -1030,13 +1030,13 @@ else:
 
         def __exit__(self, *args):
             if support.verbose:
-                sys.stdout.write(" cleanup: stopping server.\n")
+                sys.stdout.write(" cleanup: stopping server./n")
             self.stop()
             if support.verbose:
-                sys.stdout.write(" cleanup: joining server thread.\n")
+                sys.stdout.write(" cleanup: joining server thread./n")
             self.join()
             if support.verbose:
-                sys.stdout.write(" cleanup: successfully joined.\n")
+                sys.stdout.write(" cleanup: successfully joined./n")
 
         def start (self, flag=None):
             self.flag = flag
@@ -1074,19 +1074,19 @@ else:
                     s.connect((HOST, server.port))
             except ssl.SSLError as x:
                 if support.verbose:
-                    sys.stdout.write("\nSSLError is %s\n" % x.args[1])
+                    sys.stdout.write("/nSSLError is %s/n" % x.args[1])
             except socket.error as x:
                 if support.verbose:
-                    sys.stdout.write("\nsocket.error is %s\n" % x.args[1])
+                    sys.stdout.write("/nsocket.error is %s/n" % x.args[1])
             except IOError as x:
                 if x.errno != errno.ENOENT:
                     raise
                 if support.verbose:
-                    sys.stdout.write("\IOError is %s\n" % str(x))
+                    sys.stdout.write("/IOError is %s/n" % str(x))
             else:
                 raise AssertionError("Use of invalid cert should have failed!")
 
-    def server_params_test(client_context, server_context, indata=b"FOO\n",
+    def server_params_test(client_context, server_context, indata=b"FOO/n",
                            chatty=True, connectionchatty=False):
         """
         Launch a server, connect a client to it and try various reads
@@ -1102,21 +1102,21 @@ else:
                     if connectionchatty:
                         if support.verbose:
                             sys.stdout.write(
-                                " client:  sending %r...\n" % indata)
+                                " client:  sending %r.../n" % indata)
                     s.write(arg)
                     outdata = s.read()
                     if connectionchatty:
                         if support.verbose:
-                            sys.stdout.write(" client:  read %r\n" % outdata)
+                            sys.stdout.write(" client:  read %r/n" % outdata)
                     if outdata != indata.lower():
                         raise AssertionError(
-                            "bad data <<%r>> (%d) received; expected <<%r>> (%d)\n"
+                            "bad data <<%r>> (%d) received; expected <<%r>> (%d)/n"
                             % (outdata[:20], len(outdata),
                                indata[:20].lower(), len(indata)))
-                s.write(b"over\n")
+                s.write(b"over/n")
                 if connectionchatty:
                     if support.verbose:
-                        sys.stdout.write(" client:  closing connection.\n")
+                        sys.stdout.write(" client:  closing connection./n")
                 s.close()
 
     def try_protocol_combo(server_protocol, client_protocol, expect_success,
@@ -1129,7 +1129,7 @@ else:
             ssl.CERT_REQUIRED: "CERT_REQUIRED",
         }[certsreqs]
         if support.verbose:
-            formatstr = (expect_success and " %s->%s %s\n") or " {%s->%s} %s\n"
+            formatstr = (expect_success and " %s->%s %s/n") or " {%s->%s} %s/n"
             sys.stdout.write(formatstr %
                              (ssl.get_protocol_name(client_protocol),
                               ssl.get_protocol_name(server_protocol),
@@ -1171,7 +1171,7 @@ else:
         def test_echo(self):
             """Basic test of an SSL client connecting to a server"""
             if support.verbose:
-                sys.stdout.write("\n")
+                sys.stdout.write("/n")
             for protocol in PROTOCOLS:
                 context = ssl.SSLContext(protocol)
                 context.load_cert_chain(CERTFILE)
@@ -1180,7 +1180,7 @@ else:
 
         def test_getpeercert(self):
             if support.verbose:
-                sys.stdout.write("\n")
+                sys.stdout.write("/n")
             context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
             context.verify_mode = ssl.CERT_REQUIRED
             context.load_verify_locations(CERTFILE)
@@ -1193,8 +1193,8 @@ else:
                 self.assertTrue(cert, "Can't get peer certificate.")
                 cipher = s.cipher()
                 if support.verbose:
-                    sys.stdout.write(pprint.pformat(cert) + '\n')
-                    sys.stdout.write("Connection cipher is " + str(cipher) + '.\n')
+                    sys.stdout.write(pprint.pformat(cert) + '/n')
+                    sys.stdout.write("Connection cipher is " + str(cipher) + './n')
                 if 'subject' not in cert:
                     self.fail("No subject field in certificate: %s." %
                               pprint.pformat(cert))
@@ -1273,7 +1273,7 @@ else:
         def test_protocol_sslv2(self):
             """Connecting to an SSLv2 server with various client options"""
             if support.verbose:
-                sys.stdout.write("\n")
+                sys.stdout.write("/n")
             try_protocol_combo(ssl.PROTOCOL_SSLv2, ssl.PROTOCOL_SSLv2, True)
             try_protocol_combo(ssl.PROTOCOL_SSLv2, ssl.PROTOCOL_SSLv2, True, ssl.CERT_OPTIONAL)
             try_protocol_combo(ssl.PROTOCOL_SSLv2, ssl.PROTOCOL_SSLv2, True, ssl.CERT_REQUIRED)
@@ -1294,7 +1294,7 @@ else:
         def test_protocol_sslv23(self):
             """Connecting to an SSLv23 server with various client options"""
             if support.verbose:
-                sys.stdout.write("\n")
+                sys.stdout.write("/n")
             if hasattr(ssl, 'PROTOCOL_SSLv2'):
                 try:
                     try_protocol_combo(ssl.PROTOCOL_SSLv23, ssl.PROTOCOL_SSLv2, True)
@@ -1302,7 +1302,7 @@ else:
                     # this fails on some older versions of OpenSSL (0.9.7l, for instance)
                     if support.verbose:
                         sys.stdout.write(
-                            " SSL2 client to SSL23 server test unexpectedly failed:\n %s\n"
+                            " SSL2 client to SSL23 server test unexpectedly failed:/n %s/n"
                             % str(x))
             try_protocol_combo(ssl.PROTOCOL_SSLv23, ssl.PROTOCOL_SSLv3, True)
             try_protocol_combo(ssl.PROTOCOL_SSLv23, ssl.PROTOCOL_SSLv23, True)
@@ -1330,7 +1330,7 @@ else:
         def test_protocol_sslv3(self):
             """Connecting to an SSLv3 server with various client options"""
             if support.verbose:
-                sys.stdout.write("\n")
+                sys.stdout.write("/n")
             try_protocol_combo(ssl.PROTOCOL_SSLv3, ssl.PROTOCOL_SSLv3, True)
             try_protocol_combo(ssl.PROTOCOL_SSLv3, ssl.PROTOCOL_SSLv3, True, ssl.CERT_OPTIONAL)
             try_protocol_combo(ssl.PROTOCOL_SSLv3, ssl.PROTOCOL_SSLv3, True, ssl.CERT_REQUIRED)
@@ -1348,7 +1348,7 @@ else:
         def test_protocol_tlsv1(self):
             """Connecting to a TLSv1 server with various client options"""
             if support.verbose:
-                sys.stdout.write("\n")
+                sys.stdout.write("/n")
             try_protocol_combo(ssl.PROTOCOL_TLSv1, ssl.PROTOCOL_TLSv1, True)
             try_protocol_combo(ssl.PROTOCOL_TLSv1, ssl.PROTOCOL_TLSv1, True, ssl.CERT_OPTIONAL)
             try_protocol_combo(ssl.PROTOCOL_TLSv1, ssl.PROTOCOL_TLSv1, True, ssl.CERT_REQUIRED)
@@ -1373,11 +1373,11 @@ else:
                 s.setblocking(1)
                 s.connect((HOST, server.port))
                 if support.verbose:
-                    sys.stdout.write("\n")
+                    sys.stdout.write("/n")
                 for indata in msgs:
                     if support.verbose:
                         sys.stdout.write(
-                            " client:  sending %r...\n" % indata)
+                            " client:  sending %r.../n" % indata)
                     if wrapped:
                         conn.write(indata)
                         outdata = conn.read()
@@ -1389,7 +1389,7 @@ else:
                         # STARTTLS ok, switch to secure mode
                         if support.verbose:
                             sys.stdout.write(
-                                " client:  read %r from server, starting TLS...\n"
+                                " client:  read %r from server, starting TLS.../n"
                                 % msg)
                         conn = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_TLSv1)
                         wrapped = True
@@ -1397,20 +1397,20 @@ else:
                         # ENDTLS ok, switch back to clear text
                         if support.verbose:
                             sys.stdout.write(
-                                " client:  read %r from server, ending TLS...\n"
+                                " client:  read %r from server, ending TLS.../n"
                                 % msg)
                         s = conn.unwrap()
                         wrapped = False
                     else:
                         if support.verbose:
                             sys.stdout.write(
-                                " client:  read %r from server\n" % msg)
+                                " client:  read %r from server/n" % msg)
                 if support.verbose:
-                    sys.stdout.write(" client:  closing connection.\n")
+                    sys.stdout.write(" client:  closing connection./n")
                 if wrapped:
-                    conn.write(b"over\n")
+                    conn.write(b"over/n")
                 else:
-                    s.send(b"over\n")
+                    s.send(b"over/n")
                 if wrapped:
                     conn.close()
                 else:
@@ -1421,7 +1421,7 @@ else:
             server = make_https_server(self, CERTFILE)
             # try to connect
             if support.verbose:
-                sys.stdout.write('\n')
+                sys.stdout.write('/n')
             with open(CERTFILE, 'rb') as f:
                 d1 = f.read()
             d2 = ''
@@ -1435,7 +1435,7 @@ else:
                     d2 = f.read(int(dlen))
                     if support.verbose:
                         sys.stdout.write(
-                            " client: read %d bytes from remote server '%s'\n"
+                            " client: read %d bytes from remote server '%s'/n"
                             % (len(d2), server))
             finally:
                 f.close()
@@ -1443,39 +1443,39 @@ else:
 
         def test_asyncore_server(self):
             """Check the example asyncore integration."""
-            indata = "TEST MESSAGE of mixed case\n"
+            indata = "TEST MESSAGE of mixed case/n"
 
             if support.verbose:
-                sys.stdout.write("\n")
+                sys.stdout.write("/n")
 
-            indata = b"FOO\n"
+            indata = b"FOO/n"
             server = AsyncoreEchoServer(CERTFILE)
             with server:
                 s = ssl.wrap_socket(socket.socket())
                 s.connect(('127.0.0.1', server.port))
                 if support.verbose:
                     sys.stdout.write(
-                        " client:  sending %r...\n" % indata)
+                        " client:  sending %r.../n" % indata)
                 s.write(indata)
                 outdata = s.read()
                 if support.verbose:
-                    sys.stdout.write(" client:  read %r\n" % outdata)
+                    sys.stdout.write(" client:  read %r/n" % outdata)
                 if outdata != indata.lower():
                     self.fail(
-                        "bad data <<%r>> (%d) received; expected <<%r>> (%d)\n"
+                        "bad data <<%r>> (%d) received; expected <<%r>> (%d)/n"
                         % (outdata[:20], len(outdata),
                            indata[:20].lower(), len(indata)))
-                s.write(b"over\n")
+                s.write(b"over/n")
                 if support.verbose:
-                    sys.stdout.write(" client:  closing connection.\n")
+                    sys.stdout.write(" client:  closing connection./n")
                 s.close()
                 if support.verbose:
-                    sys.stdout.write(" client:  connection closed.\n")
+                    sys.stdout.write(" client:  connection closed./n")
 
         def test_recv_send(self):
             """Test recv(), send() and friends."""
             if support.verbose:
-                sys.stdout.write("\n")
+                sys.stdout.write("/n")
 
             server = ThreadedEchoServer(CERTFILE,
                                         certreqs=ssl.CERT_NONE,
@@ -1493,12 +1493,12 @@ else:
                 s.connect((HOST, server.port))
                 # helper methods for standardising recv* method signatures
                 def _recv_into():
-                    b = bytearray(b"\0"*100)
+                    b = bytearray(b"/0"*100)
                     count = s.recv_into(b)
                     return b[:count]
 
                 def _recvfrom_into():
-                    b = bytearray(b"\0"*100)
+                    b = bytearray(b"/0"*100)
                     count, addr = s.recvfrom_into(b)
                     return b[:count]
 
@@ -1525,7 +1525,7 @@ else:
                             self.fail(
                                 "While sending with <<{name:s}>> bad data "
                                 "<<{outdata:r}>> ({nout:d}) received; "
-                                "expected <<{indata:r}>> ({nin:d})\n".format(
+                                "expected <<{indata:r}>> ({nin:d})/n".format(
                                     name=meth_name, outdata=outdata[:20],
                                     nout=len(outdata),
                                     indata=indata[:20], nin=len(indata)
@@ -1535,12 +1535,12 @@ else:
                         if expect_success:
                             self.fail(
                                 "Failed to send with method <<{name:s}>>; "
-                                "expected to succeed.\n".format(name=meth_name)
+                                "expected to succeed./n".format(name=meth_name)
                             )
                         if not str(e).startswith(meth_name):
                             self.fail(
                                 "Method <<{name:s}>> failed with unexpected "
-                                "exception message: {exp:s}\n".format(
+                                "exception message: {exp:s}/n".format(
                                     name=meth_name, exp=e
                                 )
                             )
@@ -1554,7 +1554,7 @@ else:
                             self.fail(
                                 "While receiving with <<{name:s}>> bad data "
                                 "<<{outdata:r}>> ({nout:d}) received; "
-                                "expected <<{indata:r}>> ({nin:d})\n".format(
+                                "expected <<{indata:r}>> ({nin:d})/n".format(
                                     name=meth_name, outdata=outdata[:20],
                                     nout=len(outdata),
                                     indata=indata[:20], nin=len(indata)
@@ -1564,18 +1564,18 @@ else:
                         if expect_success:
                             self.fail(
                                 "Failed to receive with method <<{name:s}>>; "
-                                "expected to succeed.\n".format(name=meth_name)
+                                "expected to succeed./n".format(name=meth_name)
                             )
                         if not str(e).startswith(meth_name):
                             self.fail(
                                 "Method <<{name:s}>> failed with unexpected "
-                                "exception message: {exp:s}\n".format(
+                                "exception message: {exp:s}/n".format(
                                     name=meth_name, exp=e
                                 )
                             )
                         # consume data
                         s.read()
-                s.write(b"over\n")
+                s.write(b"over/n")
                 s.close()
 
         def test_handshake_timeout(self):

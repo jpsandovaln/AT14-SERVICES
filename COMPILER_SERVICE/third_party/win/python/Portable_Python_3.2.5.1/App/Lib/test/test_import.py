@@ -148,7 +148,7 @@ class ImportTests(unittest.TestCase):
         try:
             # Write a Python file, make it read-only and import it
             with open(fname, 'w') as f:
-                f.write("x = 'original'\n")
+                f.write("x = 'original'/n")
             # Tweak the mtime of the source to ensure pyc gets updated later
             s = os.stat(fname)
             os.utime(fname, (s.st_atime, s.st_mtime-100000000))
@@ -158,7 +158,7 @@ class ImportTests(unittest.TestCase):
             # Change the file and then reimport it
             os.chmod(fname, 0o600)
             with open(fname, 'w') as f:
-                f.write("x = 'rewritten'\n")
+                f.write("x = 'rewritten'/n")
             unload(TESTFN)
             m2 = __import__(TESTFN)
             self.assertEqual(m2.x, 'rewritten')
@@ -212,9 +212,9 @@ class ImportTests(unittest.TestCase):
 
         # Create a file with a list of 65000 elements.
         with open(filename, 'w') as f:
-            f.write('d = [\n')
+            f.write('d = [/n')
             for i in range(65000):
-                f.write('"",\n')
+                f.write('"",/n')
             f.write(']')
 
         try:
@@ -271,7 +271,7 @@ class ImportTests(unittest.TestCase):
         # A failing reload should leave the module object in sys.modules.
         source = TESTFN + os.extsep + "py"
         with open(source, "w") as f:
-            f.write("a = 1\nb=2\n")
+            f.write("a = 1/nb=2/n")
 
         sys.path.insert(0, os.curdir)
         try:
@@ -288,7 +288,7 @@ class ImportTests(unittest.TestCase):
 
             # Now damage the module.
             with open(source, "w") as f:
-                f.write("a = 10\nb=20//0\n")
+                f.write("a = 10/nb=20//0/n")
 
             self.assertRaises(ZeroDivisionError, imp.reload, mod)
             # But we still expect the module to be in sys.modules.
@@ -310,7 +310,7 @@ class ImportTests(unittest.TestCase):
         # check if __file__ points to the source file where available
         source = TESTFN + ".py"
         with open(source, "w") as f:
-            f.write("test = None\n")
+            f.write("test = None/n")
 
         sys.path.insert(0, os.curdir)
         try:
@@ -359,7 +359,7 @@ class ImportTests(unittest.TestCase):
 
     def test_import_in_del_does_not_crash(self):
         # Issue 4236
-        testfn = script_helper.make_script('', TESTFN, textwrap.dedent("""\
+        testfn = script_helper.make_script('', TESTFN, textwrap.dedent("""/
             import sys
             class C:
                def __del__(self):
@@ -486,8 +486,8 @@ func_filename = func.__code__.co_filename
 
 
 class PathsTests(unittest.TestCase):
-    SAMPLES = ('test', 'test\u00e4\u00f6\u00fc\u00df', 'test\u00e9\u00e8',
-               'test\u00b0\u00b3\u00b2')
+    SAMPLES = ('test', 'test/u00e4/u00f6/u00fc/u00df', 'test/u00e9/u00e8',
+               'test/u00b0/u00b3/u00b2')
     path = TESTFN
 
     def setUp(self):
@@ -511,12 +511,12 @@ class PathsTests(unittest.TestCase):
     def _test_UNC_path(self):
         with open(os.path.join(self.path, 'test_trailing_slash.py'), 'w') as f:
             f.write("testdata = 'test_trailing_slash'")
-        # Create the UNC path, like \\myhost\c$\foo\bar.
+        # Create the UNC path, like //myhost/c$/foo/bar.
         path = os.path.abspath(self.path)
         import socket
         hn = socket.gethostname()
         drive = path[0]
-        unc = "\\\\%s\\%s$"%(hn, drive)
+        unc = "////%s//%s$"%(hn, drive)
         unc += path[2:]
         try:
             os.listdir(unc)

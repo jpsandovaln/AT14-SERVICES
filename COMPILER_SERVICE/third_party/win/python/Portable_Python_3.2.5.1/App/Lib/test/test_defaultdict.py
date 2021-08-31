@@ -87,8 +87,8 @@ class TestDefaultDict(unittest.TestCase):
                 print(d1, file=f)
                 print(d2, file=f)
                 f.seek(0)
-                self.assertEqual(f.readline(), repr(d1) + "\n")
-                self.assertEqual(f.readline(), repr(d2) + "\n")
+                self.assertEqual(f.readline(), repr(d1) + "/n")
+                self.assertEqual(f.readline(), repr(d2) + "/n")
             finally:
                 f.close()
         finally:

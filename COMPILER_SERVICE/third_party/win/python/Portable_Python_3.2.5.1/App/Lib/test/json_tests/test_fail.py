@@ -31,11 +31,11 @@ JSONDOCS = [
     # http://json.org/JSON_checker/test/fail14.json
     '{"Numbers cannot be hex": 0x14}',
     # http://json.org/JSON_checker/test/fail15.json
-    '["Illegal backslash escape: \\x15"]',
+    '["Illegal backslash escape: //x15"]',
     # http://json.org/JSON_checker/test/fail16.json
-    '[\\naked]',
+    '[//naked]',
     # http://json.org/JSON_checker/test/fail17.json
-    '["Illegal backslash escape: \\017"]',
+    '["Illegal backslash escape: //017"]',
     # http://json.org/JSON_checker/test/fail18.json
     '[[[[[[[[[[[[[[[[[[[["Too deep"]]]]]]]]]]]]]]]]]]]]',
     # http://json.org/JSON_checker/test/fail19.json
@@ -51,13 +51,13 @@ JSONDOCS = [
     # http://json.org/JSON_checker/test/fail24.json
     "['single quote']",
     # http://json.org/JSON_checker/test/fail25.json
-    '["\ttab\tcharacter\tin\tstring\t"]',
+    '["/ttab/tcharacter/tin/tstring/t"]',
     # http://json.org/JSON_checker/test/fail26.json
-    '["tab\\   character\\   in\\  string\\  "]',
+    '["tab//   character//   in//  string//  "]',
     # http://json.org/JSON_checker/test/fail27.json
-    '["line\nbreak"]',
+    '["line/nbreak"]',
     # http://json.org/JSON_checker/test/fail28.json
-    '["line\\\nbreak"]',
+    '["line///nbreak"]',
     # http://json.org/JSON_checker/test/fail29.json
     '[0e]',
     # http://json.org/JSON_checker/test/fail30.json
@@ -69,7 +69,7 @@ JSONDOCS = [
     # http://json.org/JSON_checker/test/fail33.json
     '["mismatch"}',
     # http://code.google.com/p/simplejson/issues/detail?id=3
-    '["A\u001FZ control characters in string"]',
+    '["A/u001FZ control characters in string"]',
 ]
 
 SKIPS = {

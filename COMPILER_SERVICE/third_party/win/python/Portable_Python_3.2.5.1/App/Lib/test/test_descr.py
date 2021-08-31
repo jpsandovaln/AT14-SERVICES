@@ -1084,11 +1084,11 @@ order (MRO) for bases """
             self.fail("['foo bar'] slots not caught")
         try:
             class C(object):
-                __slots__ = ["foo\0bar"]
+                __slots__ = ["foo/0bar"]
         except TypeError:
             pass
         else:
-            self.fail("['foo\\0bar'] slots not caught")
+            self.fail("['foo//0bar'] slots not caught")
         try:
             class C(object):
                 __slots__ = ["1"]
@@ -2564,7 +2564,7 @@ order (MRO) for bases """
         self.assertEqual(str(s), "12345")
         self.assertTrue(str(s).__class__ is str)
 
-        base = "\x00" * 5
+        base = "/x00" * 5
         s = madstring(base)
         self.assertEqual(s, base)
         self.assertEqual(str(s), base)
@@ -2712,7 +2712,7 @@ order (MRO) for bases """
         ##        return s
         ##
         ## f = file(name=support.TESTFN, mode='w')
-        ## lines = ['a\n', 'b\n', 'c\n']
+        ## lines = ['a/n', 'b/n', 'c/n']
         ## try:
         ##     f.writelines(lines)
         ##     f.close()
@@ -3456,7 +3456,7 @@ order (MRO) for bases """
         # Calling str() or not exercises different internal paths.
         print(o, file=capture)
         print(str(o), file=capture)
-        self.assertEqual(capture.getvalue(), '41\n41\n')
+        self.assertEqual(capture.getvalue(), '41/n41/n')
         capture.close()
 
     def test_keyword_arguments(self):
@@ -3564,7 +3564,7 @@ order (MRO) for bases """
 
         self.assertEqual('534253'.isdigit(), 1)
         self.assertEqual('534253x'.isdigit(), 0)
-        self.assertEqual('%c' % 5, '\x05')
+        self.assertEqual('%c' % 5, '/x05')
         self.assertEqual('%c' % '5', '5')
 
     def test_deepcopy_recursive(self):

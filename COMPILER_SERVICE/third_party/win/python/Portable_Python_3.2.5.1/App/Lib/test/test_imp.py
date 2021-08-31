@@ -66,7 +66,7 @@ class ImportTests(unittest.TestCase):
                 self.assertNotEqual(fp, None)
                 self.assertEqual(fp.encoding, encoding)
                 self.assertEqual(fp.tell(), 0)
-                self.assertEqual(fp.readline(), '# test %s encoding\n'
+                self.assertEqual(fp.readline(), '# test %s encoding/n'
                                  % encoding)
 
         fp, filename, info = imp.find_module("tokenize")
@@ -75,14 +75,14 @@ class ImportTests(unittest.TestCase):
             self.assertEqual(fp.encoding, "utf-8")
             self.assertEqual(fp.tell(), 0)
             self.assertEqual(fp.readline(),
-                             '"""Tokenization help for Python programs.\n')
+                             '"""Tokenization help for Python programs./n')
 
     def test_issue3594(self):
         temp_mod_name = 'test_imp_helper'
         sys.path.insert(0, '.')
         try:
             with open(temp_mod_name + '.py', 'w') as file:
-                file.write("# coding: cp1252\nu = 'test.test_imp'\n")
+                file.write("# coding: cp1252/nu = 'test.test_imp'/n")
             file, filename, info = imp.find_module(temp_mod_name)
             file.close()
             self.assertEqual(file.encoding, 'cp1252')
@@ -106,23 +106,23 @@ class ImportTests(unittest.TestCase):
         # one non-space symbol from every page
         # (http://en.wikipedia.org/wiki/Code_page)
         known_locales = {
-            'utf-8' : b'\xc3\xa4',
-            'cp1250' : b'\x8C',
-            'cp1251' : b'\xc0',
-            'cp1252' : b'\xc0',
-            'cp1253' : b'\xc1',
-            'cp1254' : b'\xc0',
-            'cp1255' : b'\xe0',
-            'cp1256' : b'\xe0',
-            'cp1257' : b'\xc0',
-            'cp1258' : b'\xc0',
+            'utf-8' : b'/xc3/xa4',
+            'cp1250' : b'/x8C',
+            'cp1251' : b'/xc0',
+            'cp1252' : b'/xc0',
+            'cp1253' : b'/xc1',
+            'cp1254' : b'/xc0',
+            'cp1255' : b'/xe0',
+            'cp1256' : b'/xe0',
+            'cp1257' : b'/xc0',
+            'cp1258' : b'/xc0',
             }
 
         if sys.platform == 'darwin':
             self.assertEqual(fs_encoding, 'utf-8')
             # Mac OS X uses the Normal Form D decomposition
             # http://developer.apple.com/mac/library/qa/qa2001/qa1173.html
-            special_char = b'a\xcc\x88'
+            special_char = b'a/xcc/x88'
         else:
             special_char = known_locales.get(fs_encoding)
 
@@ -138,7 +138,7 @@ class ImportTests(unittest.TestCase):
             # ./python ./Lib/test/regrtest.py test_imp
             sys.path.insert(0, os.curdir)
             with open(temp_mod_name + '.py', 'w') as file:
-                file.write('a = 1\n')
+                file.write('a = 1/n')
             file, filename, info = imp.find_module(temp_mod_name)
             with file:
                 self.assertIsNotNone(file)
@@ -162,7 +162,7 @@ class ImportTests(unittest.TestCase):
             if not os.path.exists(test_package_name):
                 os.mkdir(test_package_name)
             with open(init_file_name, 'w') as file:
-                file.write('b = 2\n')
+                file.write('b = 2/n')
             package = imp.load_package(test_package_name, test_package_name)
             self.assertEqual(package.b, 2)
         finally:
@@ -252,24 +252,24 @@ class PEP3147Tests(unittest.TestCase):
     def test_altsep_cache_from_source(self):
         # Windows path and PEP 3147.
         self.assertEqual(
-            imp.cache_from_source('\\foo\\bar\\baz\\qux.py', True),
-            '\\foo\\bar\\baz\\__pycache__\\qux.{}.pyc'.format(self.tag))
+            imp.cache_from_source('//foo//bar//baz//qux.py', True),
+            '//foo//bar//baz//__pycache__//qux.{}.pyc'.format(self.tag))
 
     @unittest.skipIf(os.altsep is None,
                      'test meaningful only where os.altsep is defined')
     def test_altsep_and_sep_cache_from_source(self):
         # Windows path and PEP 3147 where altsep is right of sep.
         self.assertEqual(
-            imp.cache_from_source('\\foo\\bar/baz\\qux.py', True),
-            '\\foo\\bar/baz\\__pycache__\\qux.{}.pyc'.format(self.tag))
+            imp.cache_from_source('//foo//bar/baz//qux.py', True),
+            '//foo//bar/baz//__pycache__//qux.{}.pyc'.format(self.tag))
 
     @unittest.skipIf(os.altsep is None,
                      'test meaningful only where os.altsep is defined')
     def test_sep_altsep_and_sep_cache_from_source(self):
         # Windows path and PEP 3147 where sep is right of altsep.
         self.assertEqual(
-            imp.cache_from_source('\\foo\\bar\\baz/qux.py', True),
-            '\\foo\\bar\\baz/__pycache__/qux.{}.pyc'.format(self.tag))
+            imp.cache_from_source('//foo//bar//baz/qux.py', True),
+            '//foo//bar//baz/__pycache__/qux.{}.pyc'.format(self.tag))
 
     def test_source_from_cache(self):
         # Given the path to a PEP 3147 defined .pyc file, return the path to

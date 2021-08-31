@@ -2,8 +2,8 @@ import re
 import time
 
 def main():
-    s = "\13hello\14 \13world\14 " * 1000
-    p = re.compile(r"([\13\14])")
+    s = "/13hello/14 /13world/14 " * 1000
+    p = re.compile(r"([/13/14])")
     timefunc(10, p.sub, "", s)
     timefunc(10, p.split, s)
     timefunc(10, p.findall, s)

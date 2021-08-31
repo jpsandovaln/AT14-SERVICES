@@ -516,8 +516,8 @@ dsbas522 toSci '7e123567890x'    -> NaN Conversion_syntax
 dsbas523 toSci '7e12356789012x'  -> NaN Conversion_syntax
 dsbas524 toSci ''                -> NaN Conversion_syntax
 dsbas525 toSci 'e100'            -> NaN Conversion_syntax
-dsbas526 toSci '\u0e5a'          -> NaN Conversion_syntax
-dsbas527 toSci '\u0b65'          -> NaN Conversion_syntax
+dsbas526 toSci '/u0e5a'          -> NaN Conversion_syntax
+dsbas527 toSci '/u0b65'          -> NaN Conversion_syntax
 dsbas528 toSci '123,65'          -> NaN Conversion_syntax
 dsbas529 toSci '1.34.5'          -> NaN Conversion_syntax
 dsbas530 toSci '.123.5'          -> NaN Conversion_syntax

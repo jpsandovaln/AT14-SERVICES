@@ -31,7 +31,7 @@ class SetAttributeTest(unittest.TestCase):
             self.assertEqual(self.parser.specified_attributes, y)
 
 
-data = b'''\
+data = b'''/
 <?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
 <?xml-stylesheet href="stylesheet.css"?>
 <!-- comment data -->
@@ -52,7 +52,7 @@ data = b'''\
 <sub2><![CDATA[contents of CDATA section]]></sub2>
 &external_entity;
 &skipped_entity;
-\xb5
+/xb5
 </root>
 '''
 
@@ -167,7 +167,7 @@ class ParseTest(unittest.TestCase):
     def _verify_parse_output(self, operations):
         expected_operations = [
             ('XML declaration', ('1.0', 'iso-8859-1', 0)),
-            'PI: \'xml-stylesheet\' \'href="stylesheet.css"\'',
+            'PI: /'xml-stylesheet/' /'href="stylesheet.css"/'',
             "Comment: ' comment data '",
             "Not standalone",
             ("Start doctype", ('quotations', 'quotations.dtd', None, 1)),
@@ -177,13 +177,13 @@ class ParseTest(unittest.TestCase):
             ('Attribute list declaration', ('root', 'attr2', 'CDATA', None,
                 0)),
             "Notation declared: ('notation', None, 'notation.jpeg', None)",
-            ('Entity declaration', ('acirc', 0, '\xe2', None, None, None, None)),
+            ('Entity declaration', ('acirc', 0, '/xe2', None, None, None, None)),
             ('Entity declaration', ('external_entity', 0, None, None,
                 'entity.file', None, None)),
             "Unparsed entity decl: ('unparsed_entity', None, 'entity.file', None, 'notation')",
             "Not standalone",
             "End doctype",
-            "Start element: 'root' {'attr1': 'value1', 'attr2': 'value2\u1f40'}",
+            "Start element: 'root' {'attr1': 'value1', 'attr2': 'value2/u1f40'}",
             "NS decl: 'myns' 'http://www.python.org/namespace'",
             "Start element: 'http://www.python.org/namespace!subelement' {}",
             "Character data: 'Contents of subelements'",
@@ -196,7 +196,7 @@ class ParseTest(unittest.TestCase):
             "End element: 'sub2'",
             "External entity ref: (None, 'entity.file', None)",
             ('Skipped entity', ('skipped_entity', 0)),
-            "Character data: '\xb5'",
+            "Character data: '/xb5'",
             "End element: 'root'",
         ]
         for operation, expected_operation in zip(operations, expected_operations):
@@ -212,7 +212,7 @@ class ParseTest(unittest.TestCase):
         operations = out.out
         self._verify_parse_output(operations)
         # Issue #6697.
-        self.assertRaises(AttributeError, getattr, parser, '\uD800')
+        self.assertRaises(AttributeError, getattr, parser, '/uD800')
 
     def test_parse_str(self):
         out = self.Outputter()
@@ -316,7 +316,7 @@ class BufferTextTest(unittest.TestCase):
 
     def check(self, expected, label):
         self.assertEqual(self.stuff, expected,
-                "%s\nstuff    = %r\nexpected = %r"
+                "%s/nstuff    = %r/nexpected = %r"
                 % (label, self.stuff, map(str, expected)))
 
     def CharacterDataHandler(self, text):
@@ -355,14 +355,14 @@ class BufferTextTest(unittest.TestCase):
         # XXX This test exposes more detail of Expat's text chunking than we
         # XXX like, but it tests what we need to concisely.
         self.setHandlers(["StartElementHandler"])
-        self.parser.Parse(b"<a>1<b buffer-text='no'/>2\n3<c buffer-text='yes'/>4\n5</a>", 1)
+        self.parser.Parse(b"<a>1<b buffer-text='no'/>2/n3<c buffer-text='yes'/>4/n5</a>", 1)
         self.assertEqual(self.stuff,
-                         ["<a>", "1", "<b>", "2", "\n", "3", "<c>", "4\n5"],
+                         ["<a>", "1", "<b>", "2", "/n", "3", "<c>", "4/n5"],
                          "buffering control not reacting as expected")
 
     def test2(self):
-        self.parser.Parse(b"<a>1<b/>&lt;2&gt;<c/>&#32;\n&#x20;3</a>", 1)
-        self.assertEqual(self.stuff, ["1<2> \n 3"],
+        self.parser.Parse(b"<a>1<b/>&lt;2&gt;<c/>&#32;/n&#x20;3</a>", 1)
+        self.assertEqual(self.stuff, ["1<2> /n 3"],
                          "buffered text not properly collapsed")
 
     def test3(self):
@@ -415,7 +415,7 @@ class HandlerExceptionTest(unittest.TestCase):
             self.fail()
         except RuntimeError as e:
             self.assertEqual(e.args[0], 'a',
-                             "Expected RuntimeError for element 'a', but" + \
+                             "Expected RuntimeError for element 'a', but" + /
                              " found %r" % e.args[0])
 
 
@@ -447,7 +447,7 @@ class PositionTest(unittest.TestCase):
         self.expected_list = [('s', 0, 1, 0), ('s', 5, 2, 1), ('s', 11, 3, 2),
                               ('e', 15, 3, 6), ('e', 17, 4, 1), ('e', 22, 5, 0)]
 
-        xml = b'<a>\n <b>\n  <c/>\n </b>\n</a>'
+        xml = b'<a>/n <b>/n  <c/>/n </b>/n</a>'
         self.parser.Parse(xml, 1)
 
 
@@ -591,7 +591,7 @@ class ChardataBufferTest(unittest.TestCase):
 
 class MalformedInputTest(unittest.TestCase):
     def test1(self):
-        xml = b"\0\r\n"
+        xml = b"/0/r/n"
         parser = expat.ParserCreate()
         try:
             parser.Parse(xml, True)
@@ -600,8 +600,8 @@ class MalformedInputTest(unittest.TestCase):
             self.assertEqual(str(e), 'unclosed token: line 2, column 0')
 
     def test2(self):
-        # \xc2\x85 is UTF-8 encoded U+0085 (NEXT LINE)
-        xml = b"<?xml version\xc2\x85='1.0'?>\r\n"
+        # /xc2/x85 is UTF-8 encoded U+0085 (NEXT LINE)
+        xml = b"<?xml version/xc2/x85='1.0'?>/r/n"
         parser = expat.ParserCreate()
         try:
             parser.Parse(xml, True)

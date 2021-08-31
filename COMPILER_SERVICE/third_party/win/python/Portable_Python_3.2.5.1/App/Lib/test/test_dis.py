@@ -11,7 +11,7 @@ def _f(a):
     print(a)
     return 1
 
-dis_f = """\
+dis_f = """/
  %-4d         0 LOAD_GLOBAL              0 (print)
               3 LOAD_FAST                0 (a)
               6 CALL_FUNCTION            1
@@ -28,7 +28,7 @@ def bug708901():
                      10):
         pass
 
-dis_bug708901 = """\
+dis_bug708901 = """/
  %-4d         0 SETUP_LOOP              23 (to 26)
               3 LOAD_GLOBAL              0 (range)
               6 LOAD_CONST               1 (1)
@@ -53,7 +53,7 @@ def bug1333982(x=[]):
               1)
     pass
 
-dis_bug1333982 = """\
+dis_bug1333982 = """/
  %-4d         0 LOAD_CONST               1 (0)
               3 JUMP_IF_TRUE            33 (to 39)
               6 POP_TOP
@@ -78,14 +78,14 @@ dis_bug1333982 = """\
        bug1333982.__code__.co_firstlineno + 2,
        bug1333982.__code__.co_firstlineno + 3)
 
-_BIG_LINENO_FORMAT = """\
+_BIG_LINENO_FORMAT = """/
 %3d           0 LOAD_GLOBAL              0 (spam)
               3 POP_TOP
               4 LOAD_CONST               0 (None)
               7 RETURN_VALUE
 """
 
-dis_module_expected_results = """\
+dis_module_expected_results = """/
 Disassembly of f:
   4           0 LOAD_CONST               0 (None)
               3 RETURN_VALUE
@@ -98,7 +98,7 @@ Disassembly of g:
 
 expr_str = "x + 1"
 
-dis_expr_str = """\
+dis_expr_str = """/
   1           0 LOAD_NAME                0 (x)
               3 LOAD_CONST               0 (1)
               6 BINARY_ADD
@@ -107,7 +107,7 @@ dis_expr_str = """\
 
 simple_stmt_str = "x = x + 1"
 
-dis_simple_stmt_str = """\
+dis_simple_stmt_str = """/
   1           0 LOAD_NAME                0 (x)
               3 LOAD_CONST               0 (1)
               6 BINARY_ADD
@@ -116,13 +116,13 @@ dis_simple_stmt_str = """\
              13 RETURN_VALUE
 """
 
-compound_stmt_str = """\
+compound_stmt_str = """/
 x = 0
 while 1:
     x += 1"""
 # Trailing newline has been deliberately omitted
 
-dis_compound_stmt_str = """\
+dis_compound_stmt_str = """/
   1           0 LOAD_CONST               0 (0)
               3 STORE_NAME               0 (x)
 
@@ -146,14 +146,14 @@ class DisTests(unittest.TestCase):
         sys.stdout = save_stdout
         got = s.getvalue()
         # Trim trailing blanks (if any).
-        lines = got.split('\n')
+        lines = got.split('/n')
         lines = [line.rstrip() for line in lines]
-        expected = expected.split("\n")
+        expected = expected.split("/n")
         import difflib
         if expected != lines:
             self.fail(
-                "events did not match expectation:\n" +
-                "\n".join(difflib.ndiff(expected,
+                "events did not match expectation:/n" +
+                "/n".join(difflib.ndiff(expected,
                                         lines)))
 
     def test_opmap(self):
@@ -188,7 +188,7 @@ class DisTests(unittest.TestCase):
     def test_big_linenos(self):
         def func(count):
             namespace = {}
-            func = "def foo():\n " + "".join(["\n "] * count + ["spam\n"])
+            func = "def foo():/n " + "".join(["/n "] * count + ["spam/n"])
             exec(func, namespace)
             return namespace['foo']
 
@@ -211,7 +211,7 @@ class DisTests(unittest.TestCase):
         self.do_disassembly_test(simple_stmt_str, dis_simple_stmt_str)
         self.do_disassembly_test(compound_stmt_str, dis_compound_stmt_str)
 
-code_info_code_info = """\
+code_info_code_info = """/
 Name:              code_info
 Filename:          (.*)
 Argument count:    1
@@ -238,7 +238,7 @@ Constants:
    8: type
    9: __name__
 Variable names:
-   0: x""" % (('Formatted details of methods, functions, or code.', '   6: None\n')
+   0: x""" % (('Formatted details of methods, functions, or code.', '   6: None/n')
               if sys.flags.optimize < 2 else (None, ''))
 
 @staticmethod
@@ -247,7 +247,7 @@ def tricky(x, y, z=True, *args, c, d, e=[], **kwds):
         print(x, y, z, c, d, e, f)
     yield x, y, z, c, d, e, f
 
-code_info_tricky = """\
+code_info_tricky = """/
 Name:              tricky
 Filename:          (.*)
 Argument count:    3
@@ -278,7 +278,7 @@ Cell variables:
 
 co_tricky_nested_f = tricky.__func__.__code__.co_consts[1]
 
-code_info_tricky_nested_f = """\
+code_info_tricky_nested_f = """/
 Name:              f
 Filename:          (.*)
 Argument count:    1
@@ -300,7 +300,7 @@ Free variables:
    4: [edfxyz]
    5: [edfxyz]"""
 
-code_info_expr_str = """\
+code_info_expr_str = """/
 Name:              <module>
 Filename:          <code_info>
 Argument count:    0
@@ -313,7 +313,7 @@ Constants:
 Names:
    0: x"""
 
-code_info_simple_stmt_str = """\
+code_info_simple_stmt_str = """/
 Name:              <module>
 Filename:          <code_info>
 Argument count:    0
@@ -327,7 +327,7 @@ Constants:
 Names:
    0: x"""
 
-code_info_compound_stmt_str = """\
+code_info_compound_stmt_str = """/
 Name:              <module>
 Filename:          <code_info>
 Argument count:    0
@@ -362,7 +362,7 @@ class CodeInfoTests(unittest.TestCase):
         for x, expected in self.test_pairs:
             with captured_stdout() as output:
                 dis.show_code(x)
-            self.assertRegex(output.getvalue(), expected+"\n")
+            self.assertRegex(output.getvalue(), expected+"/n")
 
 def test_main():
     run_unittest(DisTests, CodeInfoTests)

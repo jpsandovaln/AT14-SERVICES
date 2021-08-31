@@ -60,7 +60,7 @@ class MinidomTest(unittest.TestCase):
 
     def testGetElementsByTagName(self):
         dom = parse(tstfile)
-        self.confirm(dom.getElementsByTagName("LI") == \
+        self.confirm(dom.getElementsByTagName("LI") == /
                 dom.documentElement.getElementsByTagName("LI"))
         dom.unlink()
 
@@ -458,25 +458,25 @@ class MinidomTest(unittest.TestCase):
         self.confirm(str == domstr)
 
     def testAltNewline(self):
-        str = '<?xml version="1.0" ?>\n<a b="c"/>\n'
+        str = '<?xml version="1.0" ?>/n<a b="c"/>/n'
         dom = parseString(str)
-        domstr = dom.toprettyxml(newl="\r\n")
+        domstr = dom.toprettyxml(newl="/r/n")
         dom.unlink()
-        self.confirm(domstr == str.replace("\n", "\r\n"))
+        self.confirm(domstr == str.replace("/n", "/r/n"))
 
     def test_toprettyxml_with_text_nodes(self):
         # see issue #4147, text nodes are not indented
-        decl = '<?xml version="1.0" ?>\n'
+        decl = '<?xml version="1.0" ?>/n'
         self.assertEqual(parseString('<B>A</B>').toprettyxml(),
-                         decl + '<B>A</B>\n')
+                         decl + '<B>A</B>/n')
         self.assertEqual(parseString('<C>A<B>A</B></C>').toprettyxml(),
-                         decl + '<C>\n\tA\n\t<B>A</B>\n</C>\n')
+                         decl + '<C>/n/tA/n/t<B>A</B>/n</C>/n')
         self.assertEqual(parseString('<C><B>A</B>A</C>').toprettyxml(),
-                         decl + '<C>\n\t<B>A</B>\n\tA\n</C>\n')
+                         decl + '<C>/n/t<B>A</B>/n/tA/n</C>/n')
         self.assertEqual(parseString('<C><B>A</B><B>A</B></C>').toprettyxml(),
-                         decl + '<C>\n\t<B>A</B>\n\t<B>A</B>\n</C>\n')
+                         decl + '<C>/n/t<B>A</B>/n/t<B>A</B>/n</C>/n')
         self.assertEqual(parseString('<C><B>A</B>A<B>A</B></C>').toprettyxml(),
-                         decl + '<C>\n\t<B>A</B>\n\tA\n\t<B>A</B>\n</C>\n')
+                         decl + '<C>/n/t<B>A</B>/n/tA/n/t<B>A</B>/n</C>/n')
 
     def test_toprettyxml_with_adjacent_text_nodes(self):
         # see issue #4147, adjacent text nodes are indented normally
@@ -485,9 +485,9 @@ class MinidomTest(unittest.TestCase):
         elem.appendChild(dom.createTextNode('TEXT'))
         elem.appendChild(dom.createTextNode('TEXT'))
         dom.appendChild(elem)
-        decl = '<?xml version="1.0" ?>\n'
+        decl = '<?xml version="1.0" ?>/n'
         self.assertEqual(dom.toprettyxml(),
-                         decl + '<elem>\n\tTEXT\n\tTEXT\n</elem>\n')
+                         decl + '<elem>/n/tTEXT/n/tTEXT/n</elem>/n')
 
     def test_toprettyxml_preserves_content_of_text_node(self):
         # see issue #4147
@@ -499,10 +499,10 @@ class MinidomTest(unittest.TestCase):
                 dom2.getElementsByTagName('B')[0].childNodes[0].toxml())
 
     def testProcessingInstruction(self):
-        dom = parseString('<e><?mypi \t\n data \t\n ?></e>')
+        dom = parseString('<e><?mypi /t/n data /t/n ?></e>')
         pi = dom.documentElement.firstChild
         self.confirm(pi.target == "mypi"
-                and pi.data == "data \t\n "
+                and pi.data == "data /t/n "
                 and pi.nodeName == "mypi"
                 and pi.nodeType == Node.PROCESSING_INSTRUCTION_NODE
                 and pi.attributes is None
@@ -645,11 +645,11 @@ class MinidomTest(unittest.TestCase):
         dom.unlink()
 
     def testCloneDocumentShallow(self):
-        doc = parseString("<?xml version='1.0'?>\n"
+        doc = parseString("<?xml version='1.0'?>/n"
                     "<!-- comment -->"
-                    "<!DOCTYPE doc [\n"
-                    "<!NOTATION notation SYSTEM 'http://xml.python.org/'>\n"
-                    "]>\n"
+                    "<!DOCTYPE doc [/n"
+                    "<!NOTATION notation SYSTEM 'http://xml.python.org/'>/n"
+                    "]>/n"
                     "<doc attr='value'/>")
         doc2 = doc.cloneNode(0)
         self.confirm(doc2 is None,
@@ -657,11 +657,11 @@ class MinidomTest(unittest.TestCase):
                 " shallow cloning of documents makes no sense!")
 
     def testCloneDocumentDeep(self):
-        doc = parseString("<?xml version='1.0'?>\n"
+        doc = parseString("<?xml version='1.0'?>/n"
                     "<!-- comment -->"
-                    "<!DOCTYPE doc [\n"
-                    "<!NOTATION notation SYSTEM 'http://xml.python.org/'>\n"
-                    "]>\n"
+                    "<!DOCTYPE doc [/n"
+                    "<!NOTATION notation SYSTEM 'http://xml.python.org/'>/n"
+                    "]>/n"
                     "<doc attr='value'/>")
         doc2 = doc.cloneNode(1)
         self.confirm(not (doc.isSameNode(doc2) or doc2.isSameNode(doc)),
@@ -1079,16 +1079,16 @@ class MinidomTest(unittest.TestCase):
     def testEncodings(self):
         doc = parseString('<foo>&#x20ac;</foo>')
         self.assertEqual(doc.toxml(),
-                         '<?xml version="1.0" ?><foo>\u20ac</foo>')
+                         '<?xml version="1.0" ?><foo>/u20ac</foo>')
         self.assertEqual(doc.toxml('utf-8'),
-            b'<?xml version="1.0" encoding="utf-8"?><foo>\xe2\x82\xac</foo>')
+            b'<?xml version="1.0" encoding="utf-8"?><foo>/xe2/x82/xac</foo>')
         self.assertEqual(doc.toxml('iso-8859-15'),
-            b'<?xml version="1.0" encoding="iso-8859-15"?><foo>\xa4</foo>')
+            b'<?xml version="1.0" encoding="iso-8859-15"?><foo>/xa4</foo>')
 
         # Verify that character decoding errors raise exceptions instead
         # of crashing
         self.assertRaises(UnicodeDecodeError, parseString,
-                b'<fran\xe7ais>Comment \xe7a va ? Tr\xe8s bien ?</fran\xe7ais>')
+                b'<fran/xe7ais>Comment /xe7a va ? Tr/xe8s bien ?</fran/xe7ais>')
 
         doc.unlink()
 
@@ -1337,19 +1337,19 @@ class MinidomTest(unittest.TestCase):
 
     def testSchemaType(self):
         doc = parseString(
-            "<!DOCTYPE doc [\n"
-            "  <!ENTITY e1 SYSTEM 'http://xml.python.org/e1'>\n"
-            "  <!ENTITY e2 SYSTEM 'http://xml.python.org/e2'>\n"
-            "  <!ATTLIST doc id   ID       #IMPLIED \n"
-            "                ref  IDREF    #IMPLIED \n"
-            "                refs IDREFS   #IMPLIED \n"
-            "                enum (a|b)    #IMPLIED \n"
-            "                ent  ENTITY   #IMPLIED \n"
-            "                ents ENTITIES #IMPLIED \n"
-            "                nm   NMTOKEN  #IMPLIED \n"
-            "                nms  NMTOKENS #IMPLIED \n"
-            "                text CDATA    #IMPLIED \n"
-            "    >\n"
+            "<!DOCTYPE doc [/n"
+            "  <!ENTITY e1 SYSTEM 'http://xml.python.org/e1'>/n"
+            "  <!ENTITY e2 SYSTEM 'http://xml.python.org/e2'>/n"
+            "  <!ATTLIST doc id   ID       #IMPLIED /n"
+            "                ref  IDREF    #IMPLIED /n"
+            "                refs IDREFS   #IMPLIED /n"
+            "                enum (a|b)    #IMPLIED /n"
+            "                ent  ENTITY   #IMPLIED /n"
+            "                ents ENTITIES #IMPLIED /n"
+            "                nm   NMTOKEN  #IMPLIED /n"
+            "                nms  NMTOKENS #IMPLIED /n"
+            "                text CDATA    #IMPLIED /n"
+            "    >/n"
             "]><doc id='name' notid='name' text='splat!' enum='b'"
             "       ref='name' refs='name name' ent='e1' ents='e1 e2'"
             "       nm='123' nms='123 abc' />")
@@ -1472,12 +1472,12 @@ class MinidomTest(unittest.TestCase):
                 and a2.isId)
 
     def testPickledDocument(self):
-        doc = parseString("<?xml version='1.0' encoding='us-ascii'?>\n"
+        doc = parseString("<?xml version='1.0' encoding='us-ascii'?>/n"
                     "<!DOCTYPE doc PUBLIC 'http://xml.python.org/public'"
-                    " 'http://xml.python.org/system' [\n"
-                    "  <!ELEMENT e EMPTY>\n"
-                    "  <!ENTITY ent SYSTEM 'http://xml.python.org/entity'>\n"
-                    "]><doc attr='value'> text\n"
+                    " 'http://xml.python.org/system' [/n"
+                    "  <!ELEMENT e EMPTY>/n"
+                    "  <!ENTITY ent SYSTEM 'http://xml.python.org/entity'>/n"
+                    "]><doc attr='value'> text/n"
                     "<?pi sample?> <!-- comment --> <e/> </doc>")
         s = pickle.dumps(doc)
         doc2 = pickle.loads(s)
@@ -1523,8 +1523,8 @@ class MinidomTest(unittest.TestCase):
         self.assertRaises(ValueError, doc.toxml)
 
     def testEmptyXMLNSValue(self):
-        doc = parseString("<element xmlns=''>\n"
-                          "<foo/>\n</element>")
+        doc = parseString("<element xmlns=''>/n"
+                          "<foo/>/n</element>")
         doc2 = parseString(doc.toxml())
         self.confirm(doc2.namespaceURI == xml.dom.EMPTY_NAMESPACE)
 

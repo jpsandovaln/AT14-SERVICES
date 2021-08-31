@@ -42,7 +42,7 @@ def _assert_python(expected_success, *args, **env_vars):
     if (rc and expected_success) or (not rc and not expected_success):
         raise AssertionError(
             "Process return code is %d, "
-            "stderr follows:\n%s" % (rc, err.decode('ascii', 'ignore')))
+            "stderr follows:/n%s" % (rc, err.decode('ascii', 'ignore')))
     return rc, out, err
 
 def assert_python_ok(*args, **env_vars):

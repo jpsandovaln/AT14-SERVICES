@@ -22,7 +22,7 @@ class MockFile:
     def __init__(self, lines):
         self.lines = lines
     def readline(self):
-        return self.lines.pop(0) + b'\r\n'
+        return self.lines.pop(0) + b'/r/n'
     def close(self):
         pass
 
@@ -44,7 +44,7 @@ class MockSocket:
         self.lines.append(line)
 
     def recv(self, bufsize, flags=None):
-        data = self.lines.pop(0) + b'\r\n'
+        data = self.lines.pop(0) + b'/r/n'
         return data
 
     def fileno(self):

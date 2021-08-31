@@ -176,7 +176,7 @@ class GCTests(unittest.TestCase):
         # Tricky: f -> d -> f, code should call d.clear() after the exec to
         # break the cycle.
         d = {}
-        exec("def f(): pass\n", d)
+        exec("def f(): pass/n", d)
         gc.collect()
         del d
         self.assertEqual(gc.collect(), 2)

@@ -582,11 +582,11 @@ class Skipper(FilterCrutch):
 # framework document used by the fragment builder.
 # Takes a string for the doctype, subset string, and namespace attrs string.
 
-_FRAGMENT_BUILDER_INTERNAL_SYSTEM_ID = \
+_FRAGMENT_BUILDER_INTERNAL_SYSTEM_ID = /
     "http://xml.python.org/entities/fragment-builder/internal"
 
 _FRAGMENT_BUILDER_TEMPLATE = (
-    '''\
+    '''/
 <!DOCTYPE wrapper
   %%s [
   <!ENTITY fragment-builder-internal
@@ -665,20 +665,20 @@ class FragmentBuilder(ExpatBuilder):
             for i in range(doctype.notations.length):
                 notation = doctype.notations.item(i)
                 if s:
-                    s = s + "\n  "
+                    s = s + "/n  "
                 s = "%s<!NOTATION %s" % (s, notation.nodeName)
                 if notation.publicId:
-                    s = '%s PUBLIC "%s"\n             "%s">' \
+                    s = '%s PUBLIC "%s"/n             "%s">' /
                         % (s, notation.publicId, notation.systemId)
                 else:
                     s = '%s SYSTEM "%s">' % (s, notation.systemId)
             for i in range(doctype.entities.length):
                 entity = doctype.entities.item(i)
                 if s:
-                    s = s + "\n  "
+                    s = s + "/n  "
                 s = "%s<!ENTITY %s" % (s, entity.nodeName)
                 if entity.publicId:
-                    s = '%s PUBLIC "%s"\n             "%s"' \
+                    s = '%s PUBLIC "%s"/n             "%s"' /
                         % (s, entity.publicId, entity.systemId)
                 elif entity.systemId:
                     s = '%s SYSTEM "%s"' % (s, entity.systemId)
@@ -804,12 +804,12 @@ class Namespaces:
                 uri, localname, prefix, qname = _parse_ns_name(self, name)
                 assert (curNode.namespaceURI == uri
                         and curNode.localName == localname
-                        and curNode.prefix == prefix), \
+                        and curNode.prefix == prefix), /
                         "element stack messed up! (namespace)"
             else:
-                assert curNode.nodeName == name, \
+                assert curNode.nodeName == name, /
                        "element stack messed up - bad nodeName"
-                assert curNode.namespaceURI == EMPTY_NAMESPACE, \
+                assert curNode.namespaceURI == EMPTY_NAMESPACE, /
                        "element stack messed up - bad namespaceURI"
             self.curNode = curNode.parentNode
             self._finish_end_element(curNode)
@@ -853,7 +853,7 @@ class FragmentBuilderNS(Namespaces, FragmentBuilder):
                     else:
                         declname = "xmlns"
                     if attrs:
-                        attrs = "%s\n    %s='%s'" % (attrs, declname, uri)
+                        attrs = "%s/n    %s='%s'" % (attrs, declname, uri)
                     else:
                         attrs = " %s='%s'" % (declname, uri)
             context = context.parentNode
@@ -900,7 +900,7 @@ class InternalSubsetExtractor(ExpatBuilder):
             raise ParseEscape()
 
     def end_doctype_decl_handler(self):
-        s = ''.join(self.subset).replace('\r\n', '\n').replace('\r', '\n')
+        s = ''.join(self.subset).replace('/r/n', '/n').replace('/r', '/n')
         self.subset = s
         raise ParseEscape()
 

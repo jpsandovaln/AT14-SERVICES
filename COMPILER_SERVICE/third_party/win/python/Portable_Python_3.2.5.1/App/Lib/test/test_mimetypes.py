@@ -32,7 +32,7 @@ class MimeTypesTestCase(unittest.TestCase):
 
     def test_file_parsing(self):
         eq = self.assertEqual
-        sio = io.StringIO("x-application/x-unittest pyunit\n")
+        sio = io.StringIO("x-application/x-unittest pyunit/n")
         self.db.readfp(sio)
         eq(self.db.guess_type("foo.pyunit"),
            ("x-application/x-unittest", None))
@@ -73,7 +73,7 @@ class MimeTypesTestCase(unittest.TestCase):
         mimes = mimetypes.MimeTypes([filename])
         exts = mimes.guess_all_extensions('application/vnd.geocube+xml',
                                           strict=True)
-        self.assertEqual(exts, ['.g3', '.g\xb3'])
+        self.assertEqual(exts, ['.g3', '.g/xb3'])
 
 
 @unittest.skipUnless(sys.platform.startswith("win"), "Windows only")

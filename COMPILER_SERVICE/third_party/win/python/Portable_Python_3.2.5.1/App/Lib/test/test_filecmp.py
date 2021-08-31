@@ -8,14 +8,14 @@ class FileCompareTestCase(unittest.TestCase):
         self.name = support.TESTFN
         self.name_same = support.TESTFN + '-same'
         self.name_diff = support.TESTFN + '-diff'
-        data = 'Contents of file go here.\n'
+        data = 'Contents of file go here./n'
         for name in [self.name, self.name_same, self.name_diff]:
             output = open(name, 'w')
             output.write(data)
             output.close()
 
         output = open(self.name_diff, 'a+')
-        output.write('An extra line.\n')
+        output.write('An extra line./n')
         output.close()
         self.dir = tempfile.gettempdir()
 
@@ -47,7 +47,7 @@ class DirCompareTestCase(unittest.TestCase):
         self.dir_same = os.path.join(tmpdir, 'dir-same')
         self.dir_diff = os.path.join(tmpdir, 'dir-diff')
         self.caseinsensitive = os.path.normcase('A') == os.path.normcase('a')
-        data = 'Contents of file go here.\n'
+        data = 'Contents of file go here./n'
         for dir in [self.dir, self.dir_same, self.dir_diff]:
             shutil.rmtree(dir, True)
             os.mkdir(dir)
@@ -60,7 +60,7 @@ class DirCompareTestCase(unittest.TestCase):
             output.close()
 
         output = open(os.path.join(self.dir_diff, 'file2'), 'w')
-        output.write('An extra file.\n')
+        output.write('An extra file./n')
         output.close()
 
     def tearDown(self):
@@ -87,7 +87,7 @@ class DirCompareTestCase(unittest.TestCase):
 
         # Add different file2
         output = open(os.path.join(self.dir, 'file2'), 'w')
-        output.write('Different contents.\n')
+        output.write('Different contents./n')
         output.close()
 
         self.assertFalse(filecmp.cmpfiles(self.dir, self.dir_same,
@@ -126,7 +126,7 @@ class DirCompareTestCase(unittest.TestCase):
 
         # Add different file2
         output = open(os.path.join(self.dir, 'file2'), 'w')
-        output.write('Different contents.\n')
+        output.write('Different contents./n')
         output.close()
         d = filecmp.dircmp(self.dir, self.dir_diff)
         self.assertEqual(d.same_files, ['file'])

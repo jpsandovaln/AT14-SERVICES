@@ -22,12 +22,12 @@ class CookieTests(unittest.TestCase):
             {'data': 'chips=ahoy; vienna=finger',
              'dict': {'chips':'ahoy', 'vienna':'finger'},
              'repr': "<SimpleCookie: chips='ahoy' vienna='finger'>",
-             'output': 'Set-Cookie: chips=ahoy\nSet-Cookie: vienna=finger'},
+             'output': 'Set-Cookie: chips=ahoy/nSet-Cookie: vienna=finger'},
 
-            {'data': 'keebler="E=mc2; L=\\"Loves\\"; fudge=\\012;"',
-             'dict': {'keebler' : 'E=mc2; L="Loves"; fudge=\012;'},
-             'repr': '''<SimpleCookie: keebler='E=mc2; L="Loves"; fudge=\\n;'>''',
-             'output': 'Set-Cookie: keebler="E=mc2; L=\\"Loves\\"; fudge=\\012;"'},
+            {'data': 'keebler="E=mc2; L=//"Loves//"; fudge=//012;"',
+             'dict': {'keebler' : 'E=mc2; L="Loves"; fudge=/012;'},
+             'repr': '''<SimpleCookie: keebler='E=mc2; L="Loves"; fudge=//n;'>''',
+             'output': 'Set-Cookie: keebler="E=mc2; L=//"Loves//"; fudge=//012;"'},
 
             # Check illegal cookies that have an '=' char in an unquoted value
             {'data': 'keebler=E=mc2',
@@ -40,7 +40,7 @@ class CookieTests(unittest.TestCase):
             C = cookies.SimpleCookie()
             C.load(case['data'])
             self.assertEqual(repr(C), case['repr'])
-            self.assertEqual(C.output(sep='\n'), case['output'])
+            self.assertEqual(C.output(sep='/n'), case['output'])
             for k, v in sorted(case['dict'].items()):
                 self.assertEqual(C[k].value, v)
 
@@ -57,14 +57,14 @@ class CookieTests(unittest.TestCase):
         self.assertEqual(C.js_output(), r"""
         <script type="text/javascript">
         <!-- begin hiding
-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1";
+        document.cookie = "Customer=/"WILE_E_COYOTE/"; Path=/acme; Version=1";
         // end hiding -->
         </script>
         """)
         self.assertEqual(C.js_output(['path']), r"""
         <script type="text/javascript">
         <!-- begin hiding
-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme";
+        document.cookie = "Customer=/"WILE_E_COYOTE/"; Path=/acme";
         // end hiding -->
         </script>
         """)
@@ -75,7 +75,7 @@ class CookieTests(unittest.TestCase):
         C = cookies.SimpleCookie()
         C['val'] = "some,funky;stuff"
         self.assertEqual(C.output(['val']),
-            'Set-Cookie: val="some\\054funky\\073stuff"')
+            'Set-Cookie: val="some//054funky//073stuff"')
 
     def test_special_attrs(self):
         # 'expires'
@@ -120,14 +120,14 @@ class CookieTests(unittest.TestCase):
         self.assertEqual(C.js_output(), r"""
         <script type="text/javascript">
         <!-- begin hiding
-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1";
+        document.cookie = "Customer=/"WILE_E_COYOTE/"; Path=/acme; Version=1";
         // end hiding -->
         </script>
         """)
         self.assertEqual(C.js_output(['path']), r"""
         <script type="text/javascript">
         <!-- begin hiding
-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme";
+        document.cookie = "Customer=/"WILE_E_COYOTE/"; Path=/acme";
         // end hiding -->
         </script>
         """)

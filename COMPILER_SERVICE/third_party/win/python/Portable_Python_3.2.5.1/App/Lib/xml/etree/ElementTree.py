@@ -851,7 +851,7 @@ class ElementTree:
                 # Retrieve the default encoding for the xml declaration
                 import locale
                 declared_encoding = locale.getpreferredencoding()
-            write("<?xml version='1.0' encoding='%s'?>\n" % declared_encoding)
+            write("<?xml version='1.0' encoding='%s'?>/n" % declared_encoding)
         if method == "text":
             _serialize_text(write, self._root)
         else:
@@ -956,7 +956,7 @@ def _serialize_xml(write, elem, qnames, namespaces):
                                        key=lambda x: x[1]):  # sort on prefix
                         if k:
                             k = ":" + k
-                        write(" xmlns%s=\"%s\"" % (
+                        write(" xmlns%s=/"%s/"" % (
                             k,
                             _escape_attrib(v)
                             ))
@@ -967,7 +967,7 @@ def _serialize_xml(write, elem, qnames, namespaces):
                         v = qnames[v.text]
                     else:
                         v = _escape_attrib(v)
-                    write(" %s=\"%s\"" % (qnames[k], v))
+                    write(" %s=/"%s/"" % (qnames[k], v))
             if text or len(elem):
                 write(">")
                 if text:
@@ -1011,7 +1011,7 @@ def _serialize_html(write, elem, qnames, namespaces):
                                        key=lambda x: x[1]):  # sort on prefix
                         if k:
                             k = ":" + k
-                        write(" xmlns%s=\"%s\"" % (
+                        write(" xmlns%s=/"%s/"" % (
                             k,
                             _escape_attrib(v)
                             ))
@@ -1023,7 +1023,7 @@ def _serialize_html(write, elem, qnames, namespaces):
                     else:
                         v = _escape_attrib_html(v)
                     # FIXME: handle boolean attributes
-                    write(" %s=\"%s\"" % (qnames[k], v))
+                    write(" %s=/"%s/"" % (qnames[k], v))
             write(">")
             tag = tag.lower()
             if text:
@@ -1064,7 +1064,7 @@ _serialize = {
 #     invalid.
 
 def register_namespace(prefix, uri):
-    if re.match("ns\d+$", prefix):
+    if re.match("ns/d+$", prefix):
         raise ValueError("Prefix format reserved for internal use")
     for k, v in list(_namespace_map.items()):
         if k == uri or v == prefix:
@@ -1114,10 +1114,10 @@ def _escape_attrib(text):
             text = text.replace("<", "&lt;")
         if ">" in text:
             text = text.replace(">", "&gt;")
-        if "\"" in text:
-            text = text.replace("\"", "&quot;")
-        if "\n" in text:
-            text = text.replace("\n", "&#10;")
+        if "/"" in text:
+            text = text.replace("/"", "&quot;")
+        if "/n" in text:
+            text = text.replace("/n", "&#10;")
         return text
     except (TypeError, AttributeError):
         _raise_serialization_error(text)
@@ -1129,8 +1129,8 @@ def _escape_attrib_html(text):
             text = text.replace("&", "&amp;")
         if ">" in text:
             text = text.replace(">", "&gt;")
-        if "\"" in text:
-            text = text.replace("\"", "&quot;")
+        if "/"" in text:
+            text = text.replace("/"", "&quot;")
         return text
     except (TypeError, AttributeError):
         _raise_serialization_error(text)
@@ -1202,8 +1202,8 @@ def dump(elem):
         elem = ElementTree(elem)
     elem.write(sys.stdout, encoding="unicode")
     tail = elem.getroot().tail
-    if not tail or tail[-1] != "\n":
-        sys.stdout.write("\n")
+    if not tail or tail[-1] != "/n":
+        sys.stdout.write("/n")
 
 # --------------------------------------------------------------------
 # parsing
@@ -1468,7 +1468,7 @@ class TreeBuilder:
     def end(self, tag):
         self._flush()
         self._last = self._elem.pop()
-        assert self._last.tag == tag,\
+        assert self._last.tag == tag,/
                "end tag mismatch (expected %s, got %s)" % (
                    self._last.tag, tag)
         self._tail = 1

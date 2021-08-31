@@ -126,7 +126,7 @@ Filters, may be repeated multiple times:
 PRAGMA_NOCOVER = "#pragma NO COVER"
 
 # Simple rx to find lines with no code.
-rx_blank = re.compile(r'^\s*(#.*)?$')
+rx_blank = re.compile(r'^/s*(#.*)?$')
 
 class _Ignore:
     def __init__(self, modules=None, dirs=None):
@@ -233,7 +233,7 @@ class CoverageResults:
         if self.infile:
             # Try to merge existing counts file.
             try:
-                counts, calledfuncs, callers = \
+                counts, calledfuncs, callers = /
                         pickle.load(open(self.infile, 'rb'))
                 self.update(self.__class__(counts, calledfuncs, callers))
             except (IOError, EOFError, ValueError) as err:
@@ -281,7 +281,7 @@ class CoverageResults:
             print()
             print("calling relationships:")
             lastfile = lastcfile = ""
-            for ((pfile, pmod, pfunc), (cfile, cmod, cfunc)) \
+            for ((pfile, pmod, pfunc), (cfile, cmod, cfunc)) /
                     in sorted(self.callers):
                 if pfile != lastfile:
                     print()
@@ -649,7 +649,7 @@ class Trace:
                                callers=self._callers)
 
 def _err_exit(msg):
-    sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
+    sys.stderr.write("%s: %s/n" % (sys.argv[0], msg))
     sys.exit(1)
 
 def main(argv=None):
@@ -667,8 +667,8 @@ def main(argv=None):
                                          "trackcalls", "timing"])
 
     except getopt.error as msg:
-        sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
-        sys.stderr.write("Try `%s --help' for more information\n"
+        sys.stderr.write("%s: %s/n" % (sys.argv[0], msg))
+        sys.stderr.write("Try `%s --help' for more information/n"
                          % sys.argv[0])
         sys.exit(1)
 
@@ -692,7 +692,7 @@ def main(argv=None):
             sys.exit(0)
 
         if opt == "--version":
-            sys.stdout.write("trace 2.0\n")
+            sys.stdout.write("trace 2.0/n")
             sys.exit(0)
 
         if opt == "-T" or opt == "--trackcalls":

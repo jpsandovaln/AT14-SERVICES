@@ -91,7 +91,7 @@ class Devnull:
 
 
 DEBUGSTREAM = Devnull()
-NEWLINE = '\n'
+NEWLINE = '/n'
 EMPTYSTRING = ''
 COMMASPACE = ', '
 
@@ -136,7 +136,7 @@ class SMTPChannel(asynchat.async_chat):
             return
         print('Peer:', repr(self.peer), file=DEBUGSTREAM)
         self.push('220 %s %s' % (self.fqdn, __version__))
-        self.set_terminator(b'\r\n')
+        self.set_terminator(b'/r/n')
 
     # properties for backwards-compatibility
     @property
@@ -262,7 +262,7 @@ class SMTPChannel(asynchat.async_chat):
 
     # Overrides base class for convenience
     def push(self, msg):
-        asynchat.async_chat.push(self, bytes(msg + '\r\n', 'ascii'))
+        asynchat.async_chat.push(self, bytes(msg + '/r/n', 'ascii'))
 
     # Implementation of base class abstract method
     def collect_incoming_data(self, data):
@@ -317,7 +317,7 @@ class SMTPChannel(asynchat.async_chat):
             # Remove extraneous carriage returns and de-transparency according
             # to RFC 821, Section 4.5.2.
             data = []
-            for text in line.split('\r\n'):
+            for text in line.split('/r/n'):
                 if text and text[0] == '.':
                     data.append(text[1:])
                 else:
@@ -331,7 +331,7 @@ class SMTPChannel(asynchat.async_chat):
             self.mailfrom = None
             self.smtp_state = self.COMMAND
             self.num_bytes = 0
-            self.set_terminator(b'\r\n')
+            self.set_terminator(b'/r/n')
             if not status:
                 self.push('250 Ok')
             else:
@@ -418,7 +418,7 @@ class SMTPChannel(asynchat.async_chat):
             self.push('501 Syntax: DATA')
             return
         self.smtp_state = self.DATA
-        self.set_terminator(b'\r\n.\r\n')
+        self.set_terminator(b'/r/n./r/n')
         self.push('354 End data with <CR><LF>.<CR><LF>')
 
 
@@ -441,7 +441,7 @@ class SMTPServer(asyncore.dispatcher):
             self.close()
             raise
         else:
-            print('%s started at %s\n\tLocal addr: %s\n\tRemote addr:%s' % (
+            print('%s started at %s/n/tLocal addr: %s/n/tRemote addr:%s' % (
                 self.__class__.__name__, time.ctime(time.time()),
                 localaddr, remoteaddr), file=DEBUGSTREAM)
 
@@ -480,7 +480,7 @@ class DebuggingServer(SMTPServer):
     # Do something with the gathered message
     def process_message(self, peer, mailfrom, rcpttos, data):
         inheaders = 1
-        lines = data.split('\n')
+        lines = data.split('/n')
         print('---------- MESSAGE FOLLOWS ----------')
         for line in lines:
             # headers first
@@ -494,7 +494,7 @@ class DebuggingServer(SMTPServer):
 
 class PureProxy(SMTPServer):
     def process_message(self, peer, mailfrom, rcpttos, data):
-        lines = data.split('\n')
+        lines = data.split('/n')
         # Look for the last header
         i = 0
         for line in lines:

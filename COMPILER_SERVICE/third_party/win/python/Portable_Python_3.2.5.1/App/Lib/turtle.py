@@ -180,7 +180,7 @@ def config_dict(filename):
         try:
             key, value = line.split("=")
         except:
-            print("Bad line in config-file %s:\n%s" % (filename,line))
+            print("Bad line in config-file %s:/n%s" % (filename,line))
             continue
         key = key.strip()
         value = value.strip()
@@ -320,7 +320,7 @@ def __forwardmethods(fromClass, toClass, toPart, exclude = ()):
     for method, func in _dict.items():
         d = {'method': method, 'func': func}
         if isinstance(toPart, str):
-            execString = \
+            execString = /
                 __stringBody % {'method' : method, 'attribute' : toPart}
         exec(execString, d)
         setattr(fromClass, method, d[method])   ### NEWU!
@@ -1125,7 +1125,7 @@ class TurtleScreen(TurtleScreenBase):
             if name.lower().endswith(".gif"):
                 shape = Shape("image", self._image(name))
             else:
-                raise TurtleGraphicsError("Bad arguments for register_shape.\n"
+                raise TurtleGraphicsError("Bad arguments for register_shape./n"
                                           + "Use  help(register_shape)" )
         elif isinstance(shape, tuple):
             shape = Shape("polygon", shape)
@@ -3847,14 +3847,14 @@ def write_docstringdict(filename="turtle_docstringdict"):
     f = open("%s.py" % filename,"w")
     keys = sorted([x for x in docsdict.keys()
                         if x.split('.')[1] not in _alias_list])
-    f.write('docsdict = {\n\n')
+    f.write('docsdict = {/n/n')
     for key in keys[:-1]:
-        f.write('%s :\n' % repr(key))
-        f.write('        """%s\n""",\n\n' % docsdict[key])
+        f.write('%s :/n' % repr(key))
+        f.write('        """%s/n""",/n/n' % docsdict[key])
     key = keys[-1]
-    f.write('%s :\n' % repr(key))
-    f.write('        """%s\n"""\n\n' % docsdict[key])
-    f.write("}\n")
+    f.write('%s :/n' % repr(key))
+    f.write('        """%s/n"""/n/n' % docsdict[key])
+    f.write("}/n")
     f.close()
 
 def read_docstrings(lang):
@@ -3925,7 +3925,7 @@ def _turtle_docrevise(docstr):
         return None
     turtlename = _CFG["exampleturtle"]
     newdocstr = docstr.replace("%s." % turtlename,"")
-    parexp = re.compile(r' \(.+ %s\):' % turtlename)
+    parexp = re.compile(r' /(.+ %s/):' % turtlename)
     newdocstr = parexp.sub(":", newdocstr)
     return newdocstr
 
@@ -3937,7 +3937,7 @@ def _screen_docrevise(docstr):
         return None
     screenname = _CFG["examplescreen"]
     newdocstr = docstr.replace("%s." % screenname,"")
-    parexp = re.compile(r' \(.+ %s\):' % screenname)
+    parexp = re.compile(r' /(.+ %s/):' % screenname)
     newdocstr = parexp.sub(":", newdocstr)
     return newdocstr
 

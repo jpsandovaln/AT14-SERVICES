@@ -18,7 +18,7 @@ def sanity():
     Issue #6697.
 
     >>> e = cElementTree.Element('a')
-    >>> getattr(e, '\uD800')           # doctest: +ELLIPSIS
+    >>> getattr(e, '/uD800')           # doctest: +ELLIPSIS
     Traceback (most recent call last):
       ...
     UnicodeEncodeError: ...
@@ -26,10 +26,10 @@ def sanity():
     >>> p = cElementTree.XMLParser()
     >>> p.version.split()[0]
     'Expat'
-    >>> getattr(p, '\uD800')
+    >>> getattr(p, '/uD800')
     Traceback (most recent call last):
      ...
-    AttributeError: 'XMLParser' object has no attribute '\ud800'
+    AttributeError: 'XMLParser' object has no attribute '/ud800'
     """
 
 

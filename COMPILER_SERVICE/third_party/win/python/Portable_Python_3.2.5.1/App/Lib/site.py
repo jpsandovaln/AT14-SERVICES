@@ -146,7 +146,7 @@ def addpackage(sitedir, name, known_paths):
             if line.startswith("#"):
                 continue
             try:
-                if line.startswith(("import ", "import\t")):
+                if line.startswith(("import ", "import/t")):
                     exec(line)
                     continue
                 line = line.rstrip()
@@ -155,12 +155,12 @@ def addpackage(sitedir, name, known_paths):
                     sys.path.append(dir)
                     known_paths.add(dircase)
             except Exception as err:
-                print("Error processing line {:d} of {}:\n".format(n+1, fullname),
+                print("Error processing line {:d} of {}:/n".format(n+1, fullname),
                       file=sys.stderr)
                 for record in traceback.format_exception(*sys.exc_info()):
                     for line in record.splitlines():
                         print('  '+line, file=sys.stderr)
-                print("\nRemainder of file ignored", file=sys.stderr)
+                print("/nRemainder of file ignored", file=sys.stderr)
                 break
     if reset:
         known_paths = None
@@ -337,7 +337,7 @@ def setquit():
     """
     if os.sep == ':':
         eof = 'Cmd-Q'
-    elif os.sep == '\\':
+    elif os.sep == '//':
         eof = 'Ctrl-Z plus Return'
     else:
         eof = 'Ctrl-D (i.e. EOF)'
@@ -395,13 +395,13 @@ class _Printer(object):
                 break
         if not data:
             data = self.__data
-        self.__lines = data.split('\n')
+        self.__lines = data.split('/n')
         self.__linecnt = len(self.__lines)
 
     def __repr__(self):
         self.__setup()
         if len(self.__lines) <= self.MAXLINES:
-            return "\n".join(self.__lines)
+            return "/n".join(self.__lines)
         else:
             return "Type %s() to see the full %s text" % ((self.__name,)*2)
 
@@ -433,7 +433,7 @@ def setcopyright():
             "credits",
             "Jython is maintained by the Jython developers (www.jython.org).")
     else:
-        builtins.credits = _Printer("credits", """\
+        builtins.credits = _Printer("credits", """/
     Thanks to CWI, CNRI, BeOpen.com, Zope Corporation and a cast of thousands
     for supporting Python development.  See www.python.org for more information.""")
     here = os.path.dirname(os.__file__)
@@ -450,7 +450,7 @@ class _Helper(object):
     """
 
     def __repr__(self):
-        return "Type help() for interactive help, " \
+        return "Type help() for interactive help, " /
                "or help(object) for help about object."
     def __call__(self, *args, **kwds):
         import pydoc
@@ -486,8 +486,8 @@ def execsitecustomize():
             sys.excepthook(*sys.exc_info())
         else:
             sys.stderr.write(
-                "Error in sitecustomize; set PYTHONVERBOSE for traceback:\n"
-                "%s: %s\n" %
+                "Error in sitecustomize; set PYTHONVERBOSE for traceback:/n"
+                "%s: %s/n" %
                 (err.__class__.__name__, err))
 
 
@@ -502,8 +502,8 @@ def execusercustomize():
             sys.excepthook(*sys.exc_info())
         else:
             sys.stderr.write(
-                "Error in usercustomize; set PYTHONVERBOSE for traceback:\n"
-                "%s: %s\n" %
+                "Error in usercustomize; set PYTHONVERBOSE for traceback:/n"
+                "%s: %s/n" %
                 (err.__class__.__name__, err))
 
 
@@ -529,7 +529,7 @@ def main():
 main()
 
 def _script():
-    help = """\
+    help = """/
     %s [--user-base] [--user-site]
 
     Without arguments print some useful information

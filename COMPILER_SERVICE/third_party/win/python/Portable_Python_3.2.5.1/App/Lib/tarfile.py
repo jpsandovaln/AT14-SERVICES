@@ -32,10 +32,10 @@
 __version__ = "$Revision$"
 
 version     = "0.9.0"
-__author__  = "Lars Gust\u00e4bel (lars@gustaebel.de)"
+__author__  = "Lars Gust/u00e4bel (lars@gustaebel.de)"
 __date__    = "$Date: 2011-02-25 17:42:01 +0200 (Fri, 25 Feb 2011) $"
 __cvsid__   = "$Id: tarfile.py 88586 2011-02-25 15:42:01Z marc-andre.lemburg $"
-__credits__ = "Gustavo Niemeyer, Niels Gust\u00e4bel, Richard Townsend."
+__credits__ = "Gustavo Niemeyer, Niels Gust/u00e4bel, Richard Townsend."
 
 #---------
 # Imports
@@ -72,18 +72,18 @@ from builtins import open as _open # Since 'open' is TarFile.open
 #---------------------------------------------------------
 # tar constants
 #---------------------------------------------------------
-NUL = b"\0"                     # the null character
+NUL = b"/0"                     # the null character
 BLOCKSIZE = 512                 # length of processing blocks
 RECORDSIZE = BLOCKSIZE * 20     # length of records
-GNU_MAGIC = b"ustar  \0"        # magic gnu tar string
-POSIX_MAGIC = b"ustar\x0000"    # magic posix tar string
+GNU_MAGIC = b"ustar  /0"        # magic gnu tar string
+POSIX_MAGIC = b"ustar/x0000"    # magic posix tar string
 
 LENGTH_NAME = 100               # maximum length of a filename
 LENGTH_LINK = 100               # maximum length of a linkname
 LENGTH_PREFIX = 155             # maximum length of the prefix field
 
 REGTYPE = b"0"                  # regular file
-AREGTYPE = b"\0"                # regular file
+AREGTYPE = b"/0"                # regular file
 LNKTYPE = b"1"                  # link (inside tarfile)
 SYMTYPE = b"2"                  # symbolic link
 CHRTYPE = b"3"                  # character special device
@@ -186,7 +186,7 @@ def stn(s, length, encoding, errors):
 def nts(s, encoding, errors):
     """Convert a null-terminated bytes object to a string.
     """
-    p = s.find(b"\0")
+    p = s.find(b"/0")
     if p != -1:
         s = s[:p]
     return s.decode(encoding, errors)
@@ -454,7 +454,7 @@ class _Stream:
                                             self.zlib.DEF_MEM_LEVEL,
                                             0)
         timestamp = struct.pack("<L", int(time.time()))
-        self.__write(b"\037\213\010\010" + timestamp + b"\002\377")
+        self.__write(b"/037/213/010/010" + timestamp + b"/002/377")
         if self.name.endswith(".gz"):
             self.name = self.name[:-3]
         # RFC1952 says we must use ISO-8859-1 for the FNAME field.
@@ -514,9 +514,9 @@ class _Stream:
         self.dbuf = b""
 
         # taken from gzip.GzipFile with some alterations
-        if self.__read(2) != b"\037\213":
+        if self.__read(2) != b"/037/213":
             raise ReadError("not a gzip file")
-        if self.__read(1) != b"\010":
+        if self.__read(1) != b"/010":
             raise CompressionError("unsupported compression method")
 
         flag = ord(self.__read(1))
@@ -625,7 +625,7 @@ class _StreamProxy(object):
         return self.buf
 
     def getcomptype(self):
-        if self.buf.startswith(b"\037\213\010"):
+        if self.buf.startswith(b"/037/213/010"):
             return "gz"
         if self.buf[0:3] == b"BZh" and self.buf[4:10] == b"1AY&SY":
             return "bz2"
@@ -836,14 +836,14 @@ class ExFileObject(object):
         if self.closed:
             raise ValueError("I/O operation on closed file")
 
-        pos = self.buffer.find(b"\n") + 1
+        pos = self.buffer.find(b"/n") + 1
         if pos == 0:
             # no newline found.
             while True:
                 buf = self.fileobj.read(self.blocksize)
                 self.buffer += buf
-                if not buf or b"\n" in buf:
-                    pos = self.buffer.find(b"\n") + 1
+                if not buf or b"/n" in buf:
+                    pos = self.buffer.find(b"/n") + 1
                     if pos == 0:
                         # no newline found.
                         pos = len(self.buffer)
@@ -1129,7 +1129,7 @@ class TarInfo(object):
 
         buf = struct.pack("%ds" % BLOCKSIZE, b"".join(parts))
         chksum = calc_chksums(buf[-BLOCKSIZE:])[0]
-        buf = buf[:-364] + bytes("%06o\0" % chksum, "ascii") + buf[-357:]
+        buf = buf[:-364] + bytes("%06o/0" % chksum, "ascii") + buf[-357:]
         return buf
 
     @staticmethod
@@ -1156,7 +1156,7 @@ class TarInfo(object):
         info["magic"] = GNU_MAGIC
 
         # create extended header + name blocks.
-        return cls._create_header(info, USTAR_FORMAT, encoding, errors) + \
+        return cls._create_header(info, USTAR_FORMAT, encoding, errors) + /
                 cls._create_payload(name)
 
     @classmethod
@@ -1178,7 +1178,7 @@ class TarInfo(object):
         records = b""
         if binary:
             # Put the hdrcharset field at the beginning of the header.
-            records += b"21 hdrcharset=BINARY\n"
+            records += b"21 hdrcharset=BINARY/n"
 
         for keyword, value in pax_headers.items():
             keyword = keyword.encode("utf8")
@@ -1189,14 +1189,14 @@ class TarInfo(object):
             else:
                 value = value.encode("utf8")
 
-            l = len(keyword) + len(value) + 3   # ' ' + '=' + '\n'
+            l = len(keyword) + len(value) + 3   # ' ' + '=' + '/n'
             n = p = 0
             while True:
                 n = l + len(str(p))
                 if n == p:
                     break
                 p = n
-            records += bytes(str(p), "ascii") + b" " + keyword + b"=" + value + b"\n"
+            records += bytes(str(p), "ascii") + b" " + keyword + b"=" + value + b"/n"
 
         # We use a hardcoded "././@PaxHeader" name like star does
         # instead of the one that POSIX recommends.
@@ -1207,7 +1207,7 @@ class TarInfo(object):
         info["magic"] = POSIX_MAGIC
 
         # Create pax header + record blocks.
-        return cls._create_header(info, USTAR_FORMAT, "ascii", "replace") + \
+        return cls._create_header(info, USTAR_FORMAT, "ascii", "replace") + /
                 cls._create_payload(records)
 
     @classmethod
@@ -1394,7 +1394,7 @@ class TarInfo(object):
         # these fields are UTF-8 encoded but since POSIX.1-2008 tar
         # implementations are allowed to store them as raw binary strings if
         # the translation to UTF-8 fails.
-        match = re.search(br"\d+ hdrcharset=([^\n]+)\n", buf)
+        match = re.search(br"/d+ hdrcharset=([^/n]+)/n", buf)
         if match is not None:
             pax_headers["hdrcharset"] = match.group(1).decode("utf8")
 
@@ -1408,10 +1408,10 @@ class TarInfo(object):
             encoding = "utf8"
 
         # Parse pax header information. A record looks like that:
-        # "%d %s=%s\n" % (length, keyword, value). length is the size
+        # "%d %s=%s/n" % (length, keyword, value). length is the size
         # of the complete record including the length field itself and
         # the newline. keyword and value are both UTF-8 encoded strings.
-        regex = re.compile(br"(\d+) ([^=]+)=")
+        regex = re.compile(br"(/d+) ([^=]+)=")
         pos = 0
         while True:
             match = regex.match(buf, pos)
@@ -1480,10 +1480,10 @@ class TarInfo(object):
         """Process a GNU tar extended sparse header, version 0.0.
         """
         offsets = []
-        for match in re.finditer(br"\d+ GNU.sparse.offset=(\d+)\n", buf):
+        for match in re.finditer(br"/d+ GNU.sparse.offset=(/d+)/n", buf):
             offsets.append(int(match.group(1)))
         numbytes = []
-        for match in re.finditer(br"\d+ GNU.sparse.numbytes=(\d+)\n", buf):
+        for match in re.finditer(br"/d+ GNU.sparse.numbytes=(/d+)/n", buf):
             numbytes.append(int(match.group(1)))
         next.sparse = list(zip(offsets, numbytes))
 
@@ -1499,12 +1499,12 @@ class TarInfo(object):
         fields = None
         sparse = []
         buf = tarfile.fileobj.read(BLOCKSIZE)
-        fields, buf = buf.split(b"\n", 1)
+        fields, buf = buf.split(b"/n", 1)
         fields = int(fields)
         while len(sparse) < fields * 2:
-            if b"\n" not in buf:
+            if b"/n" not in buf:
                 buf += tarfile.fileobj.read(BLOCKSIZE)
-            number, buf = buf.split(b"\n", 1)
+            number, buf = buf.split(b"/n", 1)
             sparse.append(int(number))
         next.offset_data = tarfile.fileobj.tell()
         next.sparse = list(zip(sparse[::2], sparse[1::2]))
@@ -1944,7 +1944,7 @@ class TarFile(object):
         stmd = statres.st_mode
         if stat.S_ISREG(stmd):
             inode = (statres.st_ino, statres.st_dev)
-            if not self.dereference and statres.st_nlink > 1 and \
+            if not self.dereference and statres.st_nlink > 1 and /
                     inode in self.inodes and arcname != self.inodes[inode]:
                 # Is it a hardlink to an already
                 # archived file?
@@ -2013,11 +2013,11 @@ class TarFile(object):
                 print("%s/%s" % (tarinfo.uname or tarinfo.uid,
                                  tarinfo.gname or tarinfo.gid), end=' ')
                 if tarinfo.ischr() or tarinfo.isblk():
-                    print("%10s" % ("%d,%d" \
+                    print("%10s" % ("%d,%d" /
                                     % (tarinfo.devmajor, tarinfo.devminor)), end=' ')
                 else:
                     print("%10d" % tarinfo.size, end=' ')
-                print("%d-%02d-%02d %02d:%02d:%02d" \
+                print("%d-%02d-%02d %02d:%02d:%02d" /
                       % time.localtime(tarinfo.mtime)[:6], end=' ')
 
             print(tarinfo.name + ("/" if tarinfo.isdir() else ""), end=' ')
@@ -2306,7 +2306,7 @@ class TarFile(object):
            at targetpath.
         """
         self.makefile(tarinfo, targetpath)
-        self._dbg(1, "tarfile: Unknown file type %r, " \
+        self._dbg(1, "tarfile: Unknown file type %r, " /
                      "extracted as regular file." % tarinfo.type)
 
     def makefifo(self, tarinfo, targetpath):

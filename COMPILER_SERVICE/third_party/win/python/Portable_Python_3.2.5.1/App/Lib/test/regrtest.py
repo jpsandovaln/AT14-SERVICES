@@ -451,7 +451,7 @@ def main(tests=None, testdir=None, verbose=0, quiet=False,
     if fromfile:
         tests = []
         fp = open(os.path.join(support.SAVEDCWD, fromfile))
-        count_pat = re.compile(r'\[\s*\d+/\s*\d+\]')
+        count_pat = re.compile(r'/[/s*/d+//s*/d+/]')
         for line in fp:
             line = count_pat.sub('', line)
             guts = line.split() # assuming no test has whitespace in its name
@@ -548,7 +548,7 @@ def main(tests=None, testdir=None, verbose=0, quiet=False,
             sys.exit(2)
         from queue import Queue
         from subprocess import Popen, PIPE
-        debug_output_pat = re.compile(r"\[\d+ refs\]$")
+        debug_output_pat = re.compile(r"/[/d+ refs/]$")
         output = Queue()
         pending = MultiprocessTests(tests)
         opt_args = support.args_from_interpreter_flags()
@@ -581,7 +581,7 @@ def main(tests=None, testdir=None, verbose=0, quiet=False,
                     # Strip last refcount output line if it exists, since it
                     # comes from the shutdown of the interpreter in the subcommand.
                     stderr = debug_output_pat.sub("", stderr)
-                    stdout, _, result = stdout.strip().rpartition("\n")
+                    stdout, _, result = stdout.strip().rpartition("/n")
                     if not result:
                         output.put((None, None, None, None))
                         return
@@ -693,7 +693,7 @@ def main(tests=None, testdir=None, verbose=0, quiet=False,
         if e.isvalid():
             surprise = set(skipped) - e.getexpected() - set(resource_denieds)
             if surprise:
-                print(count(len(surprise), "skip"), \
+                print(count(len(surprise), "skip"), /
                       "unexpected on", plat + ":")
                 printlist(surprise)
             else:
@@ -720,7 +720,7 @@ def main(tests=None, testdir=None, verbose=0, quiet=False,
     if single:
         if next_single_test:
             with open(filename, 'w') as fp:
-                fp.write(next_single_test + '\n')
+                fp.write(next_single_test + '/n')
         else:
             os.unlink(filename)
 
@@ -1086,7 +1086,7 @@ class saved_test_environment:
                                                  name, self.testname),
                                                  file=sys.stderr)
                     if self.verbose > 1:
-                        print("  Before: {}\n  After:  {} ".format(
+                        print("  Before: {}/n  After:  {} ".format(
                                                   original, current),
                                                   file=sys.stderr)
         return False

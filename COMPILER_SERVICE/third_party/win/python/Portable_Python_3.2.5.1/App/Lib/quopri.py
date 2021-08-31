@@ -26,7 +26,7 @@ def needsquoting(c, quotetabs, header):
     RFC 1521.
     """
     assert isinstance(c, bytes)
-    if c in b' \t':
+    if c in b' /t':
         return quotetabs
     # if header, we have to escape _ because _ is used to escape space
     if c == b'_':
@@ -58,10 +58,10 @@ def encode(input, output, quotetabs, header=False):
         output.write(odata)
         return
 
-    def write(s, output=output, lineEnd=b'\n'):
+    def write(s, output=output, lineEnd=b'/n'):
         # RFC 1521 requires that the line ending in a space or tab must have
         # that trailing character encoded.
-        if s and s[-1:] in b' \t':
+        if s and s[-1:] in b' /t':
             output.write(s[:-1] + quote(s[-1:]) + lineEnd)
         elif s == b'.':
             output.write(quote(s) + lineEnd)
@@ -76,9 +76,9 @@ def encode(input, output, quotetabs, header=False):
         outline = []
         # Strip off any readline induced trailing newline
         stripped = b''
-        if line[-1:] == b'\n':
+        if line[-1:] == b'/n':
             line = line[:-1]
-            stripped = b'\n'
+            stripped = b'/n'
         # Calculate the un-length-limited encoded line
         for c in line:
             c = bytes((c,))
@@ -97,7 +97,7 @@ def encode(input, output, quotetabs, header=False):
         while len(thisline) > MAXLINESIZE:
             # Don't forget to include the soft line break `=' sign in the
             # length calculation!
-            write(thisline[:MAXLINESIZE-1], lineEnd=b'=\n')
+            write(thisline[:MAXLINESIZE-1], lineEnd=b'=/n')
             thisline = thisline[MAXLINESIZE-1:]
         # Write out the current line
         prevline = thisline
@@ -132,10 +132,10 @@ def decode(input, output, header=False):
         line = input.readline()
         if not line: break
         i, n = 0, len(line)
-        if n > 0 and line[n-1:n] == b'\n':
+        if n > 0 and line[n-1:n] == b'/n':
             partial = 0; n = n-1
             # Strip trailing whitespace
-            while n > 0 and line[n-1:n] in b" \t\r":
+            while n > 0 and line[n-1:n] in b" /t/r":
                 n = n-1
         else:
             partial = 1
@@ -154,7 +154,7 @@ def decode(input, output, header=False):
             else: # Bad escape sequence -- leave it in
                 new = new + c; i = i+1
         if not partial:
-            output.write(new + b'\n')
+            output.write(new + b'/n')
             new = b''
     if new:
         output.write(new)
@@ -224,7 +224,7 @@ def main():
             try:
                 fp = open(file, "rb")
             except IOError as msg:
-                sys.stderr.write("%s: can't open (%s)\n" % (file, msg))
+                sys.stderr.write("%s: can't open (%s)/n" % (file, msg))
                 sts = 1
                 continue
         try:

@@ -26,9 +26,9 @@ def test_textpad(stdscr, insert_mode=False):
 
     box = textpad.Textbox(win, insert_mode)
     contents = box.edit()
-    stdscr.addstr(uly+ncols+2, 0, "Text entered in the box\n")
+    stdscr.addstr(uly+ncols+2, 0, "Text entered in the box/n")
     stdscr.addstr(repr(contents))
-    stdscr.addstr('\n')
+    stdscr.addstr('/n')
     stdscr.addstr('Press any key')
     stdscr.getch()
 

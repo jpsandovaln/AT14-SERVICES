@@ -28,16 +28,16 @@ WIN64_MACHINE = True if machine() == "AMD64" else False
 # tests are only valid up until 6.1
 HAS_REFLECTION = True if WIN_VER < (6, 1) else False
 
-test_key_name = "SOFTWARE\\Python Registry Test Key - Delete Me"
+test_key_name = "SOFTWARE//Python Registry Test Key - Delete Me"
 # On OS'es that support reflection we should test with a reflected key
-test_reflect_key_name = "SOFTWARE\\Classes\\Python Test Key - Delete Me"
+test_reflect_key_name = "SOFTWARE//Classes//Python Test Key - Delete Me"
 
 test_data = [
     ("Int Value",     45,                                      REG_DWORD),
     ("String Val",    "A string value",                        REG_SZ),
     ("StringExpand",  "The path is %path%",                    REG_EXPAND_SZ),
     ("Multi-string",  ["Lots", "of", "string", "values"],      REG_MULTI_SZ),
-    ("Raw Data",      b"binary\x00data",                       REG_BINARY),
+    ("Raw Data",      b"binary/x00data",                       REG_BINARY),
     ("Big String",    "x"*(2**14-1),                           REG_SZ),
     ("Big Binary",    b"x"*(2**14),                            REG_BINARY),
     # Two and three kanjis, meaning: "Japan" and "Japanese")
@@ -230,9 +230,9 @@ class LocalWinregTests(BaseWinregTests):
         self.assertRaises(WindowsError, connect)
 
     def testExpandEnvironmentStrings(self):
-        r = ExpandEnvironmentStrings("%windir%\\test")
+        r = ExpandEnvironmentStrings("%windir%//test")
         self.assertEqual(type(r), str)
-        self.assertEqual(r, os.environ["windir"] + "\\test")
+        self.assertEqual(r, os.environ["windir"] + "//test")
 
     def test_context_manager(self):
         # ensure that the handle is closed if an exception occurs
@@ -263,7 +263,7 @@ class LocalWinregTests(BaseWinregTests):
         thread.start()
         try:
             with CreateKey(HKEY_CURRENT_USER,
-                           test_key_name+'\\changing_value') as key:
+                           test_key_name+'//changing_value') as key:
                 for _ in range(1000):
                     num_subkeys, num_values, t = QueryInfoKey(key)
                     for i in range(num_values):
@@ -272,7 +272,7 @@ class LocalWinregTests(BaseWinregTests):
         finally:
             done = True
             thread.join()
-            DeleteKey(HKEY_CURRENT_USER, test_key_name+'\\changing_value')
+            DeleteKey(HKEY_CURRENT_USER, test_key_name+'//changing_value')
             DeleteKey(HKEY_CURRENT_USER, test_key_name)
 
     def test_long_key(self):
@@ -286,7 +286,7 @@ class LocalWinregTests(BaseWinregTests):
                 num_subkeys, num_values, t = QueryInfoKey(key)
                 EnumKey(key, 0)
         finally:
-            DeleteKey(HKEY_CURRENT_USER, '\\'.join((test_key_name, name)))
+            DeleteKey(HKEY_CURRENT_USER, '//'.join((test_key_name, name)))
             DeleteKey(HKEY_CURRENT_USER, test_key_name)
 
     def test_dynamic_key(self):
@@ -374,7 +374,7 @@ class Win64WinregTests(BaseWinregTests):
         # Test that we can call the query, enable, and disable functions
         # on a key which isn't on the reflection list with no consequences.
         with OpenKey(HKEY_LOCAL_MACHINE, "Software") as key:
-            # HKLM\Software is redirected but not reflected in all OSes
+            # HKLM/Software is redirected but not reflected in all OSes
             self.assertTrue(QueryReflectionKey(key))
             self.assertIsNone(EnableReflectionKey(key))
             self.assertIsNone(DisableReflectionKey(key))
@@ -433,7 +433,7 @@ class Win64WinregTests(BaseWinregTests):
                 # QueryReflectionKey returns whether or not the key is disabled
                 disabled = QueryReflectionKey(created_key)
                 self.assertEqual(type(disabled), bool)
-                # HKCU\Software\Classes is reflected by default
+                # HKCU/Software/Classes is reflected by default
                 self.assertFalse(disabled)
 
                 DisableReflectionKey(created_key)
@@ -462,5 +462,5 @@ def test_main():
 if __name__ == "__main__":
     if not REMOTE_NAME:
         print("Remote registry calls can be tested using",
-              "'test_winreg.py --remote \\\\machine_name'")
+              "'test_winreg.py --remote ////machine_name'")
     test_main()

@@ -95,7 +95,7 @@ class BaseStrTest:
         self.assertEqual(s.expandtabs(), s)
         del s
         slen, remainder = divmod(size, tabsize)
-        s = _('       \t') * slen
+        s = _('       /t') * slen
         s = s.expandtabs(tabsize)
         self.assertEqual(len(s), size - remainder)
         self.assertEqual(len(s.strip(_(' '))), 0)
@@ -175,7 +175,7 @@ class BaseStrTest:
     @bigmemtest(size=_2G, memuse=2)
     def test_isspace(self, size):
         _ = self.from_latin1
-        whitespace = _(' \f\n\r\t\v')
+        whitespace = _(' /f/n/r/t/v')
         repeats = size // len(whitespace) + 2
         s = whitespace * repeats
         self.assertTrue(s.isspace())
@@ -365,7 +365,7 @@ class BaseStrTest:
         # Crudely calculate an estimate so that the result of s.split won't
         # take up an inordinate amount of memory
         chunksize = int(size ** 0.5 + 2) // 2
-        SUBSTR = _(' ') * chunksize + _('\n') + _(' ') * chunksize + _('\r\n')
+        SUBSTR = _(' ') * chunksize + _('/n') + _(' ') * chunksize + _('/r/n')
         s = SUBSTR * chunksize
         l = s.splitlines()
         self.assertEqual(len(l), chunksize * 2)
@@ -397,7 +397,7 @@ class BaseStrTest:
     @bigmemtest(size=_2G, memuse=2)
     def test_swapcase(self, size):
         _ = self.from_latin1
-        SUBSTR = _("aBcDeFG12.'\xa9\x00")
+        SUBSTR = _("aBcDeFG12.'/xa9/x00")
         sublen = len(SUBSTR)
         repeats = size // sublen + 2
         s = SUBSTR * repeats
@@ -548,10 +548,10 @@ class BaseStrTest:
         # have a different hash, even if they, in the current
         # implementation, almost always do.)
         _ = self.from_latin1
-        s = _('\x00') * size
+        s = _('/x00') * size
         h1 = hash(s)
         del s
-        s = _('\x00') * (size + 1)
+        s = _('/x00') * (size + 1)
         self.assertFalse(h1 == hash(s))
 
 
@@ -653,35 +653,35 @@ class StrTest(unittest.TestCase, BaseStrTest):
         # string', but we don't want to allocate much more than twice
         # size in total.  (We do extra testing in test_repr_large())
         size = size // 5 * 2
-        s = '\x00' * size
+        s = '/x00' * size
         s = repr(s)
         self.assertEqual(len(s), size * 4 + 2)
         self.assertEqual(s[0], "'")
         self.assertEqual(s[-1], "'")
-        self.assertEqual(s.count('\\'), size)
+        self.assertEqual(s.count('//'), size)
         self.assertEqual(s.count('0'), size * 2)
 
     @bigmemtest(size=_2G + 10, memuse=character_size * 5)
     def test_repr_large(self, size):
-        s = '\x00' * size
+        s = '/x00' * size
         s = repr(s)
         self.assertEqual(len(s), size * 4 + 2)
         self.assertEqual(s[0], "'")
         self.assertEqual(s[-1], "'")
-        self.assertEqual(s.count('\\'), size)
+        self.assertEqual(s.count('//'), size)
         self.assertEqual(s.count('0'), size * 2)
 
     @bigmemtest(size=_2G // 5 + 1, memuse=character_size * 7)
     def test_unicode_repr(self, size):
         # Use an assigned, but not printable code point.
-        # It is in the range of the low surrogates \uDC00-\uDFFF.
-        char = "\uDCBA"
+        # It is in the range of the low surrogates /uDC00-/uDFFF.
+        char = "/uDCBA"
         s = char * size
         try:
             for f in (repr, ascii):
                 r = f(s)
                 self.assertEqual(len(r), 2 + (len(f(char)) - 2) * size)
-                self.assertTrue(r.endswith(r"\udcba'"), r[-10:])
+                self.assertTrue(r.endswith(r"/udcba'"), r[-10:])
                 r = None
         finally:
             r = s = None
@@ -690,13 +690,13 @@ class StrTest(unittest.TestCase, BaseStrTest):
     # be decomposed into surrogates.
     @bigmemtest(size=_2G // 5 + 1, memuse=4 + character_size * 9)
     def test_unicode_repr_wide(self, size):
-        char = "\U0001DCBA"
+        char = "/U0001DCBA"
         s = char * size
         try:
             for f in (repr, ascii):
                 r = f(s)
                 self.assertEqual(len(r), 2 + (len(f(char)) - 2) * size)
-                self.assertTrue(r.endswith(r"\U0001dcba'"), r[-12:])
+                self.assertTrue(r.endswith(r"/U0001dcba'"), r[-12:])
                 r = None
         finally:
             r = s = None
@@ -704,7 +704,7 @@ class StrTest(unittest.TestCase, BaseStrTest):
     @bigmemtest(size=_4G // 5, memuse=character_size * (6 + 1))
     def _test_unicode_repr_overflow(self, size):
         # XXX not sure what this test is about
-        char = "\uDCBA"
+        char = "/uDCBA"
         s = char * size
         try:
             r = repr(s)

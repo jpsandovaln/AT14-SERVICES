@@ -44,7 +44,7 @@ class TestCase(unittest.TestCase):
         atexit._run_exitfuncs()
 
         self.assertEqual(self.stream.getvalue(),
-                            "h4 (4,) {'kw': 'abc'}\nh4 () {}\nh1\n")
+                            "h4 (4,) {'kw': 'abc'}/nh4 () {}/nh1/n")
 
     def test_badargs(self):
         atexit.register(lambda: 1, 0, 0, (x for x in (1,2)), 0, 0)
@@ -57,7 +57,7 @@ class TestCase(unittest.TestCase):
         atexit.register(h3)
         atexit._run_exitfuncs()
 
-        self.assertEqual(self.stream.getvalue(), "h3\nh2\nh1\n")
+        self.assertEqual(self.stream.getvalue(), "h3/nh2/nh1/n")
 
     def test_raise(self):
         # be sure raises are handled properly

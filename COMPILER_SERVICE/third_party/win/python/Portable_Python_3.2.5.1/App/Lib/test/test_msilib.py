@@ -34,9 +34,9 @@ class Test_make_id(unittest.TestCase):
 
     def test_invalid_any_char(self):
         self.assertEqual(
-            msilib.make_id(".s\x82ort"), "_.s_ort")
+            msilib.make_id(".s/x82ort"), "_.s_ort")
         self.assertEqual    (
-            msilib.make_id(".s\x82o?*+rt"), "_.s_o___rt")
+            msilib.make_id(".s/x82o?*+rt"), "_.s_o___rt")
 
 
 def test_main():

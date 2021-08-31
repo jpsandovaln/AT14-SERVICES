@@ -165,9 +165,9 @@ class FractionTest(unittest.TestCase):
     def testFromString(self):
         self.assertEqual((5, 1), _components(F("5")))
         self.assertEqual((3, 2), _components(F("3/2")))
-        self.assertEqual((3, 2), _components(F(" \n  +3/2")))
+        self.assertEqual((3, 2), _components(F(" /n  +3/2")))
         self.assertEqual((-3, 2), _components(F("-3/2  ")))
-        self.assertEqual((13, 2), _components(F("    013/02 \n  ")))
+        self.assertEqual((13, 2), _components(F("    013/02 /n  ")))
         self.assertEqual((16, 5), _components(F(" 3.2 ")))
         self.assertEqual((-16, 5), _components(F(" -3.2 ")))
         self.assertEqual((-3, 1), _components(F(" -3. ")))
@@ -175,7 +175,7 @@ class FractionTest(unittest.TestCase):
         self.assertEqual((1, 3125), _components(F("32.e-5")))
         self.assertEqual((1000000, 1), _components(F("1E+06")))
         self.assertEqual((-12300, 1), _components(F("-1.23e4")))
-        self.assertEqual((0, 1), _components(F(" .0e+0\t")))
+        self.assertEqual((0, 1), _components(F(" .0e+0/t")))
         self.assertEqual((0, 1), _components(F("-0.000e0")))
 
         self.assertRaisesMessage(

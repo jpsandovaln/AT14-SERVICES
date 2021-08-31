@@ -141,7 +141,7 @@ class TestTemplate(unittest.TestCase):
     def test_braced_override(self):
         class MyTemplate(Template):
             pattern = r"""
-            \$(?:
+            /$(?:
               (?P<escaped>$)                     |
               (?P<named>[_a-z][_a-z0-9]*)        |
               @@(?P<braced>[_a-z][_a-z0-9]*)@@   |
@@ -158,7 +158,7 @@ class TestTemplate(unittest.TestCase):
     def test_braced_override_safe(self):
         class MyTemplate(Template):
             pattern = r"""
-            \$(?:
+            /$(?:
               (?P<escaped>$)                     |
               (?P<named>[_a-z][_a-z0-9]*)        |
               @@(?P<braced>[_a-z][_a-z0-9]*)@@   |
@@ -174,8 +174,8 @@ class TestTemplate(unittest.TestCase):
 
     def test_unicode_values(self):
         s = Template('$who likes $what')
-        d = dict(who='t\xffm', what='f\xfe\fed')
-        self.assertEqual(s.substitute(d), 't\xffm likes f\xfe\x0ced')
+        d = dict(who='t/xffm', what='f/xfe/fed')
+        self.assertEqual(s.substitute(d), 't/xffm likes f/xfe/x0ced')
 
     def test_keyword_arguments(self):
         eq = self.assertEqual

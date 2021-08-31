@@ -1,7 +1,7 @@
 # regression test for SAX 2.0
 # $Id$
 
-from xml.sax import make_parser, ContentHandler, \
+from xml.sax import make_parser, ContentHandler, /
                     SAXException, SAXReaderNotAvailable, SAXParseException
 import unittest
 try:
@@ -9,7 +9,7 @@ try:
 except SAXReaderNotAvailable:
     # don't try to test this module if we cannot create a parser
     raise unittest.SkipTest("no XML parsers available")
-from xml.sax.saxutils import XMLGenerator, escape, unescape, quoteattr, \
+from xml.sax.saxutils import XMLGenerator, escape, unescape, quoteattr, /
                              XMLFilterBase
 from xml.sax.expatreader import create_parser
 from xml.sax.handler import feature_namespaces
@@ -155,15 +155,15 @@ class SaxutilsTest(unittest.TestCase):
 
     def test_single_quoteattr(self):
         self.assertEqual(quoteattr('Includes "double" quotes'),
-                         '\'Includes "double" quotes\'')
+                         '/'Includes "double" quotes/'')
 
     def test_double_quoteattr(self):
         self.assertEqual(quoteattr("Includes 'single' quotes"),
-                         "\"Includes 'single' quotes\"")
+                         "/"Includes 'single' quotes/"")
 
     def test_single_double_quoteattr(self):
-        self.assertEqual(quoteattr("Includes 'single' and \"double\" quotes"),
-                         "\"Includes 'single' and &quot;double&quot; quotes\"")
+        self.assertEqual(quoteattr("Includes 'single' and /"double/" quotes"),
+                         "/"Includes 'single' and &quot;double&quot; quotes/"")
 
     # ===== make_parser
     def test_make_parser(self):
@@ -253,17 +253,17 @@ class XmlgenTest:
         gen.startElement("doc", {"a": '"'})
         gen.startElement("e", {"a": "'"})
         gen.endElement("e")
-        gen.startElement("e", {"a": "'\""})
+        gen.startElement("e", {"a": "'/""})
         gen.endElement("e")
-        gen.startElement("e", {"a": "\n\r\t"})
+        gen.startElement("e", {"a": "/n/r/t"})
         gen.endElement("e")
         gen.endElement("doc")
         gen.endDocument()
 
         self.assertEqual(result.getvalue(), self.xml(
-            "<doc a='\"'><e a=\"'\"></e>"
-            "<e a=\"'&quot;\"></e>"
-            "<e a=\"&#10;&#13;&#9;\"></e></doc>"))
+            "<doc a='/"'><e a=/"'/"></e>"
+            "<e a=/"'&quot;/"></e>"
+            "<e a=/"&#10;&#13;&#9;/"></e></doc>"))
 
     def test_xmlgen_encoding(self):
         encodings = ('iso-8859-15', 'utf-8', 'utf-8-sig',
@@ -274,21 +274,21 @@ class XmlgenTest:
             gen = XMLGenerator(result, encoding=encoding)
 
             gen.startDocument()
-            gen.startElement("doc", {"a": '\u20ac'})
-            gen.characters("\u20ac")
+            gen.startElement("doc", {"a": '/u20ac'})
+            gen.characters("/u20ac")
             gen.endElement("doc")
             gen.endDocument()
 
             self.assertEqual(result.getvalue(),
-                self.xml('<doc a="\u20ac">\u20ac</doc>', encoding=encoding))
+                self.xml('<doc a="/u20ac">/u20ac</doc>', encoding=encoding))
 
     def test_xmlgen_unencodable(self):
         result = self.ioclass()
         gen = XMLGenerator(result, encoding='ascii')
 
         gen.startDocument()
-        gen.startElement("doc", {"a": '\u20ac'})
-        gen.characters("\u20ac")
+        gen.startElement("doc", {"a": '/u20ac'})
+        gen.characters("/u20ac")
         gen.endElement("doc")
         gen.endDocument()
 
@@ -513,7 +513,7 @@ class StringXmlgenTest(XmlgenTest, unittest.TestCase):
     ioclass = StringIO
 
     def xml(self, doc, encoding='iso-8859-1'):
-        return '<?xml version="1.0" encoding="%s"?>\n%s' % (encoding, doc)
+        return '<?xml version="1.0" encoding="%s"?>/n%s' % (encoding, doc)
 
     test_xmlgen_unencodable = None
 
@@ -521,7 +521,7 @@ class BytesXmlgenTest(XmlgenTest, unittest.TestCase):
     ioclass = BytesIO
 
     def xml(self, doc, encoding='iso-8859-1'):
-        return ('<?xml version="1.0" encoding="%s"?>\n%s' %
+        return ('<?xml version="1.0" encoding="%s"?>/n%s' %
                 (encoding, doc)).encode(encoding, 'xmlcharrefreplace')
 
 class WriterXmlgenTest(BytesXmlgenTest):
@@ -547,7 +547,7 @@ class StreamWriterXmlgenTest(XmlgenTest, unittest.TestCase):
         return writer
 
     def xml(self, doc, encoding='iso-8859-1'):
-        return ('<?xml version="1.0" encoding="%s"?>\n%s' %
+        return ('<?xml version="1.0" encoding="%s"?>/n%s' %
                 (encoding, doc)).encode('ascii', 'xmlcharrefreplace')
 
 class StreamReaderWriterXmlgenTest(XmlgenTest, unittest.TestCase):
@@ -565,10 +565,10 @@ class StreamReaderWriterXmlgenTest(XmlgenTest, unittest.TestCase):
             return f.read()
 
     def xml(self, doc, encoding='iso-8859-1'):
-        return ('<?xml version="1.0" encoding="%s"?>\n%s' %
+        return ('<?xml version="1.0" encoding="%s"?>/n%s' %
                 (encoding, doc)).encode('ascii', 'xmlcharrefreplace')
 
-start = b'<?xml version="1.0" encoding="iso-8859-1"?>\n'
+start = b'<?xml version="1.0" encoding="iso-8859-1"?>/n'
 
 
 class XMLFilterBaseTest(unittest.TestCase):
@@ -645,10 +645,10 @@ class ExpatReaderTest(XmlTestBase):
         handler = self.TestDTDHandler()
         parser.setDTDHandler(handler)
 
-        parser.feed('<!DOCTYPE doc [\n')
-        parser.feed('  <!ENTITY img SYSTEM "expat.gif" NDATA GIF>\n')
-        parser.feed('  <!NOTATION GIF PUBLIC "-//CompuServe//NOTATION Graphics Interchange Format 89a//EN">\n')
-        parser.feed(']>\n')
+        parser.feed('<!DOCTYPE doc [/n')
+        parser.feed('  <!ENTITY img SYSTEM "expat.gif" NDATA GIF>/n')
+        parser.feed('  <!NOTATION GIF PUBLIC "-//CompuServe//NOTATION Graphics Interchange Format 89a//EN">/n')
+        parser.feed(']>/n')
         parser.feed('<doc></doc>')
         parser.close()
 
@@ -671,9 +671,9 @@ class ExpatReaderTest(XmlTestBase):
         result = BytesIO()
         parser.setContentHandler(XMLGenerator(result))
 
-        parser.feed('<!DOCTYPE doc [\n')
-        parser.feed('  <!ENTITY test SYSTEM "whatever">\n')
-        parser.feed(']>\n')
+        parser.feed('<!DOCTYPE doc [/n')
+        parser.feed('  <!ENTITY test SYSTEM "whatever">/n')
+        parser.feed(']>/n')
         parser.feed('<doc>&test;</doc>')
         parser.close()
 

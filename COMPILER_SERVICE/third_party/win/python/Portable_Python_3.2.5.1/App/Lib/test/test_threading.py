@@ -91,7 +91,7 @@ class ThreadTests(BaseTestCase):
             t = TestThread("<thread %d>"%i, self, sema, mutex, numrunning)
             threads.append(t)
             self.assertEqual(t.ident, None)
-            self.assertTrue(re.match('<TestThread\(.*, initial\)>', repr(t)))
+            self.assertTrue(re.match('<TestThread/(.*, initial/)>', repr(t)))
             t.start()
 
         if verbose:
@@ -101,7 +101,7 @@ class ThreadTests(BaseTestCase):
             self.assertTrue(not t.is_alive())
             self.assertNotEqual(t.ident, 0)
             self.assertFalse(t.ident is None)
-            self.assertTrue(re.match('<TestThread\(.*, stopped -?\d+\)>',
+            self.assertTrue(re.match('<TestThread/(.*, stopped -?/d+/)>',
                                      repr(t)))
         if verbose:
             print('all tasks done')
@@ -457,11 +457,11 @@ class ThreadJoinOnShutdown(BaseTestCase):
                 # stdout is fully buffered because not a tty, we have to flush
                 # before exit.
                 sys.stdout.flush()
-        \n""" + script
+        /n""" + script
 
         rc, out, err = assert_python_ok("-c", script)
-        data = out.decode().replace('\r', '')
-        self.assertEqual(data, "end of main\nend of thread\n")
+        data = out.decode().replace('/r', '')
+        self.assertEqual(data, "end of main/nend of thread/n")
 
     def test_1_join_on_shutdown(self):
         # The usual case: on exit, wait for a non-daemon thread
@@ -519,7 +519,7 @@ class ThreadJoinOnShutdown(BaseTestCase):
 
     def assertScriptHasOutput(self, script, expected_output):
         rc, out, err = assert_python_ok("-c", script)
-        data = out.decode().replace('\r', '')
+        data = out.decode().replace('/r', '')
         self.assertEqual(data, expected_output)
 
     @unittest.skipUnless(hasattr(os, 'fork'), "needs os.fork()")
@@ -593,7 +593,7 @@ class ThreadJoinOnShutdown(BaseTestCase):
             w.join()
             print('end of main')
             """
-        self.assertScriptHasOutput(script, "end of main\n")
+        self.assertScriptHasOutput(script, "end of main/n")
 
     @unittest.skipUnless(hasattr(os, 'fork'), "needs os.fork()")
     @unittest.skipIf(sys.platform in platforms_to_skip, "due to known OS bug")
@@ -650,7 +650,7 @@ class ThreadJoinOnShutdown(BaseTestCase):
             w.join()
             print('end of main thread')
             """
-        output = "end of worker thread\nend of main thread\n"
+        output = "end of worker thread/nend of main thread/n"
         self.assertScriptHasOutput(script, output)
 
     @unittest.skipIf(sys.platform in platforms_to_skip, "due to known OS bug")
@@ -766,11 +766,11 @@ class ThreadingExceptionTests(BaseTestCase):
             w.join()
             print('end of main thread')
             """
-        expected_output = "end of main thread\n"
+        expected_output = "end of main thread/n"
         p = subprocess.Popen([sys.executable, "-c", script],
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = p.communicate()
-        data = stdout.decode().replace('\r', '')
+        data = stdout.decode().replace('/r', '')
         self.assertEqual(p.returncode, 0, "Unexpected error: " + stderr.decode())
         self.assertEqual(data, expected_output)
 

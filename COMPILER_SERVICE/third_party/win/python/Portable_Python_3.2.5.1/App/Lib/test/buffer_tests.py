@@ -17,32 +17,32 @@ class MixinBytesBufferCommonTests(object):
         self.assertFalse(self.marshal(b'').islower())
         self.assertTrue(self.marshal(b'a').islower())
         self.assertFalse(self.marshal(b'A').islower())
-        self.assertFalse(self.marshal(b'\n').islower())
+        self.assertFalse(self.marshal(b'/n').islower())
         self.assertTrue(self.marshal(b'abc').islower())
         self.assertFalse(self.marshal(b'aBc').islower())
-        self.assertTrue(self.marshal(b'abc\n').islower())
+        self.assertTrue(self.marshal(b'abc/n').islower())
         self.assertRaises(TypeError, self.marshal(b'abc').islower, 42)
 
     def test_isupper(self):
         self.assertFalse(self.marshal(b'').isupper())
         self.assertFalse(self.marshal(b'a').isupper())
         self.assertTrue(self.marshal(b'A').isupper())
-        self.assertFalse(self.marshal(b'\n').isupper())
+        self.assertFalse(self.marshal(b'/n').isupper())
         self.assertTrue(self.marshal(b'ABC').isupper())
         self.assertFalse(self.marshal(b'AbC').isupper())
-        self.assertTrue(self.marshal(b'ABC\n').isupper())
+        self.assertTrue(self.marshal(b'ABC/n').isupper())
         self.assertRaises(TypeError, self.marshal(b'abc').isupper, 42)
 
     def test_istitle(self):
         self.assertFalse(self.marshal(b'').istitle())
         self.assertFalse(self.marshal(b'a').istitle())
         self.assertTrue(self.marshal(b'A').istitle())
-        self.assertFalse(self.marshal(b'\n').istitle())
+        self.assertFalse(self.marshal(b'/n').istitle())
         self.assertTrue(self.marshal(b'A Titlecased Line').istitle())
-        self.assertTrue(self.marshal(b'A\nTitlecased Line').istitle())
+        self.assertTrue(self.marshal(b'A/nTitlecased Line').istitle())
         self.assertTrue(self.marshal(b'A Titlecased, Line').istitle())
         self.assertFalse(self.marshal(b'Not a capitalized String').istitle())
-        self.assertFalse(self.marshal(b'Not\ta Titlecase String').istitle())
+        self.assertFalse(self.marshal(b'Not/ta Titlecase String').istitle())
         self.assertFalse(self.marshal(b'Not--a Titlecase String').istitle())
         self.assertFalse(self.marshal(b'NOT').istitle())
         self.assertRaises(TypeError, self.marshal(b'abc').istitle, 42)
@@ -51,32 +51,32 @@ class MixinBytesBufferCommonTests(object):
         self.assertFalse(self.marshal(b'').isspace())
         self.assertFalse(self.marshal(b'a').isspace())
         self.assertTrue(self.marshal(b' ').isspace())
-        self.assertTrue(self.marshal(b'\t').isspace())
-        self.assertTrue(self.marshal(b'\r').isspace())
-        self.assertTrue(self.marshal(b'\n').isspace())
-        self.assertTrue(self.marshal(b' \t\r\n').isspace())
-        self.assertFalse(self.marshal(b' \t\r\na').isspace())
+        self.assertTrue(self.marshal(b'/t').isspace())
+        self.assertTrue(self.marshal(b'/r').isspace())
+        self.assertTrue(self.marshal(b'/n').isspace())
+        self.assertTrue(self.marshal(b' /t/r/n').isspace())
+        self.assertFalse(self.marshal(b' /t/r/na').isspace())
         self.assertRaises(TypeError, self.marshal(b'abc').isspace, 42)
 
     def test_isalpha(self):
         self.assertFalse(self.marshal(b'').isalpha())
         self.assertTrue(self.marshal(b'a').isalpha())
         self.assertTrue(self.marshal(b'A').isalpha())
-        self.assertFalse(self.marshal(b'\n').isalpha())
+        self.assertFalse(self.marshal(b'/n').isalpha())
         self.assertTrue(self.marshal(b'abc').isalpha())
         self.assertFalse(self.marshal(b'aBc123').isalpha())
-        self.assertFalse(self.marshal(b'abc\n').isalpha())
+        self.assertFalse(self.marshal(b'abc/n').isalpha())
         self.assertRaises(TypeError, self.marshal(b'abc').isalpha, 42)
 
     def test_isalnum(self):
         self.assertFalse(self.marshal(b'').isalnum())
         self.assertTrue(self.marshal(b'a').isalnum())
         self.assertTrue(self.marshal(b'A').isalnum())
-        self.assertFalse(self.marshal(b'\n').isalnum())
+        self.assertFalse(self.marshal(b'/n').isalnum())
         self.assertTrue(self.marshal(b'123abc456').isalnum())
         self.assertTrue(self.marshal(b'a1b3c').isalnum())
         self.assertFalse(self.marshal(b'aBc000 ').isalnum())
-        self.assertFalse(self.marshal(b'abc\n').isalnum())
+        self.assertFalse(self.marshal(b'abc/n').isalnum())
         self.assertRaises(TypeError, self.marshal(b'abc').isalnum, 42)
 
     def test_isdigit(self):
@@ -154,27 +154,27 @@ class MixinBytesBufferCommonTests(object):
         self.assertRaises(TypeError, self.marshal(b'123').zfill)
 
     def test_expandtabs(self):
-        self.assertEqual(b'abc\rab      def\ng       hi',
-                         self.marshal(b'abc\rab\tdef\ng\thi').expandtabs())
-        self.assertEqual(b'abc\rab      def\ng       hi',
-                         self.marshal(b'abc\rab\tdef\ng\thi').expandtabs(8))
-        self.assertEqual(b'abc\rab  def\ng   hi',
-                         self.marshal(b'abc\rab\tdef\ng\thi').expandtabs(4))
-        self.assertEqual(b'abc\r\nab  def\ng   hi',
-                         self.marshal(b'abc\r\nab\tdef\ng\thi').expandtabs(4))
-        self.assertEqual(b'abc\rab      def\ng       hi',
-                         self.marshal(b'abc\rab\tdef\ng\thi').expandtabs())
-        self.assertEqual(b'abc\rab      def\ng       hi',
-                         self.marshal(b'abc\rab\tdef\ng\thi').expandtabs(8))
-        self.assertEqual(b'abc\r\nab\r\ndef\ng\r\nhi',
-            self.marshal(b'abc\r\nab\r\ndef\ng\r\nhi').expandtabs(4))
-        self.assertEqual(b'  a\n b', self.marshal(b' \ta\n\tb').expandtabs(1))
+        self.assertEqual(b'abc/rab      def/ng       hi',
+                         self.marshal(b'abc/rab/tdef/ng/thi').expandtabs())
+        self.assertEqual(b'abc/rab      def/ng       hi',
+                         self.marshal(b'abc/rab/tdef/ng/thi').expandtabs(8))
+        self.assertEqual(b'abc/rab  def/ng   hi',
+                         self.marshal(b'abc/rab/tdef/ng/thi').expandtabs(4))
+        self.assertEqual(b'abc/r/nab  def/ng   hi',
+                         self.marshal(b'abc/r/nab/tdef/ng/thi').expandtabs(4))
+        self.assertEqual(b'abc/rab      def/ng       hi',
+                         self.marshal(b'abc/rab/tdef/ng/thi').expandtabs())
+        self.assertEqual(b'abc/rab      def/ng       hi',
+                         self.marshal(b'abc/rab/tdef/ng/thi').expandtabs(8))
+        self.assertEqual(b'abc/r/nab/r/ndef/ng/r/nhi',
+            self.marshal(b'abc/r/nab/r/ndef/ng/r/nhi').expandtabs(4))
+        self.assertEqual(b'  a/n b', self.marshal(b' /ta/n/tb').expandtabs(1))
 
         self.assertRaises(TypeError, self.marshal(b'hello').expandtabs, 42, 42)
         # This test is only valid when sizeof(int) == sizeof(void*) == 4.
         if sys.maxsize < (1 << 32) and struct.calcsize('P') == 4:
             self.assertRaises(OverflowError,
-                              self.marshal(b'\ta\n\tb').expandtabs, sys.maxsize)
+                              self.marshal(b'/ta/n/tb').expandtabs, sys.maxsize)
 
     def test_title(self):
         self.assertEqual(b' Hello ', self.marshal(b' hello ').title())
@@ -189,18 +189,18 @@ class MixinBytesBufferCommonTests(object):
 
     def test_splitlines(self):
         self.assertEqual([b'abc', b'def', b'', b'ghi'],
-                         self.marshal(b'abc\ndef\n\rghi').splitlines())
+                         self.marshal(b'abc/ndef/n/rghi').splitlines())
         self.assertEqual([b'abc', b'def', b'', b'ghi'],
-                         self.marshal(b'abc\ndef\n\r\nghi').splitlines())
+                         self.marshal(b'abc/ndef/n/r/nghi').splitlines())
         self.assertEqual([b'abc', b'def', b'ghi'],
-                         self.marshal(b'abc\ndef\r\nghi').splitlines())
+                         self.marshal(b'abc/ndef/r/nghi').splitlines())
         self.assertEqual([b'abc', b'def', b'ghi'],
-                         self.marshal(b'abc\ndef\r\nghi\n').splitlines())
+                         self.marshal(b'abc/ndef/r/nghi/n').splitlines())
         self.assertEqual([b'abc', b'def', b'ghi', b''],
-                         self.marshal(b'abc\ndef\r\nghi\n\r').splitlines())
+                         self.marshal(b'abc/ndef/r/nghi/n/r').splitlines())
         self.assertEqual([b'', b'abc', b'def', b'ghi', b''],
-                         self.marshal(b'\nabc\ndef\r\nghi\n\r').splitlines())
-        self.assertEqual([b'\n', b'abc\n', b'def\r\n', b'ghi\n', b'\r'],
-                         self.marshal(b'\nabc\ndef\r\nghi\n\r').splitlines(1))
+                         self.marshal(b'/nabc/ndef/r/nghi/n/r').splitlines())
+        self.assertEqual([b'/n', b'abc/n', b'def/r/n', b'ghi/n', b'/r'],
+                         self.marshal(b'/nabc/ndef/r/nghi/n/r').splitlines(1))
 
         self.assertRaises(TypeError, self.marshal(b'abc').splitlines, 42, 42)

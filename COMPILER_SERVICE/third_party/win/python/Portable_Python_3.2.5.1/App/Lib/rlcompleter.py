@@ -119,7 +119,7 @@ class Completer:
 
         """
         import re
-        m = re.match(r"(\w+(\.\w+)*)\.(\w*)", text)
+        m = re.match(r"(/w+(/./w+)*)/.(/w*)", text)
         if not m:
             return []
         expr, attr = m.group(1, 3)

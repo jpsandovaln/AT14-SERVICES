@@ -24,7 +24,7 @@ class CmdLineTest(unittest.TestCase):
 
     def verify_valid_flag(self, cmd_line):
         rc, out, err = assert_python_ok(*cmd_line)
-        self.assertTrue(out == b'' or out.endswith(b'\n'))
+        self.assertTrue(out == b'' or out.endswith(b'/n'))
         self.assertNotIn(b'Traceback', out)
         self.assertNotIn(b'Traceback', err)
 
@@ -85,8 +85,8 @@ class CmdLineTest(unittest.TestCase):
         # Runs the timeit module and checks the __main__
         # namespace has been populated appropriately
         p = spawn_python('-i', '-m', 'timeit', '-n', '1')
-        p.stdin.write(b'Timer\n')
-        p.stdin.write(b'exit()\n')
+        p.stdin.write(b'Timer/n')
+        p.stdin.write(b'exit()/n')
         data = kill_python(p)
         self.assertTrue(data.find(b'1 loop') != -1)
         self.assertTrue(data.find(b'__main__.Timer') != -1)
@@ -114,7 +114,7 @@ class CmdLineTest(unittest.TestCase):
     @unittest.skipIf(sys.platform == 'win32',
                      'Windows has a native unicode API')
     def test_undecodable_code(self):
-        undecodable = b"\xff"
+        undecodable = b"/xff"
         env = os.environ.copy()
         # Use C locale to get ascii for the locale encoding
         env['LC_ALL'] = 'C'
@@ -128,16 +128,16 @@ class CmdLineTest(unittest.TestCase):
             env=env)
         stdout, stderr = p.communicate()
         if p.returncode == 1:
-            # _Py_char2wchar() decoded b'\xff' as '\udcff' (b'\xff' is not
+            # _Py_char2wchar() decoded b'/xff' as '/udcff' (b'/xff' is not
             # decodable from ASCII) and run_command() failed on
             # PyUnicode_AsUTF8String(). This is the expected behaviour on
             # Linux.
             pattern = b"Unable to decode the command from the command line:"
         elif p.returncode == 0:
-            # _Py_char2wchar() decoded b'\xff' as '\xff' even if the locale is
+            # _Py_char2wchar() decoded b'/xff' as '/xff' even if the locale is
             # C and the locale encoding is ASCII. It occurs on FreeBSD, Solaris
             # and Mac OS X.
-            pattern = b"'\\xff' "
+            pattern = b"'//xff' "
             # The output is followed by the encoding name, an alias to ASCII.
             # Examples: "US-ASCII" or "646" (ISO 646, on Solaris).
         else:
@@ -149,7 +149,7 @@ class CmdLineTest(unittest.TestCase):
     def test_osx_utf8(self):
         def check_output(text):
             decoded = text.decode('utf8', 'surrogateescape')
-            expected = ascii(decoded).encode('ascii') + b'\n'
+            expected = ascii(decoded).encode('ascii') + b'/n'
 
             env = os.environ.copy()
             # C locale gives ASCII locale encoding, but Python uses UTF-8
@@ -165,15 +165,15 @@ class CmdLineTest(unittest.TestCase):
             self.assertEqual(p.returncode, 0)
 
         # test valid utf-8
-        text = 'e:\xe9, euro:\u20ac, non-bmp:\U0010ffff'.encode('utf-8')
+        text = 'e:/xe9, euro:/u20ac, non-bmp:/U0010ffff'.encode('utf-8')
         check_output(text)
 
         # test invalid utf-8
         text = (
-            b'\xff'         # invalid byte
-            b'\xc3\xa9'     # valid utf-8 character
-            b'\xc3\xff'     # invalid byte sequence
-            b'\xed\xa0\x80' # lone surrogate character (invalid)
+            b'/xff'         # invalid byte
+            b'/xc3/xa9'     # valid utf-8 character
+            b'/xc3/xff'     # invalid byte sequence
+            b'/xed/xa0/x80' # lone surrogate character (invalid)
         )
         check_output(text)
 
@@ -187,7 +187,7 @@ class CmdLineTest(unittest.TestCase):
             data = err if stream == 'stderr' else out
             self.assertEqual(data, b'x', "binary %s not unbuffered" % stream)
             # Text is line-buffered
-            code = ("import os, sys; sys.%s.write('x\\n'); os._exit(0)"
+            code = ("import os, sys; sys.%s.write('x//n'); os._exit(0)"
                 % stream)
             rc, out, err = assert_python_ok('-u', '-c', code)
             data = err if stream == 'stderr' else out
@@ -230,9 +230,9 @@ class CmdLineTest(unittest.TestCase):
                 stderr=subprocess.STDOUT,
                 env=env)
             # non-ascii, surrogate, non-BMP printable, non-BMP unprintable
-            text = "a=\xe9 b=\uDC80 c=\U00010000 d=\U0010FFFF"
-            p.stdin.write(ascii(text).encode('ascii') + b"\n")
-            p.stdin.write(b'exit()\n')
+            text = "a=/xe9 b=/uDC80 c=/U00010000 d=/U0010FFFF"
+            p.stdin.write(ascii(text).encode('ascii') + b"/n")
+            p.stdin.write(b'exit()/n')
             data = kill_python(p)
             escaped = repr(text).encode(encoding, 'backslashreplace')
             self.assertIn(escaped, data)
@@ -250,20 +250,20 @@ class CmdLineTest(unittest.TestCase):
         self.assertEqual(stdout.rstrip(), expected)
 
     def test_stdin_readline(self):
-        # Issue #11272: check that sys.stdin.readline() replaces '\r\n' by '\n'
+        # Issue #11272: check that sys.stdin.readline() replaces '/r/n' by '/n'
         # on Windows (sys.stdin is opened in binary mode)
         self.check_input(
             "import sys; print(repr(sys.stdin.readline()))",
-            b"'abc\\n'")
+            b"'abc//n'")
 
     def test_builtin_input(self):
-        # Issue #11272: check that input() strips newlines ('\n' or '\r\n')
+        # Issue #11272: check that input() strips newlines ('/n' or '/r/n')
         self.check_input(
             "print(repr(input()))",
             b"'abc'")
 
     def test_output_newline(self):
-        # Issue 13119 Newline for print() should be \r\n on Windows.
+        # Issue 13119 Newline for print() should be /r/n on Windows.
         code = """if 1:
             import sys
             print(1)
@@ -273,11 +273,11 @@ class CmdLineTest(unittest.TestCase):
         rc, out, err = assert_python_ok('-c', code)
 
         if sys.platform == 'win32':
-            self.assertEqual(b'1\r\n2\r\n', out)
-            self.assertEqual(b'3\r\n4', err)
+            self.assertEqual(b'1/r/n2/r/n', out)
+            self.assertEqual(b'3/r/n4', err)
         else:
-            self.assertEqual(b'1\n2\n', out)
-            self.assertEqual(b'3\n4', err)
+            self.assertEqual(b'1/n2/n', out)
+            self.assertEqual(b'3/n4', err)
 
     def test_unmached_quote(self):
         # Issue #10206: python program starting with unmatched quote

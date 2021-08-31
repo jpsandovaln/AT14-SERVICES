@@ -1,7 +1,7 @@
 #-*- coding: iso-8859-1 -*-
 # pysqlite2/test/regression.py: pysqlite regression tests
 #
-# Copyright (C) 2006-2010 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2006-2010 Gerhard Hï¿½ring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
@@ -157,7 +157,7 @@ class RegressionTests(unittest.TestCase):
         See issue 3312.
         """
         con = sqlite.connect(":memory:")
-        setattr(con, "isolation_level", "\xe9")
+        setattr(con, "isolation_level", "/xe9")
 
     def CheckCursorConstructorCallCheck(self):
         """
@@ -279,7 +279,7 @@ class RegressionTests(unittest.TestCase):
             return 1
         self.assertRaises(sqlite.ProgrammingError, self.con.create_collation,
             # Lone surrogate cannot be encoded to the default encoding (utf8)
-            "\uDC80", collation_cb)
+            "/uDC80", collation_cb)
 
     def CheckRecursiveCursorUse(self):
         """

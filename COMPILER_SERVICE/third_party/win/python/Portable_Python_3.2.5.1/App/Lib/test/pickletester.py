@@ -138,25 +138,25 @@ def create_dynamic_class(name, bases):
 # the object returned by create_data().
 
 DATA0 = (
-    b'(lp0\nL0L\naL1L\naF2.0\nac'
-    b'builtins\ncomplex\n'
-    b'p1\n(F3.0\nF0.0\ntp2\nRp'
-    b'3\naL1L\naL-1L\naL255L\naL-'
-    b'255L\naL-256L\naL65535L\na'
-    b'L-65535L\naL-65536L\naL2'
-    b'147483647L\naL-2147483'
-    b'647L\naL-2147483648L\na('
-    b'Vabc\np4\ng4\nccopyreg'
-    b'\n_reconstructor\np5\n('
-    b'c__main__\nC\np6\ncbu'
-    b'iltins\nobject\np7\nNt'
-    b'p8\nRp9\n(dp10\nVfoo\np1'
-    b'1\nL1L\nsVbar\np12\nL2L\nsb'
-    b'g9\ntp13\nag13\naL5L\na.'
+    b'(lp0/nL0L/naL1L/naF2.0/nac'
+    b'builtins/ncomplex/n'
+    b'p1/n(F3.0/nF0.0/ntp2/nRp'
+    b'3/naL1L/naL-1L/naL255L/naL-'
+    b'255L/naL-256L/naL65535L/na'
+    b'L-65535L/naL-65536L/naL2'
+    b'147483647L/naL-2147483'
+    b'647L/naL-2147483648L/na('
+    b'Vabc/np4/ng4/nccopyreg'
+    b'/n_reconstructor/np5/n('
+    b'c__main__/nC/np6/ncbu'
+    b'iltins/nobject/np7/nNt'
+    b'p8/nRp9/n(dp10/nVfoo/np1'
+    b'1/nL1L/nsVbar/np12/nL2L/nsb'
+    b'g9/ntp13/nag13/naL5L/na.'
 )
 
 # Disassembly of DATA0
-DATA0_DIS = """\
+DATA0_DIS = """/
     0: (    MARK
     1: l        LIST       (MARK at 0)
     2: p    PUT        0
@@ -239,22 +239,22 @@ highest protocol among opcodes = 0
 """
 
 DATA1 = (
-    b']q\x00(K\x00K\x01G@\x00\x00\x00\x00\x00\x00\x00c'
-    b'builtins\ncomplex\nq\x01'
-    b'(G@\x08\x00\x00\x00\x00\x00\x00G\x00\x00\x00\x00\x00\x00\x00\x00t'
-    b'q\x02Rq\x03K\x01J\xff\xff\xff\xffK\xffJ\x01\xff\xff\xffJ'
-    b'\x00\xff\xff\xffM\xff\xffJ\x01\x00\xff\xffJ\x00\x00\xff\xffJ\xff\xff'
-    b'\xff\x7fJ\x01\x00\x00\x80J\x00\x00\x00\x80(X\x03\x00\x00\x00ab'
-    b'cq\x04h\x04ccopyreg\n_reco'
-    b'nstructor\nq\x05(c__main'
-    b'__\nC\nq\x06cbuiltins\n'
-    b'object\nq\x07Ntq\x08Rq\t}q\n('
-    b'X\x03\x00\x00\x00fooq\x0bK\x01X\x03\x00\x00\x00bar'
-    b'q\x0cK\x02ubh\ttq\rh\rK\x05e.'
+    b']q/x00(K/x00K/x01G@/x00/x00/x00/x00/x00/x00/x00c'
+    b'builtins/ncomplex/nq/x01'
+    b'(G@/x08/x00/x00/x00/x00/x00/x00G/x00/x00/x00/x00/x00/x00/x00/x00t'
+    b'q/x02Rq/x03K/x01J/xff/xff/xff/xffK/xffJ/x01/xff/xff/xffJ'
+    b'/x00/xff/xff/xffM/xff/xffJ/x01/x00/xff/xffJ/x00/x00/xff/xffJ/xff/xff'
+    b'/xff/x7fJ/x01/x00/x00/x80J/x00/x00/x00/x80(X/x03/x00/x00/x00ab'
+    b'cq/x04h/x04ccopyreg/n_reco'
+    b'nstructor/nq/x05(c__main'
+    b'__/nC/nq/x06cbuiltins/n'
+    b'object/nq/x07Ntq/x08Rq/t}q/n('
+    b'X/x03/x00/x00/x00fooq/x0bK/x01X/x03/x00/x00/x00bar'
+    b'q/x0cK/x02ubh/ttq/rh/rK/x05e.'
 )
 
 # Disassembly of DATA1
-DATA1_DIS = """\
+DATA1_DIS = """/
     0: ]    EMPTY_LIST
     1: q    BINPUT     0
     3: (    MARK
@@ -319,21 +319,21 @@ highest protocol among opcodes = 1
 """
 
 DATA2 = (
-    b'\x80\x02]q\x00(K\x00K\x01G@\x00\x00\x00\x00\x00\x00\x00c'
-    b'builtins\ncomplex\n'
-    b'q\x01G@\x08\x00\x00\x00\x00\x00\x00G\x00\x00\x00\x00\x00\x00\x00\x00'
-    b'\x86q\x02Rq\x03K\x01J\xff\xff\xff\xffK\xffJ\x01\xff\xff\xff'
-    b'J\x00\xff\xff\xffM\xff\xffJ\x01\x00\xff\xffJ\x00\x00\xff\xffJ\xff'
-    b'\xff\xff\x7fJ\x01\x00\x00\x80J\x00\x00\x00\x80(X\x03\x00\x00\x00a'
-    b'bcq\x04h\x04c__main__\nC\nq\x05'
-    b')\x81q\x06}q\x07(X\x03\x00\x00\x00fooq\x08K\x01'
-    b'X\x03\x00\x00\x00barq\tK\x02ubh\x06tq\nh'
-    b'\nK\x05e.'
+    b'/x80/x02]q/x00(K/x00K/x01G@/x00/x00/x00/x00/x00/x00/x00c'
+    b'builtins/ncomplex/n'
+    b'q/x01G@/x08/x00/x00/x00/x00/x00/x00G/x00/x00/x00/x00/x00/x00/x00/x00'
+    b'/x86q/x02Rq/x03K/x01J/xff/xff/xff/xffK/xffJ/x01/xff/xff/xff'
+    b'J/x00/xff/xff/xffM/xff/xffJ/x01/x00/xff/xffJ/x00/x00/xff/xffJ/xff'
+    b'/xff/xff/x7fJ/x01/x00/x00/x80J/x00/x00/x00/x80(X/x03/x00/x00/x00a'
+    b'bcq/x04h/x04c__main__/nC/nq/x05'
+    b')/x81q/x06}q/x07(X/x03/x00/x00/x00fooq/x08K/x01'
+    b'X/x03/x00/x00/x00barq/tK/x02ubh/x06tq/nh'
+    b'/nK/x05e.'
 )
 
 # Disassembly of DATA2
-DATA2_DIS = """\
-    0: \x80 PROTO      2
+DATA2_DIS = """/
+    0: /x80 PROTO      2
     2: ]    EMPTY_LIST
     3: q    BINPUT     0
     5: (    MARK
@@ -344,7 +344,7 @@ DATA2_DIS = """\
    37: q        BINPUT     1
    39: G        BINFLOAT   3.0
    48: G        BINFLOAT   0.0
-   57: \x86     TUPLE2
+   57: /x86     TUPLE2
    58: q        BINPUT     2
    60: R        REDUCE
    61: q        BINPUT     3
@@ -366,7 +366,7 @@ DATA2_DIS = """\
   123: c            GLOBAL     '__main__ C'
   135: q            BINPUT     5
   137: )            EMPTY_TUPLE
-  138: \x81         NEWOBJ
+  138: /x81         NEWOBJ
   139: q            BINPUT     6
   141: }            EMPTY_DICT
   142: q            BINPUT     7
@@ -390,21 +390,21 @@ highest protocol among opcodes = 2
 """
 
 # set([1,2]) pickled from 2.x with protocol 2
-DATA3 = b'\x80\x02c__builtin__\nset\nq\x00]q\x01(K\x01K\x02e\x85q\x02Rq\x03.'
+DATA3 = b'/x80/x02c__builtin__/nset/nq/x00]q/x01(K/x01K/x02e/x85q/x02Rq/x03.'
 
 # xrange(5) pickled from 2.x with protocol 2
-DATA4 = b'\x80\x02c__builtin__\nxrange\nq\x00K\x00K\x05K\x01\x87q\x01Rq\x02.'
+DATA4 = b'/x80/x02c__builtin__/nxrange/nq/x00K/x00K/x05K/x01/x87q/x01Rq/x02.'
 
 # a SimpleCookie() object pickled from 2.x with protocol 2
-DATA5 = (b'\x80\x02cCookie\nSimpleCookie\nq\x00)\x81q\x01U\x03key'
-         b'q\x02cCookie\nMorsel\nq\x03)\x81q\x04(U\x07commentq\x05U'
-         b'\x00q\x06U\x06domainq\x07h\x06U\x06secureq\x08h\x06U\x07'
-         b'expiresq\th\x06U\x07max-ageq\nh\x06U\x07versionq\x0bh\x06U'
-         b'\x04pathq\x0ch\x06U\x08httponlyq\rh\x06u}q\x0e(U\x0b'
-         b'coded_valueq\x0fU\x05valueq\x10h\x10h\x10h\x02h\x02ubs}q\x11b.')
+DATA5 = (b'/x80/x02cCookie/nSimpleCookie/nq/x00)/x81q/x01U/x03key'
+         b'q/x02cCookie/nMorsel/nq/x03)/x81q/x04(U/x07commentq/x05U'
+         b'/x00q/x06U/x06domainq/x07h/x06U/x06secureq/x08h/x06U/x07'
+         b'expiresq/th/x06U/x07max-ageq/nh/x06U/x07versionq/x0bh/x06U'
+         b'/x04pathq/x0ch/x06U/x08httponlyq/rh/x06u}q/x0e(U/x0b'
+         b'coded_valueq/x0fU/x05valueq/x10h/x10h/x10h/x02h/x02ubs}q/x11b.')
 
 # set([3]) pickled from 2.x with protocol 2
-DATA6 = b'\x80\x02c__builtin__\nset\nq\x00]q\x01K\x03a\x85q\x02Rq\x03.'
+DATA6 = b'/x80/x02c__builtin__/nset/nq/x00]q/x01K/x03a/x85q/x02Rq/x03.'
 
 
 def create_data():
@@ -487,10 +487,10 @@ class AbstractPickleTests(unittest.TestCase):
             23: b    BUILD
             24: .    STOP
             """
-            pickle0 = (b"(i__main__\n"
-                       b"X\n"
-                       b"p0\n"
-                       b"(dp1\nb.").replace(b'X', xname)
+            pickle0 = (b"(i__main__/n"
+                       b"X/n"
+                       b"p0/n"
+                       b"(dp1/nb.").replace(b'X', xname)
             self.assertEqual(X(*args), self.loads(pickle0))
 
             # Protocol 1 (binary mode pickle)
@@ -505,14 +505,14 @@ class AbstractPickleTests(unittest.TestCase):
             23: b    BUILD
             24: .    STOP
             """
-            pickle1 = (b'(c__main__\n'
-                       b'X\n'
-                       b'q\x00oq\x01}q\x02b.').replace(b'X', xname)
+            pickle1 = (b'(c__main__/n'
+                       b'X/n'
+                       b'q/x00oq/x01}q/x02b.').replace(b'X', xname)
             self.assertEqual(X(*args), self.loads(pickle1))
 
-            # Protocol 2 (pickle2 = b'\x80\x02' + pickle1)
+            # Protocol 2 (pickle2 = b'/x80/x02' + pickle1)
             """
-            0: \x80 PROTO      2
+            0: /x80 PROTO      2
             2: (    MARK
             3: c        GLOBAL     '__main__ X'
             17: q        BINPUT     0
@@ -523,9 +523,9 @@ class AbstractPickleTests(unittest.TestCase):
             25: b    BUILD
             26: .    STOP
             """
-            pickle2 = (b'\x80\x02(c__main__\n'
-                       b'X\n'
-                       b'q\x00oq\x01}q\x02b.').replace(b'X', xname)
+            pickle2 = (b'/x80/x02(c__main__/n'
+                       b'X/n'
+                       b'q/x00oq/x01}q/x02b.').replace(b'X', xname)
             self.assertEqual(X(*args), self.loads(pickle2))
 
     # There are gratuitous differences between pickles produced by
@@ -597,30 +597,30 @@ class AbstractPickleTests(unittest.TestCase):
             self.assertTrue(x[0].attr[1] is x)
 
     def test_get(self):
-        self.assertRaises(KeyError, self.loads, b'g0\np0')
-        self.assertEqual(self.loads(b'((Kdtp0\nh\x00l.))'), [(100,), (100,)])
+        self.assertRaises(KeyError, self.loads, b'g0/np0')
+        self.assertEqual(self.loads(b'((Kdtp0/nh/x00l.))'), [(100,), (100,)])
 
     def test_insecure_strings(self):
         # XXX Some of these tests are temporarily disabled
         insecure = [b"abc", b"2 + 2", # not quoted
                     ## b"'abc' + 'def'", # not a single quoted string
                     b"'abc", # quote is not closed
-                    b"'abc\"", # open quote and close quote don't match
+                    b"'abc/"", # open quote and close quote don't match
                     b"'abc'   ?", # junk after close quote
-                    b"'\\'", # trailing backslash
+                    b"'//'", # trailing backslash
                     # some tests of the quoting rules
-                    ## b"'abc\"\''",
-                    ## b"'\\\\a\'\'\'\\\'\\\\\''",
+                    ## b"'abc/"/''",
+                    ## b"'////a/'/'/'///'/////''",
                     ]
         for b in insecure:
-            buf = b"S" + b + b"\012p0\012."
+            buf = b"S" + b + b"/012p0/012."
             self.assertRaises(ValueError, self.loads, buf)
 
     def test_unicode(self):
-        endcases = ['', '<\\u>', '<\\\u1234>', '<\n>',
-                    '<\\>', '<\\\U00012345>',
+        endcases = ['', '<//u>', '<///u1234>', '</n>',
+                    '<//>', '<///U00012345>',
                     # surrogates
-                    '<\udc80>']
+                    '</udc80>']
         for proto in protocols:
             for u in endcases:
                 p = self.dumps(u, proto)
@@ -628,7 +628,7 @@ class AbstractPickleTests(unittest.TestCase):
                 self.assertEqual(u2, u)
 
     def test_unicode_high_plane(self):
-        t = '\U00012345'
+        t = '/U00012345'
         for proto in protocols:
             p = self.dumps(t, proto)
             t2 = self.loads(p)
@@ -659,12 +659,12 @@ class AbstractPickleTests(unittest.TestCase):
 
     def test_maxint64(self):
         maxint64 = (1 << 63) - 1
-        data = b'I' + str(maxint64).encode("ascii") + b'\n.'
+        data = b'I' + str(maxint64).encode("ascii") + b'/n.'
         got = self.loads(data)
         self.assertEqual(got, maxint64)
 
         # Try too with a bogus literal.
-        data = b'I' + str(maxint64).encode("ascii") + b'JUNK\n.'
+        data = b'I' + str(maxint64).encode("ascii") + b'JUNK/n.'
         self.assertRaises(ValueError, self.loads, data)
 
     def test_long(self):
@@ -1133,7 +1133,7 @@ class AbstractPickleTests(unittest.TestCase):
 
     def test_empty_bytestring(self):
         # issue 11286
-        empty = self.loads(b'\x80\x03U\x00q\x00.', encoding='koi8-r')
+        empty = self.loads(b'/x80/x03U/x00q/x00.', encoding='koi8-r')
         self.assertEqual(empty, '')
 
     def check_negative_32b_binXXX(self, dumped):
@@ -1147,22 +1147,22 @@ class AbstractPickleTests(unittest.TestCase):
 
     def test_negative_32b_binbytes(self):
         # On 32-bit builds, a BINBYTES of 2**31 or more is refused
-        self.check_negative_32b_binXXX(b'\x80\x03B\xff\xff\xff\xffxyzq\x00.')
+        self.check_negative_32b_binXXX(b'/x80/x03B/xff/xff/xff/xffxyzq/x00.')
 
     def test_negative_32b_binunicode(self):
         # On 32-bit builds, a BINUNICODE of 2**31 or more is refused
-        self.check_negative_32b_binXXX(b'\x80\x03X\xff\xff\xff\xffxyzq\x00.')
+        self.check_negative_32b_binXXX(b'/x80/x03X/xff/xff/xff/xffxyzq/x00.')
 
     def test_negative_put(self):
         # Issue #12847
-        dumped = b'Va\np-1\n.'
+        dumped = b'Va/np-1/n.'
         self.assertRaises(ValueError, self.loads, dumped)
 
     def test_negative_32b_binput(self):
         # Issue #12847
         if sys.maxsize > 2**32:
             self.skipTest("test is only meaningful on 32-bit builds")
-        dumped = b'\x80\x03X\x01\x00\x00\x00ar\xff\xff\xff\xff.'
+        dumped = b'/x80/x03X/x01/x00/x00/x00ar/xff/xff/xff/xff.'
         self.assertRaises(ValueError, self.loads, dumped)
 
 
@@ -1300,7 +1300,7 @@ class MyStr(str):
     sample = "hello"
 
 class MyUnicode(str):
-    sample = "hello \u1234"
+    sample = "hello /u1234"
 
 class MyTuple(tuple):
     sample = (1, 2, 3)
@@ -1591,7 +1591,7 @@ if __name__ == "__main__":
         print(")")
         print()
         print("# Disassembly of DATA{0}".format(i))
-        print("DATA{0}_DIS = \"\"\"\\".format(i))
+        print("DATA{0}_DIS = /"/"/"//".format(i))
         dis(p)
-        print("\"\"\"")
+        print("/"/"/"")
         print()

@@ -91,16 +91,16 @@ def pathdirs():
 def getdoc(object):
     """Get the doc string or comments for an object."""
     result = inspect.getdoc(object) or inspect.getcomments(object)
-    return result and re.sub('^ *\n', '', result.rstrip()) or ''
+    return result and re.sub('^ */n', '', result.rstrip()) or ''
 
 def splitdoc(doc):
     """Split a doc string into a synopsis line (if any) and the rest."""
-    lines = doc.strip().split('\n')
+    lines = doc.strip().split('/n')
     if len(lines) == 1:
         return lines[0], ''
     elif len(lines) >= 2 and not lines[1].rstrip():
-        return lines[0], '\n'.join(lines[2:])
-    return '', '\n'.join(lines)
+        return lines[0], '/n'.join(lines[2:])
+    return '', '/n'.join(lines)
 
 def classname(object, modname):
     """Get a class name and qualify it with a module name if necessary."""
@@ -134,7 +134,7 @@ _re_stripid = re.compile(r' at 0x[0-9a-f]{6,16}(>+)$', re.IGNORECASE)
 def stripid(text):
     """Remove the hexadecimal id from a Python object representation."""
     # The behaviour of %p is implementation-dependent in terms of case.
-    return _re_stripid.sub(r'\1', text)
+    return _re_stripid.sub(r'/1', text)
 
 def _is_some_method(obj):
     return (inspect.isfunction(obj) or
@@ -216,7 +216,7 @@ def source_synopsis(file):
     if line[:4] == 'r"""': line = line[1:]
     if line[:3] == '"""':
         line = line[3:]
-        if line[-1:] == '\\': line = line[:-1]
+        if line[-1:] == '//': line = line[:-1]
         while not line.strip():
             line = file.readline()
             if not line: break
@@ -407,12 +407,12 @@ class HTMLRepr(Repr):
     def repr_string(self, x, level):
         test = cram(x, self.maxstring)
         testrepr = repr(test)
-        if '\\' in test and '\\' not in replace(testrepr, r'\\', ''):
+        if '//' in test and '//' not in replace(testrepr, r'//', ''):
             # Backslashes are only literal in the string and are never
             # needed to make any special characters, so show a raw string.
             return 'r' + testrepr[0] + self.escape(test) + testrepr[0]
-        return re.sub(r'((\\[\\abfnrtv\'"]|\\[0-9]..|\\x..|\\u....)+)',
-                      r'<font color="#c040c0">\1</font>',
+        return re.sub(r'((//[//abfnrtv/'"]|//[0-9]..|//x..|//u....)+)',
+                      r'<font color="#c040c0">/1</font>',
                       self.escape(testrepr))
 
     repr_str = repr_string
@@ -436,7 +436,7 @@ class HTMLDoc(Doc):
 
     def page(self, title, contents):
         """Format an HTML page."""
-        return '''\
+        return '''/
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Python: %s</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -475,7 +475,7 @@ class HTMLDoc(Doc):
             result = result + '''
 <tr><td bgcolor="%s">%s</td><td>%s</td>''' % (bgcol, marginalia, gap)
 
-        return result + '\n<td width="100%%">%s</td></tr></table>' % contents
+        return result + '/n<td width="100%%">%s</td></tr></table>' % contents
 
     def bigsection(self, title, *args):
         """Format a section with a big heading."""
@@ -485,8 +485,8 @@ class HTMLDoc(Doc):
     def preformat(self, text):
         """Format literal preformatted text."""
         text = self.escape(text.expandtabs())
-        return replace(text, '\n\n', '\n \n', '\n\n', '\n \n',
-                             ' ', '&nbsp;', '\n', '<br>\n')
+        return replace(text, '/n/n', '/n /n', '/n/n', '/n /n',
+                             ' ', '&nbsp;', '/n', '<br>/n')
 
     def multicolumn(self, list, format, cols=4):
         """Format a list of items into a multi-column list."""
@@ -496,7 +496,7 @@ class HTMLDoc(Doc):
             result = result + '<td width="%d%%" valign=top>' % (100//cols)
             for i in range(rows*col, rows*col+rows):
                 if i < len(list):
-                    result = result + format(list[i]) + '<br>\n'
+                    result = result + format(list[i]) + '<br>/n'
             result = result + '</td>'
         return '<table width="100%%" summary="list"><tr>%s</tr></table>' % result
 
@@ -546,10 +546,10 @@ class HTMLDoc(Doc):
         escape = escape or self.escape
         results = []
         here = 0
-        pattern = re.compile(r'\b((http|ftp)://\S+[\w/]|'
-                                r'RFC[- ]?(\d+)|'
-                                r'PEP[- ]?(\d+)|'
-                                r'(self\.)?(\w+))')
+        pattern = re.compile(r'/b((http|ftp):///S+[/w/]|'
+                                r'RFC[- ]?(/d+)|'
+                                r'PEP[- ]?(/d+)|'
+                                r'(self/.)?(/w+))')
         while True:
             match = pattern.search(text, here)
             if not match: break
@@ -591,11 +591,11 @@ class HTMLDoc(Doc):
                     for base in bases:
                         parents.append(self.classlink(base, modname))
                     result = result + '(' + ', '.join(parents) + ')'
-                result = result + '\n</font></dt>'
+                result = result + '/n</font></dt>'
             elif type(entry) is type([]):
-                result = result + '<dd>\n%s</dd>\n' % self.formattree(
+                result = result + '<dd>/n%s</dd>/n' % self.formattree(
                     entry, modname, c)
-        return '<dl>\n%s</dl>\n' % result
+        return '<dl>/n%s</dl>/n' % result
 
     def docmodule(self, object, name=None, mod=None, *ignored):
         """Produce HTML documentation for a module object."""
@@ -674,7 +674,7 @@ class HTMLDoc(Doc):
 
         doc = self.markup(getdoc(object), self.preformat, fdict, cdict)
         doc = doc and '<tt>%s</tt>' % doc
-        result = result + '<p>%s</p>\n' % doc
+        result = result + '<p>%s</p>/n' % doc
 
         if hasattr(object, '__path__'):
             modpkgs = []
@@ -709,7 +709,7 @@ class HTMLDoc(Doc):
             for key, value in data:
                 contents.append(self.document(value, key))
             result = result + self.bigsection(
-                'Data', '#ffffff', '#55aa55', '<br>\n'.join(contents))
+                'Data', '#ffffff', '#55aa55', '<br>/n'.join(contents))
         if hasattr(object, '__author__'):
             contents = self.markup(str(object.__author__), self.preformat)
             result = result + self.bigsection(
@@ -737,7 +737,7 @@ class HTMLDoc(Doc):
                 self.needone = 0
             def maybe(self):
                 if self.needone:
-                    push('<hr>\n')
+                    push('<hr>/n')
                 self.needone = 1
         hr = HorizontalRule()
 
@@ -745,11 +745,11 @@ class HTMLDoc(Doc):
         mro = deque(inspect.getmro(object))
         if len(mro) > 2:
             hr.maybe()
-            push('<dl><dt>Method resolution order:</dt>\n')
+            push('<dl><dt>Method resolution order:</dt>/n')
             for base in mro:
-                push('<dd>%s</dd>\n' % self.classlink(base,
+                push('<dd>%s</dd>/n' % self.classlink(base,
                                                       object.__module__))
-            push('</dl>\n')
+            push('</dl>/n')
 
         def spill(msg, attrs, predicate):
             ok, attrs = _split_list(attrs, predicate)
@@ -766,7 +766,7 @@ class HTMLDoc(Doc):
                     else:
                         push(self.document(value, name, mod,
                                         funcs, classes, mdict, object))
-                    push('\n')
+                    push('/n')
             return attrs
 
         def spilldescriptors(msg, attrs, predicate):
@@ -790,13 +790,13 @@ class HTMLDoc(Doc):
                     else:
                         doc = None
                     if doc is None:
-                        push('<dl><dt>%s</dl>\n' % base)
+                        push('<dl><dt>%s</dl>/n' % base)
                     else:
                         doc = self.markup(getdoc(value), self.preformat,
                                           funcs, classes, mdict)
                         doc = '<dd><tt>%s</tt>' % doc
-                        push('<dl><dt>%s%s</dl>\n' % (base, doc))
-                    push('\n')
+                        push('<dl><dt>%s%s</dl>/n' % (base, doc))
+                    push('/n')
             return attrs
 
         attrs = [(name, kind, cls, value)
@@ -834,7 +834,7 @@ class HTMLDoc(Doc):
             else:
                 tag = 'inherited from %s' % self.classlink(thisclass,
                                                            object.__module__)
-            tag += ':<br>\n'
+            tag += ':<br>/n'
 
             # Sort attrs by name.
             attrs.sort(key=lambda t: t[0])
@@ -909,7 +909,7 @@ class HTMLDoc(Doc):
             title = '<a name="%s"><strong>%s</strong></a> = %s' % (
                 anchor, name, reallink)
         if inspect.isfunction(object):
-            args, varargs, kwonlyargs, kwdefaults, varkw, defaults, ann = \
+            args, varargs, kwonlyargs, kwdefaults, varkw, defaults, ann = /
                 inspect.getfullargspec(object)
             argspec = inspect.formatargspec(
                 args, varargs, kwonlyargs, kwdefaults, varkw, defaults, ann,
@@ -928,23 +928,23 @@ class HTMLDoc(Doc):
                '<font face="helvetica, arial">%s</font>' % note))
 
         if skipdocs:
-            return '<dl><dt>%s</dt></dl>\n' % decl
+            return '<dl><dt>%s</dt></dl>/n' % decl
         else:
             doc = self.markup(
                 getdoc(object), self.preformat, funcs, classes, methods)
             doc = doc and '<dd><tt>%s</tt></dd>' % doc
-            return '<dl><dt>%s</dt>%s</dl>\n' % (decl, doc)
+            return '<dl><dt>%s</dt>%s</dl>/n' % (decl, doc)
 
     def _docdescriptor(self, name, value, mod):
         results = []
         push = results.append
 
         if name:
-            push('<dl><dt><strong>%s</strong></dt>\n' % name)
+            push('<dl><dt><strong>%s</strong></dt>/n' % name)
         if value.__doc__ is not None:
             doc = self.markup(getdoc(value), self.preformat)
-            push('<dd><tt>%s</tt></dd>\n' % doc)
-        push('</dl>\n')
+            push('<dd><tt>%s</tt></dd>/n' % doc)
+        push('</dl>/n')
 
         return ''.join(results)
 
@@ -993,7 +993,7 @@ class TextRepr(Repr):
     def repr_string(self, x, level):
         test = cram(x, self.maxstring)
         testrepr = repr(test)
-        if '\\' in test and '\\' not in replace(testrepr, r'\\', ''):
+        if '//' in test and '//' not in replace(testrepr, r'//', ''):
             # Backslashes are only literal in the string and are never
             # needed to make any special characters, so show a raw string.
             return 'r' + testrepr[0] + test + testrepr[0]
@@ -1017,19 +1017,19 @@ class TextDoc(Doc):
 
     def bold(self, text):
         """Format a string in bold by overstriking."""
-        return ''.join(ch + '\b' + ch for ch in text)
+        return ''.join(ch + '/b' + ch for ch in text)
 
     def indent(self, text, prefix='    '):
         """Indent text by prepending a given prefix to each line."""
         if not text: return ''
-        lines = [prefix + line for line in text.split('\n')]
+        lines = [prefix + line for line in text.split('/n')]
         if lines: lines[-1] = lines[-1].rstrip()
-        return '\n'.join(lines)
+        return '/n'.join(lines)
 
     def section(self, title, contents):
         """Format a section with a given heading."""
         clean_contents = self.indent(contents).rstrip()
-        return self.bold(title) + '\n' + clean_contents + '\n\n'
+        return self.bold(title) + '/n' + clean_contents + '/n/n'
 
     # ---------------------------------------------- type-specific routines
 
@@ -1043,7 +1043,7 @@ class TextDoc(Doc):
                 if bases and bases != (parent,):
                     parents = (classname(c, modname) for c in bases)
                     result = result + '(%s)' % ', '.join(parents)
-                result = result + '\n'
+                result = result + '/n'
             elif type(entry) is type([]):
                 result = result + self.formattree(
                     entry, modname, c, prefix + '    ')
@@ -1100,7 +1100,7 @@ location listed above.
 
             modpkgs.sort()
             result = result + self.section(
-                'PACKAGE CONTENTS', '\n'.join(modpkgs))
+                'PACKAGE CONTENTS', '/n'.join(modpkgs))
 
         # Detect submodules as sometimes created by C extensions
         submodules = []
@@ -1110,7 +1110,7 @@ location listed above.
         if submodules:
             submodules.sort()
             result = result + self.section(
-                'SUBMODULES', '\n'.join(submodules))
+                'SUBMODULES', '/n'.join(submodules))
 
         if classes:
             classlist = [value for key, value in classes]
@@ -1118,19 +1118,19 @@ location listed above.
                 inspect.getclasstree(classlist, 1), name)]
             for key, value in classes:
                 contents.append(self.document(value, key, name))
-            result = result + self.section('CLASSES', '\n'.join(contents))
+            result = result + self.section('CLASSES', '/n'.join(contents))
 
         if funcs:
             contents = []
             for key, value in funcs:
                 contents.append(self.document(value, key, name))
-            result = result + self.section('FUNCTIONS', '\n'.join(contents))
+            result = result + self.section('FUNCTIONS', '/n'.join(contents))
 
         if data:
             contents = []
             for key, value in data:
                 contents.append(self.docother(value, key, name, maxlen=70))
-            result = result + self.section('DATA', '\n'.join(contents))
+            result = result + self.section('DATA', '/n'.join(contents))
 
         if hasattr(object, '__version__'):
             version = str(object.__version__)
@@ -1168,7 +1168,7 @@ location listed above.
             title = title + '(%s)' % ', '.join(parents)
 
         doc = getdoc(object)
-        contents = doc and [doc + '\n'] or []
+        contents = doc and [doc + '/n'] or []
         push = contents.append
 
         # List the mro, if non-trivial.
@@ -1226,7 +1226,7 @@ location listed above.
                     else:
                         doc = None
                     push(self.docother(getattr(object, name),
-                                       name, mod, maxlen=70, doc=doc) + '\n')
+                                       name, mod, maxlen=70, doc=doc) + '/n')
             return attrs
 
         attrs = [(name, kind, cls, value)
@@ -1253,23 +1253,23 @@ location listed above.
             attrs.sort()
 
             # Pump out the attrs, segregated by kind.
-            attrs = spill("Methods %s:\n" % tag, attrs,
+            attrs = spill("Methods %s:/n" % tag, attrs,
                           lambda t: t[1] == 'method')
-            attrs = spill("Class methods %s:\n" % tag, attrs,
+            attrs = spill("Class methods %s:/n" % tag, attrs,
                           lambda t: t[1] == 'class method')
-            attrs = spill("Static methods %s:\n" % tag, attrs,
+            attrs = spill("Static methods %s:/n" % tag, attrs,
                           lambda t: t[1] == 'static method')
-            attrs = spilldescriptors("Data descriptors %s:\n" % tag, attrs,
+            attrs = spilldescriptors("Data descriptors %s:/n" % tag, attrs,
                                      lambda t: t[1] == 'data descriptor')
-            attrs = spilldata("Data and other attributes %s:\n" % tag, attrs,
+            attrs = spilldata("Data and other attributes %s:/n" % tag, attrs,
                               lambda t: t[1] == 'data')
             assert attrs == []
             attrs = inherited
 
-        contents = '\n'.join(contents)
+        contents = '/n'.join(contents)
         if not contents:
-            return title + '\n'
-        return title + '\n' + self.indent(contents.rstrip(), ' |  ') + '\n'
+            return title + '/n'
+        return title + '/n' + self.indent(contents.rstrip(), ' |  ') + '/n'
 
     def formatvalue(self, object):
         """Format an argument default value as text."""
@@ -1302,7 +1302,7 @@ location listed above.
                 skipdocs = 1
             title = self.bold(name) + ' = ' + realname
         if inspect.isfunction(object):
-            args, varargs, varkw, defaults, kwonlyargs, kwdefaults, ann = \
+            args, varargs, varkw, defaults, kwonlyargs, kwdefaults, ann = /
               inspect.getfullargspec(object)
             argspec = inspect.formatargspec(
                 args, varargs, varkw, defaults, kwonlyargs, kwdefaults, ann,
@@ -1319,10 +1319,10 @@ location listed above.
         decl = title + argspec + note
 
         if skipdocs:
-            return decl + '\n'
+            return decl + '/n'
         else:
             doc = getdoc(object) or ''
-            return decl + '\n' + (doc and self.indent(doc).rstrip() + '\n')
+            return decl + '/n' + (doc and self.indent(doc).rstrip() + '/n')
 
     def _docdescriptor(self, name, value, mod):
         results = []
@@ -1330,11 +1330,11 @@ location listed above.
 
         if name:
             push(self.bold(name))
-            push('\n')
+            push('/n')
         doc = getdoc(value) or ''
         if doc:
             push(self.indent(doc))
-            push('\n')
+            push('/n')
         return ''.join(results)
 
     def docproperty(self, object, name=None, mod=None, cl=None):
@@ -1354,7 +1354,7 @@ location listed above.
             if chop < 0: repr = repr[:chop] + '...'
         line = (name and self.bold(name) + ' = ' or '') + repr
         if doc is not None:
-            line += '\n' + self.indent(str(doc))
+            line += '/n' + self.indent(str(doc))
         return line
 
 class _PlainTextDoc(TextDoc):
@@ -1403,7 +1403,7 @@ def getpager():
 
 def plain(text):
     """Remove boldface formatting from text."""
-    return re.sub('.\b', '', text)
+    return re.sub('./b', '', text)
 
 def pipepager(text, cmd):
     """Page through text by feeding it to another program."""
@@ -1428,7 +1428,7 @@ def tempfilepager(text, cmd):
 
 def ttypager(text):
     """Page through text on a text terminal."""
-    lines = plain(text).split('\n')
+    lines = plain(text).split('/n')
     try:
         import tty
         fd = sys.stdin.fileno()
@@ -1441,23 +1441,23 @@ def ttypager(text):
 
     try:
         r = inc = os.environ.get('LINES', 25) - 1
-        sys.stdout.write('\n'.join(lines[:inc]) + '\n')
+        sys.stdout.write('/n'.join(lines[:inc]) + '/n')
         while lines[r:]:
             sys.stdout.write('-- more --')
             sys.stdout.flush()
             c = getchar()
 
             if c in ('q', 'Q'):
-                sys.stdout.write('\r          \r')
+                sys.stdout.write('/r          /r')
                 break
-            elif c in ('\r', '\n'):
-                sys.stdout.write('\r          \r' + lines[r] + '\n')
+            elif c in ('/r', '/n'):
+                sys.stdout.write('/r          /r' + lines[r] + '/n')
                 r = r + 1
                 continue
-            if c in ('b', 'B', '\x1b'):
+            if c in ('b', 'B', '/x1b'):
                 r = r - inc - inc
                 if r < 0: r = 0
-            sys.stdout.write('\n' + '\n'.join(lines[r:r+inc]) + '\n')
+            sys.stdout.write('/n' + '/n'.join(lines[r:r+inc]) + '/n')
             r = r + inc
 
     finally:
@@ -1554,7 +1554,7 @@ def render_doc(thing, title='Python Library Documentation: %s', forceload=0,
         # document its available methods instead of its value.
         object = type(object)
         desc += ' object'
-    return title % desc + '\n\n' + renderer.document(object, name)
+    return title % desc + '/n/n' + renderer.document(object, name)
 
 def doc(thing, title='Python Library Documentation: %s', forceload=0,
         output=None):
@@ -1655,7 +1655,7 @@ class Helper:
         '...': 'ELLIPSIS',
         ':': 'SLICINGS DICTIONARYLITERALS',
         '@': 'def class',
-        '\\': 'STRINGS',
+        '//': 'STRINGS',
         '_': 'PRIVATENAMES',
         '__': 'PRIVATENAMES SPECIALMETHODS',
         '`': 'BACKQUOTES',
@@ -1787,7 +1787,7 @@ has the same effect as typing a particular string at the help> prompt.
 ''')
 
     def interact(self):
-        self.output.write('\n')
+        self.output.write('/n')
         while True:
             try:
                 request = self.getline('help> ')
@@ -1826,7 +1826,7 @@ has the same effect as typing a particular string at the help> prompt.
             elif request: doc(request, 'Help on %s:', output=self._output)
         elif isinstance(request, Helper): self()
         else: doc(request, 'Help on %s:', output=self._output)
-        self.output.write('\n')
+        self.output.write('/n')
 
     def intro(self):
         self.output.write('''
@@ -1856,7 +1856,7 @@ such as "spam", type "modules spam".
                     self.output.write(items[i])
                     if col < columns - 1:
                         self.output.write(' ' + ' ' * (colw - 1 - len(items[i])))
-            self.output.write('\n')
+            self.output.write('/n')
 
     def listkeywords(self):
         self.output.write('''
@@ -1891,7 +1891,7 @@ module "pydoc_data.topics" could not be found.
             return
         target = self.topics.get(topic, self.keywords.get(topic))
         if not target:
-            self.output.write('no documentation found for %s\n' % repr(topic))
+            self.output.write('no documentation found for %s/n' % repr(topic))
             return
         if type(target) is type(''):
             return self.showtopic(target, more_xrefs)
@@ -1900,17 +1900,17 @@ module "pydoc_data.topics" could not be found.
         try:
             doc = pydoc_data.topics.topics[label]
         except KeyError:
-            self.output.write('no documentation found for %s\n' % repr(topic))
+            self.output.write('no documentation found for %s/n' % repr(topic))
             return
-        pager(doc.strip() + '\n')
+        pager(doc.strip() + '/n')
         if more_xrefs:
             xrefs = (xrefs or '') + ' ' + more_xrefs
         if xrefs:
             import formatter
             buffer = io.StringIO()
             formatter.DumbWriter(buffer).send_flowing_data(
-                'Related help topics: ' + ', '.join(xrefs.split()) + '\n')
-            self.output.write('\n%s\n' % buffer.getvalue())
+                'Related help topics: ' + ', '.join(xrefs.split()) + '/n')
+            self.output.write('/n%s/n' % buffer.getvalue())
 
     def _gettopic(self, topic, more_xrefs=''):
         """Return unbuffered tuple of (topic, xrefs).
@@ -2012,7 +2012,7 @@ class ModuleScanner:
                     callback(None, modname, '')
                 else:
                     name = __import__(modname).__doc__ or ''
-                    desc = name.split('\n')[0]
+                    desc = name.split('/n')[0]
                     name = modname + ' - ' + desc
                     if name.lower().find(key) >= 0:
                         callback(None, modname, desc)
@@ -2166,7 +2166,7 @@ pydoc</strong> by Ka-Ping Yee &lt;ping@lfw.org&gt;</font>'''
 def gui():
     """Graphical interface (starts Web server and pops up a control window)."""
 
-    msg = ('the pydoc.gui() function and "pydoc -g" option are deprecated\n',
+    msg = ('the pydoc.gui() function and "pydoc -g" option are deprecated/n',
            'use "pydoc.browse() function and "pydoc -b" option instead.')
     warnings.warn(msg, DeprecationWarning, stacklevel=2)
 
@@ -2179,7 +2179,7 @@ def gui():
             import tkinter
             self.server_frm = tkinter.Frame(window)
             self.title_lbl = tkinter.Label(self.server_frm,
-                text='Starting server...\n ')
+                text='Starting server.../n ')
             self.open_btn = tkinter.Button(self.server_frm,
                 text='open browser', command=self.open, state='disabled')
             self.quit_btn = tkinter.Button(self.server_frm,
@@ -2243,7 +2243,7 @@ def gui():
         def ready(self, server):
             self.server = server
             self.title_lbl.config(
-                text='Python documentation server at\n' + server.url)
+                text='Python documentation server at/n' + server.url)
             self.open_btn.config(state='normal')
             self.quit_btn.config(state='normal')
 
@@ -2509,7 +2509,7 @@ def _url_handler(url, content_type="text/html"):
             css_link = (
                 '<link rel="stylesheet" type="text/css" href="%s">' %
                 css_path)
-            return '''\
+            return '''/
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Pydoc: %s</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

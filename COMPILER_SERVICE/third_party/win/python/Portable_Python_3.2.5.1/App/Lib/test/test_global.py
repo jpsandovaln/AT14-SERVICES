@@ -17,7 +17,7 @@ class GlobalTests(unittest.TestCase):
 
 
     def test1(self):
-        prog_text_1 = """\
+        prog_text_1 = """/
 def wrong1():
     a = 1
     b = 2
@@ -27,7 +27,7 @@ def wrong1():
         check_syntax_error(self, prog_text_1)
 
     def test2(self):
-        prog_text_2 = """\
+        prog_text_2 = """/
 def wrong2():
     print(x)
     global x
@@ -35,7 +35,7 @@ def wrong2():
         check_syntax_error(self, prog_text_2)
 
     def test3(self):
-        prog_text_3 = """\
+        prog_text_3 = """/
 def wrong3():
     print(x)
     x = 2
@@ -44,7 +44,7 @@ def wrong3():
         check_syntax_error(self, prog_text_3)
 
     def test4(self):
-        prog_text_4 = """\
+        prog_text_4 = """/
 global x
 x = 2
 """

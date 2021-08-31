@@ -77,7 +77,7 @@ class ZipSupportTests(unittest.TestCase):
         sys.path_importer_cache.clear()
 
     def test_inspect_getsource_issue4223(self):
-        test_src = "def foo(): pass\n"
+        test_src = "def foo(): pass/n"
         with temp_dir() as d:
             init_name = make_script(d, '__init__', test_src)
             name_in_zip = os.path.join('zip_pkg',
@@ -187,7 +187,7 @@ class ZipSupportTests(unittest.TestCase):
                 del sys.modules["test_zipped_doctest"]
 
     def test_doctest_main_issue4197(self):
-        test_src = textwrap.dedent("""\
+        test_src = textwrap.dedent("""/
                     class Test:
                         ">>> 'line 2'"
                         pass
@@ -216,7 +216,7 @@ class ZipSupportTests(unittest.TestCase):
             self.assertIn(expected.encode('utf-8'), out)
 
     def test_pdb_issue4201(self):
-        test_src = textwrap.dedent("""\
+        test_src = textwrap.dedent("""/
                     def f():
                         pass
 
@@ -226,13 +226,13 @@ class ZipSupportTests(unittest.TestCase):
         with temp_dir() as d:
             script_name = make_script(d, 'script', test_src)
             p = spawn_python(script_name)
-            p.stdin.write(b'l\n')
+            p.stdin.write(b'l/n')
             data = kill_python(p)
             self.assertIn(script_name.encode('utf-8'), data)
             zip_name, run_name = make_zip_script(d, "test_zip",
                                                 script_name, '__main__.py')
             p = spawn_python(zip_name)
-            p.stdin.write(b'l\n')
+            p.stdin.write(b'l/n')
             data = kill_python(p)
             self.assertIn(run_name.encode('utf-8'), data)
 

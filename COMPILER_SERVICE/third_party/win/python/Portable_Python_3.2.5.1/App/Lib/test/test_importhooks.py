@@ -5,19 +5,19 @@ import unittest
 from test import support
 
 
-test_src = """\
+test_src = """/
 def get_name():
     return __name__
 def get_file():
     return __file__
 """
 
-absimp = "import sub\n"
-relimp = "from . import sub\n"
-deeprelimp = "from .... import sub\n"
-futimp = "from __future__ import absolute_import\n"
+absimp = "import sub/n"
+relimp = "from . import sub/n"
+deeprelimp = "from .... import sub/n"
+futimp = "from __future__ import absolute_import/n"
 
-reload_src = test_src+"""\
+reload_src = test_src+"""/
 reloaded = True
 """
 

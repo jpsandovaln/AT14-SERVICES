@@ -31,7 +31,7 @@ from token import *
 from codecs import lookup, BOM_UTF8
 import collections
 from io import TextIOWrapper
-cookie_re = re.compile("coding[:=]\s*([-\w.]+)")
+cookie_re = re.compile("coding[:=]/s*([-/w.]+)")
 
 import token
 __all__ = token.__all__ + ["COMMENT", "tokenize", "detect_encoding",
@@ -56,12 +56,12 @@ def group(*choices): return '(' + '|'.join(choices) + ')'
 def any(*choices): return group(*choices) + '*'
 def maybe(*choices): return group(*choices) + '?'
 
-# Note: we use unicode matching for names ("\w") but ascii matching for
+# Note: we use unicode matching for names ("/w") but ascii matching for
 # number literals.
-Whitespace = r'[ \f\t]*'
-Comment = r'#[^\r\n]*'
-Ignore = Whitespace + any(r'\\\r?\n' + Whitespace) + maybe(Comment)
-Name = r'\w+'
+Whitespace = r'[ /f/t]*'
+Comment = r'#[^/r/n]*'
+Ignore = Whitespace + any(r'///r?/n' + Whitespace) + maybe(Comment)
+Name = r'/w+'
 
 Hexnumber = r'0[xX][0-9a-fA-F]+'
 Binnumber = r'0[bB][01]+'
@@ -69,46 +69,46 @@ Octnumber = r'0[oO][0-7]+'
 Decnumber = r'(?:0+|[1-9][0-9]*)'
 Intnumber = group(Hexnumber, Binnumber, Octnumber, Decnumber)
 Exponent = r'[eE][-+]?[0-9]+'
-Pointfloat = group(r'[0-9]+\.[0-9]*', r'\.[0-9]+') + maybe(Exponent)
+Pointfloat = group(r'[0-9]+/.[0-9]*', r'/.[0-9]+') + maybe(Exponent)
 Expfloat = r'[0-9]+' + Exponent
 Floatnumber = group(Pointfloat, Expfloat)
 Imagnumber = group(r'[0-9]+[jJ]', Floatnumber + r'[jJ]')
 Number = group(Imagnumber, Floatnumber, Intnumber)
 
 # Tail end of ' string.
-Single = r"[^'\\]*(?:\\.[^'\\]*)*'"
+Single = r"[^'//]*(?://.[^'//]*)*'"
 # Tail end of " string.
-Double = r'[^"\\]*(?:\\.[^"\\]*)*"'
+Double = r'[^"//]*(?://.[^"//]*)*"'
 # Tail end of ''' string.
-Single3 = r"[^'\\]*(?:(?:\\.|'(?!''))[^'\\]*)*'''"
+Single3 = r"[^'//]*(?:(?://.|'(?!''))[^'//]*)*'''"
 # Tail end of """ string.
-Double3 = r'[^"\\]*(?:(?:\\.|"(?!""))[^"\\]*)*"""'
+Double3 = r'[^"//]*(?:(?://.|"(?!""))[^"//]*)*"""'
 Triple = group("[bB]?[rR]?'''", '[bB]?[rR]?"""')
 # Single-line ' or " string.
-String = group(r"[bB]?[rR]?'[^\n'\\]*(?:\\.[^\n'\\]*)*'",
-               r'[bB]?[rR]?"[^\n"\\]*(?:\\.[^\n"\\]*)*"')
+String = group(r"[bB]?[rR]?'[^/n'//]*(?://.[^/n'//]*)*'",
+               r'[bB]?[rR]?"[^/n"//]*(?://.[^/n"//]*)*"')
 
 # Because of leftmost-then-longest match semantics, be sure to put the
 # longest operators first (e.g., if = came before ==, == would get
 # recognized as two instances of =).
-Operator = group(r"\*\*=?", r">>=?", r"<<=?", r"!=",
+Operator = group(r"/*/*=?", r">>=?", r"<<=?", r"!=",
                  r"//=?", r"->",
-                 r"[+\-*/%&|^=<>]=?",
+                 r"[+/-*/%&|^=<>]=?",
                  r"~")
 
 Bracket = '[][(){}]'
-Special = group(r'\r?\n', r'\.\.\.', r'[:;.,@]')
+Special = group(r'/r?/n', r'/././.', r'[:;.,@]')
 Funny = group(Operator, Bracket, Special)
 
 PlainToken = group(Number, Funny, String, Name)
 Token = Ignore + PlainToken
 
 # First (or only) line of ' or " string.
-ContStr = group(r"[bB]?[rR]?'[^\n'\\]*(?:\\.[^\n'\\]*)*" +
-                group("'", r'\\\r?\n'),
-                r'[bB]?[rR]?"[^\n"\\]*(?:\\.[^\n"\\]*)*' +
-                group('"', r'\\\r?\n'))
-PseudoExtras = group(r'\\\r?\n|\Z', Comment, Triple)
+ContStr = group(r"[bB]?[rR]?'[^/n'//]*(?://.[^/n'//]*)*" +
+                group("'", r'///r?/n'),
+                r'[bB]?[rR]?"[^/n"//]*(?://.[^/n"//]*)*' +
+                group('"', r'///r?/n'))
+PseudoExtras = group(r'///r?/n|/Z', Comment, Triple)
 PseudoToken = Whitespace + group(PseudoExtras, Number, Funny, ContStr, Name)
 
 def _compile(expr):
@@ -259,7 +259,7 @@ def _get_normal_name(orig_enc):
     enc = orig_enc[:12].lower().replace("_", "-")
     if enc == "utf-8" or enc.startswith("utf-8-"):
         return "utf-8"
-    if enc in ("latin-1", "iso-8859-1", "iso-latin-1") or \
+    if enc in ("latin-1", "iso-8859-1", "iso-latin-1") or /
        enc.startswith(("latin-1-", "iso-8859-1-", "iso-latin-1-")):
         return "iso-8859-1"
     return orig_enc
@@ -412,7 +412,7 @@ def _tokenize(readline, encoding):
                        strstart, (lnum, end), contline + line)
                 contstr, needcont = '', 0
                 contline = None
-            elif needcont and line[-2:] != '\\\n' and line[-3:] != '\\\r\n':
+            elif needcont and line[-2:] != '///n' and line[-3:] != '///r/n':
                 yield TokenInfo(ERRORTOKEN, contstr + line,
                            strstart, (lnum, len(line)), contline)
                 contstr = ''
@@ -429,9 +429,9 @@ def _tokenize(readline, encoding):
             while pos < max:                   # measure leading whitespace
                 if line[pos] == ' ':
                     column += 1
-                elif line[pos] == '\t':
+                elif line[pos] == '/t':
                     column = (column//tabsize + 1)*tabsize
-                elif line[pos] == '\f':
+                elif line[pos] == '/f':
                     column = 0
                 else:
                     break
@@ -439,9 +439,9 @@ def _tokenize(readline, encoding):
             if pos == max:
                 break
 
-            if line[pos] in '#\r\n':           # skip comments or blank lines
+            if line[pos] in '#/r/n':           # skip comments or blank lines
                 if line[pos] == '#':
-                    comment_token = line[pos:].rstrip('\r\n')
+                    comment_token = line[pos:].rstrip('/r/n')
                     nl_pos = pos + len(comment_token)
                     yield TokenInfo(COMMENT, comment_token,
                            (lnum, pos), (lnum, pos + len(comment_token)), line)
@@ -480,11 +480,11 @@ def _tokenize(readline, encoding):
                 if (initial in numchars or                  # ordinary number
                     (initial == '.' and token != '.' and token != '...')):
                     yield TokenInfo(NUMBER, token, spos, epos, line)
-                elif initial in '\r\n':
+                elif initial in '/r/n':
                     yield TokenInfo(NL if parenlev > 0 else NEWLINE,
                            token, spos, epos, line)
                 elif initial == '#':
-                    assert not token.endswith("\n")
+                    assert not token.endswith("/n")
                     yield TokenInfo(COMMENT, token, spos, epos, line)
                 elif token in triple_quoted:
                     endprog = endprogs[token]
@@ -498,10 +498,10 @@ def _tokenize(readline, encoding):
                         contstr = line[start:]
                         contline = line
                         break
-                elif initial in single_quoted or \
-                    token[:2] in single_quoted or \
+                elif initial in single_quoted or /
+                    token[:2] in single_quoted or /
                     token[:3] in single_quoted:
-                    if token[-1] == '\n':                  # continued string
+                    if token[-1] == '/n':                  # continued string
                         strstart = (lnum, start)
                         endprog = (endprogs[initial] or endprogs[token[1]] or
                                    endprogs[token[2]])
@@ -512,7 +512,7 @@ def _tokenize(readline, encoding):
                         yield TokenInfo(STRING, token, spos, epos, line)
                 elif initial.isidentifier():               # ordinary name
                     yield TokenInfo(NAME, token, spos, epos, line)
-                elif initial == '\\':                      # continued stmt
+                elif initial == '//':                      # continued stmt
                     continued = 1
                 else:
                     if initial in '([{':

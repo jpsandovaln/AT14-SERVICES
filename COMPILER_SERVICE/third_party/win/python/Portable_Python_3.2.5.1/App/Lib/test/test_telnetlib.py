@@ -374,13 +374,13 @@ class OptionTests(TestCase):
         # test all the various places that self.msg(...) is called
         given_a_expect_b = [
             # Telnet.fill_rawq
-            (b'a', ": recv b''\n"),
+            (b'a', ": recv b''/n"),
             # Telnet.process_rawq
-            (tl.IAC + bytes([88]), ": IAC 88 not recognized\n"),
-            (tl.IAC + tl.DO + bytes([1]), ": IAC DO 1\n"),
-            (tl.IAC + tl.DONT + bytes([1]), ": IAC DONT 1\n"),
-            (tl.IAC + tl.WILL + bytes([1]), ": IAC WILL 1\n"),
-            (tl.IAC + tl.WONT + bytes([1]), ": IAC WONT 1\n"),
+            (tl.IAC + bytes([88]), ": IAC 88 not recognized/n"),
+            (tl.IAC + tl.DO + bytes([1]), ": IAC DO 1/n"),
+            (tl.IAC + tl.DONT + bytes([1]), ": IAC DONT 1/n"),
+            (tl.IAC + tl.WILL + bytes([1]), ": IAC WILL 1/n"),
+            (tl.IAC + tl.WONT + bytes([1]), ": IAC WONT 1/n"),
            ]
         for a, b in given_a_expect_b:
             telnet = test_telnet([a])
@@ -393,7 +393,7 @@ class OptionTests(TestCase):
         telnet = test_telnet()
         telnet.set_debuglevel(1)
         telnet.write(b'xxx')
-        expected = "send b'xxx'\n"
+        expected = "send b'xxx'/n"
         self.assertIn(expected, telnet._messages)
 
     def test_debug_accepts_str_port(self):

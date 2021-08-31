@@ -46,32 +46,32 @@ CLASSES
     builtins.object
         A
         B
-\x20\x20\x20\x20
+/x20/x20/x20/x20
     class A(builtins.object)
      |  Hello and goodbye
-     |\x20\x20
+     |/x20/x20
      |  Methods defined here:
-     |\x20\x20
+     |/x20/x20
      |  __init__()
      |      Wow, I have no function!
-     |\x20\x20
+     |/x20/x20
      |  ----------------------------------------------------------------------
      |  Data descriptors defined here:
-     |\x20\x20
+     |/x20/x20
      |  __dict__%s
-     |\x20\x20
+     |/x20/x20
      |  __weakref__%s
-\x20\x20\x20\x20
+/x20/x20/x20/x20
     class B(builtins.object)
      |  Data descriptors defined here:
-     |\x20\x20
+     |/x20/x20
      |  __dict__%s
-     |\x20\x20
+     |/x20/x20
      |  __weakref__%s
-     |\x20\x20
+     |/x20/x20
      |  ----------------------------------------------------------------------
      |  Data and other attributes defined here:
-     |\x20\x20
+     |/x20/x20
      |  NO_MEANING = 'eggs'
 
 FUNCTIONS
@@ -80,7 +80,7 @@ FUNCTIONS
         hunger
         lack of Python
         war
-\x20\x20\x20\x20
+/x20/x20/x20/x20
     nodoc_func()
 
 DATA
@@ -99,7 +99,7 @@ FILE
     %s
 """.strip()
 
-expected_text_data_docstrings = tuple('\n     |      ' + s if s else ''
+expected_text_data_docstrings = tuple('/n     |      ' + s if s else ''
                                       for s in expected_data_docstrings)
 
 expected_html_pattern = """
@@ -115,7 +115,7 @@ expected_html_pattern = """
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
-\x20\x20\x20\x20
+/x20/x20/x20/x20
 <tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%%"><dl>
 <dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
@@ -131,7 +131,7 @@ expected_html_pattern = """
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#000000" face="helvetica, arial"><a name="A">class <strong>A</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
-\x20\x20\x20\x20
+/x20/x20/x20/x20
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>Hello&nbsp;and&nbsp;goodbye<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
@@ -151,7 +151,7 @@ Data descriptors defined here:<br>
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#000000" face="helvetica, arial"><a name="B">class <strong>B</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
-\x20\x20\x20\x20
+/x20/x20/x20/x20
 <tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%%">Data descriptors defined here:<br>
 <dl><dt><strong>__dict__</strong></dt>
@@ -169,7 +169,7 @@ Data and other attributes defined here:<br>
 <tr bgcolor="#eeaa77">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
-\x20\x20\x20\x20
+/x20/x20/x20/x20
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%%"><dl><dt><a name="-doc_func"><strong>doc_func</strong></a>()</dt><dd><tt>This&nbsp;function&nbsp;solves&nbsp;all&nbsp;of&nbsp;the&nbsp;world's&nbsp;problems:<br>
 hunger<br>
@@ -181,21 +181,21 @@ war</tt></dd></dl>
 <tr bgcolor="#55aa55">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
-\x20\x20\x20\x20
+/x20/x20/x20/x20
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%%"><strong>__xyz__</strong> = 'X, Y and Z'</td></tr></table><p>
 <table width="100%%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#7799ee">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
-\x20\x20\x20\x20
+/x20/x20/x20/x20
 <tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%%">Benjamin&nbsp;Peterson</td></tr></table><p>
 <table width="100%%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#7799ee">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Credits</strong></big></font></td></tr>
-\x20\x20\x20\x20
+/x20/x20/x20/x20
 <tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%%">Nobody</td></tr></table>
 """.strip() # ' <- emacs turd
@@ -225,7 +225,7 @@ def get_pydoc_html(module):
     output = doc.docmodule(module)
     loc = doc.getdocloc(pydoc_mod) or ""
     if loc:
-        loc = "<br><a href=\"" + loc + "\">Module Docs</a>"
+        loc = "<br><a href=/"" + loc + "/">Module Docs</a>"
     return output.strip(), loc
 
 def get_pydoc_text(module):
@@ -233,12 +233,12 @@ def get_pydoc_text(module):
     doc = pydoc.TextDoc()
     loc = doc.getdocloc(pydoc_mod) or ""
     if loc:
-        loc = "\nMODULE DOCS\n    " + loc + "\n"
+        loc = "/nMODULE DOCS/n    " + loc + "/n"
 
     output = doc.docmodule(module)
 
     # clean up the extra text formatting that pydoc performs
-    patt = re.compile('\b.')
+    patt = re.compile('/b.')
     output = patt.sub('', output)
     return output.strip(), loc
 
@@ -249,7 +249,7 @@ def print_diffs(text1, text2):
     lines2 = text2.splitlines(True)
     diffs = difflib.unified_diff(lines1, lines2, n=0, fromfile='expected',
                                  tofile='got')
-    print('\n' + ''.join(diffs))
+    print('/n' + ''.join(diffs))
 
 def get_html_title(text):
     # Bit of hack, but good enough for test purposes
@@ -355,7 +355,7 @@ class PydocDocTest(unittest.TestCase):
 
         pydoc.getpager = getpager_new
         try:
-            with captured_output('stdout') as output, \
+            with captured_output('stdout') as output, /
                  captured_output('stderr') as err:
                 helper.help(module)
                 result = buf.getvalue().strip()
@@ -384,10 +384,10 @@ class PydocDocTest(unittest.TestCase):
             with open(TESTFN, 'w', encoding=encoding) as script:
                 if encoding != 'UTF-8':
                     print('#coding: {}'.format(encoding), file=script)
-                print('"""line 1: h\xe9', file=script)
+                print('"""line 1: h/xe9', file=script)
                 print('line 2: hi"""', file=script)
             synopsis = pydoc.synopsis(TESTFN, {})
-            self.assertEqual(synopsis, 'line 1: h\xe9')
+            self.assertEqual(synopsis, 'line 1: h/xe9')
 
     def test_allmethods(self):
         # issue 17476: allmethods was no longer returning unbound methods.
@@ -437,7 +437,7 @@ class PydocImportTest(unittest.TestCase):
         sourcefn = os.path.join(TESTFN, modname) + os.extsep + "py"
         for importstring, expectedinmsg in testpairs:
             with open(sourcefn, 'w') as f:
-                f.write("import {}\n".format(importstring))
+                f.write("import {}/n".format(importstring))
             result = run_pydoc(modname, PYTHONPATH=TESTFN).decode("ascii")
             expected = badimport_pattern % (modname, expectedinmsg)
             self.assertEqual(expected, result)
@@ -448,7 +448,7 @@ class PydocImportTest(unittest.TestCase):
         os.mkdir(pkgdir)
         badsyntax = os.path.join(pkgdir, "__init__") + os.extsep + "py"
         with open(badsyntax, 'w') as f:
-            f.write("invalid python syntax = $1\n")
+            f.write("invalid python syntax = $1/n")
         result = run_pydoc('zqwykjv', '-k', PYTHONPATH=TESTFN)
         self.assertEqual(b'', result)
 

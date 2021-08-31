@@ -59,7 +59,7 @@ class IsTestBase(unittest.TestCase):
         self.assertTrue(predicate(obj), '%s(%s)' % (predicate.__name__, exp))
 
         for other in self.predicates - set([predicate]):
-            if predicate == inspect.isgeneratorfunction and\
+            if predicate == inspect.isgeneratorfunction and/
                other == inspect.isfunction:
                 continue
             self.assertFalse(other(obj), 'not %s(%s)' % (other.__name__, exp))
@@ -160,22 +160,22 @@ class TestInterpreterStack(IsTestBase):
     def test_stack(self):
         self.assertTrue(len(mod.st) >= 5)
         self.assertEqual(revise(*mod.st[0][1:]),
-             (modfile, 16, 'eggs', ['    st = inspect.stack()\n'], 0))
+             (modfile, 16, 'eggs', ['    st = inspect.stack()/n'], 0))
         self.assertEqual(revise(*mod.st[1][1:]),
-             (modfile, 9, 'spam', ['    eggs(b + d, c + f)\n'], 0))
+             (modfile, 9, 'spam', ['    eggs(b + d, c + f)/n'], 0))
         self.assertEqual(revise(*mod.st[2][1:]),
-             (modfile, 43, 'argue', ['            spam(a, b, c)\n'], 0))
+             (modfile, 43, 'argue', ['            spam(a, b, c)/n'], 0))
         self.assertEqual(revise(*mod.st[3][1:]),
-             (modfile, 39, 'abuse', ['        self.argue(a, b, c)\n'], 0))
+             (modfile, 39, 'abuse', ['        self.argue(a, b, c)/n'], 0))
 
     def test_trace(self):
         self.assertEqual(len(git.tr), 3)
         self.assertEqual(revise(*git.tr[0][1:]),
-             (modfile, 43, 'argue', ['            spam(a, b, c)\n'], 0))
+             (modfile, 43, 'argue', ['            spam(a, b, c)/n'], 0))
         self.assertEqual(revise(*git.tr[1][1:]),
-             (modfile, 9, 'spam', ['    eggs(b + d, c + f)\n'], 0))
+             (modfile, 9, 'spam', ['    eggs(b + d, c + f)/n'], 0))
         self.assertEqual(revise(*git.tr[2][1:]),
-             (modfile, 18, 'eggs', ['    q = y / 0\n'], 0))
+             (modfile, 18, 'eggs', ['    q = y / 0/n'], 0))
 
     def test_frame(self):
         args, varargs, varkw, locals = inspect.getargvalues(mod.fr)
@@ -205,8 +205,8 @@ class GetSourceBase(unittest.TestCase):
             self.source = fp.read()
 
     def sourcerange(self, top, bottom):
-        lines = self.source.split("\n")
-        return "\n".join(lines[top-1:bottom]) + "\n"
+        lines = self.source.split("/n")
+        return "/n".join(lines[top-1:bottom]) + "/n"
 
     def assertSourceEqual(self, obj, top, bottom):
         self.assertEqual(inspect.getsource(obj),
@@ -245,17 +245,17 @@ class TestRetrievingSourceCode(GetSourceBase):
     def test_getdoc(self):
         self.assertEqual(inspect.getdoc(mod), 'A module docstring.')
         self.assertEqual(inspect.getdoc(mod.StupidGit),
-                         'A longer,\n\nindented\n\ndocstring.')
+                         'A longer,/n/nindented/n/ndocstring.')
         self.assertEqual(inspect.getdoc(git.abuse),
-                         'Another\n\ndocstring\n\ncontaining\n\ntabs')
+                         'Another/n/ndocstring/n/ncontaining/n/ntabs')
 
     def test_cleandoc(self):
-        self.assertEqual(inspect.cleandoc('An\n    indented\n    docstring.'),
-                         'An\nindented\ndocstring.')
+        self.assertEqual(inspect.cleandoc('An/n    indented/n    docstring.'),
+                         'An/nindented/ndocstring.')
 
     def test_getcomments(self):
-        self.assertEqual(inspect.getcomments(mod), '# line 1\n')
-        self.assertEqual(inspect.getcomments(mod.StupidGit), '# line 20\n')
+        self.assertEqual(inspect.getcomments(mod), '# line 1/n')
+        self.assertEqual(inspect.getcomments(mod.StupidGit), '# line 20/n')
 
     def test_getmodule(self):
         # Check actual module
@@ -300,7 +300,7 @@ class TestRetrievingSourceCode(GetSourceBase):
 
     def test_proceed_with_fake_filename(self):
         '''doctest monkeypatches linecache to enable inspection'''
-        fn, source = '<test>', 'def x(): pass\n'
+        fn, source = '<test>', 'def x(): pass/n'
         getlines = linecache.getlines
         def monkey(filename, module_globals=None):
             if filename == fn:
@@ -353,7 +353,7 @@ class TestOneliners(GetSourceBase):
     def test_twolinefunc(self):
         # Test inspect.getsource with a regular function where
         # the body is on two lines, following the argument list and
-        # continued on the next line by a \\.
+        # continued on the next line by a //.
         self.assertSourceEqual(mod2.twolinefunc, 44, 45)
 
     def test_lambda_in_list(self):
@@ -413,7 +413,7 @@ class TestNoEOL(GetSourceBase):
         os.mkdir(self.tempdir)
         with open(os.path.join(self.tempdir,
                                'inspect_fodder3%spy' % os.extsep), 'w') as f:
-            f.write("class X:\n    pass # No EOL")
+            f.write("class X:/n    pass # No EOL")
         with DirsOnSysPath(self.tempdir):
             import inspect_fodder3 as mod3
         self.fodderModule = mod3
@@ -483,7 +483,7 @@ class TestClassesAndFunctions(unittest.TestCase):
                                     varkw_e=None, defaults_e=None,
                                     kwonlyargs_e=[], kwonlydefaults_e=None,
                                     ann_e={}, formatted=None):
-        args, varargs, varkw, defaults, kwonlyargs, kwonlydefaults, ann = \
+        args, varargs, varkw, defaults, kwonlyargs, kwonlydefaults, ann = /
             inspect.getfullargspec(routine)
         self.assertEqual(args, args_e)
         self.assertEqual(varargs, varargs_e)
@@ -817,7 +817,7 @@ class TestGetcallargsFunctions(unittest.TestCase):
             self.assertEqualException(f, '2, c=3')
             self.assertEqualException(f, '2, 3, c=4')
             self.assertEqualException(f, '2, c=4, b=3')
-            self.assertEqualException(f, '**{u"\u03c0\u03b9": 4}')
+            self.assertEqualException(f, '**{u"/u03c0/u03b9": 4}')
             # f got multiple values for keyword argument
             self.assertEqualException(f, '1, a=2')
             self.assertEqualException(f, '1, **{"a":2}')

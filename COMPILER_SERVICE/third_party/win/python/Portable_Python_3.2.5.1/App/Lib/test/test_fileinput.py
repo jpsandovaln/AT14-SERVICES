@@ -36,16 +36,16 @@ class BufferSizesTests(unittest.TestCase):
         for round, bs in (0, 0), (1, 30):
             t1 = t2 = t3 = t4 = None
             try:
-                t1 = writeTmp(1, ["Line %s of file 1\n" % (i+1) for i in range(15)])
-                t2 = writeTmp(2, ["Line %s of file 2\n" % (i+1) for i in range(10)])
-                t3 = writeTmp(3, ["Line %s of file 3\n" % (i+1) for i in range(5)])
-                t4 = writeTmp(4, ["Line %s of file 4\n" % (i+1) for i in range(1)])
+                t1 = writeTmp(1, ["Line %s of file 1/n" % (i+1) for i in range(15)])
+                t2 = writeTmp(2, ["Line %s of file 2/n" % (i+1) for i in range(10)])
+                t3 = writeTmp(3, ["Line %s of file 3/n" % (i+1) for i in range(5)])
+                t4 = writeTmp(4, ["Line %s of file 4/n" % (i+1) for i in range(1)])
                 self.buffer_size_test(t1, t2, t3, t4, bs, round)
             finally:
                 remove_tempfiles(t1, t2, t3, t4)
 
     def buffer_size_test(self, t1, t2, t3, t4, bs=0, round=0):
-        pat = re.compile(r'LINE (\d+) OF FILE (\d+)')
+        pat = re.compile(r'LINE (/d+) OF FILE (/d+)')
 
         start = 1 + round*6
         if verbose:
@@ -54,8 +54,8 @@ class BufferSizesTests(unittest.TestCase):
         lines = list(fi)
         fi.close()
         self.assertEqual(len(lines), 31)
-        self.assertEqual(lines[4], 'Line 5 of file 1\n')
-        self.assertEqual(lines[30], 'Line 1 of file 4\n')
+        self.assertEqual(lines[4], 'Line 5 of file 1/n')
+        self.assertEqual(lines[30], 'Line 1 of file 4/n')
         self.assertEqual(fi.lineno(), 31)
         self.assertEqual(fi.filename(), t4)
 
@@ -63,7 +63,7 @@ class BufferSizesTests(unittest.TestCase):
             print('%s. Status variables (bs=%s)' % (start+1, bs))
         fi = FileInput(files=(t1, t2, t3, t4), bufsize=bs)
         s = "x"
-        while s and s != 'Line 6 of file 2\n':
+        while s and s != 'Line 6 of file 2/n':
             s = fi.readline()
         self.assertEqual(fi.filename(), t2)
         self.assertEqual(fi.lineno(), 21)
@@ -74,7 +74,7 @@ class BufferSizesTests(unittest.TestCase):
         if verbose:
             print('%s. Nextfile (bs=%s)' % (start+2, bs))
         fi.nextfile()
-        self.assertEqual(fi.readline(), 'Line 1 of file 3\n')
+        self.assertEqual(fi.readline(), 'Line 1 of file 3/n')
         self.assertEqual(fi.lineno(), 22)
         fi.close()
 
@@ -83,10 +83,10 @@ class BufferSizesTests(unittest.TestCase):
         fi = FileInput(files=(t1, t2, t3, t4, '-'), bufsize=bs)
         savestdin = sys.stdin
         try:
-            sys.stdin = StringIO("Line 1 of stdin\nLine 2 of stdin\n")
+            sys.stdin = StringIO("Line 1 of stdin/nLine 2 of stdin/n")
             lines = list(fi)
             self.assertEqual(len(lines), 33)
-            self.assertEqual(lines[32], 'Line 2 of stdin\n')
+            self.assertEqual(lines[32], 'Line 2 of stdin/n')
             self.assertEqual(fi.filename(), '<stdin>')
             fi.nextfile()
         finally:
@@ -115,7 +115,7 @@ class BufferSizesTests(unittest.TestCase):
 
         fi = FileInput(files=(t1, t2, t3, t4), bufsize=bs)
         for line in fi:
-            self.assertEqual(line[-1], '\n')
+            self.assertEqual(line[-1], '/n')
             m = pat.match(line[:-1])
             self.assertNotEqual(m, None)
             self.assertEqual(int(m.group(1)), fi.filelineno())
@@ -127,12 +127,12 @@ class FileInputTests(unittest.TestCase):
         try:
             t1 = writeTmp(1, [""])
             t2 = writeTmp(2, [""])
-            t3 = writeTmp(3, ["The only line there is.\n"])
+            t3 = writeTmp(3, ["The only line there is./n"])
             t4 = writeTmp(4, [""])
             fi = FileInput(files=(t1, t2, t3, t4))
 
             line = fi.readline()
-            self.assertEqual(line, 'The only line there is.\n')
+            self.assertEqual(line, 'The only line there is./n')
             self.assertEqual(fi.lineno(), 1)
             self.assertEqual(fi.filelineno(), 1)
             self.assertEqual(fi.filename(), t3)
@@ -149,11 +149,11 @@ class FileInputTests(unittest.TestCase):
     def test_files_that_dont_end_with_newline(self):
         t1 = t2 = None
         try:
-            t1 = writeTmp(1, ["A\nB\nC"])
-            t2 = writeTmp(2, ["D\nE\nF"])
+            t1 = writeTmp(1, ["A/nB/nC"])
+            t2 = writeTmp(2, ["D/nE/nF"])
             fi = FileInput(files=(t1, t2))
             lines = list(fi)
-            self.assertEqual(lines, ["A\n", "B\n", "C", "D\n", "E\n", "F"])
+            self.assertEqual(lines, ["A/n", "B/n", "C", "D/n", "E/n", "F"])
             self.assertEqual(fi.filelineno(), 3)
             self.assertEqual(fi.lineno(), 6)
         finally:
@@ -163,21 +163,21 @@ class FileInputTests(unittest.TestCase):
 ##         # XXX A unicode string is always returned by writeTmp.
 ##         #     So is this needed?
 ##         try:
-##             t1 = writeTmp(1, ["A\nB"])
+##             t1 = writeTmp(1, ["A/nB"])
 ##             encoding = sys.getfilesystemencoding()
 ##             if encoding is None:
 ##                 encoding = 'ascii'
 ##             fi = FileInput(files=str(t1, encoding))
 ##             lines = list(fi)
-##             self.assertEqual(lines, ["A\n", "B"])
+##             self.assertEqual(lines, ["A/n", "B"])
 ##         finally:
 ##             remove_tempfiles(t1)
 
     def test_fileno(self):
         t1 = t2 = None
         try:
-            t1 = writeTmp(1, ["A\nB"])
-            t2 = writeTmp(2, ["C\nD"])
+            t1 = writeTmp(1, ["A/nB"])
+            t2 = writeTmp(2, ["C/nD"])
             fi = FileInput(files=(t1, t2))
             self.assertEqual(fi.fileno(), -1)
             line =next( fi)
@@ -199,10 +199,10 @@ class FileInputTests(unittest.TestCase):
         t1 = None
         try:
             # try opening in universal newline mode
-            t1 = writeTmp(1, [b"A\nB\r\nC\rD"], mode="wb")
+            t1 = writeTmp(1, [b"A/nB/r/nC/rD"], mode="wb")
             fi = FileInput(files=t1, mode="U")
             lines = list(fi)
-            self.assertEqual(lines, ["A\n", "B\n", "C\n", "D"])
+            self.assertEqual(lines, ["A/n", "B/n", "C/n", "D"])
         finally:
             remove_tempfiles(t1)
 
@@ -224,20 +224,20 @@ class FileInputTests(unittest.TestCase):
         #     (Or perhaps the API needs to change so we can just pass
         #     an encoding rather than using a hook?)
 ##         try:
-##             t1 = writeTmp(1, ["A\nB"], mode="wb")
+##             t1 = writeTmp(1, ["A/nB"], mode="wb")
 ##             fi = FileInput(files=t1, openhook=hook_encoded("rot13"))
 ##             lines = list(fi)
-##             self.assertEqual(lines, ["N\n", "O"])
+##             self.assertEqual(lines, ["N/n", "O"])
 ##         finally:
 ##             remove_tempfiles(t1)
 
     def test_context_manager(self):
         try:
-            t1 = writeTmp(1, ["A\nB\nC"])
-            t2 = writeTmp(2, ["D\nE\nF"])
+            t1 = writeTmp(1, ["A/nB/nC"])
+            t2 = writeTmp(2, ["D/nE/nF"])
             with FileInput(files=(t1, t2)) as fi:
                 lines = list(fi)
-            self.assertEqual(lines, ["A\n", "B\n", "C", "D\n", "E\n", "F"])
+            self.assertEqual(lines, ["A/n", "B/n", "C", "D/n", "E/n", "F"])
             self.assertEqual(fi.filelineno(), 3)
             self.assertEqual(fi.lineno(), 6)
             self.assertEqual(fi._files, ())

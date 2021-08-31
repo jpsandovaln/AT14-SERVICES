@@ -111,21 +111,21 @@ def open(file, mode="r", buffering=-1, encoding=None, errors=None,
     encoding error strings.
 
     newline is a string controlling how universal newlines works (it only
-    applies to text mode). It can be None, '', '\n', '\r', and '\r\n'.  It works
+    applies to text mode). It can be None, '', '/n', '/r', and '/r/n'.  It works
     as follows:
 
     * On input, if newline is None, universal newlines mode is
-      enabled. Lines in the input can end in '\n', '\r', or '\r\n', and
-      these are translated into '\n' before being returned to the
+      enabled. Lines in the input can end in '/n', '/r', or '/r/n', and
+      these are translated into '/n' before being returned to the
       caller. If it is '', universal newline mode is enabled, but line
       endings are returned to the caller untranslated. If it has any of
       the other legal values, input lines are only terminated by the given
       string, and the line ending is returned to the caller untranslated.
 
-    * On output, if newline is None, any '\n' characters written are
+    * On output, if newline is None, any '/n' characters written are
       translated to the system default line separator, os.linesep. If
       newline is '', no translation takes place. If newline is any of the
-      other legal values, any '\n' characters written are translated to
+      other legal values, any '/n' characters written are translated to
       the given string.
 
     closedfd is a bool. If closefd is False, the underlying file descriptor will
@@ -227,7 +227,7 @@ class DocDescriptor:
     def __get__(self, obj, typ):
         return (
             "open(file, mode='r', buffering=-1, encoding=None, "
-                 "errors=None, newline=None, closefd=True)\n\n" +
+                 "errors=None, newline=None, closefd=True)/n/n" +
             open.__doc__)
 
 class OpenWrapper:
@@ -453,7 +453,7 @@ class IOBase(metaclass=abc.ABCMeta):
         If limit is specified, at most limit bytes will be read.
         Limit should be an int.
 
-        The line terminator is always b'\n' for binary files; for text
+        The line terminator is always b'/n' for binary files; for text
         files, the newlines argument to open can be used to select the line
         terminator(s) recognized.
         """
@@ -463,7 +463,7 @@ class IOBase(metaclass=abc.ABCMeta):
                 readahead = self.peek(1)
                 if not readahead:
                     return 1
-                n = (readahead.find(b"\n") + 1) or len(readahead)
+                n = (readahead.find(b"/n") + 1) or len(readahead)
                 if limit >= 0:
                     n = min(n, limit)
                 return n
@@ -480,7 +480,7 @@ class IOBase(metaclass=abc.ABCMeta):
             if not b:
                 break
             res += b
-            if res.endswith(b"\n"):
+            if res.endswith(b"/n"):
                 break
         return bytes(res)
 
@@ -843,7 +843,7 @@ class BytesIO(BufferedIOBase):
         if pos > len(self._buffer):
             # Inserts null bytes between the current end of the file
             # and the new write position.
-            padding = b'\x00' * (pos - len(self._buffer))
+            padding = b'/x00' * (pos - len(self._buffer))
             self._buffer += padding
         self._buffer[pos:pos + n] = b
         self._pos += n
@@ -1367,7 +1367,7 @@ io.TextIOBase.register(TextIOBase)
 
 class IncrementalNewlineDecoder(codecs.IncrementalDecoder):
     r"""Codec used when reading a file in universal newlines mode.  It wraps
-    another incremental decoder, translating \r\n and \r into \n.  It also
+    another incremental decoder, translating /r/n and /r into /n.  It also
     records the types of newlines encountered.  When used with
     translate=False, it ensures that the newline sequence is returned in
     one piece.
@@ -1380,33 +1380,33 @@ class IncrementalNewlineDecoder(codecs.IncrementalDecoder):
         self.pendingcr = False
 
     def decode(self, input, final=False):
-        # decode input (with the eventual \r from a previous pass)
+        # decode input (with the eventual /r from a previous pass)
         if self.decoder is None:
             output = input
         else:
             output = self.decoder.decode(input, final=final)
         if self.pendingcr and (output or final):
-            output = "\r" + output
+            output = "/r" + output
             self.pendingcr = False
 
-        # retain last \r even when not translating data:
-        # then readline() is sure to get \r\n in one pass
-        if output.endswith("\r") and not final:
+        # retain last /r even when not translating data:
+        # then readline() is sure to get /r/n in one pass
+        if output.endswith("/r") and not final:
             output = output[:-1]
             self.pendingcr = True
 
         # Record which newlines are read
-        crlf = output.count('\r\n')
-        cr = output.count('\r') - crlf
-        lf = output.count('\n') - crlf
-        self.seennl |= (lf and self._LF) | (cr and self._CR) \
+        crlf = output.count('/r/n')
+        cr = output.count('/r') - crlf
+        lf = output.count('/n') - crlf
+        self.seennl |= (lf and self._LF) | (cr and self._CR) /
                     | (crlf and self._CRLF)
 
         if self.translate:
             if crlf:
-                output = output.replace("\r\n", "\n")
+                output = output.replace("/r/n", "/n")
             if cr:
-                output = output.replace("\r", "\n")
+                output = output.replace("/r", "/n")
 
         return output
 
@@ -1440,13 +1440,13 @@ class IncrementalNewlineDecoder(codecs.IncrementalDecoder):
     @property
     def newlines(self):
         return (None,
-                "\n",
-                "\r",
-                ("\r", "\n"),
-                "\r\n",
-                ("\n", "\r\n"),
-                ("\r", "\r\n"),
-                ("\r", "\n", "\r\n")
+                "/n",
+                "/r",
+                ("/r", "/n"),
+                "/r/n",
+                ("/n", "/r/n"),
+                ("/r", "/r/n"),
+                ("/r", "/n", "/r/n")
                )[self.seennl]
 
 
@@ -1460,14 +1460,14 @@ class TextIOWrapper(TextIOBase):
     errors determines the strictness of encoding and decoding (see the
     codecs.register) and defaults to "strict".
 
-    newline can be None, '', '\n', '\r', or '\r\n'.  It controls the
+    newline can be None, '', '/n', '/r', or '/r/n'.  It controls the
     handling of line endings. If it is None, universal newlines is
-    enabled.  With this enabled, on input, the lines endings '\n', '\r',
-    or '\r\n' are translated to '\n' before being returned to the
-    caller. Conversely, on output, '\n' is translated to the system
+    enabled.  With this enabled, on input, the lines endings '/n', '/r',
+    or '/r/n' are translated to '/n' before being returned to the
+    caller. Conversely, on output, '/n' is translated to the system
     default line separator, os.linesep. If newline is any other of its
     legal values, that newline becomes the newline when the file is read
-    and it is returned untranslated. On output, '\n' is converted to the
+    and it is returned untranslated. On output, '/n' is converted to the
     newline.
 
     If line_buffering is True, a call to flush is implied when a call to
@@ -1480,7 +1480,7 @@ class TextIOWrapper(TextIOBase):
                  line_buffering=False, write_through=False):
         if newline is not None and not isinstance(newline, str):
             raise TypeError("illegal newline type: %r" % (type(newline),))
-        if newline not in (None, "", "\n", "\r", "\r\n"):
+        if newline not in (None, "", "/n", "/r", "/r/n"):
             raise ValueError("illegal newline value: %r" % (newline,))
         if encoding is None:
             try:
@@ -1614,14 +1614,14 @@ class TextIOWrapper(TextIOBase):
             raise TypeError("can't write %s to text stream" %
                             s.__class__.__name__)
         length = len(s)
-        haslf = (self._writetranslate or self._line_buffering) and "\n" in s
-        if haslf and self._writetranslate and self._writenl != "\n":
-            s = s.replace("\n", self._writenl)
+        haslf = (self._writetranslate or self._line_buffering) and "/n" in s
+        if haslf and self._writetranslate and self._writenl != "/n":
+            s = s.replace("/n", self._writenl)
         encoder = self._encoder or self._get_encoder()
         # XXX What if we were just reading?
         b = encoder.encode(s)
         self.buffer.write(b)
-        if self._line_buffering and (haslf or "\r" in s):
+        if self._line_buffering and (haslf or "/r" in s):
             self.flush()
         self._snapshot = None
         if self._decoder:
@@ -1827,7 +1827,7 @@ class TextIOWrapper(TextIOBase):
 
         # The strategy of seek() is to go back to the safe start point
         # and replay the effect of read(chars_to_skip) from there.
-        start_pos, dec_flags, bytes_to_feed, need_eof, chars_to_skip = \
+        start_pos, dec_flags, bytes_to_feed, need_eof, chars_to_skip = /
             self._unpack_cookie(cookie)
 
         # Seek back to the safe start point.
@@ -1921,8 +1921,8 @@ class TextIOWrapper(TextIOBase):
         pos = endpos = None
         while True:
             if self._readtranslate:
-                # Newlines are already translated, only search for \n
-                pos = line.find('\n', start)
+                # Newlines are already translated, only search for /n
+                pos = line.find('/n', start)
                 if pos >= 0:
                     endpos = pos + 1
                     break
@@ -1930,34 +1930,34 @@ class TextIOWrapper(TextIOBase):
                     start = len(line)
 
             elif self._readuniversal:
-                # Universal newline search. Find any of \r, \r\n, \n
-                # The decoder ensures that \r\n are not split in two pieces
+                # Universal newline search. Find any of /r, /r/n, /n
+                # The decoder ensures that /r/n are not split in two pieces
 
                 # In C we'd look for these in parallel of course.
-                nlpos = line.find("\n", start)
-                crpos = line.find("\r", start)
+                nlpos = line.find("/n", start)
+                crpos = line.find("/r", start)
                 if crpos == -1:
                     if nlpos == -1:
                         # Nothing found
                         start = len(line)
                     else:
-                        # Found \n
+                        # Found /n
                         endpos = nlpos + 1
                         break
                 elif nlpos == -1:
-                    # Found lone \r
+                    # Found lone /r
                     endpos = crpos + 1
                     break
                 elif nlpos < crpos:
-                    # Found \n
+                    # Found /n
                     endpos = nlpos + 1
                     break
                 elif nlpos == crpos + 1:
-                    # Found \r\n
+                    # Found /r/n
                     endpos = crpos + 2
                     break
                 else:
-                    # Found \r
+                    # Found /r
                     endpos = crpos + 1
                     break
             else:
@@ -2002,7 +2002,7 @@ class StringIO(TextIOWrapper):
     argument is like the one of TextIOWrapper's constructor.
     """
 
-    def __init__(self, initial_value="", newline="\n"):
+    def __init__(self, initial_value="", newline="/n"):
         super(StringIO, self).__init__(BytesIO(),
                                        encoding="utf-8",
                                        errors="strict",

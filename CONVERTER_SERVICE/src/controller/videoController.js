@@ -1,5 +1,9 @@
+<<<<<<< Updated upstream
 require("dotenv").config("../../.env");
 const outputPath = process.env.OUTPUT_PATH;
+=======
+const zipPath = process.env.ZIP_PATH;
+>>>>>>> Stashed changes
 const path = require("path");
 const Zip = require("../middleware/zipping");
 const VideoServices = require("../middleware/videoService");
@@ -23,12 +27,20 @@ const changeVideoFormat = async (req, res) => {
     );
     const nameZipFile = path.basename(resultZipPath);
 
+<<<<<<< Updated upstream
     res.status(200).send([
         {
             name: nameFile,
             filePath: "http://localhost:8080/files/" + nameZipFile,
         },
     ]);
+=======
+    res.status(200).send({
+        name: resultName,
+        filePath: process.env.BASE_URL + nameZipFile,
+        params: req.body
+    });
+>>>>>>> Stashed changes
 };
 
 const download = (req, res) => {

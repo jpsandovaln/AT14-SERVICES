@@ -90,7 +90,7 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.cannot_set_attr(self.b, '__name__', 7, TypeError)
         # __name__ must be available when in restricted mode. Exec will raise
         # AttributeError if __name__ is not available on f.
-        s = """def f(): pass\nf.__name__"""
+        s = """def f(): pass/nf.__name__"""
         exec(s, {'__builtins__': {}})
         # Test on methods, too
         self.assertEqual(self.fi.a.__name__, 'a')

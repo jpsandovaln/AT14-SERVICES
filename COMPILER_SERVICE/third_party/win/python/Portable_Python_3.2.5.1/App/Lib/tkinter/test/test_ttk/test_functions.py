@@ -58,8 +58,8 @@ class InternalFunctionsTest(unittest.TestCase):
                  'test7': '} -spam {'}, script=True),
             {'-test': '{1 -1 {} 2m 0}', '-test2': '3',
              '-test3': '{}', '-test4': '{abc def}',
-             '-test5': '{"abc"}', '-test6': r'\{\}',
-             '-test7': r'\}\ -spam\ \{'})
+             '-test5': '{"abc"}', '-test6': r'/{/}',
+             '-test7': r'/}/ -spam/ /{'})
 
         opts = {'αβγ': True, 'á': False}
         orig_opts = opts.copy()
@@ -75,8 +75,8 @@ class InternalFunctionsTest(unittest.TestCase):
             {'-option': '{one two} three'})
         check_against(
             ttk._format_optdict(
-                {'option': ('one\ttwo', 'three')}),
-            {'-option': '{one\ttwo} three'})
+                {'option': ('one/ttwo', 'three')}),
+            {'-option': '{one/ttwo} three'})
 
         # passing empty strings inside a tuple/list
         check_against(
@@ -88,7 +88,7 @@ class InternalFunctionsTest(unittest.TestCase):
         check_against(
             ttk._format_optdict(
                 {'option': ('one} {two', 'three')}),
-            {'-option': r'one\}\ \{two three'})
+            {'-option': r'one/}/ /{two three'})
 
         # passing quoted strings inside a tuple/list
         check_against(
@@ -98,7 +98,7 @@ class InternalFunctionsTest(unittest.TestCase):
         check_against(
             ttk._format_optdict(
                 {'option': ('{one}', 'two')}),
-            {'-option': r'\{one\} two'})
+            {'-option': r'/{one/} two'})
 
         # ignore an option
         amount_opts = len(ttk._format_optdict(opts, ignore=('á'))) / 2
@@ -226,12 +226,12 @@ class InternalFunctionsTest(unittest.TestCase):
         def sample_expected(indent=0, indent_size=2):
             spaces = lambda amount=0: ' ' * (amount + indent)
             return (
-                "%sa -other {1 2 3} -children {\n"
-                "%sb -children {\n"
-                "%sc -something {1 2} -children {\n"
-                "%sd -nice opt\n"
-                "%s}\n"
-                "%s}\n"
+                "%sa -other {1 2 3} -children {/n"
+                "%sb -children {/n"
+                "%sc -something {1 2} -children {/n"
+                "%sd -nice opt/n"
+                "%s}/n"
+                "%s}/n"
                 "%s}" % (spaces(), spaces(indent_size),
                     spaces(2 * indent_size), spaces(3 * indent_size),
                     spaces(2 * indent_size), spaces(indent_size), spaces()))
@@ -277,7 +277,7 @@ class InternalFunctionsTest(unittest.TestCase):
         # empty layout
         self.assertEqual(
             ttk._script_from_settings({'name': {'layout': None}}),
-            "ttk::style layout name {\nnull\n}")
+            "ttk::style layout name {/nnull/n}")
 
         configdict = {'αβγ': True, 'á': False}
         self.assertTrue(

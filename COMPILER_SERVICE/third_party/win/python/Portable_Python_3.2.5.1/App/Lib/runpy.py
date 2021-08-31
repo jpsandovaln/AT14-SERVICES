@@ -269,7 +269,7 @@ def run_path(path_name, init_globals=None, run_name=None):
                 mod_name, loader, code, fname = _get_main_module_details()
             finally:
                 sys.modules[main_name] = saved_main
-            with _TempModule(run_name) as temp_module, \
+            with _TempModule(run_name) as temp_module, /
                  _ModifiedArgv0(path_name):
                 mod_globals = temp_module.module.__dict__
                 return _run_code(code, mod_globals, init_globals,

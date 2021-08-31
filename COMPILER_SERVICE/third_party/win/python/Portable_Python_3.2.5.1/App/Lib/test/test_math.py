@@ -483,7 +483,7 @@ class MathTests(unittest.TestCase):
         def testfrexp(name, result, expected):
             (mant, exp), (emant, eexp) = result, expected
             if abs(mant-emant) > eps or exp != eexp:
-                self.fail('%s returned %r, expected %r'%\
+                self.fail('%s returned %r, expected %r'%/
                           (name, result, expected))
 
         testfrexp('frexp(-1)', math.frexp(-1), (-0.5, 1))
@@ -668,7 +668,7 @@ class MathTests(unittest.TestCase):
         def testmodf(name, result, expected):
             (v1, v2), (e1, e2) = result, expected
             if abs(v1-e1) > eps or abs(v2-e2):
-                self.fail('%s returned %r, expected %r'%\
+                self.fail('%s returned %r, expected %r'%/
                           (name, result, expected))
 
         testmodf('modf(1.5)', math.modf(1.5), (0.5, 1.0))
@@ -999,12 +999,12 @@ class MathTests(unittest.TestCase):
             try:
                 result = func(ar)
             except ValueError as exc:
-                message = (("Unexpected ValueError: %s\n        " +
-                           "in test %s:%s(%r)\n") % (exc.args[0], id, fn, ar))
+                message = (("Unexpected ValueError: %s/n        " +
+                           "in test %s:%s(%r)/n") % (exc.args[0], id, fn, ar))
                 self.fail(message)
             except OverflowError:
                 message = ("Unexpected OverflowError in " +
-                           "test %s:%s(%r)\n" % (id, fn, ar))
+                           "test %s:%s(%r)/n" % (id, fn, ar))
                 self.fail(message)
             self.ftest("%s:%s(%r)" % (id, fn, ar), result, er)
 
@@ -1066,8 +1066,8 @@ class MathTests(unittest.TestCase):
             failures.append(fail_msg)
 
         if failures:
-            self.fail('Failures in test_mtestfile:\n  ' +
-                      '\n  '.join(failures))
+            self.fail('Failures in test_mtestfile:/n  ' +
+                      '/n  '.join(failures))
 
 
 def test_main():

@@ -38,7 +38,7 @@ class HTTPSServer(_HTTPServer):
         except socket.error as e:
             # socket errors are silenced by the caller, print them here
             if support.verbose:
-                sys.stderr.write("Got an error:\n%s\n" % e)
+                sys.stderr.write("Got an error:/n%s/n" % e)
             raise
         return sslconn, addr
 
@@ -75,7 +75,7 @@ class RootedHTTPRequestHandler(SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
         # we override this to suppress logging unless "verbose"
         if support.verbose:
-            sys.stdout.write(" server (%s:%d %s):\n   [%s] %s\n" %
+            sys.stdout.write(" server (%s:%d %s):/n   [%s] %s/n" %
                              (self.server.server_address,
                               self.server.server_port,
                               self.request.cipher(),
@@ -152,10 +152,10 @@ def make_https_server(case, certfile=CERTFILE, host=HOST, handler_class=None):
     flag.wait()
     def cleanup():
         if support.verbose:
-            sys.stdout.write('stopping HTTPS server\n')
+            sys.stdout.write('stopping HTTPS server/n')
         server.stop()
         if support.verbose:
-            sys.stdout.write('joining HTTPS thread\n')
+            sys.stdout.write('joining HTTPS thread/n')
         server.join()
     case.addCleanup(cleanup)
     return server

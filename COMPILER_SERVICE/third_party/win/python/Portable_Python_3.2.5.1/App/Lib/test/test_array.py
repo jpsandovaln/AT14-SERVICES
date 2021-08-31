@@ -149,7 +149,7 @@ class ArrayReconstructorTest(unittest.TestCase):
                     msg="{0!r} != {1!r}; testcase={2!r}".format(a, b, testcase))
 
     def test_unicode(self):
-        teststr = "Bonne Journ\xe9e \U0002030a\U00020347"
+        teststr = "Bonne Journ/xe9e /U0002030a/U00020347"
         testcases = (
             (UTF16_LE, "UTF-16-LE"),
             (UTF16_BE, "UTF-16-BE"),
@@ -371,7 +371,7 @@ class BaseTest(unittest.TestCase):
         nb_warnings = 4
         with warnings.catch_warnings(record=True) as r:
             warnings.filterwarnings("always",
-                                    message=r"(to|from)string\(\) is deprecated",
+                                    message=r"(to|from)string/(/) is deprecated",
                                     category=DeprecationWarning)
             a = array.array(self.typecode, 2*self.example)
             b = array.array(self.typecode)
@@ -451,7 +451,7 @@ class BaseTest(unittest.TestCase):
         self.assertTrue((a >= ab) is False)
 
     def test_add(self):
-        a = array.array(self.typecode, self.example) \
+        a = array.array(self.typecode, self.example) /
             + array.array(self.typecode, self.example[::-1])
         self.assertEqual(
             a,
@@ -1011,28 +1011,28 @@ class StringTest(BaseTest):
 
 class UnicodeTest(StringTest):
     typecode = 'u'
-    example = '\x01\u263a\x00\ufeff'
-    smallerexample = '\x01\u263a\x00\ufefe'
-    biggerexample = '\x01\u263a\x01\ufeff'
-    outside = str('\x33')
+    example = '/x01/u263a/x00/ufeff'
+    smallerexample = '/x01/u263a/x00/ufefe'
+    biggerexample = '/x01/u263a/x01/ufeff'
+    outside = str('/x33')
     minitemsize = 2
 
     def test_unicode(self):
         self.assertRaises(TypeError, array.array, 'b', 'foo')
 
-        a = array.array('u', '\xa0\xc2\u1234')
+        a = array.array('u', '/xa0/xc2/u1234')
         a.fromunicode(' ')
         a.fromunicode('')
         a.fromunicode('')
-        a.fromunicode('\x11abc\xff\u1234')
+        a.fromunicode('/x11abc/xff/u1234')
         s = a.tounicode()
-        self.assertEqual(s, '\xa0\xc2\u1234 \x11abc\xff\u1234')
+        self.assertEqual(s, '/xa0/xc2/u1234 /x11abc/xff/u1234')
 
-        s = '\x00="\'a\\b\x80\xff\u0000\u0001\u1234'
+        s = '/x00="/'a//b/x80/xff/u0000/u0001/u1234'
         a = array.array('u', s)
         self.assertEqual(
             repr(a),
-            "array('u', '\\x00=\"\\'a\\\\b\\x80\xff\\x00\\x01\u1234')")
+            "array('u', '//x00=/"//'a////b//x80/xff//x00//x01/u1234')")
 
         self.assertRaises(TypeError, a.fromunicode)
 

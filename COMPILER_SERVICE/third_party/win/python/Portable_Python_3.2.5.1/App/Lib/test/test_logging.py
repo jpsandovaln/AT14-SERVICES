@@ -59,7 +59,7 @@ class BaseTest(unittest.TestCase):
     """Base class for logging tests."""
 
     log_format = "%(name)s -> %(levelname)s: %(message)s"
-    expected_log_pat = r"^([\w.]+) -> ([\w]+): ([\d]+)$"
+    expected_log_pat = r"^([/w.]+) -> ([/w]+): ([/d]+)$"
     message_num = 0
 
     def setUp(self):
@@ -82,8 +82,8 @@ class BaseTest(unittest.TestCase):
         # Set two unused loggers: one non-ASCII and one Unicode.
         # This is to test correct operation when sorting existing
         # loggers in the configuration code. See issue 8201.
-        self.logger1 = logging.getLogger("\xab\xd7\xbb")
-        self.logger2 = logging.getLogger("\u013f\u00d6\u0047")
+        self.logger1 = logging.getLogger("/xab/xd7/xbb")
+        self.logger2 = logging.getLogger("/u013f/u00d6/u0047")
 
         self.root_logger = logging.getLogger("")
         self.original_logging_level = self.root_logger.getEffectiveLevel()
@@ -147,12 +147,12 @@ class BaseTest(unittest.TestCase):
         for actual, expected in zip(actual_lines, expected_values):
             match = pat.search(actual)
             if not match:
-                self.fail("Log line does not match expected pattern:\n" +
+                self.fail("Log line does not match expected pattern:/n" +
                             actual)
             self.assertEqual(tuple(match.groups()), expected)
         s = stream.read()
         if s:
-            self.fail("Remaining output at end of log stream:\n" + s)
+            self.fail("Remaining output at end of log stream:/n" + s)
 
     def next_message(self):
         """Generate a message consisting solely of an auto-incrementing
@@ -414,7 +414,7 @@ class CustomLevelsAndFiltersTest(BaseTest):
     """Test various filtering possibilities with custom logging levels."""
 
     # Skip the logger name group.
-    expected_log_pat = r"^[\w.]+ -> ([\w]+): ([\d]+)$"
+    expected_log_pat = r"^[/w.]+ -> ([/w]+): ([/d]+)$"
 
     def setUp(self):
         BaseTest.setUp(self)
@@ -503,7 +503,7 @@ class MemoryHandlerTest(BaseTest):
     """Tests for the MemoryHandler."""
 
     # Do not bother with a logger name group.
-    expected_log_pat = r"^[\w.]+ -> ([\w]+): ([\d]+)$"
+    expected_log_pat = r"^[/w.]+ -> ([/w]+): ([/d]+)$"
 
     def setUp(self):
         BaseTest.setUp(self)
@@ -556,7 +556,7 @@ class ConfigFileTest(BaseTest):
 
     """Reading logging config from a .ini-style config file."""
 
-    expected_log_pat = r"^([\w]+) \+\+ ([\w]+)$"
+    expected_log_pat = r"^([/w]+) /+/+ ([/w]+)$"
 
     # config0 is a standard configuration.
     config0 = """
@@ -838,7 +838,7 @@ class ConfigFileTest(BaseTest):
                 logging.exception("just testing")
             sys.stdout.seek(0)
             self.assertEqual(output.getvalue(),
-                "ERROR:root:just testing\nGot a [RuntimeError]\n")
+                "ERROR:root:just testing/nGot a [RuntimeError]/n")
             # Original logger output is empty
             self.assert_log_lines([])
 
@@ -932,7 +932,7 @@ class LogRecordStreamHandler(StreamRequestHandler):
         if self.TCP_LOG_END in record.msg:
             self.server.abort = 1
             return
-        self.server.log_output += record.msg + "\n"
+        self.server.log_output += record.msg + "/n"
 
 
 class LogRecordSocketReceiver(ThreadingTCPServer):
@@ -1008,7 +1008,7 @@ class SocketHandlerTest(BaseTest):
         logger = logging.getLogger("tcp")
         logger.error("spam")
         logger.debug("eggs")
-        self.assertEqual(self.get_output(), "spam\neggs\n")
+        self.assertEqual(self.get_output(), "spam/neggs/n")
 
 
 class MemoryTest(BaseTest):
@@ -1070,7 +1070,7 @@ class EncodingTest(BaseTest):
         fd, fn = tempfile.mkstemp(".log", "test_logging-1-")
         os.close(fd)
         # the non-ascii data we write to the log.
-        data = "foo\x80"
+        data = "foo/x80"
         try:
             handler = logging.FileHandler(fn, encoding="utf-8")
             log.addHandler(handler)
@@ -1080,7 +1080,7 @@ class EncodingTest(BaseTest):
             finally:
                 log.removeHandler(handler)
                 handler.close()
-            # check we wrote exactly those bytes, ignoring trailing \n etc
+            # check we wrote exactly those bytes, ignoring trailing /n etc
             f = open(fn, encoding="utf-8")
             try:
                 self.assertEqual(f.read().rstrip(), data)
@@ -1093,7 +1093,7 @@ class EncodingTest(BaseTest):
     def test_encoding_cyrillic_unicode(self):
         log = logging.getLogger("test")
         #Get a message in Unicode: Do svidanya in Cyrillic (meaning goodbye)
-        message = '\u0434\u043e \u0441\u0432\u0438\u0434\u0430\u043d\u0438\u044f'
+        message = '/u0434/u043e /u0441/u0432/u0438/u0434/u0430/u043d/u0438/u044f'
         #Ensure it's written in a Cyrillic encoding
         writer_class = codecs.getwriter('cp1251')
         writer_class.encoding = 'cp1251'
@@ -1106,10 +1106,10 @@ class EncodingTest(BaseTest):
         finally:
             log.removeHandler(handler)
             handler.close()
-        # check we wrote exactly those bytes, ignoring trailing \n etc
+        # check we wrote exactly those bytes, ignoring trailing /n etc
         s = stream.getvalue()
         #Compare against what the data should be when encoded in CP-1251
-        self.assertEqual(s, b'\xe4\xee \xf1\xe2\xe8\xe4\xe0\xed\xe8\xff\n')
+        self.assertEqual(s, b'/xe4/xee /xf1/xe2/xe8/xe4/xe0/xed/xe8/xff/n')
 
 
 class WarningsTest(BaseTest):
@@ -1127,7 +1127,7 @@ class WarningsTest(BaseTest):
                 logger.removeHandler(h)
                 s = file.getvalue()
                 h.close()
-                self.assertTrue(s.find("UserWarning: I'm warning you...\n") > 0)
+                self.assertTrue(s.find("UserWarning: I'm warning you.../n") > 0)
 
                 #See if an explicit file uses the original implementation
                 file = io.StringIO()
@@ -1136,7 +1136,7 @@ class WarningsTest(BaseTest):
                 s = file.getvalue()
                 file.close()
                 self.assertEqual(s,
-                        "dummy.py:42: UserWarning: Explicit\n  Dummy line\n")
+                        "dummy.py:42: UserWarning: Explicit/n  Dummy line/n")
             finally:
                 logging.captureWarnings(False)
 
@@ -1154,7 +1154,7 @@ class ConfigDictTest(BaseTest):
 
     """Reading logging config from a dictionary."""
 
-    expected_log_pat = r"^([\w]+) \+\+ ([\w]+)$"
+    expected_log_pat = r"^([/w]+) /+/+ ([/w]+)$"
 
     # config0 is a standard configuration.
     config0 = {
@@ -1816,7 +1816,7 @@ class ConfigDictTest(BaseTest):
                 logging.exception("just testing")
             sys.stdout.seek(0)
             self.assertEqual(output.getvalue(),
-                "ERROR:root:just testing\nGot a [RuntimeError]\n")
+                "ERROR:root:just testing/nGot a [RuntimeError]/n")
             # Original logger output is empty
             self.assert_log_lines([])
 
@@ -1831,7 +1831,7 @@ class ConfigDictTest(BaseTest):
                 logging.exception("just testing")
             sys.stdout.seek(0)
             self.assertEqual(output.getvalue(),
-                "ERROR:root:just testing\nGot a [RuntimeError]\n")
+                "ERROR:root:just testing/nGot a [RuntimeError]/n")
             # Original logger output is empty
             self.assert_log_lines([])
 
@@ -2134,7 +2134,7 @@ class LogRecordFactoryTest(BaseTest):
 
 class QueueHandlerTest(BaseTest):
     # Do not bother with a logger name group.
-    expected_log_pat = r"^[\w.]+ -> ([\w]+): ([\d]+)$"
+    expected_log_pat = r"^[/w.]+ -> ([/w]+): ([/d]+)$"
 
     def setUp(self):
         BaseTest.setUp(self)
@@ -2261,12 +2261,12 @@ class LastResortTest(BaseTest):
         try:
             sys.stderr = sio = io.StringIO()
             root.warning('This is your final chance!')
-            self.assertEqual(sio.getvalue(), 'This is your final chance!\n')
+            self.assertEqual(sio.getvalue(), 'This is your final chance!/n')
             #No handlers and no last resort, so 'No handlers' message
             logging.lastResort = None
             sys.stderr = sio = io.StringIO()
             root.warning('This is your final chance!')
-            self.assertEqual(sio.getvalue(), 'No handlers could be found for logger "root"\n')
+            self.assertEqual(sio.getvalue(), 'No handlers could be found for logger "root"/n')
             # 'No handlers' message only printed once
             sys.stderr = sio = io.StringIO()
             root.warning('This is your final chance!')

@@ -17,14 +17,14 @@ printable -- a string containing all ASCII characters considered printable
 import _string
 
 # Some strings for ctype-style character classification
-whitespace = ' \t\n\r\v\f'
+whitespace = ' /t/n/r/v/f'
 ascii_lowercase = 'abcdefghijklmnopqrstuvwxyz'
 ascii_uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 ascii_letters = ascii_lowercase + ascii_uppercase
 digits = '0123456789'
 hexdigits = digits + 'abcdef' + 'ABCDEF'
 octdigits = '01234567'
-punctuation = """!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""
+punctuation = """!"#$%&'()*+,-./:;<=>?@[/]^_`{|}~"""
 printable = digits + ascii_letters + punctuation + whitespace
 
 # Functions which aren't available as string methods.
@@ -189,7 +189,7 @@ class Formatter:
         if recursion_depth < 0:
             raise ValueError('Max string recursion exceeded')
         result = []
-        for literal_text, field_name, format_spec, conversion in \
+        for literal_text, field_name, format_spec, conversion in /
                 self.parse(format_string):
 
             # output the literal text

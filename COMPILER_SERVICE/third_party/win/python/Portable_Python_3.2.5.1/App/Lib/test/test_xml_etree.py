@@ -27,7 +27,7 @@ except UnicodeEncodeError:
     raise unittest.SkipTest("filename is not encodable to utf8")
 SIMPLE_NS_XMLFILE = findfile("simple-ns.xml", subdir="xmltestdata")
 
-SAMPLE_XML = """\
+SAMPLE_XML = """/
 <body>
   <tag class='a'>text</tag>
   <tag class='b' />
@@ -37,7 +37,7 @@ SAMPLE_XML = """\
 </body>
 """
 
-SAMPLE_SECTION = """\
+SAMPLE_SECTION = """/
 <section>
   <tag class='b' id='inner'>subtext</tag>
   <nexttag />
@@ -96,9 +96,9 @@ def summarize_list(seq):
 def normalize_crlf(tree):
     for elem in tree.iter():
         if elem.text:
-            elem.text = elem.text.replace("\r\n", "\n")
+            elem.text = elem.text.replace("/r/n", "/n")
         if elem.tail:
-            elem.tail = elem.tail.replace("\r\n", "\n")
+            elem.tail = elem.tail.replace("/r/n", "/n")
 
 def normalize_exception(func, *args, **kwargs):
     # Ignore the exception __module__
@@ -160,10 +160,10 @@ def interface():
     >>> tree = ET.ElementTree(element)
     >>> check_element(tree.getroot())
 
-    >>> element = ET.Element("t\\xe4g", key="value")
+    >>> element = ET.Element("t//xe4g", key="value")
     >>> tree = ET.ElementTree(element)
     >>> repr(element)   # doctest: +ELLIPSIS
-    "<Element 't\\xe4g' at 0x...>"
+    "<Element 't//xe4g' at 0x...>"
     >>> element = ET.Element("tag", key="value")
 
     Make sure all standard element methods exist.
@@ -653,7 +653,7 @@ def parseliteral():
     >>> b"".join(ET.tostringlist(element))
     b'<html><body>text</body></html>'
     >>> ET.tostring(element, "ascii")
-    b"<?xml version='1.0' encoding='ascii'?>\\n<html><body>text</body></html>"
+    b"<?xml version='1.0' encoding='ascii'?>//n<html><body>text</body></html>"
     >>> _, ids = ET.XMLID("<html><body>text</body></html>")
     >>> len(ids)
     0
@@ -740,15 +740,15 @@ def iterparse():
     >>> import io
 
     >>> source = io.BytesIO(
-    ...     b"<?xml version='1.0' encoding='iso-8859-1'?>\\n"
-    ...     b"<body xmlns='http://&#233;ffbot.org/ns'\\n"
-    ...     b"      xmlns:cl\\xe9='http://effbot.org/ns'>text</body>\\n")
+    ...     b"<?xml version='1.0' encoding='iso-8859-1'?>//n"
+    ...     b"<body xmlns='http://&#233;ffbot.org/ns'//n"
+    ...     b"      xmlns:cl//xe9='http://effbot.org/ns'>text</body>//n")
     >>> events = ("start-ns",)
     >>> context = iterparse(source, events)
     >>> for action, elem in context:
     ...     print(action, elem)
-    start-ns ('', 'http://\\xe9ffbot.org/ns')
-    start-ns ('cl\\xe9', 'http://effbot.org/ns')
+    start-ns ('', 'http:////xe9ffbot.org/ns')
+    start-ns ('cl//xe9', 'http://effbot.org/ns')
 
     >>> source = io.StringIO("<document />junk")
     >>> try:
@@ -917,50 +917,50 @@ def encoding():
     >>> serialize(elem, encoding="us-ascii")
     b'<tag>abc</tag>'
     >>> serialize(elem, encoding="iso-8859-1")
-    b"<?xml version='1.0' encoding='iso-8859-1'?>\n<tag>abc</tag>"
+    b"<?xml version='1.0' encoding='iso-8859-1'?>/n<tag>abc</tag>"
 
-    >>> elem.text = "<&\"\'>"
+    >>> elem.text = "<&/"/'>"
     >>> serialize(elem)
-    '<tag>&lt;&amp;"\'&gt;</tag>'
+    '<tag>&lt;&amp;"/'&gt;</tag>'
     >>> serialize(elem, encoding="utf-8")
-    b'<tag>&lt;&amp;"\'&gt;</tag>'
+    b'<tag>&lt;&amp;"/'&gt;</tag>'
     >>> serialize(elem, encoding="us-ascii") # cdata characters
-    b'<tag>&lt;&amp;"\'&gt;</tag>'
+    b'<tag>&lt;&amp;"/'&gt;</tag>'
     >>> serialize(elem, encoding="iso-8859-1")
-    b'<?xml version=\'1.0\' encoding=\'iso-8859-1\'?>\n<tag>&lt;&amp;"\'&gt;</tag>'
+    b'<?xml version=/'1.0/' encoding=/'iso-8859-1/'?>/n<tag>&lt;&amp;"/'&gt;</tag>'
 
-    >>> elem.attrib["key"] = "<&\"\'>"
+    >>> elem.attrib["key"] = "<&/"/'>"
     >>> elem.text = None
     >>> serialize(elem)
-    '<tag key="&lt;&amp;&quot;\'&gt;" />'
+    '<tag key="&lt;&amp;&quot;/'&gt;" />'
     >>> serialize(elem, encoding="utf-8")
-    b'<tag key="&lt;&amp;&quot;\'&gt;" />'
+    b'<tag key="&lt;&amp;&quot;/'&gt;" />'
     >>> serialize(elem, encoding="us-ascii")
-    b'<tag key="&lt;&amp;&quot;\'&gt;" />'
+    b'<tag key="&lt;&amp;&quot;/'&gt;" />'
     >>> serialize(elem, encoding="iso-8859-1")
-    b'<?xml version=\'1.0\' encoding=\'iso-8859-1\'?>\n<tag key="&lt;&amp;&quot;\'&gt;" />'
+    b'<?xml version=/'1.0/' encoding=/'iso-8859-1/'?>/n<tag key="&lt;&amp;&quot;/'&gt;" />'
 
-    >>> elem.text = '\xe5\xf6\xf6<>'
+    >>> elem.text = '/xe5/xf6/xf6<>'
     >>> elem.attrib.clear()
     >>> serialize(elem)
-    '<tag>\xe5\xf6\xf6&lt;&gt;</tag>'
+    '<tag>/xe5/xf6/xf6&lt;&gt;</tag>'
     >>> serialize(elem, encoding="utf-8")
-    b'<tag>\xc3\xa5\xc3\xb6\xc3\xb6&lt;&gt;</tag>'
+    b'<tag>/xc3/xa5/xc3/xb6/xc3/xb6&lt;&gt;</tag>'
     >>> serialize(elem, encoding="us-ascii")
     b'<tag>&#229;&#246;&#246;&lt;&gt;</tag>'
     >>> serialize(elem, encoding="iso-8859-1")
-    b"<?xml version='1.0' encoding='iso-8859-1'?>\n<tag>\xe5\xf6\xf6&lt;&gt;</tag>"
+    b"<?xml version='1.0' encoding='iso-8859-1'?>/n<tag>/xe5/xf6/xf6&lt;&gt;</tag>"
 
-    >>> elem.attrib["key"] = '\xe5\xf6\xf6<>'
+    >>> elem.attrib["key"] = '/xe5/xf6/xf6<>'
     >>> elem.text = None
     >>> serialize(elem)
-    '<tag key="\xe5\xf6\xf6&lt;&gt;" />'
+    '<tag key="/xe5/xf6/xf6&lt;&gt;" />'
     >>> serialize(elem, encoding="utf-8")
-    b'<tag key="\xc3\xa5\xc3\xb6\xc3\xb6&lt;&gt;" />'
+    b'<tag key="/xc3/xa5/xc3/xb6/xc3/xb6&lt;&gt;" />'
     >>> serialize(elem, encoding="us-ascii")
     b'<tag key="&#229;&#246;&#246;&lt;&gt;" />'
     >>> serialize(elem, encoding="iso-8859-1")
-    b'<?xml version=\'1.0\' encoding=\'iso-8859-1\'?>\n<tag key="\xe5\xf6\xf6&lt;&gt;" />'
+    b'<?xml version=/'1.0/' encoding=/'iso-8859-1/'?>/n<tag key="/xe5/xf6/xf6&lt;&gt;" />'
     """
 
 def methods():
@@ -968,17 +968,17 @@ def methods():
     Test serialization methods.
 
     >>> e = ET.XML("<html><link/><script>1 &lt; 2</script></html>")
-    >>> e.tail = "\n"
+    >>> e.tail = "/n"
     >>> serialize(e)
-    '<html><link /><script>1 &lt; 2</script></html>\n'
+    '<html><link /><script>1 &lt; 2</script></html>/n'
     >>> serialize(e, method=None)
-    '<html><link /><script>1 &lt; 2</script></html>\n'
+    '<html><link /><script>1 &lt; 2</script></html>/n'
     >>> serialize(e, method="xml")
-    '<html><link /><script>1 &lt; 2</script></html>\n'
+    '<html><link /><script>1 &lt; 2</script></html>/n'
     >>> serialize(e, method="html")
-    '<html><link><script>1 < 2</script></html>\n'
+    '<html><link><script>1 < 2</script></html>/n'
     >>> serialize(e, method="text")
-    '1 < 2\n'
+    '1 < 2/n'
     """
 
 def iterators():
@@ -1011,7 +1011,7 @@ def iterators():
     AttributeError: 'NoneType' object has no attribute 'iter'
     """
 
-ENTITY_XML = """\
+ENTITY_XML = """/
 <!DOCTYPE points [
 <!ENTITY % user-entities SYSTEM 'user-entities.xml'>
 %user-entities;
@@ -1029,7 +1029,7 @@ def entity():
     >>> serialize(e, encoding="us-ascii")
     b'<document title="&#33328;">test</document>'
     >>> serialize(e)
-    '<document title="\u8230">test</document>'
+    '<document title="/u8230">test</document>'
 
     2) bad entities
 
@@ -1258,8 +1258,8 @@ def processinginstruction():
 
     >>> ET.tostring(ET.PI('test', '<testing&>'))
     b'<?test <testing&>?>'
-    >>> ET.tostring(ET.PI('test', '<testing&>\xe3'), 'latin1')
-    b"<?xml version='1.0' encoding='latin1'?>\\n<?test <testing&>\\xe3?>"
+    >>> ET.tostring(ET.PI('test', '<testing&>/xe3'), 'latin1')
+    b"<?xml version='1.0' encoding='latin1'?>//n<?test <testing&>//xe3?>"
     """
 
 #
@@ -1267,7 +1267,7 @@ def processinginstruction():
 
 XINCLUDE = {}
 
-XINCLUDE["C1.xml"] = """\
+XINCLUDE["C1.xml"] = """/
 <?xml version='1.0'?>
 <document xmlns:xi="http://www.w3.org/2001/XInclude">
   <p>120 Mz is adequate for an average home user.</p>
@@ -1275,7 +1275,7 @@ XINCLUDE["C1.xml"] = """\
 </document>
 """
 
-XINCLUDE["disclaimer.xml"] = """\
+XINCLUDE["disclaimer.xml"] = """/
 <?xml version='1.0'?>
 <disclaimer>
   <p>The opinions represented herein represent those of the individual
@@ -1284,7 +1284,7 @@ XINCLUDE["disclaimer.xml"] = """\
 </disclaimer>
 """
 
-XINCLUDE["C2.xml"] = """\
+XINCLUDE["C2.xml"] = """/
 <?xml version='1.0'?>
 <document xmlns:xi="http://www.w3.org/2001/XInclude">
   <p>This document has been accessed
@@ -1294,7 +1294,7 @@ XINCLUDE["C2.xml"] = """\
 
 XINCLUDE["count.txt"] = "324387"
 
-XINCLUDE["C2b.xml"] = """\
+XINCLUDE["C2b.xml"] = """/
 <?xml version='1.0'?>
 <document xmlns:xi="http://www.w3.org/2001/XInclude">
   <p>This document has been <em>accessed</em>
@@ -1302,7 +1302,7 @@ XINCLUDE["C2b.xml"] = """\
 </document>
 """
 
-XINCLUDE["C3.xml"] = """\
+XINCLUDE["C3.xml"] = """/
 <?xml version='1.0'?>
 <document xmlns:xi="http://www.w3.org/2001/XInclude">
   <p>The following is the source of the "data.xml" resource:</p>
@@ -1310,14 +1310,14 @@ XINCLUDE["C3.xml"] = """\
 </document>
 """
 
-XINCLUDE["data.xml"] = """\
+XINCLUDE["data.xml"] = """/
 <?xml version='1.0'?>
 <data>
   <item><![CDATA[Brooks & Shields]]></item>
 </data>
 """
 
-XINCLUDE["C5.xml"] = """\
+XINCLUDE["C5.xml"] = """/
 <?xml version='1.0'?>
 <div xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="example.txt" parse="text">
@@ -1330,7 +1330,7 @@ XINCLUDE["C5.xml"] = """\
 </div>
 """
 
-XINCLUDE["default.xml"] = """\
+XINCLUDE["default.xml"] = """/
 <?xml version='1.0'?>
 <document xmlns:xi="http://www.w3.org/2001/XInclude">
   <p>Example.</p>
@@ -1433,7 +1433,7 @@ def xinclude_default():
 
 XINCLUDE_BAD = {}
 
-XINCLUDE_BAD["B1.xml"] = """\
+XINCLUDE_BAD["B1.xml"] = """/
 <?xml version='1.0'?>
 <document xmlns:xi="http://www.w3.org/2001/XInclude">
   <p>120 Mz is adequate for an average home user.</p>
@@ -1441,7 +1441,7 @@ XINCLUDE_BAD["B1.xml"] = """\
 </document>
 """
 
-XINCLUDE_BAD["B2.xml"] = """\
+XINCLUDE_BAD["B2.xml"] = """/
 <?xml version='1.0'?>
 <div xmlns:xi="http://www.w3.org/2001/XInclude">
     <xi:fallback></xi:fallback>
@@ -1563,28 +1563,28 @@ def bug_xmltoolkit39():
 
     non-ascii element and attribute names doesn't work
 
-    >>> tree = ET.XML(b"<?xml version='1.0' encoding='iso-8859-1'?><t\\xe4g />")
+    >>> tree = ET.XML(b"<?xml version='1.0' encoding='iso-8859-1'?><t//xe4g />")
     >>> ET.tostring(tree, "utf-8")
-    b'<t\\xc3\\xa4g />'
+    b'<t//xc3//xa4g />'
 
-    >>> tree = ET.XML(b"<?xml version='1.0' encoding='iso-8859-1'?><tag \\xe4ttr='v&#228;lue' />")
+    >>> tree = ET.XML(b"<?xml version='1.0' encoding='iso-8859-1'?><tag //xe4ttr='v&#228;lue' />")
     >>> tree.attrib
-    {'\\xe4ttr': 'v\\xe4lue'}
+    {'//xe4ttr': 'v//xe4lue'}
     >>> ET.tostring(tree, "utf-8")
-    b'<tag \\xc3\\xa4ttr="v\\xc3\\xa4lue" />'
+    b'<tag //xc3//xa4ttr="v//xc3//xa4lue" />'
 
-    >>> tree = ET.XML(b"<?xml version='1.0' encoding='iso-8859-1'?><t\\xe4g>text</t\\xe4g>")
+    >>> tree = ET.XML(b"<?xml version='1.0' encoding='iso-8859-1'?><t//xe4g>text</t//xe4g>")
     >>> ET.tostring(tree, "utf-8")
-    b'<t\\xc3\\xa4g>text</t\\xc3\\xa4g>'
+    b'<t//xc3//xa4g>text</t//xc3//xa4g>'
 
-    >>> tree = ET.Element("t\u00e4g")
+    >>> tree = ET.Element("t/u00e4g")
     >>> ET.tostring(tree, "utf-8")
-    b'<t\\xc3\\xa4g />'
+    b'<t//xc3//xa4g />'
 
     >>> tree = ET.Element("tag")
-    >>> tree.set("\u00e4ttr", "v\u00e4lue")
+    >>> tree.set("/u00e4ttr", "v/u00e4lue")
     >>> ET.tostring(tree, "utf-8")
-    b'<tag \\xc3\\xa4ttr="v\\xc3\\xa4lue" />'
+    b'<tag //xc3//xa4ttr="v//xc3//xa4lue" />'
 
     """
 
@@ -1597,7 +1597,7 @@ def bug_xmltoolkit54():
     >>> serialize(e, encoding="us-ascii")
     b'<doc>&#33328;</doc>'
     >>> serialize(e)
-    '<doc>\u8230</doc>'
+    '<doc>/u8230</doc>'
 
     """
 
@@ -1641,10 +1641,10 @@ def xmltoolkit62():
     Don't crash when using custom entities.
 
     >>> xmltoolkit62()
-    'A new cultivar of Begonia plant named \u2018BCT9801BEG\u2019.'
+    'A new cultivar of Begonia plant named /u2018BCT9801BEG/u2019.'
 
     """
-    ENTITIES = {'rsquo': '\u2019', 'lsquo': '\u2018'}
+    ENTITIES = {'rsquo': '/u2019', 'lsquo': '/u2018'}
     parser = ET.XMLTreeBuilder()
     parser.entity.update(ENTITIES)
     parser.feed(XMLTOOLKIT62_DOC)
@@ -1676,11 +1676,11 @@ def bug_200708_newline():
 
     Preserve newlines in attributes.
 
-    >>> e = ET.Element('SomeTag', text="def _f():\n  return 3\n")
+    >>> e = ET.Element('SomeTag', text="def _f():/n  return 3/n")
     >>> ET.tostring(e)
     b'<SomeTag text="def _f():&#10;  return 3&#10;" />'
     >>> ET.XML(ET.tostring(e)).get("text")
-    'def _f():\n  return 3\n'
+    'def _f():/n  return 3/n'
     >>> ET.tostring(ET.XML(ET.tostring(e)))
     b'<SomeTag text="def _f():&#10;  return 3&#10;" />'
 
@@ -1810,12 +1810,12 @@ def bug_1534630():
 def check_issue6233():
     """
 
-    >>> e = ET.XML(b"<?xml version='1.0' encoding='utf-8'?><body>t\\xc3\\xa3g</body>")
+    >>> e = ET.XML(b"<?xml version='1.0' encoding='utf-8'?><body>t//xc3//xa3g</body>")
     >>> ET.tostring(e, 'ascii')
-    b"<?xml version='1.0' encoding='ascii'?>\\n<body>t&#227;g</body>"
-    >>> e = ET.XML(b"<?xml version='1.0' encoding='iso-8859-1'?><body>t\\xe3g</body>")
+    b"<?xml version='1.0' encoding='ascii'?>//n<body>t&#227;g</body>"
+    >>> e = ET.XML(b"<?xml version='1.0' encoding='iso-8859-1'?><body>t//xe3g</body>")
     >>> ET.tostring(e, 'ascii')
-    b"<?xml version='1.0' encoding='ascii'?>\\n<body>t&#227;g</body>"
+    b"<?xml version='1.0' encoding='ascii'?>//n<body>t&#227;g</body>"
 
     """
 

@@ -9,7 +9,7 @@ from test import support
 
 # This test data was generated through Cocoa's NSDictionary class
 TESTDATA = b"""<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" \
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" /
 "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -22,7 +22,7 @@ TESTDATA = b"""<?xml version="1.0" encoding="UTF-8"?>
                 <key>aTrueValue</key>
                 <true/>
                 <key>aUnicodeValue</key>
-                <string>M\xc3\xa4ssig, Ma\xc3\x9f</string>
+                <string>M/xc3/xa4ssig, Ma/xc3/x9f</string>
                 <key>anotherString</key>
                 <string>&lt;hello &amp; 'hi' there!&gt;</string>
                 <key>deeperDict</key>
@@ -80,11 +80,11 @@ TESTDATA = b"""<?xml version="1.0" encoding="UTF-8"?>
         dHMgb2YgYmluYXJ5IGd1bms+AAECAzxsb3RzIG9mIGJpbmFyeSBndW5rPgABAgM8bG90
         cyBvZiBiaW5hcnkgZ3Vuaz4AAQIDPGxvdHMgb2YgYmluYXJ5IGd1bms+AAECAw==
         </data>
-        <key>\xc3\x85benraa</key>
+        <key>/xc3/x85benraa</key>
         <string>That was a unicode key.</string>
 </dict>
 </plist>
-""".replace(b" " * 8, b"\t")  # Apple as well as plistlib.py output hard tabs
+""".replace(b" " * 8, b"/t")  # Apple as well as plistlib.py output hard tabs
 
 
 class TestPlistlib(unittest.TestCase):
@@ -103,17 +103,17 @@ class TestPlistlib(unittest.TestCase):
             anInt = 728,
             aDict=dict(
                 anotherString="<hello & 'hi' there!>",
-                aUnicodeValue='M\xe4ssig, Ma\xdf',
+                aUnicodeValue='M/xe4ssig, Ma/xdf',
                 aTrueValue=True,
                 aFalseValue=False,
                 deeperDict=dict(a=17, b=32.5, c=[1, 2, "text"]),
             ),
             someData = plistlib.Data(b"<binary gunk>"),
-            someMoreData = plistlib.Data(b"<lots of binary gunk>\0\1\2\3" * 10),
-            nestedData = [plistlib.Data(b"<lots of binary gunk>\0\1\2\3" * 10)],
+            someMoreData = plistlib.Data(b"<lots of binary gunk>/0/1/2/3" * 10),
+            nestedData = [plistlib.Data(b"<lots of binary gunk>/0/1/2/3" * 10)],
             aDate = datetime.datetime(2004, 10, 26, 10, 33, 33),
         )
-        pl['\xc5benraa'] = "That was a unicode key."
+        pl['/xc5benraa'] = "That was a unicode key."
         return pl
 
     def test_create(self):
@@ -159,8 +159,8 @@ class TestPlistlib(unittest.TestCase):
         for i in range(128):
             c = chr(i)
             testString = "string containing %s" % c
-            if i >= 32 or c in "\r\n\t":
-                # \r, \n and \t are the only legal control chars in XML
+            if i >= 32 or c in "/r/n/t":
+                # /r, /n and /t are the only legal control chars in XML
                 plistlib.writePlistToBytes(testString)
             else:
                 self.assertRaises(ValueError,

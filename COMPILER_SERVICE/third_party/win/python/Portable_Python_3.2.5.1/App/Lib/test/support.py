@@ -474,11 +474,11 @@ def bind_port(sock, host=HOST):
     if sock.family == socket.AF_INET and sock.type == socket.SOCK_STREAM:
         if hasattr(socket, 'SO_REUSEADDR'):
             if sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR) == 1:
-                raise TestFailed("tests should never set the SO_REUSEADDR "   \
+                raise TestFailed("tests should never set the SO_REUSEADDR "   /
                                  "socket option on TCP/IP sockets!")
         if hasattr(socket, 'SO_REUSEPORT'):
             if sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT) == 1:
-                raise TestFailed("tests should never set the SO_REUSEPORT "   \
+                raise TestFailed("tests should never set the SO_REUSEPORT "   /
                                  "socket option on TCP/IP sockets!")
         if hasattr(socket, 'SO_EXCLUSIVEADDRUSE'):
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
@@ -532,32 +532,32 @@ for character in (
     # to encode the character (the list is not exhaustive).
 
     # U+00E6 (Latin Small Letter Ae): cp1252, iso-8859-1
-    '\u00E6',
+    '/u00E6',
     # U+0130 (Latin Capital Letter I With Dot Above): cp1254, iso8859_3
-    '\u0130',
+    '/u0130',
     # U+0141 (Latin Capital Letter L With Stroke): cp1250, cp1257
-    '\u0141',
+    '/u0141',
     # U+03C6 (Greek Small Letter Phi): cp1253
-    '\u03C6',
+    '/u03C6',
     # U+041A (Cyrillic Capital Letter Ka): cp1251
-    '\u041A',
+    '/u041A',
     # U+05D0 (Hebrew Letter Alef): Encodable to cp424
-    '\u05D0',
+    '/u05D0',
     # U+060C (Arabic Comma): cp864, cp1006, iso8859_6, mac_arabic
-    '\u060C',
+    '/u060C',
     # U+062A (Arabic Letter Teh): cp720
-    '\u062A',
+    '/u062A',
     # U+0E01 (Thai Character Ko Kai): cp874
-    '\u0E01',
+    '/u0E01',
 
     # Then try more "special" characters. "special" because they may be
     # interpreted or displayed differently depending on the exact locale
     # encoding and the font.
 
     # U+00A0 (No-Break Space)
-    '\u00A0',
+    '/u00A0',
     # U+20AC (Euro Sign)
-    '\u20AC',
+    '/u20AC',
 ):
     try:
         os.fsdecode(os.fsencode(character))
@@ -568,7 +568,7 @@ for character in (
         break
 
 # TESTFN_UNICODE is a non-ascii filename
-TESTFN_UNICODE = TESTFN + "-\xe0\xf2\u0258\u0141\u011f"
+TESTFN_UNICODE = TESTFN + "-/xe0/xf2/u0258/u0141/u011f"
 if sys.platform == 'darwin':
     # In Mac OS X's VFS API file names are, by definition, canonically
     # decomposed Unicode, encoded using UTF-8. See QA1173:
@@ -586,7 +586,7 @@ if os.name in ('nt', 'ce'):
     if sys.getwindowsversion().platform >= 2:
         # Different kinds of characters from various languages to minimize the
         # probability that the whole name is encodable to MBCS (issue #9819)
-        TESTFN_UNENCODABLE = TESTFN + "-\u5171\u0141\u2661\u0363\uDC80"
+        TESTFN_UNENCODABLE = TESTFN + "-/u5171/u0141/u2661/u0363/uDC80"
         try:
             TESTFN_UNENCODABLE.encode(TESTFN_ENCODING)
         except UnicodeEncodeError:
@@ -600,11 +600,11 @@ if os.name in ('nt', 'ce'):
 elif sys.platform != 'darwin':
     try:
         # ascii and utf-8 cannot encode the byte 0xff
-        b'\xff'.decode(TESTFN_ENCODING)
+        b'/xff'.decode(TESTFN_ENCODING)
     except UnicodeDecodeError:
         # 0xff will be encoded using the surrogate character u+DCFF
-        TESTFN_UNENCODABLE = TESTFN \
-            + b'-\xff'.decode(TESTFN_ENCODING, 'surrogateescape')
+        TESTFN_UNENCODABLE = TESTFN /
+            + b'-/xff'.decode(TESTFN_ENCODING, 'surrogateescape')
     else:
         # File system encoding (eg. ISO-8859-* encodings) can encode
         # the byte 0xff. Skip some unicode filename tests.
@@ -618,21 +618,21 @@ elif sys.platform != 'darwin':
 # encoding in strict mode.
 TESTFN_UNDECODABLE = None
 for name in (
-    # b'\xff' is not decodable by os.fsdecode() with code page 932. Windows
+    # b'/xff' is not decodable by os.fsdecode() with code page 932. Windows
     # accepts it to create a file or a directory, or don't accept to enter to
-    # such directory (when the bytes name is used). So test b'\xe7' first: it is
+    # such directory (when the bytes name is used). So test b'/xe7' first: it is
     # not decodable from cp932.
-    b'\xe7w\xf0',
+    b'/xe7w/xf0',
     # undecodable from ASCII, UTF-8
-    b'\xff',
+    b'/xff',
     # undecodable from iso8859-3, iso8859-6, iso8859-7, cp424, iso8859-8, cp856
     # and cp857
-    b'\xae\xd5'
+    b'/xae/xd5'
     # undecodable from UTF-8 (UNIX and Mac OS X)
-    b'\xed\xb2\x80', b'\xed\xb4\x80',
+    b'/xed/xb2/x80', b'/xed/xb4/x80',
     # undecodable from shift_jis, cp869, cp874, cp932, cp1250, cp1251, cp1252,
     # cp1253, cp1254, cp1255, cp1257, cp1258
-    b'\x81\x98',
+    b'/x81/x98',
 ):
     try:
         name.decode(TESTFN_ENCODING)
@@ -763,7 +763,7 @@ def open_urlresource(url, *args, **kw):
     # Verify the requirement before downloading the file
     requires('urlfetch')
 
-    print('\tfetching %s ...' % url, file=get_original_stdout())
+    print('/tfetching %s ...' % url, file=get_original_stdout())
     f = urllib.request.urlopen(url, timeout=15)
     try:
         with open(fn, "wb") as out:
@@ -1044,7 +1044,7 @@ def transient_internet(resource_name, *, timeout=30.0, errnos=()):
             (isinstance(err, socket.gaierror) and n in gai_errnos) or
             n in captured_errnos):
             if not verbose:
-                sys.stderr.write(denied.args[0] + "\n")
+                sys.stderr.write(denied.args[0] + "/n")
             raise denied from err
 
     old_timeout = socket.getdefaulttimeout()
@@ -1147,10 +1147,10 @@ _TPFLAGS_HEAPTYPE = 1<<9
 def check_sizeof(test, o, size):
     result = sys.getsizeof(o)
     # add GC header size
-    if ((type(o) == type) and (o.__flags__ & _TPFLAGS_HEAPTYPE) or\
+    if ((type(o) == type) and (o.__flags__ & _TPFLAGS_HEAPTYPE) or/
         ((type(o) != type) and (type(o).__flags__ & _TPFLAGS_HAVE_GC))):
         size += _testcapi.SIZEOF_PYGC_HEAD
-    msg = 'wrong size for %s: got %d, expected %d' \
+    msg = 'wrong size for %s: got %d, expected %d' /
             % (type(o), result, size)
     test.assertEqual(result, size, msg)
 
@@ -1245,7 +1245,7 @@ def set_memlimit(limit):
         'g': _1G,
         't': 1024*_1G,
     }
-    m = re.match(r'(\d+(\.\d+)?) (K|M|G|T)b?$', limit,
+    m = re.match(r'(/d+(/./d+)?) (K|M|G|T)b?$', limit,
                  re.IGNORECASE | re.VERBOSE)
     if m is None:
         raise ValueError('Invalid memory limit %r' % (limit,))
@@ -1664,7 +1664,7 @@ def strip_python_stderr(stderr):
     This will typically be run on the result of the communicate() method
     of a subprocess.Popen object.
     """
-    stderr = re.sub(br"\[\d+ refs\]\r?\n?$", b"", stderr).strip()
+    stderr = re.sub(br"/[/d+ refs/]/r?/n?$", b"", stderr).strip()
     return stderr
 
 def args_from_interpreter_flags():

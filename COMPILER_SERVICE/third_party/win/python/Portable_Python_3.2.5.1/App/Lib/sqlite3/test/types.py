@@ -1,7 +1,7 @@
 #-*- coding: ISO-8859-1 -*-
 # pysqlite2/test/types.py: tests for type conversion and detection
 #
-# Copyright (C) 2005 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2005 Gerhard Hï¿½ring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
@@ -41,10 +41,10 @@ class SqliteTypeTests(unittest.TestCase):
         self.con.close()
 
     def CheckString(self):
-        self.cur.execute("insert into test(s) values (?)", ("Österreich",))
+        self.cur.execute("insert into test(s) values (?)", ("ï¿½sterreich",))
         self.cur.execute("select s from test")
         row = self.cur.fetchone()
-        self.assertEqual(row[0], "Österreich")
+        self.assertEqual(row[0], "ï¿½sterreich")
 
     def CheckSmallInt(self):
         self.cur.execute("insert into test(i) values (?)", (42,))
@@ -75,9 +75,9 @@ class SqliteTypeTests(unittest.TestCase):
         self.assertEqual(row[0], sample)
 
     def CheckUnicodeExecute(self):
-        self.cur.execute("select 'Österreich'")
+        self.cur.execute("select 'ï¿½sterreich'")
         row = self.cur.fetchone()
-        self.assertEqual(row[0], "Österreich")
+        self.assertEqual(row[0], "ï¿½sterreich")
 
 class DeclTypesTests(unittest.TestCase):
     class Foo:
@@ -178,7 +178,7 @@ class DeclTypesTests(unittest.TestCase):
 
     def CheckUnicode(self):
         # default
-        val = "\xd6sterreich"
+        val = "/xd6sterreich"
         self.cur.execute("insert into test(u) values (?)", (val,))
         self.cur.execute("select u from test")
         row = self.cur.fetchone()
@@ -281,7 +281,7 @@ class ColNamesTests(unittest.TestCase):
         self.assertEqual(self.cur.description[0][0], "x")
 
     def CheckCaseInConverterName(self):
-        self.cur.execute("select 'other' as \"x [b1b1]\"")
+        self.cur.execute("select 'other' as /"x [b1b1]/"")
         val = self.cur.fetchone()[0]
         self.assertEqual(val, "MARKER")
 

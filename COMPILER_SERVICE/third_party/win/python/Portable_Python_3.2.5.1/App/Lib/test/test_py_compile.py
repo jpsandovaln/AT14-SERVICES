@@ -23,7 +23,7 @@ class PyCompileTests(unittest.TestCase):
         if drive:
             os.chdir(drive)
         with open(self.source_path, 'w') as file:
-            file.write('x = 123\n')
+            file.write('x = 123/n')
 
     def tearDown(self):
         shutil.rmtree(self.directory)

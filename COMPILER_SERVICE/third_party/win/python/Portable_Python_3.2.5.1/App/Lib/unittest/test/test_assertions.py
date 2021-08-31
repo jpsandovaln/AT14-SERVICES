@@ -142,7 +142,7 @@ class TestLongMessage(unittest.TestCase):
     def test_formatMessage_unicode_error(self):
         one = ''.join(chr(i) for i in range(255))
         # this used to cause a UnicodeDecodeError constructing msg
-        self.testableTrue._formatMessage(one, '\uFFFD')
+        self.testableTrue._formatMessage(one, '/uFFFD')
 
     def assertMessages(self, methodName, args, errors):
         def getMethod(i):
@@ -197,8 +197,8 @@ class TestLongMessage(unittest.TestCase):
         # Error messages are multiline so not testing on full message
         # assertTupleEqual and assertListEqual delegate to this method
         self.assertMessages('assertSequenceEqual', ([], [None]),
-                            ["\+ \[None\]$", "^oops$", r"\+ \[None\]$",
-                             r"\+ \[None\] : oops$"])
+                            ["/+ /[None/]$", "^oops$", r"/+ /[None/]$",
+                             r"/+ /[None/] : oops$"])
 
     def testAssertSetEqual(self):
         self.assertMessages('assertSetEqual', (set(), set([None])),
@@ -207,21 +207,21 @@ class TestLongMessage(unittest.TestCase):
 
     def testAssertIn(self):
         self.assertMessages('assertIn', (None, []),
-                            ['^None not found in \[\]$', "^oops$",
-                             '^None not found in \[\]$',
-                             '^None not found in \[\] : oops$'])
+                            ['^None not found in /[/]$', "^oops$",
+                             '^None not found in /[/]$',
+                             '^None not found in /[/] : oops$'])
 
     def testAssertNotIn(self):
         self.assertMessages('assertNotIn', (None, [None]),
-                            ['^None unexpectedly found in \[None\]$', "^oops$",
-                             '^None unexpectedly found in \[None\]$',
-                             '^None unexpectedly found in \[None\] : oops$'])
+                            ['^None unexpectedly found in /[None/]$', "^oops$",
+                             '^None unexpectedly found in /[None/]$',
+                             '^None unexpectedly found in /[None/] : oops$'])
 
     def testAssertDictEqual(self):
         self.assertMessages('assertDictEqual', ({}, {'key': 'value'}),
-                            [r"\+ \{'key': 'value'\}$", "^oops$",
-                             "\+ \{'key': 'value'\}$",
-                             "\+ \{'key': 'value'\} : oops$"])
+                            [r"/+ /{'key': 'value'/}$", "^oops$",
+                             "/+ /{'key': 'value'/}$",
+                             "/+ /{'key': 'value'/} : oops$"])
 
     def testAssertDictContainsSubset(self):
         with warnings.catch_warnings():
@@ -234,9 +234,9 @@ class TestLongMessage(unittest.TestCase):
 
     def testAssertMultiLineEqual(self):
         self.assertMessages('assertMultiLineEqual', ("", "foo"),
-                            [r"\+ foo$", "^oops$",
-                             r"\+ foo$",
-                             r"\+ foo : oops$"])
+                            [r"/+ foo$", "^oops$",
+                             r"/+ foo$",
+                             r"/+ foo : oops$"])
 
     def testAssertLess(self):
         self.assertMessages('assertLess', (2, 1),

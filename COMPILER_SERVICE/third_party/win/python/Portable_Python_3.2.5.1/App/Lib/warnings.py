@@ -21,11 +21,11 @@ def showwarning(message, category, filename, lineno, file=None, line=None):
 
 def formatwarning(message, category, filename, lineno, line=None):
     """Function to format a warning the standard way."""
-    s =  "%s:%s: %s: %s\n" % (filename, lineno, category.__name__, message)
+    s =  "%s:%s: %s: %s/n" % (filename, lineno, category.__name__, message)
     line = linecache.getline(filename, lineno) if line is None else line
     if line:
         line = line.strip()
-        s += "  %s\n" % line
+        s += "  %s/n" % line
     return s
 
 def filterwarnings(action, message="", category=Warning, module="", lineno=0,
@@ -47,7 +47,7 @@ def filterwarnings(action, message="", category=Warning, module="", lineno=0,
     assert isinstance(category, type), "category must be a class"
     assert issubclass(category, Warning), "category must be a Warning subclass"
     assert isinstance(module, str), "module must be a string"
-    assert isinstance(lineno, int) and lineno >= 0, \
+    assert isinstance(lineno, int) and lineno >= 0, /
            "lineno must be an int >= 0"
     item = (action, re.compile(message, re.I), category,
             re.compile(module), lineno)
@@ -68,7 +68,7 @@ def simplefilter(action, category=Warning, lineno=0, append=False):
     """
     assert action in ("error", "ignore", "always", "default", "module",
                       "once"), "invalid action: %r" % (action,)
-    assert isinstance(lineno, int) and lineno >= 0, \
+    assert isinstance(lineno, int) and lineno >= 0, /
            "lineno must be an int >= 0"
     item = (action, None, category, None, lineno)
     if append:
@@ -257,7 +257,7 @@ def warn_explicit(message, category, filename, lineno,
     else:
         # Unrecognized actions are errors
         raise RuntimeError(
-              "Unrecognized action (%r) in warnings.filters:\n %s" %
+              "Unrecognized action (%r) in warnings.filters:/n %s" %
               (action, item))
     if not callable(showwarning):
         raise TypeError("warnings.showwarning() must be set to a "

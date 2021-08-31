@@ -230,8 +230,8 @@ class Random(_random.Random):
         # so we can only use random() from here.
         random = self.random
         if n >= maxsize:
-            _warn("Underlying random() generator does not supply \n"
-                "enough bits to choose from a population range this large.\n"
+            _warn("Underlying random() generator does not supply /n"
+                "enough bits to choose from a population range this large./n"
                 "To remove the range limitation, add a getrandbits() method.")
             return int(random() * n)
         rem = maxsize % n
@@ -671,7 +671,7 @@ def _test_generator(n, func, args):
     print(round(t1-t0, 3), 'sec,', end=' ')
     avg = total/n
     stddev = _sqrt(sqsum/n - avg*avg)
-    print('avg %g, stddev %g, min %g, max %g' % \
+    print('avg %g, stddev %g, min %g, max %g' % /
               (avg, stddev, smallest, largest))
 
 

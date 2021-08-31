@@ -49,7 +49,7 @@ class TestMailbox(TestBase):
     maxDiff = None
 
     _factory = None     # Overridden by subclasses to reuse tests
-    _template = 'From: foo\n\n%s\n'
+    _template = 'From: foo/n/n%s/n'
 
     def setUp(self):
         self._path = support.TESTFN
@@ -83,7 +83,7 @@ class TestMailbox(TestBase):
         for i in (1, 2, 3, 4, 5, 6):
             self._check_sample(self._box[keys[i]])
 
-    _nonascii_msg = textwrap.dedent("""\
+    _nonascii_msg = textwrap.dedent("""/
             From: foo
             Subject: Falinaptár házhozszállítással. Már rendeltél?
 
@@ -101,7 +101,7 @@ class TestMailbox(TestBase):
         key = self._box.add(subj.encode('latin1'))
         self.assertEqual(self._box.get_string(key),
             'Subject: =?unknown-8bit?b?RmFsaW5hcHThciBo4Xpob3pzeuFsbO104XNz'
-            'YWwuIE3hciByZW5kZWx06Ww/?=\n\n')
+            'YWwuIE3hciByZW5kZWx06Ww/?=/n/n')
 
     def test_add_nonascii_string_header_raises(self):
         with self.assertRaisesRegex(ValueError, "ASCII-only"):
@@ -120,11 +120,11 @@ class TestMailbox(TestBase):
         self._box.close()
         self.assertMailboxEmpty()
 
-    _non_latin_bin_msg = textwrap.dedent("""\
+    _non_latin_bin_msg = textwrap.dedent("""/
         From: foo@bar.com
         To: báz
         Subject: Maintenant je vous présente mon collègue, le pouf célèbre
-        \tJean de Baddie
+        /tJean de Baddie
         Mime-Version: 1.0
         Content-Type: text/plain; charset="utf-8"
         Content-Transfer-Encoding: 8bit
@@ -138,26 +138,26 @@ class TestMailbox(TestBase):
                          self._non_latin_bin_msg)
         with self._box.get_file(key) as f:
             self.assertEqual(f.read(),
-                             self._non_latin_bin_msg.replace(b'\n',
+                             self._non_latin_bin_msg.replace(b'/n',
                                 os.linesep.encode()))
         self.assertEqual(self._box[key].get_payload(),
-                        "Да, они летят.\n")
+                        "Да, они летят./n")
 
     def test_add_binary_file(self):
         with tempfile.TemporaryFile('wb+') as f:
             f.write(_bytes_sample_message)
             f.seek(0)
             key = self._box.add(f)
-        self.assertEqual(self._box.get_bytes(key).split(b'\n'),
-            _bytes_sample_message.split(b'\n'))
+        self.assertEqual(self._box.get_bytes(key).split(b'/n'),
+            _bytes_sample_message.split(b'/n'))
 
     def test_add_binary_nonascii_file(self):
         with tempfile.TemporaryFile('wb+') as f:
             f.write(self._non_latin_bin_msg)
             f.seek(0)
             key = self._box.add(f)
-        self.assertEqual(self._box.get_bytes(key).split(b'\n'),
-            self._non_latin_bin_msg.split(b'\n'))
+        self.assertEqual(self._box.get_bytes(key).split(b'/n'),
+            self._non_latin_bin_msg.split(b'/n'))
 
     def test_add_text_file_warns(self):
         with tempfile.TemporaryFile('w+') as f:
@@ -165,8 +165,8 @@ class TestMailbox(TestBase):
             f.seek(0)
             with self.assertWarns(DeprecationWarning):
                 key = self._box.add(f)
-        self.assertEqual(self._box.get_bytes(key).split(b'\n'),
-            _bytes_sample_message.split(b'\n'))
+        self.assertEqual(self._box.get_bytes(key).split(b'/n'),
+            _bytes_sample_message.split(b'/n'))
 
     def test_add_StringIO_warns(self):
         with self.assertWarns(DeprecationWarning):
@@ -228,7 +228,7 @@ class TestMailbox(TestBase):
         key0 = self._box.add(self._template % 0)
         msg = self._box.get(key0)
         self.assertEqual(msg['from'], 'foo')
-        self.assertEqual(msg.get_payload(), '0\n')
+        self.assertEqual(msg.get_payload(), '0/n')
         self.assertIs(self._box.get('foo'), None)
         self.assertIs(self._box.get('foo', False), False)
         self._box.close()
@@ -236,14 +236,14 @@ class TestMailbox(TestBase):
         key1 = self._box.add(self._template % 1)
         msg = self._box.get(key1)
         self.assertEqual(msg['from'], 'foo')
-        self.assertEqual(msg.get_payload(), '1\n')
+        self.assertEqual(msg.get_payload(), '1/n')
 
     def test_getitem(self):
         # Retrieve message using __getitem__()
         key0 = self._box.add(self._template % 0)
         msg = self._box[key0]
         self.assertEqual(msg['from'], 'foo')
-        self.assertEqual(msg.get_payload(), '0\n')
+        self.assertEqual(msg.get_payload(), '0/n')
         self.assertRaises(KeyError, lambda: self._box['foo'])
         self._box.discard(key0)
         self.assertRaises(KeyError, lambda: self._box[key0])
@@ -255,7 +255,7 @@ class TestMailbox(TestBase):
         msg0 = self._box.get_message(key0)
         self.assertIsInstance(msg0, mailbox.Message)
         self.assertEqual(msg0['from'], 'foo')
-        self.assertEqual(msg0.get_payload(), '0\n')
+        self.assertEqual(msg0.get_payload(), '0/n')
         self._check_sample(self._box.get_message(key1))
 
     def test_get_bytes(self):
@@ -271,8 +271,8 @@ class TestMailbox(TestBase):
         key0 = self._box.add(self._template % 0)
         key1 = self._box.add(_sample_message)
         self.assertEqual(self._box.get_string(key0), self._template % 0)
-        self.assertEqual(self._box.get_string(key1).split('\n'),
-                         _sample_message.split('\n'))
+        self.assertEqual(self._box.get_string(key1).split('/n'),
+                         _sample_message.split('/n'))
 
     def test_get_file(self):
         # Get file representations of messages
@@ -282,9 +282,9 @@ class TestMailbox(TestBase):
             data0 = file.read()
         with self._box.get_file(key1) as file:
             data1 = file.read()
-        self.assertEqual(data0.decode('ascii').replace(os.linesep, '\n'),
+        self.assertEqual(data0.decode('ascii').replace(os.linesep, '/n'),
                          self._template % 0)
-        self.assertEqual(data1.decode('ascii').replace(os.linesep, '\n'),
+        self.assertEqual(data1.decode('ascii').replace(os.linesep, '/n'),
                          _sample_message)
 
     def test_get_file_can_be_closed_twice(self):
@@ -428,15 +428,15 @@ class TestMailbox(TestBase):
         self.assertIn(key0, self._box)
         key1 = self._box.add(self._template % 1)
         self.assertIn(key1, self._box)
-        self.assertEqual(self._box.pop(key0).get_payload(), '0\n')
+        self.assertEqual(self._box.pop(key0).get_payload(), '0/n')
         self.assertNotIn(key0, self._box)
         self.assertIn(key1, self._box)
         key2 = self._box.add(self._template % 2)
         self.assertIn(key2, self._box)
-        self.assertEqual(self._box.pop(key2).get_payload(), '2\n')
+        self.assertEqual(self._box.pop(key2).get_payload(), '2/n')
         self.assertNotIn(key2, self._box)
         self.assertIn(key1, self._box)
-        self.assertEqual(self._box.pop(key1).get_payload(), '1\n')
+        self.assertEqual(self._box.pop(key1).get_payload(), '1/n')
         self.assertNotIn(key1, self._box)
         self.assertEqual(len(self._box), 0)
 
@@ -540,7 +540,7 @@ class TestMailbox(TestBase):
             output = io.BytesIO()
             self._box._dump_message(input, output)
             self.assertEqual(output.getvalue(),
-                _bytes_sample_message.replace(b'\n', os.linesep.encode()))
+                _bytes_sample_message.replace(b'/n', os.linesep.encode()))
         output = io.BytesIO()
         self.assertRaises(TypeError,
                           lambda: self._box._dump_message(None, output))
@@ -631,7 +631,7 @@ class TestMaildir(TestMailbox, unittest.TestCase):
         msg_returned = self._box.get_message(key)
         self.assertEqual(msg_returned.get_subdir(), 'new')
         self.assertEqual(msg_returned.get_flags(), '')
-        self.assertEqual(msg_returned.get_payload(), '1\n')
+        self.assertEqual(msg_returned.get_payload(), '1/n')
         msg2 = mailbox.MaildirMessage(self._template % 2)
         msg2.set_info('2,S')
         self._box[key] = msg2
@@ -639,7 +639,7 @@ class TestMaildir(TestMailbox, unittest.TestCase):
         msg_returned = self._box.get_message(key)
         self.assertEqual(msg_returned.get_subdir(), 'new')
         self.assertEqual(msg_returned.get_flags(), 'S')
-        self.assertEqual(msg_returned.get_payload(), '3\n')
+        self.assertEqual(msg_returned.get_payload(), '3/n')
 
     def test_consistent_factory(self):
         # Add a message.
@@ -742,12 +742,12 @@ class TestMaildir(TestMailbox, unittest.TestCase):
         # Create files in tmp directory
         hostname = socket.gethostname()
         if '/' in hostname:
-            hostname = hostname.replace('/', r'\057')
+            hostname = hostname.replace('/', r'/057')
         if ':' in hostname:
-            hostname = hostname.replace(':', r'\072')
+            hostname = hostname.replace(':', r'/072')
         pid = os.getpid()
-        pattern = re.compile(r"(?P<time>\d+)\.M(?P<M>\d{1,6})P(?P<P>\d+)"
-                             r"Q(?P<Q>\d+)\.(?P<host>[^:/]+)")
+        pattern = re.compile(r"(?P<time>/d+)/.M(?P<M>/d{1,6})P(?P<P>/d+)"
+                             r"Q(?P<Q>/d+)/.(?P<host>[^:/]+)")
         previous_groups = None
         for x in range(repetitions):
             tmp_file = self._box._create_tmp()
@@ -993,20 +993,20 @@ class _TestMboxMMDF(_TestSingleFile):
 
     def test_add_from_string(self):
         # Add a string starting with 'From ' to the mailbox
-        key = self._box.add('From foo@bar blah\nFrom: foo\n\n0\n')
+        key = self._box.add('From foo@bar blah/nFrom: foo/n/n0/n')
         self.assertEqual(self._box[key].get_from(), 'foo@bar blah')
-        self.assertEqual(self._box[key].get_payload(), '0\n')
+        self.assertEqual(self._box[key].get_payload(), '0/n')
 
     def test_add_from_bytes(self):
         # Add a byte string starting with 'From ' to the mailbox
-        key = self._box.add(b'From foo@bar blah\nFrom: foo\n\n0\n')
+        key = self._box.add(b'From foo@bar blah/nFrom: foo/n/n0/n')
         self.assertEqual(self._box[key].get_from(), 'foo@bar blah')
-        self.assertEqual(self._box[key].get_payload(), '0\n')
+        self.assertEqual(self._box[key].get_payload(), '0/n')
 
     def test_add_mbox_or_mmdf_message(self):
         # Add an mboxMessage or MMDFMessage
         for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
-            msg = class_('From foo@bar blah\nFrom: foo\n\n0\n')
+            msg = class_('From foo@bar blah/nFrom: foo/n/n0/n')
             key = self._box.add(msg)
 
     def test_open_close_open(self):
@@ -1077,7 +1077,7 @@ class _TestMboxMMDF(_TestSingleFile):
     def test_relock(self):
         # Test case for bug #1575506: the mailbox class was locking the
         # wrong file object in its flush() method.
-        msg = "Subject: sub\n\nbody\n"
+        msg = "Subject: sub/n/nbody/n"
         key1 = self._box.add(msg)
         self._box.flush()
         self._box.close()
@@ -1121,19 +1121,19 @@ class TestMbox(_TestMboxMMDF, unittest.TestCase):
 
         # A newline should have been appended to the payload
         message = self._box.get(i)
-        self.assertEqual(message.get_payload(), 'No newline at the end\n')
+        self.assertEqual(message.get_payload(), 'No newline at the end/n')
 
     def test_message_separator(self):
         # Check there's always a single blank line after each message
-        self._box.add('From: foo\n\n0')  # No newline at the end
+        self._box.add('From: foo/n/n0')  # No newline at the end
         with open(self._path) as f:
             data = f.read()
-            self.assertEqual(data[-3:], '0\n\n')
+            self.assertEqual(data[-3:], '0/n/n')
 
-        self._box.add('From: foo\n\n0\n')  # Newline at the end
+        self._box.add('From: foo/n/n0/n')  # Newline at the end
         with open(self._path) as f:
             data = f.read()
-            self.assertEqual(data[-3:], '0\n\n')
+            self.assertEqual(data[-3:], '0/n/n')
 
 
 class TestMMDF(_TestMboxMMDF, unittest.TestCase):
@@ -1538,8 +1538,8 @@ class _TestMboxMMDFMessage:
         # Check contents of "From " line
         if sender is None:
             sender = "MAILER-DAEMON"
-        self.assertTrue(re.match(sender + r" \w{3} \w{3} [\d ]\d [\d ]\d:\d{2}:"
-                              r"\d{2} \d{4}", msg.get_from()) is not None)
+        self.assertTrue(re.match(sender + r" /w{3} /w{3} [/d ]/d [/d ]/d:/d{2}:"
+                              r"/d{2} /d{4}", msg.get_from()) is not None)
 
 
 class TestMboxMessage(_TestMboxMMDFMessage, TestMessage):
@@ -2081,8 +2081,8 @@ class TestPartialFile(TestProxyFileBase, unittest.TestCase):
 
 ## Start: tests from the original module (for backward compatibility).
 
-FROM_ = "From some.body@dummy.domain  Sat Jul 24 13:43:35 2004\n"
-DUMMY_MESSAGE = """\
+FROM_ = "From some.body@dummy.domain  Sat Jul 24 13:43:35 2004/n"
+DUMMY_MESSAGE = """/
 From: some.body@dummy.domain
 To: me@my.domain
 Subject: Simple Test
@@ -2172,7 +2172,7 @@ class MaildirTestCase(unittest.TestCase):
 ## End: tests from the original module (for backward compatibility).
 
 
-_sample_message = """\
+_sample_message = """/
 Return-Path: <gkj@gregorykjohnson.com>
 X-Original-To: gkj+person@localhost
 Delivered-To: gkj+person@localhost
@@ -2242,7 +2242,7 @@ _sample_headers = {
     "To":"gkj@gregorykjohnson.com",
     "Subject":"Sample message",
     "Mime-Version":"1.0",
-    "Content-Type":"""multipart/mixed; boundary="NMuMz9nt05w80d4+\"""",
+    "Content-Type":"""multipart/mixed; boundary="NMuMz9nt05w80d4+/"""",
     "Content-Disposition":"inline",
     "User-Agent": "Mutt/1.5.9i" }
 

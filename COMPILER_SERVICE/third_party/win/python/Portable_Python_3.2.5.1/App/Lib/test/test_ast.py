@@ -55,9 +55,9 @@ exec_tests = [
     # Raise
     "raise Exception('string')",
     # TryExcept
-    "try:\n  pass\nexcept Exception:\n  pass",
+    "try:/n  pass/nexcept Exception:/n  pass",
     # TryFinally
-    "try:\n  pass\nfinally:\n  pass",
+    "try:/n  pass/nfinally:/n  pass",
     # Assert
     "assert v",
     # Import
@@ -390,7 +390,7 @@ class ASTHelpers_Test(unittest.TestCase):
         try:
             1/0
         except Exception:
-            self.assertRaises(SyntaxError, ast.parse, r"'\U'")
+            self.assertRaises(SyntaxError, ast.parse, r"'/U'")
 
     def test_dump(self):
         node = ast.parse('spam(eggs, "and cheese")')
@@ -472,9 +472,9 @@ class ASTHelpers_Test(unittest.TestCase):
         )
 
     def test_get_docstring(self):
-        node = ast.parse('def foo():\n  """line one\n  line two"""')
+        node = ast.parse('def foo():/n  """line one/n  line two"""')
         self.assertEqual(ast.get_docstring(node.body[0]),
-                         'line one\nline two')
+                         'line one/nline two')
 
     def test_literal_eval(self):
         self.assertEqual(ast.literal_eval('[1, 2, 3]'), [1, 2, 3])

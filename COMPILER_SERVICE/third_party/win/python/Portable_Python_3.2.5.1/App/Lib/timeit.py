@@ -89,7 +89,7 @@ def inner(_it, _timer):
 
 def reindent(src, indent):
     """Helper to reindent a multi-line statement."""
-    return src.replace("\n", "\n" + " "*indent)
+    return src.replace("/n", "/n" + " "*indent)
 
 def _template_func(setup, func):
     """Create a timer function. Used if the "statement" is a callable."""
@@ -169,7 +169,7 @@ class Timer:
         if self.src is not None:
             linecache.cache[dummy_src_name] = (len(self.src),
                                                None,
-                                               self.src.split("\n"),
+                                               self.src.split("/n"),
                                                dummy_src_name)
         # else the source is already stored somewhere else
 
@@ -263,7 +263,7 @@ def main(args=None, *, _wrap_timer=None):
         print("use -h/--help for command line help")
         return 2
     timer = default_timer
-    stmt = "\n".join(args) or "pass"
+    stmt = "/n".join(args) or "pass"
     number = 0 # auto-determine
     setup = []
     repeat = default_repeat
@@ -289,7 +289,7 @@ def main(args=None, *, _wrap_timer=None):
         if o in ("-h", "--help"):
             print(__doc__, end=' ')
             return 0
-    setup = "\n".join(setup) or "pass"
+    setup = "/n".join(setup) or "pass"
     # Include the current directory, so that local imports work (sys.path
     # contains the directory of this script, rather than the current
     # directory)

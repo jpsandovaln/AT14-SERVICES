@@ -164,10 +164,10 @@ class GlobTests(unittest.TestCase):
         eq(glob.glob(b'*:'), [])
         eq(glob.glob('?:'), [])
         eq(glob.glob(b'?:'), [])
-        eq(glob.glob('\\\\?\\c:\\'), ['\\\\?\\c:\\'])
-        eq(glob.glob(b'\\\\?\\c:\\'), [b'\\\\?\\c:\\'])
-        eq(glob.glob('\\\\*\\*\\'), [])
-        eq(glob.glob(b'\\\\*\\*\\'), [])
+        eq(glob.glob('////?//c://'), ['////?//c://'])
+        eq(glob.glob(b'////?//c://'), [b'////?//c://'])
+        eq(glob.glob('////*//*//'), [])
+        eq(glob.glob(b'////*//*//'), [])
 
 
 def test_main():

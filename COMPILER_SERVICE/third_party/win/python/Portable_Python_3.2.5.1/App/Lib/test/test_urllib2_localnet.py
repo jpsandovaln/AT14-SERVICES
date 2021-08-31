@@ -130,7 +130,7 @@ class DigestAuthHandler:
         HA2 = hashlib.md5(HA2_str.encode("ascii")).hexdigest()
         final_dict["HA1"] = HA1
         final_dict["HA2"] = HA2
-        response_str = "%(HA1)s:%(nonce)s:%(nc)s:" \
+        response_str = "%(HA1)s:%(nonce)s:%(nc)s:" /
                        "%(cnonce)s:%(qop)s:%(HA2)s" % final_dict
         response = hashlib.md5(response_str.encode("ascii")).hexdigest()
 
@@ -142,7 +142,7 @@ class DigestAuthHandler:
         request_handler.send_header(
             'Proxy-Authenticate', 'Digest realm="%s", '
             'qop="%s",'
-            'nonce="%s", ' % \
+            'nonce="%s", ' % /
             (self._realm_name, self._qop, self._generate_nonce()))
         # XXX: Not sure if we're supposed to add this next header or
         # not.
@@ -413,11 +413,11 @@ class TestUrlopen(unittest.TestCase):
     def test_chunked(self):
         expected_response = b"hello world"
         chunked_start = (
-                        b'a\r\n'
-                        b'hello worl\r\n'
-                        b'1\r\n'
-                        b'd\r\n'
-                        b'0\r\n'
+                        b'a/r/n'
+                        b'hello worl/r/n'
+                        b'1/r/n'
+                        b'd/r/n'
+                        b'0/r/n'
                         )
         response = [(200, [("Transfer-Encoding", "chunked")], chunked_start)]
         handler = self.start_server(response)
@@ -546,13 +546,13 @@ class TestUrlopen(unittest.TestCase):
             self.assertEqual(line, expected_response)
 
     def test_line_iteration(self):
-        lines = [b"We\n", b"got\n", b"here\n", b"verylong " * 8192 + b"\n"]
+        lines = [b"We/n", b"got/n", b"here/n", b"verylong " * 8192 + b"/n"]
         expected_response = b"".join(lines)
         handler = self.start_server([(200, [], expected_response)])
         data = urllib.request.urlopen("http://localhost:%s" % handler.port)
         for index, line in enumerate(data):
             self.assertEqual(line, lines[index],
-                             "Fetched line number %s doesn't match expected:\n"
+                             "Fetched line number %s doesn't match expected:/n"
                              "    Expected length was %s, got %s" %
                              (index, len(lines[index]), len(line)))
         self.assertEqual(index + 1, len(lines))

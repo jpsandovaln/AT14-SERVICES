@@ -52,22 +52,22 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("def f(): (yield 1)*2")
         self.check_suite("def f(): return; yield 1")
         self.check_suite("def f(): yield 1; return")
-        self.check_suite("def f():\n"
-                         "    for x in range(30):\n"
-                         "        yield x\n")
-        self.check_suite("def f():\n"
-                         "    if (yield):\n"
-                         "        yield x\n")
+        self.check_suite("def f():/n"
+                         "    for x in range(30):/n"
+                         "        yield x/n")
+        self.check_suite("def f():/n"
+                         "    if (yield):/n"
+                         "        yield x/n")
 
     def test_nonlocal_statement(self):
-        self.check_suite("def f():\n"
-                         "    x = 0\n"
-                         "    def g():\n"
-                         "        nonlocal x\n")
-        self.check_suite("def f():\n"
-                         "    x = y = 0\n"
-                         "    def g():\n"
-                         "        nonlocal x, y\n")
+        self.check_suite("def f():/n"
+                         "    x = 0/n"
+                         "    def g():/n"
+                         "        nonlocal x/n")
+        self.check_suite("def f():/n"
+                         "    x = y = 0/n"
+                         "    def g():/n"
+                         "        nonlocal x, y/n")
 
     def test_expressions(self):
         self.check_expr("foo(1)")
@@ -152,12 +152,12 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("def f(a, b, foo=bar, *args, **kw): pass")
         self.check_suite("def f(a, b, foo=bar, **kw): pass")
 
-        self.check_suite("@staticmethod\n"
+        self.check_suite("@staticmethod/n"
                          "def f(): pass")
-        self.check_suite("@staticmethod\n"
-                         "@funcattrs(x, y)\n"
+        self.check_suite("@staticmethod/n"
+                         "@funcattrs(x, y)/n"
                          "def f(): pass")
-        self.check_suite("@funcattrs()\n"
+        self.check_suite("@funcattrs()/n"
                          "def f(): pass")
 
         # keyword-only arguments
@@ -184,12 +184,12 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
     def test_class_defs(self):
         self.check_suite("class foo():pass")
         self.check_suite("class foo(object):pass")
-        self.check_suite("@class_decorator\n"
+        self.check_suite("@class_decorator/n"
                          "class foo():pass")
-        self.check_suite("@class_decorator(arg)\n"
+        self.check_suite("@class_decorator(arg)/n"
                          "class foo():pass")
-        self.check_suite("@decorator1\n"
-                         "@decorator2\n"
+        self.check_suite("@decorator1/n"
+                         "@decorator2/n"
                          "class foo():pass")
 
     def test_import_from_statement(self):
@@ -237,31 +237,31 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("from ....pkg import name")
 
     def test_pep263(self):
-        self.check_suite("# -*- coding: iso-8859-1 -*-\n"
-                         "pass\n")
+        self.check_suite("# -*- coding: iso-8859-1 -*-/n"
+                         "pass/n")
 
     def test_assert(self):
-        self.check_suite("assert alo < ahi and blo < bhi\n")
+        self.check_suite("assert alo < ahi and blo < bhi/n")
 
     def test_with(self):
-        self.check_suite("with open('x'): pass\n")
-        self.check_suite("with open('x') as f: pass\n")
-        self.check_suite("with open('x') as f, open('y') as g: pass\n")
+        self.check_suite("with open('x'): pass/n")
+        self.check_suite("with open('x') as f: pass/n")
+        self.check_suite("with open('x') as f, open('y') as g: pass/n")
 
     def test_try_stmt(self):
-        self.check_suite("try: pass\nexcept: pass\n")
-        self.check_suite("try: pass\nfinally: pass\n")
-        self.check_suite("try: pass\nexcept A: pass\nfinally: pass\n")
-        self.check_suite("try: pass\nexcept A: pass\nexcept: pass\n"
-                         "finally: pass\n")
-        self.check_suite("try: pass\nexcept: pass\nelse: pass\n")
-        self.check_suite("try: pass\nexcept: pass\nelse: pass\n"
-                         "finally: pass\n")
+        self.check_suite("try: pass/nexcept: pass/n")
+        self.check_suite("try: pass/nfinally: pass/n")
+        self.check_suite("try: pass/nexcept A: pass/nfinally: pass/n")
+        self.check_suite("try: pass/nexcept A: pass/nexcept: pass/n"
+                         "finally: pass/n")
+        self.check_suite("try: pass/nexcept: pass/nelse: pass/n")
+        self.check_suite("try: pass/nexcept: pass/nelse: pass/n"
+                         "finally: pass/n")
 
     def test_position(self):
         # An absolutely minimal test of position information.  Better
         # tests would be a big project.
-        code = "def f(x):\n    return x + 1"
+        code = "def f(x):/n    return x + 1"
         st1 = parser.suite(code)
         st2 = st1.totuple(line_info=1, col_info=1)
 
@@ -302,12 +302,12 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("for [*x, b] in x: pass")
 
     def test_raise_statement(self):
-        self.check_suite("raise\n")
-        self.check_suite("raise e\n")
-        self.check_suite("try:\n"
-                         "    suite\n"
-                         "except Exception as e:\n"
-                         "    raise ValueError from e\n")
+        self.check_suite("raise/n")
+        self.check_suite("raise e/n")
+        self.check_suite("try:/n"
+                         "    suite/n"
+                         "except Exception as e:/n"
+                         "    raise ValueError from e/n")
 
     def test_set_displays(self):
         self.check_expr('{2}')
@@ -354,7 +354,7 @@ class IllegalSyntaxTestCase(unittest.TestCase):
 
     def test_illegal_yield_1(self):
         # Illegal yield statement: def f(): return 1; yield 1
-        tree = \
+        tree = /
         (257,
          (264,
           (285,
@@ -405,11 +405,11 @@ class IllegalSyntaxTestCase(unittest.TestCase):
                (6, ''))))),
            (4, ''),
            (0, ''))))
-        self.check_bad_tree(tree, "def f():\n  return 1\n  yield 1")
+        self.check_bad_tree(tree, "def f():/n  return 1/n  yield 1")
 
     def test_illegal_yield_2(self):
         # Illegal return in generator: def f(): return 1; yield 1
-        tree = \
+        tree = /
         (257,
          (264,
           (265,
@@ -469,11 +469,11 @@ class IllegalSyntaxTestCase(unittest.TestCase):
                (6, ''))))),
            (4, ''),
            (0, ''))))
-        self.check_bad_tree(tree, "def f():\n  return 1\n  yield 1")
+        self.check_bad_tree(tree, "def f():/n  return 1/n  yield 1")
 
     def test_a_comma_comma_c(self):
         # Illegal input: a,,c
-        tree = \
+        tree = /
         (258,
          (311,
           (290,
@@ -500,7 +500,7 @@ class IllegalSyntaxTestCase(unittest.TestCase):
 
     def test_illegal_operator(self):
         # Illegal input: a $= b
-        tree = \
+        tree = /
         (257,
          (264,
           (265,
@@ -544,7 +544,7 @@ class IllegalSyntaxTestCase(unittest.TestCase):
 
     def test_missing_import_source(self):
         # from import fred
-        tree = \
+        tree = /
             (257,
              (268,
               (269,
@@ -578,9 +578,9 @@ class CompileTestCase(unittest.TestCase):
         self.assertRaises(SyntaxError, parser.compilest, st)
 
     def test_compile_badunicode(self):
-        st = parser.suite('a = "\\U12345678"')
+        st = parser.suite('a = "//U12345678"')
         self.assertRaises(SyntaxError, parser.compilest, st)
-        st = parser.suite('a = "\\u1"')
+        st = parser.suite('a = "//u1"')
         self.assertRaises(SyntaxError, parser.compilest, st)
 
     def test_issue_9011(self):

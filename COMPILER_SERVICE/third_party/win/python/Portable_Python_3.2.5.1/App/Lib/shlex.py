@@ -36,10 +36,10 @@ class shlex:
         if self.posix:
             self.wordchars += ('ßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ'
                                'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ')
-        self.whitespace = ' \t\r\n'
+        self.whitespace = ' /t/r/n'
         self.whitespace_split = False
-        self.quotes = '\'"'
-        self.escape = '\\'
+        self.quotes = '/'"'
+        self.escape = '//'
         self.escapedquotes = '"'
         self.state = ' '
         self.pushback = deque()
@@ -49,7 +49,7 @@ class shlex:
         self.filestack = deque()
         self.source = None
         if self.debug:
-            print('shlex: reading from %s, line %d' \
+            print('shlex: reading from %s, line %d' /
                   % (self.instream, self.lineno))
 
     def push_token(self, tok):
@@ -77,7 +77,7 @@ class shlex:
         self.instream.close()
         (self.infile, self.instream, self.lineno) = self.filestack.popleft()
         if self.debug:
-            print('shlex: popping to %s, line %d' \
+            print('shlex: popping to %s, line %d' /
                   % (self.instream, self.lineno))
         self.state = ' '
 
@@ -118,10 +118,10 @@ class shlex:
         escapedstate = ' '
         while True:
             nextchar = self.instream.read(1)
-            if nextchar == '\n':
+            if nextchar == '/n':
                 self.lineno = self.lineno + 1
             if self.debug >= 3:
-                print("shlex: in state", repr(self.state), \
+                print("shlex: in state", repr(self.state), /
                       "I see character:", repr(nextchar))
             if self.state is None:
                 self.token = ''        # past end of file
@@ -173,7 +173,7 @@ class shlex:
                         break
                     else:
                         self.state = 'a'
-                elif self.posix and nextchar in self.escape and \
+                elif self.posix and nextchar in self.escape and /
                      self.state in self.escapedquotes:
                     escapedstate = self.state
                     self.state = nextchar
@@ -187,7 +187,7 @@ class shlex:
                     raise ValueError("No escaped character")
                 # In posix shells, only the quote itself or the escape
                 # character may be escaped within quotes.
-                if escapedstate in self.quotes and \
+                if escapedstate in self.quotes and /
                    nextchar != self.state and nextchar != escapedstate:
                     self.token = self.token + self.state
                 self.token = self.token + nextchar
@@ -218,7 +218,7 @@ class shlex:
                 elif self.posix and nextchar in self.escape:
                     escapedstate = 'a'
                     self.state = nextchar
-                elif nextchar in self.wordchars or nextchar in self.quotes \
+                elif nextchar in self.wordchars or nextchar in self.quotes /
                     or self.whitespace_split:
                     self.token = self.token + nextchar
                 else:
@@ -256,7 +256,7 @@ class shlex:
             infile = self.infile
         if lineno is None:
             lineno = self.lineno
-        return "\"%s\", line %d: " % (infile, lineno)
+        return "/"%s/", line %d: " % (infile, lineno)
 
     def __iter__(self):
         return self

@@ -29,12 +29,12 @@ class StupidGit:
     def abuse(self, a, b, c):
         """Another
 
-\tdocstring
+/tdocstring
 
         containing
 
-\ttabs
-\t
+/ttabs
+/t
         """
         self.argue(a, b, c)
 # line 40

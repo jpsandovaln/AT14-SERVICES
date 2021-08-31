@@ -15,7 +15,7 @@ verbose = support.verbose
 
 example_args = ['test1', 'test2', 'test3']
 
-test_source = """\
+test_source = """/
 # Script may be run with optimisation enabled, so don't rely on assert
 # statements being executed
 def assertEqual(lhs, rhs):
@@ -60,7 +60,7 @@ def _make_test_zip_pkg(zip_dir, zip_basename, pkg_name, script_basename,
 # -m to work (avoiding that is the whole point of making
 # directories and zipfiles executable!)
 # So we fake it for testing purposes with a custom launch script
-launch_source = """\
+launch_source = """/
 import sys, os.path, runpy
 sys.path.insert(0, %s)
 runpy._run_module_as_main(%r)
@@ -307,7 +307,7 @@ class CmdLineTest(unittest.TestCase):
             self.skipTest("need support.TESTFN_NONASCII")
 
         # Issue #16218
-        source = 'print(ascii(__file__))\n'
+        source = 'print(ascii(__file__))/n'
         script_name = _make_test_script(os.curdir, name, source)
         self.addCleanup(support.unlink, script_name)
         rc, stdout, stderr = assert_python_ok(script_name)

@@ -122,8 +122,8 @@
 # enable pam password change
 ;  pam password change = yes
 ;  passwd program = /usr/bin/passwd %u
-;  passwd chat = *New*UNIX*password* %n\n *ReType*new*UNIX*password* 
-# %n\n
+;  passwd chat = *New*UNIX*password* %n/n *ReType*new*UNIX*password* 
+# %n/n
 ;*passwd:*all*authentication*tokens*updated*successfully*
 
 # Unix users can map to different SMB User names
@@ -149,7 +149,7 @@
 ;  winbind gid = 10000-20000
 #
 # winbind separator is the character a user must use between their
-# domain name and username, defaults to "\"
+# domain name and username, defaults to "/"
 ;  winbind separator = +
 #
 # winbind use default domain allows you to have winbind return
@@ -225,11 +225,11 @@
 # Where to store roaming profiles for WinNT and Win2k
 #        %L substitutes for this servers netbios name, %U is username
 #        You must uncomment the [Profiles] share below
-;   logon path = \\%L\Profiles\%U
+;   logon path = //%L/Profiles/%U
 
 # Where to store roaming profiles for Win9x. Be careful with this as it
 # also impacts where Win2k finds it's /HOME share
-; logon home = \\%L\%U\.profile
+; logon home = //%L/%U/.profile
 
 # The add user script is used by a domain member to add local user
 # accounts that have been authenticated by the domain controller, or by 
@@ -429,7 +429,7 @@
    printable = Yes
    comment = PDF Generator (only valid users)
    #print command = /usr/share/samba/scripts/print-pdf file path win_path recipient IP &
-   print command = /usr/share/samba/scripts/print-pdf %s ~%u \\\\\\\\%L\\\\%u %m %I &
+   print command = /usr/share/samba/scripts/print-pdf %s ~%u ////////%L////%u %m %I &
 
 # This one is useful for people to share files
 [tmp]

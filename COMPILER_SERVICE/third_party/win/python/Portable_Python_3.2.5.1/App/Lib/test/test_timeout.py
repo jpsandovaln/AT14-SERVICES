@@ -177,9 +177,9 @@ class TCPTimeoutTestCase(TimeoutTestCase):
         #   blackhole_port="56666"
         #   whitehole_port="56667"
         #
-        #   block return in log quick on $ext_if proto { tcp udp } \
+        #   block return in log quick on $ext_if proto { tcp udp } /
         #       from any to $whitehole_ip port $whitehole_port
-        #   block drop in log quick on $ext_if proto { tcp udp } \
+        #   block drop in log quick on $ext_if proto { tcp udp } /
         #       from any to $blackhole_ip port $blackhole_port
         #
 

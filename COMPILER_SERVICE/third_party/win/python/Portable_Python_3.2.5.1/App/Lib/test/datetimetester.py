@@ -1366,7 +1366,7 @@ class TestDate(HarmlessMixedComparison, unittest.TestCase):
         base = b'1995-03-25'
         if not issubclass(self.theclass, datetime):
             base = base[:4]
-        for month_byte in b'9', b'\0', b'\r', b'\xff':
+        for month_byte in b'9', b'/0', b'/r', b'/xff':
             self.assertRaises(TypeError, self.theclass,
                                          base[:2] + month_byte + base[3:])
         # Good bytes, but bad tzinfo:
@@ -1432,7 +1432,7 @@ class TestDateTime(TestDate):
         self.assertEqual(t.isoformat(),    "0002-03-02T04:05:01.000123")
         self.assertEqual(t.isoformat('T'), "0002-03-02T04:05:01.000123")
         self.assertEqual(t.isoformat(' '), "0002-03-02 04:05:01.000123")
-        self.assertEqual(t.isoformat('\x00'), "0002-03-02\x0004:05:01.000123")
+        self.assertEqual(t.isoformat('/x00'), "0002-03-02/x0004:05:01.000123")
         # str is ISO format with the separator forced to a blank.
         self.assertEqual(str(t), "0002-03-02 04:05:01.000123")
 
@@ -2259,7 +2259,7 @@ class TestTime(HarmlessMixedComparison, unittest.TestCase):
     def test_backdoor_resistance(self):
         # see TestDate.test_backdoor_resistance().
         base = '2:59.0'
-        for hour_byte in ' ', '9', chr(24), '\xff':
+        for hour_byte in ' ', '9', chr(24), '/xff':
             self.assertRaises(TypeError, self.theclass,
                                          hour_byte + base[1:])
 
@@ -2522,7 +2522,7 @@ class TestTimeTZ(TestTime, TZInfoBase, unittest.TestCase):
 
         # Issue #6697:
         if '_Fast' in str(type(self)):
-            Badtzname.tz = '\ud800'
+            Badtzname.tz = '/ud800'
             self.assertRaises(ValueError, t.strftime, "%Z")
 
     def test_hash_edge_cases(self):
@@ -3136,7 +3136,7 @@ class TestDateTimeTZ(TestDateTime, TZInfoBase, unittest.TestCase):
                 self.assertEqual(iso, datestr + 'T' + tailstr)
                 self.assertEqual(iso, d.isoformat('T'))
                 self.assertEqual(d.isoformat('k'), datestr + 'k' + tailstr)
-                self.assertEqual(d.isoformat('\u1234'), datestr + '\u1234' + tailstr)
+                self.assertEqual(d.isoformat('/u1234'), datestr + '/u1234' + tailstr)
                 self.assertEqual(str(d), datestr + ' ' + tailstr)
 
     def test_replace(self):

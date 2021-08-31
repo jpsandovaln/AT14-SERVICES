@@ -352,7 +352,7 @@ class DateTime:
     def encode(self, out):
         out.write("<value><dateTime.iso8601>")
         out.write(self.value)
-        out.write("</dateTime.iso8601></value>\n")
+        out.write("</dateTime.iso8601></value>/n")
 
 def _datetime(data):
     # decode xml element contents into a DateTime structure.
@@ -405,11 +405,11 @@ class Binary:
         self.data = base64.decodebytes(data)
 
     def encode(self, out):
-        out.write("<value><base64>\n")
+        out.write("<value><base64>/n")
         encoded = base64.encodebytes(self.data)
         out.write(encoded.decode('ascii'))
-        out.write('\n')
-        out.write("</base64></value>\n")
+        out.write('/n')
+        out.write("</base64></value>/n")
 
 def _binary(data):
     # decode xml element contents into a Binary structure
@@ -477,11 +477,11 @@ class Marshaller:
         dump = self.__dump
         if isinstance(values, Fault):
             # fault instance
-            write("<fault>\n")
+            write("<fault>/n")
             dump({'faultCode': values.faultCode,
                   'faultString': values.faultString},
                  write)
-            write("</fault>\n")
+            write("</fault>/n")
         else:
             # parameter block
             # FIXME: the xml-rpc specification allows us to leave out
@@ -489,12 +489,12 @@ class Marshaller:
             # however, changing this may break older code (including
             # old versions of xmlrpclib.py), so this is better left as
             # is for now.  See @XMLRPC3 for more information. /F
-            write("<params>\n")
+            write("<params>/n")
             for v in values:
-                write("<param>\n")
+                write("<param>/n")
                 dump(v, write)
-                write("</param>\n")
-            write("</params>\n")
+                write("</param>/n")
+            write("</params>/n")
         result = "".join(out)
         return result
 
@@ -528,13 +528,13 @@ class Marshaller:
             raise OverflowError("int exceeds XML-RPC limits")
         write("<value><int>")
         write(str(value))
-        write("</int></value>\n")
+        write("</int></value>/n")
     #dispatch[int] = dump_int
 
     def dump_bool(self, value, write):
         write("<value><boolean>")
         write(value and "1" or "0")
-        write("</boolean></value>\n")
+        write("</boolean></value>/n")
     dispatch[bool] = dump_bool
 
     def dump_long(self, value, write):
@@ -542,19 +542,19 @@ class Marshaller:
             raise OverflowError("long int exceeds XML-RPC limits")
         write("<value><int>")
         write(str(int(value)))
-        write("</int></value>\n")
+        write("</int></value>/n")
     dispatch[int] = dump_long
 
     def dump_double(self, value, write):
         write("<value><double>")
         write(repr(value))
-        write("</double></value>\n")
+        write("</double></value>/n")
     dispatch[float] = dump_double
 
     def dump_unicode(self, value, write, escape=escape):
         write("<value><string>")
         write(escape(value))
-        write("</string></value>\n")
+        write("</string></value>/n")
     dispatch[str] = dump_unicode
 
     def dump_array(self, value, write):
@@ -563,10 +563,10 @@ class Marshaller:
             raise TypeError("cannot marshal recursive sequences")
         self.memo[i] = None
         dump = self.__dump
-        write("<value><array><data>\n")
+        write("<value><array><data>/n")
         for v in value:
             dump(v, write)
-        write("</data></array></value>\n")
+        write("</data></array></value>/n")
         del self.memo[i]
     dispatch[tuple] = dump_array
     dispatch[list] = dump_array
@@ -577,15 +577,15 @@ class Marshaller:
             raise TypeError("cannot marshal recursive dictionaries")
         self.memo[i] = None
         dump = self.__dump
-        write("<value><struct>\n")
+        write("<value><struct>/n")
         for k, v in value.items():
-            write("<member>\n")
+            write("<member>/n")
             if not isinstance(k, str):
                 raise TypeError("dictionary key must be string")
-            write("<name>%s</name>\n" % escape(k))
+            write("<name>%s</name>/n" % escape(k))
             dump(v, write)
-            write("</member>\n")
-        write("</struct></value>\n")
+            write("</member>/n")
+        write("</struct></value>/n")
         del self.memo[i]
     dispatch[dict] = dump_struct
 
@@ -593,7 +593,7 @@ class Marshaller:
         def dump_datetime(self, value, write):
             write("<value><dateTime.iso8601>")
             write(_strftime(value))
-            write("</dateTime.iso8601></value>\n")
+            write("</dateTime.iso8601></value>/n")
         dispatch[datetime.datetime] = dump_datetime
 
     def dump_instance(self, value, write):
@@ -937,9 +937,9 @@ def dumps(params, methodname=None, methodresponse=None, encoding=None,
     data = m.dumps(params)
 
     if encoding != "utf-8":
-        xmlheader = "<?xml version='1.0' encoding='%s'?>\n" % str(encoding)
+        xmlheader = "<?xml version='1.0' encoding='%s'?>/n" % str(encoding)
     else:
-        xmlheader = "<?xml version='1.0'?>\n" # utf-8 is default
+        xmlheader = "<?xml version='1.0'?>/n" # utf-8 is default
 
     # standard XML-RPC wrappings
     if methodname:
@@ -948,18 +948,18 @@ def dumps(params, methodname=None, methodresponse=None, encoding=None,
             methodname = methodname.encode(encoding)
         data = (
             xmlheader,
-            "<methodCall>\n"
-            "<methodName>", methodname, "</methodName>\n",
+            "<methodCall>/n"
+            "<methodName>", methodname, "</methodName>/n",
             data,
-            "</methodCall>\n"
+            "</methodCall>/n"
             )
     elif methodresponse:
         # a method response, or a fault structure
         data = (
             xmlheader,
-            "<methodResponse>\n",
+            "<methodResponse>/n",
             data,
-            "</methodResponse>\n"
+            "</methodResponse>/n"
             )
     else:
         return data # return as is

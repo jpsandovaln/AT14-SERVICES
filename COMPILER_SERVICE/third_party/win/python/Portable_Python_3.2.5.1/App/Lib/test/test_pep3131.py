@@ -10,10 +10,10 @@ class PEP3131Test(unittest.TestCase):
             µ = 2 # this is a compatibility character
             蟒 = 3
             x󠄀 = 4
-        self.assertEqual(getattr(T, "\xe4"), 1)
-        self.assertEqual(getattr(T, "\u03bc"), 2)
-        self.assertEqual(getattr(T, '\u87d2'), 3)
-        self.assertEqual(getattr(T, 'x\U000E0100'), 4)
+        self.assertEqual(getattr(T, "/xe4"), 1)
+        self.assertEqual(getattr(T, "/u03bc"), 2)
+        self.assertEqual(getattr(T, '/u87d2'), 3)
+        self.assertEqual(getattr(T, 'x/U000E0100'), 4)
 
     def test_non_bmp_normalized(self):
         𝔘𝔫𝔦𝔠𝔬𝔡𝔢 = 1

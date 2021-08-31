@@ -25,8 +25,8 @@ alist = [{'astring': 'foo@bar.baz.spam',
           'anotherlist': ['.zyx.41'],
           'abase64': xmlrpclib.Binary(b"my dog has fleas"),
           'boolean': False,
-          'unicode': '\u4000\u6000\u8000',
-          'ukey\u4000': 'regular value',
+          'unicode': '/u4000/u6000/u8000',
+          'ukey/u4000': 'regular value',
           'datetime1': xmlrpclib.DateTime('20050210T11:41:23'),
           'datetime2': xmlrpclib.DateTime(
                         (2005, 2, 10, 11, 41, 23, 0, 1, -1)),
@@ -268,22 +268,22 @@ class DateTimeTestCase(unittest.TestCase):
 
 class BinaryTestCase(unittest.TestCase):
 
-    # XXX What should str(Binary(b"\xff")) return?  I'm chosing "\xff"
+    # XXX What should str(Binary(b"/xff")) return?  I'm chosing "/xff"
     # for now (i.e. interpreting the binary data as Latin-1-encoded
     # text).  But this feels very unsatisfactory.  Perhaps we should
-    # only define repr(), and return r"Binary(b'\xff')" instead?
+    # only define repr(), and return r"Binary(b'/xff')" instead?
 
     def test_default(self):
         t = xmlrpclib.Binary()
         self.assertEqual(str(t), '')
 
     def test_string(self):
-        d = b'\x01\x02\x03abc123\xff\xfe'
+        d = b'/x01/x02/x03abc123/xff/xfe'
         t = xmlrpclib.Binary(d)
         self.assertEqual(str(t), str(d, "latin-1"))
 
     def test_decode(self):
-        d = b'\x01\x02\x03abc123\xff\xfe'
+        d = b'/x01/x02/x03abc123/xff/xfe'
         de = base64.encodebytes(d)
         t1 = xmlrpclib.Binary()
         t1.decode(de)
@@ -488,11 +488,11 @@ class SimpleServerTestCase(BaseServerTestCase):
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e):
                 # protocol error; provide additional information in test output
-                self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+                self.fail("%s/n%s" % (e, getattr(e, "headers", "")))
 
     def test_nonascii(self):
-        start_string = 'P\N{LATIN SMALL LETTER Y WITH CIRCUMFLEX}t'
-        end_string = 'h\N{LATIN SMALL LETTER O WITH HORN}n'
+        start_string = 'P/N{LATIN SMALL LETTER Y WITH CIRCUMFLEX}t'
+        end_string = 'h/N{LATIN SMALL LETTER O WITH HORN}n'
         try:
             p = xmlrpclib.ServerProxy(URL)
             self.assertEqual(p.add(start_string, end_string),
@@ -501,7 +501,7 @@ class SimpleServerTestCase(BaseServerTestCase):
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e):
                 # protocol error; provide additional information in test output
-                self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+                self.fail("%s/n%s" % (e, getattr(e, "headers", "")))
 
     # [ch] The test 404 is causing lots of false alarms.
     def XXXtest_404(self):
@@ -527,7 +527,7 @@ class SimpleServerTestCase(BaseServerTestCase):
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e):
                 # protocol error; provide additional information in test output
-                self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+                self.fail("%s/n%s" % (e, getattr(e, "headers", "")))
 
 
     def test_introspection2(self):
@@ -540,7 +540,7 @@ class SimpleServerTestCase(BaseServerTestCase):
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e):
                 # protocol error; provide additional information in test output
-                self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+                self.fail("%s/n%s" % (e, getattr(e, "headers", "")))
 
     @make_request_and_skipIf(sys.flags.optimize >= 2,
                      "Docstrings are omitted with -O2 and above")
@@ -554,7 +554,7 @@ class SimpleServerTestCase(BaseServerTestCase):
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e):
                 # protocol error; provide additional information in test output
-                self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+                self.fail("%s/n%s" % (e, getattr(e, "headers", "")))
 
     def test_introspection4(self):
         # the SimpleXMLRPCServer doesn't support signatures, but
@@ -567,7 +567,7 @@ class SimpleServerTestCase(BaseServerTestCase):
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e):
                 # protocol error; provide additional information in test output
-                self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+                self.fail("%s/n%s" % (e, getattr(e, "headers", "")))
 
     def test_multicall(self):
         try:
@@ -584,7 +584,7 @@ class SimpleServerTestCase(BaseServerTestCase):
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e):
                 # protocol error; provide additional information in test output
-                self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+                self.fail("%s/n%s" % (e, getattr(e, "headers", "")))
 
     def test_non_existing_multicall(self):
         try:
@@ -594,18 +594,18 @@ class SimpleServerTestCase(BaseServerTestCase):
             result = multicall()
 
             # result.results contains;
-            # [{'faultCode': 1, 'faultString': '<class \'exceptions.Exception\'>:'
+            # [{'faultCode': 1, 'faultString': '<class /'exceptions.Exception/'>:'
             #   'method "this_is_not_exists" is not supported'>}]
 
             self.assertEqual(result.results[0]['faultCode'], 1)
             self.assertEqual(result.results[0]['faultString'],
-                '<class \'Exception\'>:method "this_is_not_exists" '
+                '<class /'Exception/'>:method "this_is_not_exists" '
                 'is not supported')
         except (xmlrpclib.ProtocolError, socket.error) as e:
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e):
                 # protocol error; provide additional information in test output
-                self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+                self.fail("%s/n%s" % (e, getattr(e, "headers", "")))
 
     def test_dotted_attribute(self):
         # Raises an AttributeError because private methods are not allowed.
@@ -619,12 +619,12 @@ class SimpleServerTestCase(BaseServerTestCase):
 
     def test_unicode_host(self):
         server = xmlrpclib.ServerProxy("http://%s:%d/RPC2" % (ADDR, PORT))
-        self.assertEqual(server.add("a", "\xe9"), "a\xe9")
+        self.assertEqual(server.add("a", "/xe9"), "a/xe9")
 
     def test_partial_post(self):
         # Check that a partial POST doesn't make the server loop: issue #14001.
         conn = http.client.HTTPConnection(ADDR, PORT)
-        conn.request('POST', '/RPC2 HTTP/1.0\r\nContent-Length: 100\r\n\r\nbye')
+        conn.request('POST', '/RPC2 HTTP/1.0/r/nContent-Length: 100/r/n/r/nbye')
         conn.close()
 
 
@@ -771,7 +771,7 @@ class GzipServerTestCase(BaseServerTestCase):
         t.fake_gzip = True
         p = xmlrpclib.ServerProxy(URL, transport=t)
         cm = self.assertRaisesRegex(xmlrpclib.ProtocolError,
-                                    re.compile(r"\b400\b"))
+                                    re.compile(r"/b400/b"))
         with cm:
             p.pow(6, 8)
         p("close")()
@@ -858,7 +858,7 @@ class FailingServerTestCase(unittest.TestCase):
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e):
                 # protocol error; provide additional information in test output
-                self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+                self.fail("%s/n%s" % (e, getattr(e, "headers", "")))
 
     def test_fail_no_info(self):
         # use the broken message class
@@ -952,8 +952,8 @@ class CGIHandlerTestCase(unittest.TestCase):
         </methodCall>
         """
 
-        with support.EnvironmentVarGuard() as env, \
-             captured_stdout(encoding=self.cgi.encoding) as data_out, \
+        with support.EnvironmentVarGuard() as env, /
+             captured_stdout(encoding=self.cgi.encoding) as data_out, /
              support.captured_stdin() as data_in:
             data_in.write(data)
             data_in.seek(0)
@@ -976,7 +976,7 @@ class CGIHandlerTestCase(unittest.TestCase):
         content = handle[handle.find("<?xml"):]
 
         self.assertEqual(
-            int(re.search('Content-Length: (\d+)', handle).group(1)),
+            int(re.search('Content-Length: (/d+)', handle).group(1)),
             len(content))
 
 

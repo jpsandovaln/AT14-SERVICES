@@ -19,7 +19,7 @@ from runpy import _run_code, _run_module_code, run_module, run_path
 
 
 # Set up the test code and expected results
-example_source = """\
+example_source = """/
 # Check basic code execution
 result = ['Top level assignment']
 def f():
@@ -34,7 +34,7 @@ module_in_sys_modules = (run_name_in_sys_modules and
                          globals() is sys.modules[__name__].__dict__)
 # Check nested operation
 import runpy
-nested = runpy._run_module_code('x=1\\n', mod_name='<run>')
+nested = runpy._run_module_code('x=1//n', mod_name='<run>')
 """
 
 implicit_namespace = {
@@ -324,7 +324,7 @@ class RunModuleTestCase(unittest.TestCase, CodeExecutionMixin):
         if verbose > 1: print("  Added nephew module:", nephew_fname)
 
     def _check_relative_imports(self, depth, run_name=None):
-        contents = r"""\
+        contents = r"""/
 from __future__ import absolute_import
 from . import sibling
 from ..uncle.cousin import nephew
@@ -514,8 +514,8 @@ class RunPathTestCase(unittest.TestCase, CodeExecutionMixin):
     def test_main_recursion_error(self):
         with temp_dir() as script_dir, temp_dir() as dummy_dir:
             mod_name = '__main__'
-            source = ("import runpy\n"
-                      "runpy.run_path(%r)\n") % dummy_dir
+            source = ("import runpy/n"
+                      "runpy.run_path(%r)/n") % dummy_dir
             script_name = self._make_test_script(script_dir, mod_name, source)
             zip_name, fname = make_zip_script(script_dir, 'test_zip', script_name)
             msg = "recursion depth exceeded"
@@ -527,10 +527,10 @@ class RunPathTestCase(unittest.TestCase, CodeExecutionMixin):
             with open(filename, 'w', encoding='latin1') as f:
                 f.write("""
 #coding:latin1
-s = "non-ASCII: h\xe9"
+s = "non-ASCII: h/xe9"
 """)
             result = run_path(filename)
-            self.assertEqual(result['s'], "non-ASCII: h\xe9")
+            self.assertEqual(result['s'], "non-ASCII: h/xe9")
 
 
 def test_main():

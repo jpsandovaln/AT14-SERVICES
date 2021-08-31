@@ -15,11 +15,11 @@ if getattr(sys, 'float_repr_style', '') != 'short':
 
 strtod_parser = re.compile(r"""    # A numeric string consists of:
     (?P<sign>[-+])?          # an optional sign, followed by
-    (?=\d|\.\d)              # a number with at least one digit
-    (?P<int>\d*)             # having a (possibly empty) integer part
-    (?:\.(?P<frac>\d*))?     # followed by an optional fractional part
-    (?:E(?P<exp>[-+]?\d+))?  # and an optional exponent
-    \Z
+    (?=/d|/./d)              # a number with at least one digit
+    (?P<int>/d*)             # having a (possibly empty) integer part
+    (?:/.(?P<frac>/d*))?     # followed by an optional fractional part
+    (?:E(?P<exp>[-+]?/d+))?  # and an optional exponent
+    /Z
 """, re.VERBOSE | re.IGNORECASE).match
 
 # Pure Python version of correctly rounded string->float conversion.
@@ -218,7 +218,7 @@ class StrtodTests(unittest.TestCase):
         signs = ('+', '-', '')
 
         # put together random short valid strings
-        # \d*[.\d*]?e
+        # /d*[./d*]?e
         for i in range(1000):
             for j in range(TEST_SIZE):
                 s = random.choice(signs)

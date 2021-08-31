@@ -10,12 +10,12 @@ class TestTool(unittest.TestCase):
     data = """
 
         [["blorpie"],[ "whoops" ] , [
-                                 ],\t"d-shtaeou",\r"d-nthiouh",
-        "i-vhbjkhnth", {"nifty":87}, {"morefield" :\tfalse,"field"
+                                 ],/t"d-shtaeou",/r"d-nthiouh",
+        "i-vhbjkhnth", {"nifty":87}, {"morefield" :/tfalse,"field"
             :"yes"}  ]
            """
 
-    expect = textwrap.dedent("""\
+    expect = textwrap.dedent("""/
     [
         [
             "blorpie"

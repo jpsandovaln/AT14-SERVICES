@@ -410,9 +410,9 @@ def urljoin(base, url, allow_fragments=True):
     if not url:
         return base
     base, url, _coerce_result = _coerce_args(base, url)
-    bscheme, bnetloc, bpath, bparams, bquery, bfragment = \
+    bscheme, bnetloc, bpath, bparams, bquery, bfragment = /
             urlparse(base, '', allow_fragments)
-    scheme, netloc, path, params, query, fragment = \
+    scheme, netloc, path, params, query, fragment = /
             urlparse(url, bscheme, allow_fragments)
     if scheme != bscheme or scheme not in uses_relative:
         return _coerce_result(url)
@@ -499,7 +499,7 @@ def unquote_to_bytes(string):
             append(item)
     return b''.join(res)
 
-_asciire = re.compile('([\x00-\x7f]+)')
+_asciire = re.compile('([/x00-/x7f]+)')
 
 def unquote(string, encoding='utf-8', errors='replace'):
     """Replace %xx escapes by their single-character equivalent. The optional
@@ -708,7 +708,7 @@ def quote_plus(string, safe='', encoding=None, errors=None):
 def quote_from_bytes(bs, safe='/'):
     """Like quote(), but accepts a bytes object rather than a str, and does
     not perform string-to-bytes encoding.  It always returns an ASCII string.
-    quote_from_bytes(b'abc def\x3f') -> 'abc%20def%3f'
+    quote_from_bytes(b'abc def/x3f') -> 'abc%20def%3f'
     """
     if not isinstance(bs, (bytes, bytearray)):
         raise TypeError("quote_from_bytes() expected bytes")
@@ -937,7 +937,7 @@ def splitquery(url):
     global _queryprog
     if _queryprog is None:
         import re
-        _queryprog = re.compile('^(.*)\?([^?]*)$')
+        _queryprog = re.compile('^(.*)/?([^?]*)$')
 
     match = _queryprog.match(url)
     if match: return match.group(1, 2)

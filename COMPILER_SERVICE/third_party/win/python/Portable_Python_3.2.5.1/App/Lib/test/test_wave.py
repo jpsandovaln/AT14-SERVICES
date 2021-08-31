@@ -31,7 +31,7 @@ class TestWave(unittest.TestCase):
         else:
             self.f.setframerate(framerate)
         self.f.setnframes(nframes)
-        output = b'\0' * nframes * nchannels * sampwidth
+        output = b'/0' * nframes * nchannels * sampwidth
         self.f.writeframes(output)
         self.f.close()
 
@@ -55,7 +55,7 @@ class TestWave(unittest.TestCase):
         self.f.setsampwidth(sampwidth)
         self.f.setframerate(framerate)
         # Don't call setnframes, make _write_header divide to figure it out
-        output = b'\0' * nframes * nchannels * sampwidth
+        output = b'/0' * nframes * nchannels * sampwidth
         self.f.writeframes(output)
 
 

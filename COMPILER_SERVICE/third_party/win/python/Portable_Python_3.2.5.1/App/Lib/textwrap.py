@@ -17,7 +17,7 @@ __all__ = ['TextWrapper', 'wrap', 'fill', 'dedent']
 # same as any other whitespace char, which is clearly wrong (it's a
 # *non-breaking* space), 2) possibly cause problems with Unicode,
 # since 0xa0 is not in range(128).
-_whitespace = '\t\n\x0b\x0c\r '
+_whitespace = '/t/n/x0b/x0c/r '
 
 class TextWrapper:
     """
@@ -73,22 +73,22 @@ class TextWrapper:
     #   Hello/ /there/ /--/ /you/ /goof-/ball,/ /use/ /the/ /-b/ /option!
     # (after stripping out empty strings).
     wordsep_re = re.compile(
-        r'(\s+|'                                  # any whitespace
-        r'[^\s\w]*\w+[^0-9\W]-(?=\w+[^0-9\W])|'   # hyphenated words
-        r'(?<=[\w\!\"\'\&\.\,\?])-{2,}(?=\w))')   # em-dash
+        r'(/s+|'                                  # any whitespace
+        r'[^/s/w]*/w+[^0-9/W]-(?=/w+[^0-9/W])|'   # hyphenated words
+        r'(?<=[/w/!/"/'/&/./,/?])-{2,}(?=/w))')   # em-dash
 
     # This less funky little regex just split on recognized spaces. E.g.
     #   "Hello there -- you goof-ball, use the -b option!"
     # splits into
     #   Hello/ /there/ /--/ /you/ /goof-ball,/ /use/ /the/ /-b/ /option!/
-    wordsep_simple_re = re.compile(r'(\s+)')
+    wordsep_simple_re = re.compile(r'(/s+)')
 
     # XXX this is not locale- or charset-aware -- string.lowercase
     # is US-ASCII only (and therefore English-only)
     sentence_end_re = re.compile(r'[a-z]'             # lowercase letter
-                                 r'[\.\!\?]'          # sentence-ending punct.
-                                 r'[\"\']?'           # optional end-of-quote
-                                 r'\Z')               # end of chunk
+                                 r'[/./!/?]'          # sentence-ending punct.
+                                 r'[/"/']?'           # optional end-of-quote
+                                 r'/Z')               # end of chunk
 
 
     def __init__(self,
@@ -119,7 +119,7 @@ class TextWrapper:
         """_munge_whitespace(text : string) -> string
 
         Munge whitespace in text: expand tabs and convert all other
-        whitespace characters to spaces.  Eg. " foo\tbar\n\nbaz"
+        whitespace characters to spaces.  Eg. " foo/tbar/n/nbaz"
         becomes " foo    bar  baz".
         """
         if self.expand_tabs:
@@ -155,7 +155,7 @@ class TextWrapper:
         """_fix_sentence_endings(chunks : [string])
 
         Correct for sentence endings buried in 'chunks'.  Eg. when the
-        original text contains "... foo.\nBar ...", munge_whitespace()
+        original text contains "... foo./nBar ...", munge_whitespace()
         and split() will convert that to [..., "foo.", " ", "Bar", ...]
         which has one too few spaces; this method simply changes the one
         space to two.
@@ -297,7 +297,7 @@ class TextWrapper:
         more than 'self.width' columns, and return a new string
         containing the entire wrapped paragraph.
         """
-        return "\n".join(self.wrap(text))
+        return "/n".join(self.wrap(text))
 
 
 # -- Convenience interface ---------------------------------------------
@@ -330,8 +330,8 @@ def fill(text, width=70, **kwargs):
 
 # -- Loosely related functionality -------------------------------------
 
-_whitespace_only_re = re.compile('^[ \t]+$', re.MULTILINE)
-_leading_whitespace_re = re.compile('(^[ \t]*)(?:[^ \t\n])', re.MULTILINE)
+_whitespace_only_re = re.compile('^[ /t]+$', re.MULTILINE)
+_leading_whitespace_re = re.compile('(^[ /t]*)(?:[^ /t/n])', re.MULTILINE)
 
 def dedent(text):
     """Remove any common leading whitespace from every line in `text`.
@@ -341,7 +341,7 @@ def dedent(text):
     in indented form.
 
     Note that tabs and spaces are both treated as whitespace, but they
-    are not equal: the lines "  hello" and "\thello" are
+    are not equal: the lines "  hello" and "/thello" are
     considered to have no common leading whitespace.  (This behaviour is
     new in Python 2.5; older versions of this module incorrectly
     expanded tabs before searching for common leading whitespace.)
@@ -373,8 +373,8 @@ def dedent(text):
 
     # sanity check (testing/debugging only)
     if 0 and margin:
-        for line in text.split("\n"):
-            assert not line or line.startswith(margin), \
+        for line in text.split("/n"):
+            assert not line or line.startswith(margin), /
                    "line = %r, margin = %r" % (line, margin)
 
     if margin:
@@ -382,6 +382,6 @@ def dedent(text):
     return text
 
 if __name__ == "__main__":
-    #print dedent("\tfoo\n\tbar")
-    #print dedent("  \thello there\n  \t  how are you?")
-    print(dedent("Hello there.\n  This is indented."))
+    #print dedent("/tfoo/n/tbar")
+    #print dedent("  /thello there/n  /t  how are you?")
+    print(dedent("Hello there./n  This is indented."))

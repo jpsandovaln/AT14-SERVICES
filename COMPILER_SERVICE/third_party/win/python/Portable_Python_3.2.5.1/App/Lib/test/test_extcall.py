@@ -176,7 +176,7 @@ What about willful misconduct?
     >>> None(*h)
     Traceback (most recent call last):
       ...
-    TypeError: NoneType object argument after * must be a sequence, \
+    TypeError: NoneType object argument after * must be a sequence, /
 not function
 
     >>> h(**h)
@@ -192,7 +192,7 @@ not function
     >>> None(**h)
     Traceback (most recent call last):
       ...
-    TypeError: NoneType object argument after ** must be a mapping, \
+    TypeError: NoneType object argument after ** must be a mapping, /
 not function
 
     >>> dir(b=1, **{'b': 1})

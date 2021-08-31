@@ -1,7 +1,7 @@
 # Wrapper module for _socket, providing some additional facilities
 # implemented in Python.
 
-"""\
+"""/
 This module provides socket operations and some related functions.
 On Unix, it supports IP (Internet Protocol) and Unix domain sockets.
 On other systems, it only supports IP. Functions specific for a

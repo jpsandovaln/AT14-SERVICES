@@ -85,13 +85,13 @@ class ExceptionTests(unittest.TestCase):
         self.raise_catch(RuntimeError, "RuntimeError")
 
         self.raise_catch(SyntaxError, "SyntaxError")
-        try: exec('/\n')
+        try: exec('//n')
         except SyntaxError: pass
 
         self.raise_catch(IndentationError, "IndentationError")
 
         self.raise_catch(TabError, "TabError")
-        try: compile("try:\n\t1/0\n    \t1/0\nfinally:\n pass\n",
+        try: compile("try:/n/t1/0/n    /t1/0/nfinally:/n pass/n",
                      '<string>', 'exec')
         except TabError: pass
         else: self.fail("TabError not raised")
@@ -145,7 +145,7 @@ class ExceptionTests(unittest.TestCase):
             pass'''
 
         ckmsg(s, "'continue' not properly in loop")
-        ckmsg("continue\n", "'continue' not properly in loop")
+        ckmsg("continue/n", "'continue' not properly in loop")
 
     @cpython_only
     def testSettingException(self):
@@ -265,21 +265,21 @@ class ExceptionTests(unittest.TestCase):
                                            'ordinal not in range'),
                  'encoding' : 'ascii', 'object' : 'a',
                  'start' : 0, 'reason' : 'ordinal not in range'}),
-            (UnicodeDecodeError, ('ascii', bytearray(b'\xff'), 0, 1,
+            (UnicodeDecodeError, ('ascii', bytearray(b'/xff'), 0, 1,
                                   'ordinal not in range'),
-                {'args' : ('ascii', bytearray(b'\xff'), 0, 1,
+                {'args' : ('ascii', bytearray(b'/xff'), 0, 1,
                                            'ordinal not in range'),
-                 'encoding' : 'ascii', 'object' : b'\xff',
+                 'encoding' : 'ascii', 'object' : b'/xff',
                  'start' : 0, 'reason' : 'ordinal not in range'}),
-            (UnicodeDecodeError, ('ascii', b'\xff', 0, 1,
+            (UnicodeDecodeError, ('ascii', b'/xff', 0, 1,
                                   'ordinal not in range'),
-                {'args' : ('ascii', b'\xff', 0, 1,
+                {'args' : ('ascii', b'/xff', 0, 1,
                                            'ordinal not in range'),
-                 'encoding' : 'ascii', 'object' : b'\xff',
+                 'encoding' : 'ascii', 'object' : b'/xff',
                  'start' : 0, 'reason' : 'ordinal not in range'}),
-            (UnicodeTranslateError, ("\u3042", 0, 1, "ouch"),
-                {'args' : ('\u3042', 0, 1, 'ouch'),
-                 'object' : '\u3042', 'reason' : 'ouch',
+            (UnicodeTranslateError, ("/u3042", 0, 1, "ouch"),
+                {'args' : ('/u3042', 0, 1, 'ouch'),
+                 'object' : '/u3042', 'reason' : 'ouch',
                  'start' : 0, 'end' : 1}),
             (NaiveException, ('foo',),
                 {'args': ('foo',), 'x': 'foo'}),
@@ -300,7 +300,7 @@ class ExceptionTests(unittest.TestCase):
             try:
                 e = exc(*args)
             except:
-                print("\nexc=%r, args=%r" % (exc, args), file=sys.stderr)
+                print("/nexc=%r, args=%r" % (exc, args), file=sys.stderr)
                 raise
             else:
                 # Verify module name
@@ -711,7 +711,7 @@ class ExceptionTests(unittest.TestCase):
         u = UnicodeEncodeError('baz', 'xxxxx', 1, 5, 'foo')
         self.assertEqual(str(u), "'baz' codec can't encode characters in position 1-4: foo")
         u.end = 2
-        self.assertEqual(str(u), "'baz' codec can't encode character '\\x78' in position 1: foo")
+        self.assertEqual(str(u), "'baz' codec can't encode character '//x78' in position 1: foo")
         u.end = 5
         u.reason = 0x345345345345345345
         self.assertEqual(str(u), "'baz' codec can't encode characters in position 1-4: 965230951443685724997")
@@ -735,7 +735,7 @@ class ExceptionTests(unittest.TestCase):
         u = UnicodeTranslateError('xxxx', 1, 5, 'foo')
         self.assertEqual(str(u), "can't translate characters in position 1-4: foo")
         u.end = 2
-        self.assertEqual(str(u), "can't translate character '\\x78' in position 1: foo")
+        self.assertEqual(str(u), "can't translate character '//x78' in position 1: foo")
         u.end = 5
         u.reason = 0x345345345345345345
         self.assertEqual(str(u), "can't translate characters in position 1-4: 965230951443685724997")

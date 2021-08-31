@@ -7,39 +7,39 @@ class TestUnicode:
     # is supported as input, not bytes).
 
     def test_encoding3(self):
-        u = '\N{GREEK SMALL LETTER ALPHA}\N{GREEK CAPITAL LETTER OMEGA}'
+        u = '/N{GREEK SMALL LETTER ALPHA}/N{GREEK CAPITAL LETTER OMEGA}'
         j = self.dumps(u)
-        self.assertEqual(j, '"\\u03b1\\u03a9"')
+        self.assertEqual(j, '"//u03b1//u03a9"')
 
     def test_encoding4(self):
-        u = '\N{GREEK SMALL LETTER ALPHA}\N{GREEK CAPITAL LETTER OMEGA}'
+        u = '/N{GREEK SMALL LETTER ALPHA}/N{GREEK CAPITAL LETTER OMEGA}'
         j = self.dumps([u])
-        self.assertEqual(j, '["\\u03b1\\u03a9"]')
+        self.assertEqual(j, '["//u03b1//u03a9"]')
 
     def test_encoding5(self):
-        u = '\N{GREEK SMALL LETTER ALPHA}\N{GREEK CAPITAL LETTER OMEGA}'
+        u = '/N{GREEK SMALL LETTER ALPHA}/N{GREEK CAPITAL LETTER OMEGA}'
         j = self.dumps(u, ensure_ascii=False)
         self.assertEqual(j, '"{0}"'.format(u))
 
     def test_encoding6(self):
-        u = '\N{GREEK SMALL LETTER ALPHA}\N{GREEK CAPITAL LETTER OMEGA}'
+        u = '/N{GREEK SMALL LETTER ALPHA}/N{GREEK CAPITAL LETTER OMEGA}'
         j = self.dumps([u], ensure_ascii=False)
         self.assertEqual(j, '["{0}"]'.format(u))
 
     def test_big_unicode_encode(self):
-        u = '\U0001d120'
-        self.assertEqual(self.dumps(u), '"\\ud834\\udd20"')
-        self.assertEqual(self.dumps(u, ensure_ascii=False), '"\U0001d120"')
+        u = '/U0001d120'
+        self.assertEqual(self.dumps(u), '"//ud834//udd20"')
+        self.assertEqual(self.dumps(u, ensure_ascii=False), '"/U0001d120"')
 
     def test_big_unicode_decode(self):
-        u = 'z\U0001d120x'
+        u = 'z/U0001d120x'
         self.assertEqual(self.loads('"' + u + '"'), u)
-        self.assertEqual(self.loads('"z\\ud834\\udd20x"'), u)
+        self.assertEqual(self.loads('"z//ud834//udd20x"'), u)
 
     def test_unicode_decode(self):
         for i in range(0, 0xd7ff):
             u = chr(i)
-            s = '"\\u{0:04x}"'.format(i)
+            s = '"//u{0:04x}"'.format(i)
             self.assertEqual(self.loads(s), u)
 
     def test_unicode_preservation(self):

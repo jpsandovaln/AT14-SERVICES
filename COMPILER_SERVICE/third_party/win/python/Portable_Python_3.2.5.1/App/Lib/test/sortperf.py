@@ -72,7 +72,7 @@ def tabulate(r):
     floating point numbers with the following properties:
 
     *sort: random data
-    \sort: descending data
+    /sort: descending data
     /sort: ascending data
     3sort: ascending, then 3 random exchanges
     +sort: ascending, then 10 random at the end
@@ -82,7 +82,7 @@ def tabulate(r):
     !sort: worst case scenario
 
     """
-    cases = tuple([ch + "sort" for ch in r"*\/3+%~=!"])
+    cases = tuple([ch + "sort" for ch in r"*//3+%~=!"])
     fmt = ("%2s %7s" + " %6s"*len(cases))
     print(fmt % (("i", "2**i") + cases))
     for i in r:
@@ -92,7 +92,7 @@ def tabulate(r):
         flush()
         doit(L) # *sort
         L.reverse()
-        doit(L) # \sort
+        doit(L) # /sort
         doit(L) # /sort
 
         # Do 3 random exchanges.

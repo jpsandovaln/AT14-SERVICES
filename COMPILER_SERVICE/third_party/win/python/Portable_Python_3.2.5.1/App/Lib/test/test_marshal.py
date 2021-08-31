@@ -86,15 +86,15 @@ class FloatTestCase(unittest.TestCase, HelperMixin):
 
 class StringTestCase(unittest.TestCase, HelperMixin):
     def test_unicode(self):
-        for s in ["", "Andr\xe8 Previn", "abc", " "*10000]:
+        for s in ["", "Andr/xe8 Previn", "abc", " "*10000]:
             self.helper(marshal.loads(marshal.dumps(s)))
 
     def test_string(self):
-        for s in ["", "Andr\xe8 Previn", "abc", " "*10000]:
+        for s in ["", "Andr/xe8 Previn", "abc", " "*10000]:
             self.helper(s)
 
     def test_bytes(self):
-        for s in [b"", b"Andr\xe8 Previn", b"abc", b" "*10000]:
+        for s in [b"", b"Andr/xe8 Previn", b"abc", b" "*10000]:
             self.helper(s)
 
 class ExceptionTestCase(unittest.TestCase):
@@ -122,7 +122,7 @@ class ContainerTestCase(unittest.TestCase, HelperMixin):
          'alist': ['.zyx.41'],
          'atuple': ('.zyx.41',)*10,
          'aboolean': False,
-         'aunicode': "Andr\xe8 Previn"
+         'aunicode': "Andr/xe8 Previn"
          }
 
     def test_dict(self):
@@ -230,7 +230,7 @@ class BugsTestCase(unittest.TestCase):
 
     def test_invalid_longs(self):
         # Issue #7019: marshal.loads shouldn't produce unnormalized PyLongs
-        invalid_string = b'l\x02\x00\x00\x00\x00\x00\x00\x00'
+        invalid_string = b'l/x02/x00/x00/x00/x00/x00/x00/x00'
         self.assertRaises(ValueError, marshal.loads, invalid_string)
 
     def test_multiple_dumps_and_loads(self):

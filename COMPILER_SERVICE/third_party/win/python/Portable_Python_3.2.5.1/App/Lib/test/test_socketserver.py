@@ -23,7 +23,7 @@ except ImportError:
 
 test.support.requires("network")
 
-TEST_STR = b"hello world\n"
+TEST_STR = b"hello world/n"
 HOST = test.support.HOST
 
 HAVE_UNIX_SOCKETS = hasattr(socket, "AF_UNIX")
@@ -94,7 +94,7 @@ class SocketServerTest(unittest.TestCase):
             # like AF_INET provides port==0.
             dir = None
             if os.name == 'os2':
-                dir = '\socket'
+                dir = '/socket'
             fn = tempfile.mktemp(prefix='unix_socket.', dir=dir)
             if os.name == 'os2':
                 # AF_UNIX socket names on OS/2 require a specific prefix
@@ -163,7 +163,7 @@ class SocketServerTest(unittest.TestCase):
         s.connect(addr)
         s.sendall(TEST_STR)
         buf = data = receive(s, 100)
-        while data and b'\n' not in buf:
+        while data and b'/n' not in buf:
             data = receive(s, 100)
             buf += data
         self.assertEqual(buf, TEST_STR)
@@ -173,7 +173,7 @@ class SocketServerTest(unittest.TestCase):
         s = socket.socket(proto, socket.SOCK_DGRAM)
         s.sendto(TEST_STR, addr)
         buf = data = receive(s, 100)
-        while data and b'\n' not in buf:
+        while data and b'/n' not in buf:
             data = receive(s, 100)
             buf += data
         self.assertEqual(buf, TEST_STR)

@@ -24,7 +24,7 @@ class BoolTest(unittest.TestCase):
             print(False, True, file=fo)
             fo.close()
             fo = open(support.TESTFN, "r")
-            self.assertEqual(fo.read(), 'False True\n')
+            self.assertEqual(fo.read(), 'False True/n')
         finally:
             fo.close()
             os.remove(support.TESTFN)
@@ -209,8 +209,8 @@ class BoolTest(unittest.TestCase):
         self.assertIs("0123".isnumeric(), True)
         self.assertIs("xyz".isnumeric(), False)
         self.assertIs(" ".isspace(), True)
-        self.assertIs("\xa0".isspace(), True)
-        self.assertIs("\u3000".isspace(), True)
+        self.assertIs("/xa0".isspace(), True)
+        self.assertIs("/u3000".isspace(), True)
         self.assertIs("XYZ".isspace(), False)
         self.assertIs("X".istitle(), True)
         self.assertIs("x".istitle(), False)
@@ -277,12 +277,12 @@ class BoolTest(unittest.TestCase):
     def test_picklevalues(self):
         # Test for specific backwards-compatible pickle values
         import pickle
-        self.assertEqual(pickle.dumps(True, protocol=0), b"I01\n.")
-        self.assertEqual(pickle.dumps(False, protocol=0), b"I00\n.")
-        self.assertEqual(pickle.dumps(True, protocol=1), b"I01\n.")
-        self.assertEqual(pickle.dumps(False, protocol=1), b"I00\n.")
-        self.assertEqual(pickle.dumps(True, protocol=2), b'\x80\x02\x88.')
-        self.assertEqual(pickle.dumps(False, protocol=2), b'\x80\x02\x89.')
+        self.assertEqual(pickle.dumps(True, protocol=0), b"I01/n.")
+        self.assertEqual(pickle.dumps(False, protocol=0), b"I00/n.")
+        self.assertEqual(pickle.dumps(True, protocol=1), b"I01/n.")
+        self.assertEqual(pickle.dumps(False, protocol=1), b"I00/n.")
+        self.assertEqual(pickle.dumps(True, protocol=2), b'/x80/x02/x88.')
+        self.assertEqual(pickle.dumps(False, protocol=2), b'/x80/x02/x89.')
 
     def test_convert_to_bool(self):
         # Verify that TypeError occurs when bad things are returned

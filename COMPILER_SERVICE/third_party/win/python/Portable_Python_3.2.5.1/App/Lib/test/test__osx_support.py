@@ -44,7 +44,7 @@ class Test_OSXSupport(unittest.TestCase):
         self.assertIsNone(_osx_support._find_executable(self.prog_name))
         self.addCleanup(test.support.unlink, self.prog_name)
         with open(self.prog_name, 'w') as f:
-            f.write("#!/bin/sh\n/bin/echo OK\n")
+            f.write("#!/bin/sh/n/bin/echo OK/n")
         os.chmod(self.prog_name, stat.S_IRWXU)
         self.assertEqual(self.prog_name,
                             _osx_support._find_executable(self.prog_name))
@@ -56,7 +56,7 @@ class Test_OSXSupport(unittest.TestCase):
         test.support.unlink(self.prog_name)
         self.addCleanup(test.support.unlink, self.prog_name)
         with open(self.prog_name, 'w') as f:
-            f.write("#!/bin/sh\n/bin/echo ExpectedOutput\n")
+            f.write("#!/bin/sh/n/bin/echo ExpectedOutput/n")
         os.chmod(self.prog_name, stat.S_IRWXU)
         self.assertEqual('ExpectedOutput',
                             _osx_support._read_output(self.prog_name))
@@ -145,7 +145,7 @@ class Test_OSXSupport(unittest.TestCase):
             test.support.unlink(c_name)
             self.addCleanup(test.support.unlink, c_name)
             with open(c_name, 'w') as f:
-                f.write("#!/bin/sh\n/bin/echo " + c_output)
+                f.write("#!/bin/sh/n/bin/echo " + c_output)
             os.chmod(c_name, stat.S_IRWXU)
         self.assertEqual(expected_vars,
                             _osx_support._find_appropriate_compiler(
@@ -201,7 +201,7 @@ class Test_OSXSupport(unittest.TestCase):
         self.addCleanup(test.support.unlink, c_name)
         # exit status 255 means no PPC support in this compiler chain
         with open(c_name, 'w') as f:
-            f.write("#!/bin/sh\nexit 255")
+            f.write("#!/bin/sh/nexit 255")
         os.chmod(c_name, stat.S_IRWXU)
         self.assertEqual(expected_vars,
                             _osx_support._remove_unsupported_archs(

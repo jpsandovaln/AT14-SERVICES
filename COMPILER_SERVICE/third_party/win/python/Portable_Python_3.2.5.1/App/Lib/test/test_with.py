@@ -138,25 +138,25 @@ class FailureTestCase(unittest.TestCase):
         self.assertRaises(SyntaxError, shouldRaiseSyntaxError, codestr)
 
     def testAssignmentToNoneError(self):
-        self.assertRaisesSyntaxError('with mock as None:\n  pass')
+        self.assertRaisesSyntaxError('with mock as None:/n  pass')
         self.assertRaisesSyntaxError(
-            'with mock as (None):\n'
+            'with mock as (None):/n'
             '  pass')
 
     def testAssignmentToEmptyTupleError(self):
         self.assertRaisesSyntaxError(
-            'with mock as ():\n'
+            'with mock as ():/n'
             '  pass')
 
     def testAssignmentToTupleOnlyContainingNoneError(self):
-        self.assertRaisesSyntaxError('with mock as None,:\n  pass')
+        self.assertRaisesSyntaxError('with mock as None,:/n  pass')
         self.assertRaisesSyntaxError(
-            'with mock as (None,):\n'
+            'with mock as (None,):/n'
             '  pass')
 
     def testAssignmentToTupleContainingNoneError(self):
         self.assertRaisesSyntaxError(
-            'with mock as (foo, None, bar):\n'
+            'with mock as (foo, None, bar):/n'
             '  pass')
 
     def testEnterThrows(self):
@@ -732,7 +732,7 @@ class NestedWith(unittest.TestCase):
         self.assertNotEqual(a.exc_info[0], None)
 
     def testEnterReturnsTuple(self):
-        with self.Dummy(value=(1,2)) as (a1, a2), \
+        with self.Dummy(value=(1,2)) as (a1, a2), /
              self.Dummy(value=(10, 20)) as (b1, b2):
             self.assertEqual(1, a1)
             self.assertEqual(2, a2)

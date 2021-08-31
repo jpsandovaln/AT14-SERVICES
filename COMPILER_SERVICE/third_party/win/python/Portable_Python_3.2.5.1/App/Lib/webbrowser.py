@@ -526,8 +526,8 @@ if sys.platform[:3] == "win":
     register("windows-default", WindowsDefault)
 
     # Detect some common Windows browsers, fallback to IE
-    iexplore = os.path.join(os.environ.get("PROGRAMFILES", "C:\\Program Files"),
-                            "Internet Explorer\\IEXPLORE.EXE")
+    iexplore = os.path.join(os.environ.get("PROGRAMFILES", "C://Program Files"),
+                            "Internet Explorer//IEXPLORE.EXE")
     for browser in ("firefox", "firebird", "seamonkey", "mozilla",
                     "netscape", "opera", iexplore):
         if _iscommand(browser):
@@ -669,7 +669,7 @@ def main():
     url = args[0]
     open(url, new_win)
 
-    print("\a")
+    print("/a")
 
 if __name__ == "__main__":
     main()

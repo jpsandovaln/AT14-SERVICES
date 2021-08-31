@@ -56,7 +56,7 @@ class TestDecode:
         self.assertIs(b, d)
 
     def test_keys_reuse(self):
-        s = '[{"a_key": 1, "b_\xe9": 2}, {"a_key": 3, "b_\xe9": 4}]'
+        s = '[{"a_key": 1, "b_/xe9": 2}, {"a_key": 3, "b_/xe9": 4}]'
         self.check_keys_reuse(s, self.loads)
         self.check_keys_reuse(s, self.json.decoder.JSONDecoder().decode)
 
@@ -66,7 +66,7 @@ class TestDecode:
         self.assertRaisesRegex(ValueError, msg, self.loads, s)
 
     def test_invalid_escape(self):
-        s = '["abc\\y"]'
+        s = '["abc//y"]'
         msg = 'escape'
         self.assertRaisesRegex(ValueError, msg, self.loads, s)
 

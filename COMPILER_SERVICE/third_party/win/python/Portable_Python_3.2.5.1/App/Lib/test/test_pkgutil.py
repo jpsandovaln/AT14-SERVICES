@@ -25,7 +25,7 @@ class PkgutilTests(unittest.TestCase):
         pkg = 'test_getdata_filesys'
 
         # Include a LF and a CRLF, to test that binary data is read back
-        RESOURCE_DATA = b'Hello, world!\nSecond line\r\nThird line'
+        RESOURCE_DATA = b'Hello, world!/nSecond line/r/nThird line'
 
         # Make a package with some resources
         package_dir = os.path.join(self.dirname, pkg)
@@ -55,7 +55,7 @@ class PkgutilTests(unittest.TestCase):
         pkg = 'test_getdata_zipfile'
 
         # Include a LF and a CRLF, to test that binary data is read back
-        RESOURCE_DATA = b'Hello, world!\nSecond line\r\nThird line'
+        RESOURCE_DATA = b'Hello, world!/nSecond line/r/nThird line'
 
         # Make a package with some resources
         zip_file = os.path.join(self.dirname, zip)
@@ -147,7 +147,7 @@ class ExtendPathTests(unittest.TestCase):
         pkgdir = os.path.join(dirname, pkgname)
         os.mkdir(pkgdir)
         with open(os.path.join(pkgdir, '__init__.py'), 'w') as fl:
-            fl.write('from pkgutil import extend_path\n__path__ = extend_path(__path__, __name__)\n')
+            fl.write('from pkgutil import extend_path/n__path__ = extend_path(__path__, __name__)/n')
 
         return dirname
 

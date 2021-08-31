@@ -76,7 +76,7 @@ class C(object):
         """
         self._x = value
 
-    x = property(getx, setx, doc="""\
+    x = property(getx, setx, doc="""/
         >>> c = C()    # 13
         >>> c.x = 12   # 14
         >>> print(c.x)  # 15

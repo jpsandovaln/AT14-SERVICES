@@ -77,8 +77,8 @@ def capture_server(evt, buf, serv):
             if r:
                 data = conn.recv(10)
                 # keep everything except for the newline terminator
-                buf.write(data.replace(b'\n', b''))
-                if b'\n' in data:
+                buf.write(data.replace(b'/n', b''))
+                if b'/n' in data:
                     break
             n -= 1
             time.sleep(0.01)
@@ -376,7 +376,7 @@ class DispatcherWithSendTests(unittest.TestCase):
 
             d.send(data)
             d.send(data)
-            d.send(b'\n')
+            d.send(b'/n')
 
             n = 1000
             while d.out_buffer and n > 0:

@@ -114,7 +114,7 @@ class Horrid:
 def fill_dict(d, candidates, numentries):
     d.clear()
     for i in range(numentries):
-        d[Horrid(random.choice(candidates))] = \
+        d[Horrid(random.choice(candidates))] = /
             Horrid(random.choice(candidates))
     return list(d.keys())
 

@@ -14,15 +14,15 @@ L = [
         ('314', 314),
         (' 314', 314),
         ('314 ', 314),
-        ('  \t\t  314  \t\t  ', 314),
+        ('  /t/t  314  /t/t  ', 314),
         (repr(sys.maxsize), sys.maxsize),
         ('  1x', ValueError),
         ('  1  ', 1),
-        ('  1\02  ', ValueError),
+        ('  1/02  ', ValueError),
         ('', ValueError),
         (' ', ValueError),
-        ('  \t\t  ', ValueError),
-        ("\u0200", ValueError)
+        ('  /t/t  ', ValueError),
+        ("/u0200", ValueError)
 ]
 
 class IntTestCases(unittest.TestCase):
@@ -38,13 +38,13 @@ class IntTestCases(unittest.TestCase):
         self.assertEqual(int(-3.5), -3)
         self.assertEqual(int("-3"), -3)
         self.assertEqual(int(" -3 "), -3)
-        self.assertEqual(int("\N{EM SPACE}-3\N{EN SPACE}"), -3)
+        self.assertEqual(int("/N{EM SPACE}-3/N{EN SPACE}"), -3)
         # Different base:
         self.assertEqual(int("10",16), 16)
         # Test conversion from strings and various anomalies
         for s, v in L:
             for sign in "", "+", "-":
-                for prefix in "", " ", "\t", "  \t\t  ":
+                for prefix in "", " ", "/t", "  /t/t  ":
                     ss = prefix + sign + s
                     vv = v
                     if sign == "-" and v is not ValueError:
@@ -74,13 +74,13 @@ class IntTestCases(unittest.TestCase):
         x = -1-sys.maxsize
         self.assertEqual(x >> 1, x//2)
 
-        self.assertRaises(ValueError, int, '123\0')
+        self.assertRaises(ValueError, int, '123/0')
         self.assertRaises(ValueError, int, '53', 40)
 
         # SF bug 1545497: embedded NULs were not detected with
         # explicit base
-        self.assertRaises(ValueError, int, '123\0', 10)
-        self.assertRaises(ValueError, int, '123\x00 245', 20)
+        self.assertRaises(ValueError, int, '123/0', 10)
+        self.assertRaises(ValueError, int, '123/x00 245', 20)
 
         x = int('1' * 600)
         self.assertIsInstance(x, int)
@@ -319,7 +319,7 @@ class IntTestCases(unittest.TestCase):
                               ((base, trunc_result_base),))
 
     def test_error_message(self):
-        testlist = ('\xbd', '123\xbd', '  123 456  ')
+        testlist = ('/xbd', '123/xbd', '  123 456  ')
         for s in testlist:
             try:
                 int(s)

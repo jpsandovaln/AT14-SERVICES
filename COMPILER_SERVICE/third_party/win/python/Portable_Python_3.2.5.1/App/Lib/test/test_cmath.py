@@ -272,7 +272,7 @@ class CMathTests(unittest.TestCase):
         test_values = [0.01, 0.1, 0.2, 0.5, 0.9, 0.99]
 
         # test_values for functions defined on [-1., 1.]
-        unit_interval = test_values + [-x for x in test_values] + \
+        unit_interval = test_values + [-x for x in test_values] + /
             [0., 1., -1.]
 
         # test_values for log, log10, sqrt
@@ -368,9 +368,9 @@ class CMathTests(unittest.TestCase):
                 real_abs_err = 5e-323
 
             error_message = (
-                '{}: {}(complex({!r}, {!r}))\n'
-                'Expected: complex({!r}, {!r})\n'
-                'Received: complex({!r}, {!r})\n'
+                '{}: {}(complex({!r}, {!r}))/n'
+                'Expected: complex({!r}, {!r})/n'
+                'Received: complex({!r}, {!r})/n'
                 'Received value insufficiently close to expected value.'
                 ).format(id, fn, ar, ai,
                      expected.real, expected.imag,

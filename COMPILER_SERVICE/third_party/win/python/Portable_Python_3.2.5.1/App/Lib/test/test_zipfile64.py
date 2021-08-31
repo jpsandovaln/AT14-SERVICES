@@ -35,7 +35,7 @@ class TestsWithSourceFile(unittest.TestCase):
     def setUp(self):
         # Create test data.
         line_gen = ("Test of zipfile line %d." % i for i in range(1000000))
-        self.data = '\n'.join(line_gen).encode('ascii')
+        self.data = '/n'.join(line_gen).encode('ascii')
 
         # And write it to a file.
         fp = open(TESTFN, "wb")

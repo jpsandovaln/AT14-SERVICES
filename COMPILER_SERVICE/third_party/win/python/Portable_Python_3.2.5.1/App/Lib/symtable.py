@@ -64,7 +64,7 @@ class SymbolTable(object):
             return "function"
         if self._table.type == _symtable.TYPE_CLASS:
             return "class"
-        assert self._table.type in (1, 2, 3), \
+        assert self._table.type in (1, 2, 3), /
                "unexpected type: {0}".format(self._table.type)
 
     def get_id(self):

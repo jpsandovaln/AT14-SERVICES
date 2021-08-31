@@ -351,7 +351,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
     def test_clear_unconsumed_tail(self):
         # Issue #12050: calling decompress() without providing max_length
         # should clear the unconsumed_tail attribute.
-        cdata = b"x\x9cKLJ\x06\x00\x02M\x01"    # "abc"
+        cdata = b"x/x9cKLJ/x06/x00/x02M/x01"    # "abc"
         dco = zlib.decompressobj()
         ddata = dco.decompress(cdata, 1)
         ddata += dco.decompress(dco.unconsumed_tail)
@@ -423,7 +423,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
 
     def test_decompress_incomplete_stream(self):
         # This is 'foo', deflated
-        x = b'x\x9cK\xcb\xcf\x07\x00\x02\x82\x01E'
+        x = b'x/x9cK/xcb/xcf/x07/x00/x02/x82/x01E'
         # For the record
         self.assertEqual(zlib.decompress(x), b'foo')
         self.assertRaises(zlib.error, zlib.decompress, x[:-5])
@@ -579,7 +579,7 @@ def choose_lines(source, number, seed=None, generator=random):
     """Return a list of number lines randomly chosen from the source"""
     if seed is not None:
         generator.seed(seed)
-    sources = source.split('\n')
+    sources = source.split('/n')
     return [generator.choice(sources) for n in range(number)]
 
 

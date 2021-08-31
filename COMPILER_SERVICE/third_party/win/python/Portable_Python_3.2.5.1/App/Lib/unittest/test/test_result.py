@@ -242,7 +242,7 @@ class Test_TestResult(unittest.TestCase):
         self.assertEqual(
                 result.getDescription(self),
                ('testGetDescriptionWithOneLineDocstring '
-                '(' + __name__ + '.Test_TestResult)\n'
+                '(' + __name__ + '.Test_TestResult)/n'
                 'Tests getDescription() for a method with a docstring.'))
 
     @unittest.skipIf(sys.flags.optimize >= 2,
@@ -255,7 +255,7 @@ class Test_TestResult(unittest.TestCase):
         self.assertEqual(
                 result.getDescription(self),
                ('testGetDescriptionWithMultiLineDocstring '
-                '(' + __name__ + '.Test_TestResult)\n'
+                '(' + __name__ + '.Test_TestResult)/n'
                 'Tests getDescription() for a method with a longer '
                 'docstring.'))
 
@@ -425,8 +425,8 @@ class TestOutputBuffering(unittest.TestCase):
         print('foo')
         print('bar', file=sys.stderr)
 
-        self.assertEqual(out_stream.getvalue(), 'foo\n')
-        self.assertEqual(err_stream.getvalue(), 'bar\n')
+        self.assertEqual(out_stream.getvalue(), 'foo/n')
+        self.assertEqual(err_stream.getvalue(), 'bar/n')
 
         self.assertEqual(result._original_stdout.getvalue(), '')
         self.assertEqual(result._original_stderr.getvalue(), '')

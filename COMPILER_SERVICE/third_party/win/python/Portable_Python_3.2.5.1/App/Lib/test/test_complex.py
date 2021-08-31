@@ -27,7 +27,7 @@ class ComplexTest(unittest.TestCase):
                 unittest.TestCase.assertAlmostEqual(self, a, b)
 
     def assertCloseAbs(self, x, y, eps=1e-9):
-        """Return true iff floats x and y "are close\""""
+        """Return true iff floats x and y "are close/""""
         # put the one with larger magnitude second
         if abs(x) > abs(y):
             x, y = y, x
@@ -62,7 +62,7 @@ class ComplexTest(unittest.TestCase):
         self.fail(msg.format(x, y))
 
     def assertClose(self, x, y, eps=1e-9):
-        """Return true iff complexes x and y "are close\""""
+        """Return true iff complexes x and y "are close/""""
         self.assertCloseAbs(x.real, y.real, eps)
         self.assertCloseAbs(x.imag, y.imag, eps)
 
@@ -293,17 +293,17 @@ class ComplexTest(unittest.TestCase):
         self.assertRaises(TypeError, complex, "1", "1")
         self.assertRaises(TypeError, complex, 1, "1")
 
-        # SF bug 543840:  complex(string) accepts strings with \0
+        # SF bug 543840:  complex(string) accepts strings with /0
         # Fixed in 2.3.
-        self.assertRaises(ValueError, complex, '1+1j\0j')
+        self.assertRaises(ValueError, complex, '1+1j/0j')
 
         self.assertRaises(TypeError, int, 5+3j)
         self.assertRaises(TypeError, int, 5+3j)
         self.assertRaises(TypeError, float, 5+3j)
         self.assertRaises(ValueError, complex, "")
         self.assertRaises(TypeError, complex, None)
-        self.assertRaises(ValueError, complex, "\0")
-        self.assertRaises(ValueError, complex, "3\09")
+        self.assertRaises(ValueError, complex, "/0")
+        self.assertRaises(ValueError, complex, "3/09")
         self.assertRaises(TypeError, complex, "1", "2")
         self.assertRaises(TypeError, complex, "1", 42)
         self.assertRaises(TypeError, complex, 1, "2")
@@ -327,7 +327,7 @@ class ComplexTest(unittest.TestCase):
         # check that complex accepts long unicode strings
         self.assertEqual(type(complex("1"*500)), complex)
         # check whitespace processing
-        self.assertEqual(complex('\N{EM SPACE}(\N{EN SPACE}1+1j ) '), 1+1j)
+        self.assertEqual(complex('/N{EM SPACE}(/N{EN SPACE}1+1j ) '), 1+1j)
 
         class EvilExc(Exception):
             pass
@@ -437,7 +437,7 @@ class ComplexTest(unittest.TestCase):
             print(a, b, file=fo)
             fo.close()
             fo = open(support.TESTFN, "r")
-            self.assertEqual(fo.read(), ("%s %s\n" % (a, b)))
+            self.assertEqual(fo.read(), ("%s %s/n" % (a, b)))
         finally:
             if (fo is not None) and (not fo.closed):
                 fo.close()

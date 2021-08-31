@@ -1,7 +1,7 @@
 #-*- coding: ISO-8859-1 -*-
 # pysqlite2/test/factory.py: tests for the various factories in pysqlite
 #
-# Copyright (C) 2005-2007 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2005-2007 Gerhard Hï¿½ring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
@@ -159,27 +159,27 @@ class TextFactoryTests(unittest.TestCase):
         self.con = sqlite.connect(":memory:")
 
     def CheckUnicode(self):
-        austria = "Österreich"
+        austria = "ï¿½sterreich"
         row = self.con.execute("select ?", (austria,)).fetchone()
         self.assertTrue(type(row[0]) == str, "type of row[0] must be unicode")
 
     def CheckString(self):
         self.con.text_factory = bytes
-        austria = "Österreich"
+        austria = "ï¿½sterreich"
         row = self.con.execute("select ?", (austria,)).fetchone()
         self.assertTrue(type(row[0]) == bytes, "type of row[0] must be bytes")
         self.assertTrue(row[0] == austria.encode("utf-8"), "column must equal original data in UTF-8")
 
     def CheckCustom(self):
         self.con.text_factory = lambda x: str(x, "utf-8", "ignore")
-        austria = "Österreich"
+        austria = "ï¿½sterreich"
         row = self.con.execute("select ?", (austria,)).fetchone()
         self.assertTrue(type(row[0]) == str, "type of row[0] must be unicode")
         self.assertTrue(row[0].endswith("reich"), "column must contain original data")
 
     def CheckOptimizedUnicode(self):
         self.con.text_factory = sqlite.OptimizedUnicode
-        austria = "Österreich"
+        austria = "ï¿½sterreich"
         germany = "Deutchland"
         a_row = self.con.execute("select ?", (austria,)).fetchone()
         d_row = self.con.execute("select ?", (germany,)).fetchone()
@@ -193,32 +193,32 @@ class TextFactoryTestsWithEmbeddedZeroBytes(unittest.TestCase):
     def setUp(self):
         self.con = sqlite.connect(":memory:")
         self.con.execute("create table test (value text)")
-        self.con.execute("insert into test (value) values (?)", ("a\x00b",))
+        self.con.execute("insert into test (value) values (?)", ("a/x00b",))
 
     def CheckString(self):
         # text_factory defaults to str
         row = self.con.execute("select value from test").fetchone()
         self.assertIs(type(row[0]), str)
-        self.assertEqual(row[0], "a\x00b")
+        self.assertEqual(row[0], "a/x00b")
 
     def CheckBytes(self):
         self.con.text_factory = bytes
         row = self.con.execute("select value from test").fetchone()
         self.assertIs(type(row[0]), bytes)
-        self.assertEqual(row[0], b"a\x00b")
+        self.assertEqual(row[0], b"a/x00b")
 
     def CheckBytearray(self):
         self.con.text_factory = bytearray
         row = self.con.execute("select value from test").fetchone()
         self.assertIs(type(row[0]), bytearray)
-        self.assertEqual(row[0], b"a\x00b")
+        self.assertEqual(row[0], b"a/x00b")
 
     def CheckCustom(self):
         # A custom factory should receive a bytes argument
         self.con.text_factory = lambda x: x
         row = self.con.execute("select value from test").fetchone()
         self.assertIs(type(row[0]), bytes)
-        self.assertEqual(row[0], b"a\x00b")
+        self.assertEqual(row[0], b"a/x00b")
 
     def tearDown(self):
         self.con.close()

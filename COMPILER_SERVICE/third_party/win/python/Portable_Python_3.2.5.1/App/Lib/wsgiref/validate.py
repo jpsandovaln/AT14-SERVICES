@@ -115,8 +115,8 @@ import re
 import sys
 import warnings
 
-header_re = re.compile(r'^[a-zA-Z][a-zA-Z0-9\-_]*$')
-bad_header_value_re = re.compile(r'[\000-\037]')
+header_re = re.compile(r'^[a-zA-Z][a-zA-Z0-9/-_]*$')
+bad_header_value_re = re.compile(r'[/000-/037]')
 
 class WSGIWarning(Warning):
     """
@@ -404,8 +404,8 @@ def check_headers(headers):
             "script, and HTTP status is not given through headers "
             "(value: %r)." % value)
         header_names[name.lower()] = None
-        assert_('\n' not in name and ':' not in name,
-            "Header names may not contain ':' or '\\n': %r" % name)
+        assert_('/n' not in name and ':' not in name,
+            "Header names may not contain ':' or '//n': %r" % name)
         assert_(header_re.search(name), "Bad header name: %r" % name)
         assert_(not name.endswith('-') and not name.endswith('_'),
             "Names may not end in '-' or '_': %r" % name)

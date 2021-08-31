@@ -299,20 +299,20 @@ class BaseTest(unittest.TestCase):
         self.checkraises(TypeError, 'hello', 'upper', 42)
 
     def test_expandtabs(self):
-        self.checkequal('abc\rab      def\ng       hi', 'abc\rab\tdef\ng\thi', 'expandtabs')
-        self.checkequal('abc\rab      def\ng       hi', 'abc\rab\tdef\ng\thi', 'expandtabs', 8)
-        self.checkequal('abc\rab  def\ng   hi', 'abc\rab\tdef\ng\thi', 'expandtabs', 4)
-        self.checkequal('abc\r\nab  def\ng   hi', 'abc\r\nab\tdef\ng\thi', 'expandtabs', 4)
-        self.checkequal('abc\rab      def\ng       hi', 'abc\rab\tdef\ng\thi', 'expandtabs')
-        self.checkequal('abc\rab      def\ng       hi', 'abc\rab\tdef\ng\thi', 'expandtabs', 8)
-        self.checkequal('abc\r\nab\r\ndef\ng\r\nhi', 'abc\r\nab\r\ndef\ng\r\nhi', 'expandtabs', 4)
-        self.checkequal('  a\n b', ' \ta\n\tb', 'expandtabs', 1)
+        self.checkequal('abc/rab      def/ng       hi', 'abc/rab/tdef/ng/thi', 'expandtabs')
+        self.checkequal('abc/rab      def/ng       hi', 'abc/rab/tdef/ng/thi', 'expandtabs', 8)
+        self.checkequal('abc/rab  def/ng   hi', 'abc/rab/tdef/ng/thi', 'expandtabs', 4)
+        self.checkequal('abc/r/nab  def/ng   hi', 'abc/r/nab/tdef/ng/thi', 'expandtabs', 4)
+        self.checkequal('abc/rab      def/ng       hi', 'abc/rab/tdef/ng/thi', 'expandtabs')
+        self.checkequal('abc/rab      def/ng       hi', 'abc/rab/tdef/ng/thi', 'expandtabs', 8)
+        self.checkequal('abc/r/nab/r/ndef/ng/r/nhi', 'abc/r/nab/r/ndef/ng/r/nhi', 'expandtabs', 4)
+        self.checkequal('  a/n b', ' /ta/n/tb', 'expandtabs', 1)
 
         self.checkraises(TypeError, 'hello', 'expandtabs', 42, 42)
         # This test is only valid when sizeof(int) == sizeof(void*) == 4.
         if sys.maxsize < (1 << 32) and struct.calcsize('P') == 4:
             self.checkraises(OverflowError,
-                             '\ta\n\tb', 'expandtabs', sys.maxsize)
+                             '/ta/n/tb', 'expandtabs', sys.maxsize)
 
     def test_split(self):
         # by a char
@@ -329,7 +329,7 @@ class BaseTest(unittest.TestCase):
         self.checkequal(['endcase ', ''], 'endcase |', 'split', '|')
         self.checkequal(['', ' startcase'], '| startcase', 'split', '|')
         self.checkequal(['', 'bothcase', ''], '|bothcase|', 'split', '|')
-        self.checkequal(['a', '', 'b\x00c\x00d'], 'a\x00\x00b\x00c\x00d', 'split', '\x00', 2)
+        self.checkequal(['a', '', 'b/x00c/x00d'], 'a/x00/x00b/x00c/x00d', 'split', '/x00', 2)
 
         self.checkequal(['a']*20, ('a|'*20)[:-1], 'split', '|')
         self.checkequal(['a']*15 +['a|a|a|a|a'],
@@ -386,7 +386,7 @@ class BaseTest(unittest.TestCase):
         self.checkequal(['endcase ', ''], 'endcase |', 'rsplit', '|')
         self.checkequal(['', 'bothcase', ''], '|bothcase|', 'rsplit', '|')
 
-        self.checkequal(['a\x00\x00b', 'c', 'd'], 'a\x00\x00b\x00c\x00d', 'rsplit', '\x00', 2)
+        self.checkequal(['a/x00/x00b', 'c', 'd'], 'a/x00/x00b/x00c/x00d', 'rsplit', '/x00', 2)
 
         self.checkequal(['a']*20, ('a|'*20)[:-1], 'rsplit', '|')
         self.checkequal(['a|a|a|a|a']+['a']*15,
@@ -643,21 +643,21 @@ class CommonTest(BaseTest):
         self.checkequal('Aaaa', 'AaAa', 'capitalize')
 
         # check that titlecased chars are lowered correctly
-        # \u1ffc is the titlecased char
-        self.checkequal('\u1ffc\u1ff3\u1ff3\u1ff3',
-                        '\u1ff3\u1ff3\u1ffc\u1ffc', 'capitalize')
+        # /u1ffc is the titlecased char
+        self.checkequal('/u1ffc/u1ff3/u1ff3/u1ff3',
+                        '/u1ff3/u1ff3/u1ffc/u1ffc', 'capitalize')
         # check with cased non-letter chars
-        self.checkequal('\u24c5\u24e8\u24e3\u24d7\u24de\u24dd',
-                        '\u24c5\u24ce\u24c9\u24bd\u24c4\u24c3', 'capitalize')
-        self.checkequal('\u24c5\u24e8\u24e3\u24d7\u24de\u24dd',
-                        '\u24df\u24e8\u24e3\u24d7\u24de\u24dd', 'capitalize')
-        self.checkequal('\u2160\u2171\u2172',
-                        '\u2160\u2161\u2162', 'capitalize')
-        self.checkequal('\u2160\u2171\u2172',
-                        '\u2170\u2171\u2172', 'capitalize')
+        self.checkequal('/u24c5/u24e8/u24e3/u24d7/u24de/u24dd',
+                        '/u24c5/u24ce/u24c9/u24bd/u24c4/u24c3', 'capitalize')
+        self.checkequal('/u24c5/u24e8/u24e3/u24d7/u24de/u24dd',
+                        '/u24df/u24e8/u24e3/u24d7/u24de/u24dd', 'capitalize')
+        self.checkequal('/u2160/u2171/u2172',
+                        '/u2160/u2161/u2162', 'capitalize')
+        self.checkequal('/u2160/u2171/u2172',
+                        '/u2170/u2171/u2172', 'capitalize')
         # check with Ll chars with no upper - nothing changes here
-        self.checkequal('\u019b\u1d00\u1d86\u0221\u1fb7',
-                        '\u019b\u1d00\u1d86\u0221\u1fb7', 'capitalize')
+        self.checkequal('/u019b/u1d00/u1d86/u0221/u1fb7',
+                        '/u019b/u1d00/u1d86/u0221/u1fb7', 'capitalize')
 
         self.checkraises(TypeError, 'hello', 'capitalize', 42)
 
@@ -672,13 +672,13 @@ class CommonTest(BaseTest):
         self.checkraises(TypeError, 'hello', 'upper', 42)
 
     def test_expandtabs(self):
-        self.checkequal('abc\rab      def\ng       hi', 'abc\rab\tdef\ng\thi', 'expandtabs')
-        self.checkequal('abc\rab      def\ng       hi', 'abc\rab\tdef\ng\thi', 'expandtabs', 8)
-        self.checkequal('abc\rab  def\ng   hi', 'abc\rab\tdef\ng\thi', 'expandtabs', 4)
-        self.checkequal('abc\r\nab  def\ng   hi', 'abc\r\nab\tdef\ng\thi', 'expandtabs', 4)
-        self.checkequal('abc\rab      def\ng       hi', 'abc\rab\tdef\ng\thi', 'expandtabs')
-        self.checkequal('abc\rab      def\ng       hi', 'abc\rab\tdef\ng\thi', 'expandtabs', 8)
-        self.checkequal('abc\r\nab\r\ndef\ng\r\nhi', 'abc\r\nab\r\ndef\ng\r\nhi', 'expandtabs', 4)
+        self.checkequal('abc/rab      def/ng       hi', 'abc/rab/tdef/ng/thi', 'expandtabs')
+        self.checkequal('abc/rab      def/ng       hi', 'abc/rab/tdef/ng/thi', 'expandtabs', 8)
+        self.checkequal('abc/rab  def/ng   hi', 'abc/rab/tdef/ng/thi', 'expandtabs', 4)
+        self.checkequal('abc/r/nab  def/ng   hi', 'abc/r/nab/tdef/ng/thi', 'expandtabs', 4)
+        self.checkequal('abc/rab      def/ng       hi', 'abc/rab/tdef/ng/thi', 'expandtabs')
+        self.checkequal('abc/rab      def/ng       hi', 'abc/rab/tdef/ng/thi', 'expandtabs', 8)
+        self.checkequal('abc/r/nab/r/ndef/ng/r/nhi', 'abc/r/nab/r/ndef/ng/r/nhi', 'expandtabs', 4)
 
         self.checkraises(TypeError, 'hello', 'expandtabs', 42, 42)
 
@@ -704,7 +704,7 @@ class CommonTest(BaseTest):
         self.checkequal(['a', 'b   '], '  a    b   ', 'split', None, 1)
         self.checkequal(['a', 'b   c   '], '  a    b   c   ', 'split', None, 1)
         self.checkequal(['a', 'b', 'c   '], '  a    b   c   ', 'split', None, 2)
-        self.checkequal(['a', 'b'], '\n\ta \t\r b \v ', 'split')
+        self.checkequal(['a', 'b'], '/n/ta /t/r b /v ', 'split')
         aaa = ' a '*20
         self.checkequal(['a']*20, aaa, 'split')
         self.checkequal(['a'] + [aaa[4:]], aaa, 'split', None, 1)
@@ -737,7 +737,7 @@ class CommonTest(BaseTest):
                         None, 1)
         self.checkequal(['  a', 'b', 'c'], '  a    b   c   ', 'rsplit',
                         None, 2)
-        self.checkequal(['a', 'b'], '\n\ta \t\r b \v ', 'rsplit', None, 88)
+        self.checkequal(['a', 'b'], '/n/ta /t/r b /v ', 'rsplit', None, 88)
         aaa = ' a '*20
         self.checkequal(['a']*20, aaa, 'rsplit')
         self.checkequal([aaa[:-4]] + ['a'], aaa, 'rsplit', None, 1)
@@ -822,32 +822,32 @@ class MixinStrUnicodeUserStringTest:
         self.checkequal(False, '', 'islower')
         self.checkequal(True, 'a', 'islower')
         self.checkequal(False, 'A', 'islower')
-        self.checkequal(False, '\n', 'islower')
+        self.checkequal(False, '/n', 'islower')
         self.checkequal(True, 'abc', 'islower')
         self.checkequal(False, 'aBc', 'islower')
-        self.checkequal(True, 'abc\n', 'islower')
+        self.checkequal(True, 'abc/n', 'islower')
         self.checkraises(TypeError, 'abc', 'islower', 42)
 
     def test_isupper(self):
         self.checkequal(False, '', 'isupper')
         self.checkequal(False, 'a', 'isupper')
         self.checkequal(True, 'A', 'isupper')
-        self.checkequal(False, '\n', 'isupper')
+        self.checkequal(False, '/n', 'isupper')
         self.checkequal(True, 'ABC', 'isupper')
         self.checkequal(False, 'AbC', 'isupper')
-        self.checkequal(True, 'ABC\n', 'isupper')
+        self.checkequal(True, 'ABC/n', 'isupper')
         self.checkraises(TypeError, 'abc', 'isupper', 42)
 
     def test_istitle(self):
         self.checkequal(False, '', 'istitle')
         self.checkequal(False, 'a', 'istitle')
         self.checkequal(True, 'A', 'istitle')
-        self.checkequal(False, '\n', 'istitle')
+        self.checkequal(False, '/n', 'istitle')
         self.checkequal(True, 'A Titlecased Line', 'istitle')
-        self.checkequal(True, 'A\nTitlecased Line', 'istitle')
+        self.checkequal(True, 'A/nTitlecased Line', 'istitle')
         self.checkequal(True, 'A Titlecased, Line', 'istitle')
         self.checkequal(False, 'Not a capitalized String', 'istitle')
-        self.checkequal(False, 'Not\ta Titlecase String', 'istitle')
+        self.checkequal(False, 'Not/ta Titlecase String', 'istitle')
         self.checkequal(False, 'Not--a Titlecase String', 'istitle')
         self.checkequal(False, 'NOT', 'istitle')
         self.checkraises(TypeError, 'abc', 'istitle', 42)
@@ -856,32 +856,32 @@ class MixinStrUnicodeUserStringTest:
         self.checkequal(False, '', 'isspace')
         self.checkequal(False, 'a', 'isspace')
         self.checkequal(True, ' ', 'isspace')
-        self.checkequal(True, '\t', 'isspace')
-        self.checkequal(True, '\r', 'isspace')
-        self.checkequal(True, '\n', 'isspace')
-        self.checkequal(True, ' \t\r\n', 'isspace')
-        self.checkequal(False, ' \t\r\na', 'isspace')
+        self.checkequal(True, '/t', 'isspace')
+        self.checkequal(True, '/r', 'isspace')
+        self.checkequal(True, '/n', 'isspace')
+        self.checkequal(True, ' /t/r/n', 'isspace')
+        self.checkequal(False, ' /t/r/na', 'isspace')
         self.checkraises(TypeError, 'abc', 'isspace', 42)
 
     def test_isalpha(self):
         self.checkequal(False, '', 'isalpha')
         self.checkequal(True, 'a', 'isalpha')
         self.checkequal(True, 'A', 'isalpha')
-        self.checkequal(False, '\n', 'isalpha')
+        self.checkequal(False, '/n', 'isalpha')
         self.checkequal(True, 'abc', 'isalpha')
         self.checkequal(False, 'aBc123', 'isalpha')
-        self.checkequal(False, 'abc\n', 'isalpha')
+        self.checkequal(False, 'abc/n', 'isalpha')
         self.checkraises(TypeError, 'abc', 'isalpha', 42)
 
     def test_isalnum(self):
         self.checkequal(False, '', 'isalnum')
         self.checkequal(True, 'a', 'isalnum')
         self.checkequal(True, 'A', 'isalnum')
-        self.checkequal(False, '\n', 'isalnum')
+        self.checkequal(False, '/n', 'isalnum')
         self.checkequal(True, '123abc456', 'isalnum')
         self.checkequal(True, 'a1b3c', 'isalnum')
         self.checkequal(False, 'aBc000 ', 'isalnum')
-        self.checkequal(False, 'abc\n', 'isalnum')
+        self.checkequal(False, 'abc/n', 'isalnum')
         self.checkraises(TypeError, 'abc', 'isalnum', 42)
 
     def test_isdigit(self):
@@ -903,13 +903,13 @@ class MixinStrUnicodeUserStringTest:
         self.checkraises(TypeError, 'hello', 'title', 42)
 
     def test_splitlines(self):
-        self.checkequal(['abc', 'def', '', 'ghi'], "abc\ndef\n\rghi", 'splitlines')
-        self.checkequal(['abc', 'def', '', 'ghi'], "abc\ndef\n\r\nghi", 'splitlines')
-        self.checkequal(['abc', 'def', 'ghi'], "abc\ndef\r\nghi", 'splitlines')
-        self.checkequal(['abc', 'def', 'ghi'], "abc\ndef\r\nghi\n", 'splitlines')
-        self.checkequal(['abc', 'def', 'ghi', ''], "abc\ndef\r\nghi\n\r", 'splitlines')
-        self.checkequal(['', 'abc', 'def', 'ghi', ''], "\nabc\ndef\r\nghi\n\r", 'splitlines')
-        self.checkequal(['\n', 'abc\n', 'def\r\n', 'ghi\n', '\r'], "\nabc\ndef\r\nghi\n\r", 'splitlines', 1)
+        self.checkequal(['abc', 'def', '', 'ghi'], "abc/ndef/n/rghi", 'splitlines')
+        self.checkequal(['abc', 'def', '', 'ghi'], "abc/ndef/n/r/nghi", 'splitlines')
+        self.checkequal(['abc', 'def', 'ghi'], "abc/ndef/r/nghi", 'splitlines')
+        self.checkequal(['abc', 'def', 'ghi'], "abc/ndef/r/nghi/n", 'splitlines')
+        self.checkequal(['abc', 'def', 'ghi', ''], "abc/ndef/r/nghi/n/r", 'splitlines')
+        self.checkequal(['', 'abc', 'def', 'ghi', ''], "/nabc/ndef/r/nghi/n/r", 'splitlines')
+        self.checkequal(['/n', 'abc/n', 'def/r/n', 'ghi/n', '/r'], "/nabc/ndef/r/nghi/n/r", 'splitlines', 1)
 
         self.checkraises(TypeError, 'abc', 'splitlines', 42, 42)
 
@@ -1010,10 +1010,10 @@ class MixinStrUnicodeUserStringTest:
     def test___contains__(self):
         self.checkequal(True, '', '__contains__', '')
         self.checkequal(True, 'abc', '__contains__', '')
-        self.checkequal(False, 'abc', '__contains__', '\0')
-        self.checkequal(True, '\0abc', '__contains__', '\0')
-        self.checkequal(True, 'abc\0', '__contains__', '\0')
-        self.checkequal(True, '\0abc', '__contains__', 'a')
+        self.checkequal(False, 'abc', '__contains__', '/0')
+        self.checkequal(True, '/0abc', '__contains__', '/0')
+        self.checkequal(True, 'abc/0', '__contains__', '/0')
+        self.checkequal(True, '/0abc', '__contains__', 'a')
         self.checkequal(True, 'asdf', '__contains__', 'asdf')
         self.checkequal(False, 'asd', '__contains__', 'asdf')
         self.checkequal(False, '', '__contains__', 'asdf')
@@ -1109,7 +1109,7 @@ class MixinStrUnicodeUserStringTest:
         self.checkequal('"', "%c", '__mod__', 34)
         self.checkequal('$', "%c", '__mod__', 36)
         self.checkequal('10', "%d", '__mod__', 10)
-        self.checkequal('\x7f', "%c", '__mod__', 0x7f)
+        self.checkequal('/x7f', "%c", '__mod__', 0x7f)
 
         for ordinal in (-100, 0x200000):
             # unicode raises ValueError, str raises OverflowError
@@ -1256,19 +1256,19 @@ class MixinStrUnicodeUserStringTest:
         # issue 11828
         s = 'hello'
         x = 'x'
-        self.assertRaisesRegex(TypeError, r'^find\(', s.find,
+        self.assertRaisesRegex(TypeError, r'^find/(', s.find,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'^rfind\(', s.rfind,
+        self.assertRaisesRegex(TypeError, r'^rfind/(', s.rfind,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'^index\(', s.index,
+        self.assertRaisesRegex(TypeError, r'^index/(', s.index,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'^rindex\(', s.rindex,
+        self.assertRaisesRegex(TypeError, r'^rindex/(', s.rindex,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'^count\(', s.count,
+        self.assertRaisesRegex(TypeError, r'^count/(', s.count,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'^startswith\(', s.startswith,
+        self.assertRaisesRegex(TypeError, r'^startswith/(', s.startswith,
                                 x, None, None, None)
-        self.assertRaisesRegex(TypeError, r'^endswith\(', s.endswith,
+        self.assertRaisesRegex(TypeError, r'^endswith/(', s.endswith,
                                 x, None, None, None)
 
 

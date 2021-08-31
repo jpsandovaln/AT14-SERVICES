@@ -93,7 +93,7 @@ class TestCaseBase(unittest.TestCase):
     def check_events(self, callable, expected):
         events = capture_events(callable, self.new_watcher())
         if events != expected:
-            self.fail("Expected events:\n%s\nReceived events:\n%s"
+            self.fail("Expected events:/n%s/nReceived events:/n%s"
                       % (pprint.pformat(expected), pprint.pformat(events)))
 
 

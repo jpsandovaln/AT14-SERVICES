@@ -22,7 +22,7 @@ class TestBase:
     roundtriptest   = 1    # set if roundtrip is possible with unicode
     has_iso10646    = 0    # set if this encoding contains whole iso10646 map
     xmlcharnametest = None # string to test xmlcharrefreplace
-    unmappedunicode = '\udeee' # a unicode codepoint that is not mapped.
+    unmappedunicode = '/udeee' # a unicode codepoint that is not mapped.
 
     def setUp(self):
         if self.codec is None:
@@ -37,10 +37,10 @@ class TestBase:
     def test_chunkcoding(self):
         tstring_lines = []
         for b in self.tstring:
-            lines = b.split(b"\n")
+            lines = b.split(b"/n")
             last = lines.pop()
             assert last == b""
-            lines = [line + b"\n" for line in lines]
+            lines = [line + b"/n" for line in lines]
             tstring_lines.append(lines)
         for native, utf8 in zip(*tstring_lines):
             u = self.decode(native)[0]
@@ -75,7 +75,7 @@ class TestBase:
         if self.has_iso10646:
             return
 
-        s = "\u0b13\u0b23\u0b60 nd eggs"
+        s = "/u0b13/u0b23/u0b60 nd eggs"
         self.assertEqual(
             self.encode(s, "xmlcharrefreplace")[0],
             b"&#2835;&#2851;&#2912; nd eggs"
@@ -103,7 +103,7 @@ class TestBase:
         if self.xmlcharnametest:
             sin, sout = self.xmlcharnametest
         else:
-            sin = "\xab\u211c\xbb = \u2329\u1234\u232a"
+            sin = "/xab/u211c/xbb = /u2329/u1234/u232a"
             sout = b"&laquo;&real;&raquo; = &lang;&#4660;&rang;"
         self.assertEqual(self.encode(sin,
                                     "test.xmlcharnamereplace")[0], sout)
@@ -166,7 +166,7 @@ class TestBase:
 
     def test_incrementalencoder(self):
         UTF8Reader = codecs.getreader('utf-8')
-        for sizehint in [None] + list(range(1, 33)) + \
+        for sizehint in [None] + list(range(1, 33)) + /
                         [64, 128, 256, 512, 1024]:
             istream = UTF8Reader(BytesIO(self.tstring[1]))
             ostream = BytesIO()
@@ -186,7 +186,7 @@ class TestBase:
 
     def test_incrementaldecoder(self):
         UTF8Writer = codecs.getwriter('utf-8')
-        for sizehint in [None, -1] + list(range(1, 33)) + \
+        for sizehint in [None, -1] + list(range(1, 33)) + /
                         [64, 128, 256, 512, 1024]:
             istream = BytesIO(self.tstring[0])
             ostream = UTF8Writer(BytesIO())
@@ -224,7 +224,7 @@ class TestBase:
     def test_streamreader(self):
         UTF8Writer = codecs.getwriter('utf-8')
         for name in ["read", "readline", "readlines"]:
-            for sizehint in [None, -1] + list(range(1, 33)) + \
+            for sizehint in [None, -1] + list(range(1, 33)) + /
                             [64, 128, 256, 512, 1024]:
                 istream = self.reader(BytesIO(self.tstring[0]))
                 ostream = UTF8Writer(BytesIO())
@@ -244,7 +244,7 @@ class TestBase:
         readfuncs = ('read', 'readline', 'readlines')
         UTF8Reader = codecs.getreader('utf-8')
         for name in readfuncs:
-            for sizehint in [None] + list(range(1, 33)) + \
+            for sizehint in [None] + list(range(1, 33)) + /
                             [64, 128, 256, 512, 1024]:
                 istream = UTF8Reader(BytesIO(self.tstring[1]))
                 ostream = self.writer(BytesIO())
@@ -264,18 +264,18 @@ class TestBase:
 
                 self.assertEqual(ostream.getvalue(), self.tstring[0])
 
-if len('\U00012345') == 2: # ucs2 build
+if len('/U00012345') == 2: # ucs2 build
     _unichr = chr
     def chr(v):
         if v >= 0x10000:
-            return _unichr(0xd800 + ((v - 0x10000) >> 10)) + \
+            return _unichr(0xd800 + ((v - 0x10000) >> 10)) + /
                    _unichr(0xdc00 + ((v - 0x10000) & 0x3ff))
         else:
             return _unichr(v)
     _ord = ord
     def ord(c):
         if len(c) == 2:
-            return 0x10000 + ((_ord(c[0]) - 0xd800) << 10) + \
+            return 0x10000 + ((_ord(c[0]) - 0xd800) << 10) + /
                           (ord(c[1]) - 0xdc00)
         else:
             return _ord(c)

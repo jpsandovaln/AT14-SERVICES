@@ -7,7 +7,7 @@ class TestSeparators:
         h = [['blorpie'], ['whoops'], [], 'd-shtaeou', 'd-nthiouh', 'i-vhbjkhnth',
              {'nifty': 87}, {'field': 'yes', 'morefield': False} ]
 
-        expect = textwrap.dedent("""\
+        expect = textwrap.dedent("""/
         [
           [
             "blorpie"

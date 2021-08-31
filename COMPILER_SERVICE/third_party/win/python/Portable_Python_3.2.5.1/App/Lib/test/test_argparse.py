@@ -1346,11 +1346,11 @@ class TestArgumentsFromFile(TempDirMixin, ParserTestCase):
     def setUp(self):
         super(TestArgumentsFromFile, self).setUp()
         file_texts = [
-            ('hello', 'hello world!\n'),
-            ('recursive', '-a\n'
-                          'A\n'
+            ('hello', 'hello world!/n'),
+            ('recursive', '-a/n'
+                          'A/n'
                           '@hello'),
-            ('invalid', '@no-such-path\n'),
+            ('invalid', '@no-such-path/n'),
         ]
         for path, text in file_texts:
             file = open(path, 'w')
@@ -1381,7 +1381,7 @@ class TestArgumentsFromFileConverter(TempDirMixin, ParserTestCase):
     def setUp(self):
         super(TestArgumentsFromFileConverter, self).setUp()
         file_texts = [
-            ('hello', 'hello world!\n'),
+            ('hello', 'hello world!/n'),
         ]
         for path, text in file_texts:
             file = open(path, 'w')
@@ -1852,8 +1852,8 @@ class TestAddSubparsers(TestCase):
 
     def test_help(self):
         self.assertEqual(self.parser.format_usage(),
-                         'usage: PROG [-h] [--foo] bar {1,2,3} ...\n')
-        self.assertEqual(self.parser.format_help(), textwrap.dedent('''\
+                         'usage: PROG [-h] [--foo] bar {1,2,3} .../n')
+        self.assertEqual(self.parser.format_help(), textwrap.dedent('''/
             usage: PROG [-h] [--foo] bar {1,2,3} ...
 
             main description
@@ -1871,8 +1871,8 @@ class TestAddSubparsers(TestCase):
         # Make sure - is still used for help if it is a non-first prefix char
         parser = self._get_parser(prefix_chars='+:-')
         self.assertEqual(parser.format_usage(),
-                         'usage: PROG [-h] [++foo] bar {1,2,3} ...\n')
-        self.assertEqual(parser.format_help(), textwrap.dedent('''\
+                         'usage: PROG [-h] [++foo] bar {1,2,3} .../n')
+        self.assertEqual(parser.format_help(), textwrap.dedent('''/
             usage: PROG [-h] [++foo] bar {1,2,3} ...
 
             main description
@@ -1890,8 +1890,8 @@ class TestAddSubparsers(TestCase):
     def test_help_alternate_prefix_chars(self):
         parser = self._get_parser(prefix_chars='+:/')
         self.assertEqual(parser.format_usage(),
-                         'usage: PROG [+h] [++foo] bar {1,2,3} ...\n')
-        self.assertEqual(parser.format_help(), textwrap.dedent('''\
+                         'usage: PROG [+h] [++foo] bar {1,2,3} .../n')
+        self.assertEqual(parser.format_help(), textwrap.dedent('''/
             usage: PROG [+h] [++foo] bar {1,2,3} ...
 
             main description
@@ -1907,9 +1907,9 @@ class TestAddSubparsers(TestCase):
 
     def test_parser_command_help(self):
         self.assertEqual(self.command_help_parser.format_usage(),
-                         'usage: PROG [-h] [--foo] bar {1,2,3} ...\n')
+                         'usage: PROG [-h] [--foo] bar {1,2,3} .../n')
         self.assertEqual(self.command_help_parser.format_help(),
-                         textwrap.dedent('''\
+                         textwrap.dedent('''/
             usage: PROG [-h] [--foo] bar {1,2,3} ...
 
             main description
@@ -1937,8 +1937,8 @@ class TestAddSubparsers(TestCase):
         parser1 = subparsers.add_parser('1')
         parser2 = subparsers.add_parser('2')
         self.assertEqual(parser.format_usage(),
-                         'usage: PROG [-h] [--foo] bar {1,2} ...\n')
-        self.assertEqual(parser.format_help(), textwrap.dedent('''\
+                         'usage: PROG [-h] [--foo] bar {1,2} .../n')
+        self.assertEqual(parser.format_help(), textwrap.dedent('''/
             usage: PROG [-h] [--foo] bar {1,2} ...
 
             main description
@@ -1967,7 +1967,7 @@ class TestAddSubparsers(TestCase):
             self.assertEqual(err.stdout, expected_help)
 
     def test_subparser1_help(self):
-        self._test_subparser_help('5.0 1 -h', textwrap.dedent('''\
+        self._test_subparser_help('5.0 1 -h', textwrap.dedent('''/
             usage: PROG bar 1 [-h] [-w W] {a,b,c}
 
             1 description
@@ -1981,7 +1981,7 @@ class TestAddSubparsers(TestCase):
             '''))
 
     def test_subparser2_help(self):
-        self._test_subparser_help('5.0 2 -h', textwrap.dedent('''\
+        self._test_subparser_help('5.0 2 -h', textwrap.dedent('''/
             usage: PROG bar 2 [-h] [-y {1,2,3}] [z [z ...]]
 
             2 description
@@ -2013,7 +2013,7 @@ class TestAddSubparsers(TestCase):
     def test_alias_help(self):
         parser = self._get_parser(aliases=True, subparser_help=True)
         self.maxDiff = None
-        self.assertEqual(parser.format_help(), textwrap.dedent("""\
+        self.assertEqual(parser.format_help(), textwrap.dedent("""/
             usage: PROG [-h] [--foo] bar COMMAND ...
 
             main description
@@ -2202,7 +2202,7 @@ class TestParentParsers(TestCase):
         parser = ErrorRaisingArgumentParser(parents=parents)
         parser_help = parser.format_help()
         progname = self.main_program
-        self.assertEqual(parser_help, textwrap.dedent('''\
+        self.assertEqual(parser_help, textwrap.dedent('''/
             usage: {}{}[-h] [-b B] [--d D] [--w W] [-y Y] a z
 
             positional arguments:
@@ -2236,7 +2236,7 @@ class TestParentParsers(TestCase):
 
         parser_help = parser.format_help()
         progname = self.main_program
-        self.assertEqual(parser_help, textwrap.dedent('''\
+        self.assertEqual(parser_help, textwrap.dedent('''/
             usage: {}{}[-h] [-w W] [-x X] [-y Y | -z Z]
 
             optional arguments:
@@ -2281,7 +2281,7 @@ class TestMutuallyExclusiveGroupErrors(TestCase):
         group2 = parser.add_mutually_exclusive_group()
         group2.add_argument('--soup', action='store_true')
         group2.add_argument('--nuts', action='store_false')
-        expected = '''\
+        expected = '''/
             usage: PROG [-h] [--foo | --bar] [--soup | --nuts]
 
             optional arguments:
@@ -2361,13 +2361,13 @@ class TestMutuallyExclusiveSimple(MEMixin, TestCase):
         ('', NS(bar=None, baz=None)),
     ]
 
-    usage_when_not_required = '''\
+    usage_when_not_required = '''/
         usage: PROG [-h] [--bar BAR | --baz [BAZ]]
         '''
-    usage_when_required = '''\
+    usage_when_required = '''/
         usage: PROG [-h] (--bar BAR | --baz [BAZ])
         '''
-    help = '''\
+    help = '''/
 
         optional arguments:
           -h, --help   show this help message and exit
@@ -2400,15 +2400,15 @@ class TestMutuallyExclusiveLong(MEMixin, TestCase):
         ('', NS(abcde=None, fghij=None, klmno=None, pqrst=None)),
     ]
 
-    usage_when_not_required = '''\
+    usage_when_not_required = '''/
     usage: PROG [-h] [--abcde ABCDE] [--fghij FGHIJ]
                 [--klmno KLMNO | --pqrst PQRST]
     '''
-    usage_when_required = '''\
+    usage_when_required = '''/
     usage: PROG [-h] [--abcde ABCDE] [--fghij FGHIJ]
                 (--klmno KLMNO | --pqrst PQRST)
     '''
-    help = '''\
+    help = '''/
 
     optional arguments:
       -h, --help     show this help message and exit
@@ -2438,13 +2438,13 @@ class TestMutuallyExclusiveFirstSuppressed(MEMixin, TestCase):
         ('', NS(x=None, y=True)),
     ]
 
-    usage_when_not_required = '''\
+    usage_when_not_required = '''/
         usage: PROG [-h] [-y]
         '''
-    usage_when_required = '''\
+    usage_when_required = '''/
         usage: PROG [-h] -y
         '''
-    help = '''\
+    help = '''/
 
         optional arguments:
           -h, --help  show this help message and exit
@@ -2478,10 +2478,10 @@ class TestMutuallyExclusiveManySuppressed(MEMixin, TestCase):
         ('', NS(spam=False, badger=True, bladder=None)),
     ]
 
-    usage_when_required = usage_when_not_required = '''\
+    usage_when_required = usage_when_not_required = '''/
         usage: PROG [-h]
         '''
-    help = '''\
+    help = '''/
 
         optional arguments:
           -h, --help  show this help message and exit
@@ -2515,13 +2515,13 @@ class TestMutuallyExclusiveOptionalAndPositional(MEMixin, TestCase):
         ('', NS(foo=False, spam=None, badger='X')),
     ]
 
-    usage_when_not_required = '''\
+    usage_when_not_required = '''/
         usage: PROG [-h] [--foo | --spam SPAM | badger [badger ...]]
         '''
-    usage_when_required = '''\
+    usage_when_required = '''/
         usage: PROG [-h] (--foo | --spam SPAM | badger [badger ...])
         '''
-    help = '''\
+    help = '''/
 
         positional arguments:
           badger       BADGER
@@ -2560,10 +2560,10 @@ class TestMutuallyExclusiveOptionalsMixed(MEMixin, TestCase):
         ('-y', NS(a=False, b=False, c=False, x=False, y=True)),
     ]
 
-    usage_when_required = usage_when_not_required = '''\
+    usage_when_required = usage_when_not_required = '''/
         usage: PROG [-h] [-x] [-a] [-b] [-y] [-c]
         '''
-    help = '''\
+    help = '''/
 
         optional arguments:
           -h, --help  show this help message and exit
@@ -2581,7 +2581,7 @@ class TestMutuallyExclusiveInGroup(MEMixin, TestCase):
         parser = ErrorRaisingArgumentParser(prog='PROG')
         titled_group = parser.add_argument_group(
             title='Titled group', description='Group description')
-        mutex_group = \
+        mutex_group = /
             titled_group.add_mutually_exclusive_group(required=required)
         mutex_group.add_argument('--bar', help='bar help')
         mutex_group.add_argument('--baz', help='baz help')
@@ -2596,13 +2596,13 @@ class TestMutuallyExclusiveInGroup(MEMixin, TestCase):
         ('', NS(bar=None, baz=None)),
     ]
 
-    usage_when_not_required = '''\
+    usage_when_not_required = '''/
         usage: PROG [-h] [--bar BAR | --baz BAZ]
         '''
-    usage_when_required = '''\
+    usage_when_required = '''/
         usage: PROG [-h] (--bar BAR | --baz BAZ)
         '''
-    help = '''\
+    help = '''/
 
         optional arguments:
           -h, --help  show this help message and exit
@@ -2640,10 +2640,10 @@ class TestMutuallyExclusiveOptionalsAndPositionalsMixed(MEMixin, TestCase):
         ('X -y', NS(a=None, b=False, c=False, x='X', y=True)),
     ]
 
-    usage_when_required = usage_when_not_required = '''\
+    usage_when_required = usage_when_not_required = '''/
         usage: PROG [-h] [-y] [-b] [-c] x [a]
         '''
-    help = '''\
+    help = '''/
 
         positional arguments:
           x           x help
@@ -2949,10 +2949,10 @@ class TestHelpBiggerOptionals(HelpTestCase):
         Sig('bar', help='BAR HELP'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-v] [-x] [--y Y] foo bar
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         DESCRIPTION
 
@@ -2968,7 +2968,7 @@ class TestHelpBiggerOptionals(HelpTestCase):
 
         EPILOG
     '''
-    version = '''\
+    version = '''/
         0.1
         '''
 
@@ -2989,10 +2989,10 @@ class TestHelpBiggerOptionalGroups(HelpTestCase):
             Sig('baz', help='BAZ HELP'),
             Sig('-z', nargs='+', help='Z HELP')]),
     ]
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-v] [-x] [--y Y] [-z Z [Z ...]] foo bar baz
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         DESCRIPTION
 
@@ -3014,7 +3014,7 @@ class TestHelpBiggerOptionalGroups(HelpTestCase):
 
         EPILOG
     '''
-    version = '''\
+    version = '''/
         0.1
         '''
 
@@ -3030,10 +3030,10 @@ class TestHelpBiggerPositionals(HelpTestCase):
         Sig('bar', help='BAR HELP'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: USAGE
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         DESCRIPTION
 
@@ -3055,33 +3055,33 @@ class TestHelpReformatting(HelpTestCase):
 
     parser_signature = Sig(
         prog='PROG',
-        description='   oddly    formatted\n'
-                    'description\n'
-                    '\n'
+        description='   oddly    formatted/n'
+                    'description/n'
+                    '/n'
                     'that is so long that it should go onto multiple '
                     'lines when wrapped')
     argument_signatures = [
-        Sig('-x', metavar='XX', help='oddly\n'
+        Sig('-x', metavar='XX', help='oddly/n'
                                      '    formatted -x help'),
         Sig('y', metavar='yyy', help='normal y help'),
     ]
     argument_group_signatures = [
-        (Sig('title', description='\n'
-                                  '    oddly formatted group\n'
-                                  '\n'
+        (Sig('title', description='/n'
+                                  '    oddly formatted group/n'
+                                  '/n'
                                   'description'),
          [Sig('-a', action='store_true',
-              help=' oddly \n'
-                   'formatted    -a  help  \n'
+              help=' oddly /n'
+                   'formatted    -a  help  /n'
                    '    again, so long that it should be wrapped over '
                    'multiple lines')]),
     ]
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-x XX] [-a] yyy
         '''
-    help = usage + '''\
+    help = usage + '''/
 
-        oddly formatted description that is so long that it should go onto \
+        oddly formatted description that is so long that it should go onto /
 multiple
         lines when wrapped
 
@@ -3095,7 +3095,7 @@ multiple
         title:
           oddly formatted group description
 
-          -a          oddly formatted -a help again, so long that it should \
+          -a          oddly formatted -a help again, so long that it should /
 be wrapped
                       over multiple lines
         '''
@@ -3105,7 +3105,7 @@ be wrapped
 class TestHelpWrappingShortNames(HelpTestCase):
     """Make sure that text after short names starts on the first line"""
 
-    parser_signature = Sig(prog='PROG', description= 'D\nD' * 30)
+    parser_signature = Sig(prog='PROG', description= 'D/nD' * 30)
     argument_signatures = [
         Sig('-x', metavar='XX', help='XHH HX' * 20),
         Sig('y', metavar='yyy', help='YH YH' * 20),
@@ -3114,28 +3114,28 @@ class TestHelpWrappingShortNames(HelpTestCase):
         (Sig('ALPHAS'), [
             Sig('-a', action='store_true', help='AHHH HHA' * 10)]),
     ]
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-x XX] [-a] yyy
         '''
-    help = usage + '''\
+    help = usage + '''/
 
-        D DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD \
+        D DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD /
 DD DD DD
         DD DD DD DD D
 
         positional arguments:
-          yyy         YH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH \
+          yyy         YH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH /
 YHYH YHYH
                       YHYH YHYH YHYH YHYH YHYH YHYH YHYH YH
 
         optional arguments:
           -h, --help  show this help message and exit
-          -x XX       XHH HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH \
+          -x XX       XHH HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH /
 HXXHH HXXHH
                       HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH HXXHH HX
 
         ALPHAS:
-          -a          AHHH HHAAHHH HHAAHHH HHAAHHH HHAAHHH HHAAHHH HHAAHHH \
+          -a          AHHH HHAAHHH HHAAHHH HHAAHHH HHAAHHH HHAAHHH HHAAHHH /
 HHAAHHH
                       HHAAHHH HHAAHHH HHA
         '''
@@ -3156,18 +3156,18 @@ class TestHelpWrappingLongNames(HelpTestCase):
             Sig('-a', metavar='A' * 25, help='AH AH' * 20),
             Sig('z', metavar='z' * 25, help='ZH ZH' * 20)]),
     ]
-    usage = '''\
+    usage = '''/
         usage: USAGE
         '''
-    help = usage + '''\
+    help = usage + '''/
 
-        D DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD \
+        D DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD DD /
 DD DD DD
         DD DD DD DD D
 
         positional arguments:
           yyyyyyyyyyyyyyyyyyyyyyyyy
-                                YH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH \
+                                YH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH /
 YHYH YHYH
                                 YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YHYH YH
 
@@ -3175,22 +3175,22 @@ YHYH YHYH
           -h, --help            show this help message and exit
           -v, --version         show program's version number and exit
           -x XXXXXXXXXXXXXXXXXXXXXXXXX
-                                XH XHXH XHXH XHXH XHXH XHXH XHXH XHXH XHXH \
+                                XH XHXH XHXH XHXH XHXH XHXH XHXH XHXH XHXH /
 XHXH XHXH
                                 XHXH XHXH XHXH XHXH XHXH XHXH XHXH XHXH XHXH XH
 
         ALPHAS:
           -a AAAAAAAAAAAAAAAAAAAAAAAAA
-                                AH AHAH AHAH AHAH AHAH AHAH AHAH AHAH AHAH \
+                                AH AHAH AHAH AHAH AHAH AHAH AHAH AHAH AHAH /
 AHAH AHAH
                                 AHAH AHAH AHAH AHAH AHAH AHAH AHAH AHAH AHAH AH
           zzzzzzzzzzzzzzzzzzzzzzzzz
-                                ZH ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH \
+                                ZH ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH /
 ZHZH ZHZH
                                 ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH ZHZH ZH
         '''
-    version = '''\
-        V VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV \
+    version = '''/
+        V VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV VV /
 VV VV VV
         VV VV VV VV V
         '''
@@ -3215,11 +3215,11 @@ class TestHelpUsage(HelpTestCase):
             Sig('e', help='e', nargs='+'),
         ])
     ]
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-w W [W ...]] [-x [X [X ...]]] [-y [Y]] [-z Z Z Z]
                     a b b [c] [d [d ...]] e [e ...]
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           a               a
@@ -3255,10 +3255,10 @@ class TestHelpOnlyUserGroups(HelpTestCase):
             Sig('-y', help='y'),
         ]),
     ]
-    usage = '''\
+    usage = '''/
         usage: PROG [-x X] [-y Y] a b
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         xxxx:
           -x X  x
@@ -3282,11 +3282,11 @@ class TestHelpUsageLongProg(HelpTestCase):
         Sig('b'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
                [-h] [-w W] [-x X] a b
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           a
@@ -3313,14 +3313,14 @@ class TestHelpUsageLongProgOptionsWrap(HelpTestCase):
         Sig('b'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-               [-h] [-w WWWWWWWWWWWWWWWWWWWWWWWWW] \
+               [-h] [-w WWWWWWWWWWWWWWWWWWWWWWWWW] /
 [-x XXXXXXXXXXXXXXXXXXXXXXXXX]
                [-y YYYYYYYYYYYYYYYYYYYYYYYYY] [-z ZZZZZZZZZZZZZZZZZZZZZZZZZ]
                a b
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           a
@@ -3346,12 +3346,12 @@ class TestHelpUsageLongProgPositionalsWrap(HelpTestCase):
         Sig('c' * 25),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
                aaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbb
                ccccccccccccccccccccccccc
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -3375,14 +3375,14 @@ class TestHelpUsageOptionalsWrap(HelpTestCase):
         Sig('c'),
     ]
     argument_group_signatures = []
-    usage = '''\
-        usage: PROG [-h] [-w WWWWWWWWWWWWWWWWWWWWWWWWW] \
+    usage = '''/
+        usage: PROG [-h] [-w WWWWWWWWWWWWWWWWWWWWWWWWW] /
 [-x XXXXXXXXXXXXXXXXXXXXXXXXX]
-                    [-y YYYYYYYYYYYYYYYYYYYYYYYYY] \
+                    [-y YYYYYYYYYYYYYYYYYYYYYYYYY] /
 [-z ZZZZZZZZZZZZZZZZZZZZZZZZZ]
                     a b c
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           a
@@ -3412,12 +3412,12 @@ class TestHelpUsagePositionalsWrap(HelpTestCase):
         Sig('c' * 25),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-x X] [-y Y] [-z Z]
                     aaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbb
                     ccccccccccccccccccccccccc
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -3446,14 +3446,14 @@ class TestHelpUsageOptionalsPositionalsWrap(HelpTestCase):
         Sig('c' * 25),
     ]
     argument_group_signatures = []
-    usage = '''\
-        usage: PROG [-h] [-x XXXXXXXXXXXXXXXXXXXXXXXXX] \
+    usage = '''/
+        usage: PROG [-h] [-x XXXXXXXXXXXXXXXXXXXXXXXXX] /
 [-y YYYYYYYYYYYYYYYYYYYYYYYYY]
                     [-z ZZZZZZZZZZZZZZZZZZZZZZZZZ]
                     aaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbb
                     ccccccccccccccccccccccccc
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -3479,12 +3479,12 @@ class TestHelpUsageOptionalsOnlyWrap(HelpTestCase):
         Sig('-z', metavar='Z' * 25),
     ]
     argument_group_signatures = []
-    usage = '''\
-        usage: PROG [-h] [-x XXXXXXXXXXXXXXXXXXXXXXXXX] \
+    usage = '''/
+        usage: PROG [-h] [-x XXXXXXXXXXXXXXXXXXXXXXXXX] /
 [-y YYYYYYYYYYYYYYYYYYYYYYYYY]
                     [-z ZZZZZZZZZZZZZZZZZZZZZZZZZ]
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         optional arguments:
           -h, --help            show this help message and exit
@@ -3505,11 +3505,11 @@ class TestHelpUsagePositionalsOnlyWrap(HelpTestCase):
         Sig('c' * 25),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG aaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbb
                     ccccccccccccccccccccccccc
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -3541,11 +3541,11 @@ class TestHelpVariableExpansion(HelpTestCase):
             Sig('-b', default=-1, help='b %(prog)s %(default)s'),
         ])
     ]
-    usage = ('''\
+    usage = ('''/
         usage: PROG [-h] [-x X] [-y] [--foo {a,b,c}] [--bar BBB] [-a A] [-b B]
                     spam badger
         ''')
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           spam           spam PROG None
@@ -3571,10 +3571,10 @@ class TestHelpVariableExpansionUsageSupplied(HelpTestCase):
     parser_signature = Sig(prog='PROG', usage='%(prog)s FOO')
     argument_signatures = []
     argument_group_signatures = []
-    usage = ('''\
+    usage = ('''/
         usage: PROG FOO
         ''')
-    help = usage + '''\
+    help = usage + '''/
 
         optional arguments:
           -h, --help  show this help message and exit
@@ -3588,7 +3588,7 @@ class TestHelpVariableExpansionNoArguments(HelpTestCase):
     parser_signature = Sig(prog='PROG', add_help=False)
     argument_signatures = []
     argument_group_signatures = []
-    usage = ('''\
+    usage = ('''/
         usage: PROG
         ''')
     help = usage
@@ -3604,7 +3604,7 @@ class TestHelpSuppressUsage(HelpTestCase):
         Sig('spam', help='spam help'),
     ]
     argument_group_signatures = []
-    help = '''\
+    help = '''/
         positional arguments:
           spam        spam help
 
@@ -3625,10 +3625,10 @@ class TestHelpSuppressOptional(HelpTestCase):
         Sig('spam', help='spam help'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG spam
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           spam  spam help
@@ -3647,10 +3647,10 @@ class TestHelpSuppressOptionalGroup(HelpTestCase):
     argument_group_signatures = [
         (Sig('group'), [Sig('--bar', help=argparse.SUPPRESS)]),
     ]
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [--foo FOO] spam
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           spam        spam help
@@ -3671,10 +3671,10 @@ class TestHelpSuppressPositional(HelpTestCase):
         Sig('spam', help=argparse.SUPPRESS),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [--foo FOO]
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         optional arguments:
           -h, --help  show this help message and exit
@@ -3691,10 +3691,10 @@ class TestHelpRequiredOptional(HelpTestCase):
         Sig('--foo', required=True, help='foo help'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] --foo FOO
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         optional arguments:
           -h, --help  show this help message and exit
@@ -3712,10 +3712,10 @@ class TestHelpAlternatePrefixChars(HelpTestCase):
         Sig(';b', ';;bar', help='bar help'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG [^^foo] [;b BAR]
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         optional arguments:
           ^^foo              foo help
@@ -3733,10 +3733,10 @@ class TestHelpNoHelpOptional(HelpTestCase):
         Sig('spam', help='spam help'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG [--foo FOO] spam
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           spam       spam help
@@ -3756,10 +3756,10 @@ class TestHelpVersionOptional(HelpTestCase):
         Sig('spam', help='spam help'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-v] [--foo FOO] spam
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           spam           spam help
@@ -3769,7 +3769,7 @@ class TestHelpVersionOptional(HelpTestCase):
           -v, --version  show program's version number and exit
           --foo FOO      foo help
         '''
-    version = '''\
+    version = '''/
         1.0
         '''
 
@@ -3783,10 +3783,10 @@ class TestHelpNone(HelpTestCase):
         Sig('spam'),
     ]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [--foo FOO] spam
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         positional arguments:
           spam
@@ -3809,11 +3809,11 @@ class TestHelpTupleMetavar(HelpTestCase):
         Sig('-z', help='z', nargs='?', metavar=('Z1', )),
     ]
     argument_group_signatures = []
-    usage = '''\
-        usage: PROG [-h] [-w W1 [W2 ...]] [-x [X1 [X2 ...]]] [-y Y1 Y2 Y3] \
+    usage = '''/
+        usage: PROG [-h] [-w W1 [W2 ...]] [-x [X1 [X2 ...]]] [-y Y1 Y2 Y3] /
 [-z [Z1]]
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         optional arguments:
           -h, --help        show this help message and exit
@@ -3830,26 +3830,26 @@ class TestHelpRawText(HelpTestCase):
 
     parser_signature = Sig(
         prog='PROG', formatter_class=argparse.RawTextHelpFormatter,
-        description='Keep the formatting\n'
-                    '    exactly as it is written\n'
-                    '\n'
-                    'here\n')
+        description='Keep the formatting/n'
+                    '    exactly as it is written/n'
+                    '/n'
+                    'here/n')
 
     argument_signatures = [
-        Sig('--foo', help='    foo help should also\n'
+        Sig('--foo', help='    foo help should also/n'
                           'appear as given here'),
         Sig('spam', help='spam help'),
     ]
     argument_group_signatures = [
-        (Sig('title', description='    This text\n'
-                                  '  should be indented\n'
-                                  '    exactly like it is here\n'),
+        (Sig('title', description='    This text/n'
+                                  '  should be indented/n'
+                                  '    exactly like it is here/n'),
          [Sig('--bar', help='bar help')]),
     ]
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [--foo FOO] [--bar BAR] spam
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         Keep the formatting
             exactly as it is written
@@ -3879,26 +3879,26 @@ class TestHelpRawDescription(HelpTestCase):
 
     parser_signature = Sig(
         prog='PROG', formatter_class=argparse.RawDescriptionHelpFormatter,
-        description='Keep the formatting\n'
-                    '    exactly as it is written\n'
-                    '\n'
-                    'here\n')
+        description='Keep the formatting/n'
+                    '    exactly as it is written/n'
+                    '/n'
+                    'here/n')
 
     argument_signatures = [
-        Sig('--foo', help='  foo help should not\n'
+        Sig('--foo', help='  foo help should not/n'
                           '    retain this odd formatting'),
         Sig('spam', help='spam help'),
     ]
     argument_group_signatures = [
-        (Sig('title', description='    This text\n'
-                                  '  should be indented\n'
-                                  '    exactly like it is here\n'),
+        (Sig('title', description='    This text/n'
+                                  '  should be indented/n'
+                                  '    exactly like it is here/n'),
          [Sig('--bar', help='bar help')]),
     ]
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [--foo FOO] [--bar BAR] spam
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         Keep the formatting
             exactly as it is written
@@ -3939,10 +3939,10 @@ class TestHelpArgumentDefaults(HelpTestCase):
         (Sig('title', description='description'),
          [Sig('--baz', type=int, default=42, help='baz help')]),
     ]
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [--foo FOO] [--bar] [--baz BAZ] spam [badger]
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         description
 
@@ -3968,10 +3968,10 @@ class TestHelpVersionAction(HelpTestCase):
     parser_signature = Sig(prog='PROG', description='description')
     argument_signatures = [Sig('-V', '--version', action='version', version='3.6')]
     argument_group_signatures = []
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-V]
         '''
-    help = usage + '''\
+    help = usage + '''/
 
         description
 
@@ -3990,11 +3990,11 @@ class TestHelpSubparsersOrdering(HelpTestCase):
     subparsers_signatures = [Sig(name=name)
                              for name in ('a', 'b', 'c', 'd', 'e')]
 
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-v] {a,b,c,d,e} ...
         '''
 
-    help = usage + '''\
+    help = usage + '''/
 
         display some subcommands
 
@@ -4006,7 +4006,7 @@ class TestHelpSubparsersOrdering(HelpTestCase):
           -v, --version  show program's version number and exit
         '''
 
-    version = '''\
+    version = '''/
         0.1
         '''
 
@@ -4026,11 +4026,11 @@ class TestHelpSubparsersWithHelpOrdering(HelpTestCase):
     subparsers_signatures = [Sig(name=name, help=help)
                              for name, help in subcommand_data]
 
-    usage = '''\
+    usage = '''/
         usage: PROG [-h] [-v] {a,b,c,d,e} ...
         '''
 
-    help = usage + '''\
+    help = usage + '''/
 
         display some subcommands
 
@@ -4047,7 +4047,7 @@ class TestHelpSubparsersWithHelpOrdering(HelpTestCase):
           -v, --version  show program's version number and exit
         '''
 
-    version = '''\
+    version = '''/
         0.1
         '''
 
@@ -4240,7 +4240,7 @@ class TestConflictHandling(TestCase):
 
         parser.add_argument('-x', help='OLD X')
         parser.add_argument('-x', help='NEW X')
-        self.assertEqual(parser.format_help(), textwrap.dedent('''\
+        self.assertEqual(parser.format_help(), textwrap.dedent('''/
             usage: PROG [-h] [-x X]
 
             optional arguments:
@@ -4250,7 +4250,7 @@ class TestConflictHandling(TestCase):
 
         parser.add_argument('--spam', metavar='OLD_SPAM')
         parser.add_argument('--spam', metavar='NEW_SPAM')
-        self.assertEqual(parser.format_help(), textwrap.dedent('''\
+        self.assertEqual(parser.format_help(), textwrap.dedent('''/
             usage: PROG [-h] [-x X] [--spam NEW_SPAM]
 
             optional arguments:
@@ -4298,7 +4298,7 @@ class TestOptionalsHelpVersionActions(TestCase):
     def test_version_format(self):
         parser = ErrorRaisingArgumentParser(prog='PPP', version='%(prog)s 3.5')
         msg = self._get_error(parser.parse_args, ['-v']).stderr
-        self.assertEqual('PPP 3.5\n', msg)
+        self.assertEqual('PPP 3.5/n', msg)
 
     def test_version_no_help(self):
         parser = ErrorRaisingArgumentParser(add_help=False, version='1.0')
@@ -4311,7 +4311,7 @@ class TestOptionalsHelpVersionActions(TestCase):
         parser = ErrorRaisingArgumentParser(prog='XXX')
         parser.add_argument('-V', action='version', version='%(prog)s 3.7')
         msg = self._get_error(parser.parse_args, ['-V']).stderr
-        self.assertEqual('XXX 3.7\n', msg)
+        self.assertEqual('XXX 3.7/n', msg)
 
     def test_no_help(self):
         parser = ErrorRaisingArgumentParser(add_help=False)
@@ -4478,7 +4478,7 @@ class TestArgumentTypeError(TestCase):
         try:
             parser.parse_args(['XXX'])
         except ArgumentParserError:
-            expected = 'usage: PROG x\nPROG: error: argument x: spam!\n'
+            expected = 'usage: PROG x/nPROG: error: argument x: spam!/n'
             msg = sys.exc_info()[1].stderr
             self.assertEqual(expected, msg)
         else:

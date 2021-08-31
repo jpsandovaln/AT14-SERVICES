@@ -38,7 +38,7 @@ def _iterdump(connection):
         # NOTE: Virtual table support not implemented
         #elif sql.startswith('CREATE VIRTUAL TABLE'):
         #    qtable = table_name.replace("'", "''")
-        #    yield("INSERT INTO sqlite_master(type,name,tbl_name,rootpage,sql)"\
+        #    yield("INSERT INTO sqlite_master(type,name,tbl_name,rootpage,sql)"/
         #        "VALUES('table','{0}','{0}',0,'{1}');".format(
         #        qtable,
         #        sql.replace("''")))

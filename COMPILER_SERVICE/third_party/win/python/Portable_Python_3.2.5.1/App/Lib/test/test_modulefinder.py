@@ -31,7 +31,7 @@ maybe_test = [
     ["a", "a.module", "sys",
      "b"],
     ["c"], ["b.something"],
-    """\
+    """/
 a/__init__.py
 a/module.py
                                 from b import something
@@ -45,7 +45,7 @@ maybe_test_new = [
     ["a", "a.module", "sys",
      "b", "__future__"],
     ["c"], ["b.something"],
-    """\
+    """/
 a/__init__.py
 a/module.py
                                 from b import something
@@ -59,7 +59,7 @@ package_test = [
     "a.module",
     ["a", "a.b", "a.c", "a.module", "mymodule", "sys"],
     ["blahblah", "c"], [],
-    """\
+    """/
 mymodule.py
 a/__init__.py
                                 import blahblah
@@ -82,7 +82,7 @@ absolute_import_test = [
      "b", "b.x", "b.y", "b.z",
      "__future__", "sys", "gc"],
     ["blahblah", "z"], [],
-    """\
+    """/
 mymodule.py
 a/__init__.py
 a/module.py
@@ -118,7 +118,7 @@ relative_import_test = [
      "a.b.x",
      "gc"],
     [], [],
-    """\
+    """/
 mymodule.py
 a/__init__.py
                                 from .b import y, z # a.b.y, a.b.z
@@ -156,7 +156,7 @@ relative_import_test_2 = [
      "a.b.x",
      "a.another"],
     [], [],
-    """\
+    """/
 mymodule.py
 a/__init__.py
                                 from . import sys # a.sys
@@ -188,7 +188,7 @@ relative_import_test_3 = [
     ["a", "a.module"],
     ["a.bar"],
     [],
-    """\
+    """/
 a/__init__.py
                                 def foo(): pass
 a/module.py
@@ -206,8 +206,8 @@ def create_package(source):
     ofi = None
     try:
         for line in source.splitlines():
-            if line.startswith(" ") or line.startswith("\t"):
-                ofi.write(line.strip() + "\n")
+            if line.startswith(" ") or line.startswith("/t"):
+                ofi.write(line.strip() + "/n")
             else:
                 if ofi:
                     ofi.close()

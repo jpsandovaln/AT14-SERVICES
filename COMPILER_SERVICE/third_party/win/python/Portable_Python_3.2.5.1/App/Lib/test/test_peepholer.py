@@ -146,7 +146,7 @@ class TestTranforms(unittest.TestCase):
             # the frozenset we expect:
             self.assertIn('frozenset', asm)
             # Extract the frozenset literal from the disassembly:
-            m = re.match(r'.*(frozenset\({.*}\)).*', asm, re.DOTALL)
+            m = re.match(r'.*(frozenset/({.*}/)).*', asm, re.DOTALL)
             self.assertTrue(m)
             self.assertEqual(eval(m.group(1)), elem)
 
@@ -200,17 +200,17 @@ class TestTranforms(unittest.TestCase):
         asm = dis_single('"foo"[0]')
         self.assertNotIn("('f')", asm)
         self.assertIn('BINARY_SUBSCR', asm)
-        asm = dis_single('"\u0061\uffff"[1]')
-        self.assertNotIn("('\\uffff')", asm)
+        asm = dis_single('"/u0061/uffff"[1]')
+        self.assertNotIn("('//uffff')", asm)
         self.assertIn('BINARY_SUBSCR', asm)
 
         # out of range
         asm = dis_single('"fuu"[10]')
         self.assertIn('BINARY_SUBSCR', asm)
         # non-BMP char (see #5057)
-        asm = dis_single('"\U00012345"[0]')
+        asm = dis_single('"/U00012345"[0]')
         self.assertIn('BINARY_SUBSCR', asm)
-        asm = dis_single('"\U00012345abcdef"[3]')
+        asm = dis_single('"/U00012345abcdef"[3]')
         self.assertIn('BINARY_SUBSCR', asm)
 
 

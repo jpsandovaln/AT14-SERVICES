@@ -74,7 +74,7 @@ class UstarReadTest(ReadTest):
             self.assertTrue(len(lines2) == 114,
                     "fileobj.readlines() failed")
             self.assertTrue(lines2[83] ==
-                    "I will gladly admit that Python is not the fastest running scripting language.\n",
+                    "I will gladly admit that Python is not the fastest running scripting language./n",
                     "fileobj.readlines() failed")
         finally:
             fobj.close()
@@ -207,8 +207,8 @@ class CommonReadTest(ReadTest):
         else:
             _open = open
 
-        for char in (b'\0', b'a'):
-            # Test if EOFHeaderError ('\0') and InvalidHeaderError ('a')
+        for char in (b'/0', b'a'):
+            # Test if EOFHeaderError ('/0') and InvalidHeaderError ('a')
             # are ignored correctly.
             with _open(tmpname, "wb") as fobj:
                 fobj.write(char * 1024)
@@ -615,7 +615,7 @@ class MemberReadTest(ReadTest):
         self._test_member(tarinfo, size=86016, chksum=md5_sparse)
 
     def test_find_umlauts(self):
-        tarinfo = self.tar.getmember("ustar/umlauts-\xc4\xd6\xdc\xe4\xf6\xfc\xdf")
+        tarinfo = self.tar.getmember("ustar/umlauts-/xc4/xd6/xdc/xe4/xf6/xfc/xdf")
         self._test_member(tarinfo, size=7011, chksum=md5_regtype)
 
     def test_find_ustar_longname(self):
@@ -629,7 +629,7 @@ class MemberReadTest(ReadTest):
     def test_find_pax_umlauts(self):
         self.tar.close()
         self.tar = tarfile.open(self.tarname, mode=self.mode, encoding="iso8859-1")
-        tarinfo = self.tar.getmember("pax/umlauts-\xc4\xd6\xdc\xe4\xf6\xfc\xdf")
+        tarinfo = self.tar.getmember("pax/umlauts-/xc4/xd6/xdc/xe4/xf6/xfc/xdf")
         self._test_member(tarinfo, size=7011, chksum=md5_regtype)
 
 
@@ -737,17 +737,17 @@ class PaxReadTest(LongnameTest):
             tarinfo = tar.getmember("pax/regtype1")
             self.assertEqual(tarinfo.uname, "foo")
             self.assertEqual(tarinfo.gname, "bar")
-            self.assertEqual(tarinfo.pax_headers.get("VENDOR.umlauts"), "\xc4\xd6\xdc\xe4\xf6\xfc\xdf")
+            self.assertEqual(tarinfo.pax_headers.get("VENDOR.umlauts"), "/xc4/xd6/xdc/xe4/xf6/xfc/xdf")
 
             tarinfo = tar.getmember("pax/regtype2")
             self.assertEqual(tarinfo.uname, "")
             self.assertEqual(tarinfo.gname, "bar")
-            self.assertEqual(tarinfo.pax_headers.get("VENDOR.umlauts"), "\xc4\xd6\xdc\xe4\xf6\xfc\xdf")
+            self.assertEqual(tarinfo.pax_headers.get("VENDOR.umlauts"), "/xc4/xd6/xdc/xe4/xf6/xfc/xdf")
 
             tarinfo = tar.getmember("pax/regtype3")
             self.assertEqual(tarinfo.uname, "tarfile")
             self.assertEqual(tarinfo.gname, "tarfile")
-            self.assertEqual(tarinfo.pax_headers.get("VENDOR.umlauts"), "\xc4\xd6\xdc\xe4\xf6\xfc\xdf")
+            self.assertEqual(tarinfo.pax_headers.get("VENDOR.umlauts"), "/xc4/xd6/xdc/xe4/xf6/xfc/xdf")
         finally:
             tar.close()
 
@@ -785,9 +785,9 @@ class WriteTest(WriteTestBase):
 
     def test_100_char_name(self):
         # The name field in a tar header stores strings of at most 100 chars.
-        # If a string is shorter than 100 chars it has to be padded with '\0',
+        # If a string is shorter than 100 chars it has to be padded with '/0',
         # which implies that a string of exactly 100 chars is stored without
-        # a trailing '\0'.
+        # a trailing '/0'.
         name = "0123456789" * 10
         tar = tarfile.open(tmpname, self.mode)
         try:
@@ -1003,7 +1003,7 @@ class WriteTest(WriteTestBase):
             source_file = os.path.join(tempdir,'source')
             target_file = os.path.join(tempdir,'symlink')
             with open(source_file,'w') as f:
-                f.write('something\n')
+                f.write('something/n')
             os.symlink(source_file, target_file)
             tar = tarfile.open(temparchive,'w')
             tar.add(source_file)
@@ -1041,7 +1041,7 @@ class WriteTest(WriteTestBase):
 
     def test_abs_pathnames(self):
         if sys.platform == "win32":
-            self._test_pathname("C:\\foo", "foo")
+            self._test_pathname("C://foo", "foo")
         else:
             self._test_pathname("/foo", "foo")
             self._test_pathname("///foo", "foo")
@@ -1090,7 +1090,7 @@ class StreamWriteTest(WriteTestBase):
             with open(tmpname, "rb") as fobj:
                 data = fobj.read()
 
-        self.assertTrue(data.count(b"\0") == tarfile.RECORDSIZE,
+        self.assertTrue(data.count(b"/0") == tarfile.RECORDSIZE,
                          "incorrect zero padding")
 
     def test_file_mode(self):
@@ -1266,8 +1266,8 @@ class PaxWriteTest(GNUWriteTest):
                 "foo": "bar",
                 "uid": "0",
                 "mtime": "1.23",
-                "test": "\xe4\xf6\xfc",
-                "\xe4\xf6\xfc": "test"}
+                "test": "/xe4/xf6/xfc",
+                "/xe4/xf6/xfc": "test"}
 
         tar = tarfile.open(tmpname, "w", format=tarfile.PAX_FORMAT,
                 pax_headers=pax_headers)
@@ -1301,7 +1301,7 @@ class PaxWriteTest(GNUWriteTest):
         tar = tarfile.open(tmpname, "w", format=tarfile.PAX_FORMAT, encoding="iso8859-1")
         try:
             t = tarfile.TarInfo()
-            t.name = "\xe4\xf6\xfc" # non-ASCII
+            t.name = "/xe4/xf6/xfc" # non-ASCII
             t.uid = 8**8 # too large
             t.pax_headers = pax_headers
             tar.addfile(t)
@@ -1334,7 +1334,7 @@ class UstarUnicodeTest(unittest.TestCase):
     def _test_unicode_filename(self, encoding):
         tar = tarfile.open(tmpname, "w", format=self.format, encoding=encoding, errors="strict")
         try:
-            name = "\xe4\xf6\xfc"
+            name = "/xe4/xf6/xfc"
             tar.addfile(tarfile.TarInfo(name))
         finally:
             tar.close()
@@ -1354,11 +1354,11 @@ class UstarUnicodeTest(unittest.TestCase):
         try:
             tarinfo = tarfile.TarInfo()
 
-            tarinfo.name = "\xe4\xf6\xfc"
+            tarinfo.name = "/xe4/xf6/xfc"
             self.assertRaises(UnicodeError, tar.addfile, tarinfo)
 
             tarinfo.name = "foo"
-            tarinfo.uname = "\xe4\xf6\xfc"
+            tarinfo.uname = "/xe4/xf6/xfc"
             self.assertRaises(UnicodeError, tar.addfile, tarinfo)
         finally:
             tar.close()
@@ -1376,8 +1376,8 @@ class UstarUnicodeTest(unittest.TestCase):
 
     def test_uname_unicode(self):
         t = tarfile.TarInfo("foo")
-        t.uname = "\xe4\xf6\xfc"
-        t.gname = "\xe4\xf6\xfc"
+        t.uname = "/xe4/xf6/xfc"
+        t.gname = "/xe4/xf6/xfc"
 
         tar = tarfile.open(tmpname, mode="w", format=self.format, encoding="iso8859-1")
         try:
@@ -1388,15 +1388,15 @@ class UstarUnicodeTest(unittest.TestCase):
         tar = tarfile.open(tmpname, encoding="iso8859-1")
         try:
             t = tar.getmember("foo")
-            self.assertEqual(t.uname, "\xe4\xf6\xfc")
-            self.assertEqual(t.gname, "\xe4\xf6\xfc")
+            self.assertEqual(t.uname, "/xe4/xf6/xfc")
+            self.assertEqual(t.gname, "/xe4/xf6/xfc")
 
             if self.format != tarfile.PAX_FORMAT:
                 tar.close()
                 tar = tarfile.open(tmpname, encoding="ascii")
                 t = tar.getmember("foo")
-                self.assertEqual(t.uname, "\udce4\udcf6\udcfc")
-                self.assertEqual(t.gname, "\udce4\udcf6\udcfc")
+                self.assertEqual(t.uname, "/udce4/udcf6/udcfc")
+                self.assertEqual(t.gname, "/udce4/udcf6/udcfc")
         finally:
             tar.close()
 
@@ -1408,8 +1408,8 @@ class GNUUnicodeTest(UstarUnicodeTest):
     def test_bad_pax_header(self):
         # Test for issue #8633. GNU tar <= 1.23 creates raw binary fields
         # without a hdrcharset=BINARY header.
-        for encoding, name in (("utf8", "pax/bad-pax-\udce4\udcf6\udcfc"),
-                ("iso8859-1", "pax/bad-pax-\xe4\xf6\xfc"),):
+        for encoding, name in (("utf8", "pax/bad-pax-/udce4/udcf6/udcfc"),
+                ("iso8859-1", "pax/bad-pax-/xe4/xf6/xfc"),):
             with tarfile.open(tarname, encoding=encoding, errors="surrogateescape") as tar:
                 try:
                     t = tar.getmember(name)
@@ -1423,8 +1423,8 @@ class PAXUnicodeTest(UstarUnicodeTest):
 
     def test_binary_header(self):
         # Test a POSIX.1-2008 compatible header with a hdrcharset=BINARY field.
-        for encoding, name in (("utf8", "pax/hdrcharset-\udce4\udcf6\udcfc"),
-                ("iso8859-1", "pax/hdrcharset-\xe4\xf6\xfc"),):
+        for encoding, name in (("utf8", "pax/hdrcharset-/udce4/udcf6/udcfc"),
+                ("iso8859-1", "pax/hdrcharset-/xe4/xf6/xfc"),):
             with tarfile.open(tarname, encoding=encoding, errors="surrogateescape") as tar:
                 try:
                     t = tar.getmember(name)
@@ -1469,7 +1469,7 @@ class AppendTest(unittest.TestCase):
         self._test()
 
     def test_empty_fileobj(self):
-        fobj = io.BytesIO(b"\0" * 1024)
+        fobj = io.BytesIO(b"/0" * 1024)
         self._add_testfile(fobj)
         fobj.seek(0)
         self._test(fileobj=fobj)
@@ -1511,7 +1511,7 @@ class AppendTest(unittest.TestCase):
         self._test_error(b"")
 
     def test_incomplete(self):
-        self._test_error(b"\0" * 13)
+        self._test_error(b"/0" * 13)
 
     def test_premature_eof(self):
         data = tarfile.TarInfo("foo").tobuf()
@@ -1519,7 +1519,7 @@ class AppendTest(unittest.TestCase):
 
     def test_trailing_garbage(self):
         data = tarfile.TarInfo("foo").tobuf()
-        self._test_error(data + b"\0" * 13)
+        self._test_error(data + b"/0" * 13)
 
     def test_invalid(self):
         self._test_error(b"a" * 512)
@@ -1587,30 +1587,30 @@ class LimitsTest(unittest.TestCase):
 class MiscTest(unittest.TestCase):
 
     def test_char_fields(self):
-        self.assertEqual(tarfile.stn("foo", 8, "ascii", "strict"), b"foo\0\0\0\0\0")
+        self.assertEqual(tarfile.stn("foo", 8, "ascii", "strict"), b"foo/0/0/0/0/0")
         self.assertEqual(tarfile.stn("foobar", 3, "ascii", "strict"), b"foo")
-        self.assertEqual(tarfile.nts(b"foo\0\0\0\0\0", "ascii", "strict"), "foo")
-        self.assertEqual(tarfile.nts(b"foo\0bar\0", "ascii", "strict"), "foo")
+        self.assertEqual(tarfile.nts(b"foo/0/0/0/0/0", "ascii", "strict"), "foo")
+        self.assertEqual(tarfile.nts(b"foo/0bar/0", "ascii", "strict"), "foo")
 
     def test_read_number_fields(self):
         # Issue 13158: Test if GNU tar specific base-256 number fields
         # are decoded correctly.
-        self.assertEqual(tarfile.nti(b"0000001\x00"), 1)
-        self.assertEqual(tarfile.nti(b"7777777\x00"), 0o7777777)
-        self.assertEqual(tarfile.nti(b"\x80\x00\x00\x00\x00\x20\x00\x00"), 0o10000000)
-        self.assertEqual(tarfile.nti(b"\x80\x00\x00\x00\xff\xff\xff\xff"), 0xffffffff)
-        self.assertEqual(tarfile.nti(b"\xff\xff\xff\xff\xff\xff\xff\xff"), -1)
-        self.assertEqual(tarfile.nti(b"\xff\xff\xff\xff\xff\xff\xff\x9c"), -100)
-        self.assertEqual(tarfile.nti(b"\xff\x00\x00\x00\x00\x00\x00\x00"), -0x100000000000000)
+        self.assertEqual(tarfile.nti(b"0000001/x00"), 1)
+        self.assertEqual(tarfile.nti(b"7777777/x00"), 0o7777777)
+        self.assertEqual(tarfile.nti(b"/x80/x00/x00/x00/x00/x20/x00/x00"), 0o10000000)
+        self.assertEqual(tarfile.nti(b"/x80/x00/x00/x00/xff/xff/xff/xff"), 0xffffffff)
+        self.assertEqual(tarfile.nti(b"/xff/xff/xff/xff/xff/xff/xff/xff"), -1)
+        self.assertEqual(tarfile.nti(b"/xff/xff/xff/xff/xff/xff/xff/x9c"), -100)
+        self.assertEqual(tarfile.nti(b"/xff/x00/x00/x00/x00/x00/x00/x00"), -0x100000000000000)
 
     def test_write_number_fields(self):
-        self.assertEqual(tarfile.itn(1), b"0000001\x00")
-        self.assertEqual(tarfile.itn(0o7777777), b"7777777\x00")
-        self.assertEqual(tarfile.itn(0o10000000), b"\x80\x00\x00\x00\x00\x20\x00\x00")
-        self.assertEqual(tarfile.itn(0xffffffff), b"\x80\x00\x00\x00\xff\xff\xff\xff")
-        self.assertEqual(tarfile.itn(-1), b"\xff\xff\xff\xff\xff\xff\xff\xff")
-        self.assertEqual(tarfile.itn(-100), b"\xff\xff\xff\xff\xff\xff\xff\x9c")
-        self.assertEqual(tarfile.itn(-0x100000000000000), b"\xff\x00\x00\x00\x00\x00\x00\x00")
+        self.assertEqual(tarfile.itn(1), b"0000001/x00")
+        self.assertEqual(tarfile.itn(0o7777777), b"7777777/x00")
+        self.assertEqual(tarfile.itn(0o10000000), b"/x80/x00/x00/x00/x00/x20/x00/x00")
+        self.assertEqual(tarfile.itn(0xffffffff), b"/x80/x00/x00/x00/xff/xff/xff/xff")
+        self.assertEqual(tarfile.itn(-1), b"/xff/xff/xff/xff/xff/xff/xff/xff")
+        self.assertEqual(tarfile.itn(-100), b"/xff/xff/xff/xff/xff/xff/xff/x9c")
+        self.assertEqual(tarfile.itn(-0x100000000000000), b"/xff/x00/x00/x00/x00/x00/x00/x00")
 
     def test_number_field_limits(self):
         self.assertRaises(ValueError, tarfile.itn, -1, 8, tarfile.USTAR_FORMAT)

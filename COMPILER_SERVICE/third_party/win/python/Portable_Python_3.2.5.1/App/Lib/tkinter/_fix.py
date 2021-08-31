@@ -7,7 +7,7 @@ import sys, os
 # Unfortunately, we cannot know the TCL_LIBRARY directory
 # if we don't know the tcl version, which we cannot find out
 # without import Tcl. Fortunately, Tcl will itself look in
-# <TCL_LIBRARY>\..\tcl<TCL_VERSION>, so anything close to
+# <TCL_LIBRARY>/../tcl<TCL_VERSION>, so anything close to
 # the real Tcl library will do.
 
 # Expand symbolic links on Vista
@@ -21,7 +21,7 @@ else:
     def convert_path(s):
         if isinstance(s, bytes):
             s = s.decode("mbcs")
-        hdir = ctypes.windll.kernel32.\
+        hdir = ctypes.windll.kernel32./
             CreateFileW(s, 0x80,    # FILE_READ_ATTRIBUTES
                         1,          # FILE_SHARE_READ
                         None, 3,    # OPEN_EXISTING
@@ -31,7 +31,7 @@ else:
             # Cannot open directory, give up
             return s
         buf = ctypes.create_unicode_buffer("", 32768)
-        res = ctypes.windll.kernel32.\
+        res = ctypes.windll.kernel32./
             GetFinalPathNameByHandleW(hdir, buf, len(buf),
                                       0) # VOLUME_NAME_DOS
         ctypes.windll.kernel32.CloseHandle(hdir)
@@ -39,11 +39,11 @@ else:
             # Conversion failed (e.g. network location)
             return s
         s = buf[:res]
-        # Ignore leading \\?\
-        if s.startswith("\\\\?\\"):
+        # Ignore leading //?/
+        if s.startswith("////?//"):
             s = s[4:]
         if s.startswith("UNC"):
-            s = "\\" + s[3:]
+            s = "//" + s[3:]
         return s
 
 prefix = os.path.join(sys.prefix,"tcl")

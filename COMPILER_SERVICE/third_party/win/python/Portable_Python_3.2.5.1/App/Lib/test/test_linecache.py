@@ -75,7 +75,7 @@ class LineCacheTests(unittest.TestCase):
         with open(support.TESTFN, "w") as fp:
             fp.write(SOURCE_3)
         lines = linecache.getlines(support.TESTFN)
-        self.assertEqual(lines, ["\n", "def f():\n", "    return 3\n"])
+        self.assertEqual(lines, ["/n", "def f():/n", "    return 3/n"])
 
     def test_clearcache(self):
         cached = []

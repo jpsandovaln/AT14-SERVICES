@@ -18,8 +18,8 @@ import io
 class TextIOWrapperTest(unittest.TestCase):
 
     def setUp(self):
-        self.testdata = b"AAA\r\nBBB\rCCC\r\nDDD\nEEE\r\n"
-        self.normalized = b"AAA\nBBB\nCCC\nDDD\nEEE\n".decode("ASCII")
+        self.testdata = b"AAA/r/nBBB/rCCC/r/nDDD/nEEE/r/n"
+        self.normalized = b"AAA/nBBB/nCCC/nDDD/nEEE/n".decode("ASCII")
 
     def tearDown(self):
         support.unlink(support.TESTFN)
@@ -76,7 +76,7 @@ class TextIOWrapperTest(unittest.TestCase):
         pos = txt.tell()
         txt.seek(0)
         txt.seek(pos)
-        self.assertEqual(txt.read(4), "BBB\n")
+        self.assertEqual(txt.read(4), "BBB/n")
 
 
 

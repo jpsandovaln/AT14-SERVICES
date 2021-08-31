@@ -62,8 +62,8 @@ class GeneralTests(unittest.TestCase):
     # This method is no longer used but is retained for backward compatibility,
     # so test to make sure it still works.
     def testQuoteData(self):
-        teststr  = "abc\n.jkl\rfoo\r\n..blue"
-        expected = "abc\r\n..jkl\r\nfoo\r\n...blue"
+        teststr  = "abc/n.jkl/rfoo/r/n..blue"
+        expected = "abc/r/n..jkl/r/nfoo/r/n...blue"
         self.assertEqual(expected, smtplib.quotedata(teststr))
 
     def testBasic1(self):
@@ -147,8 +147,8 @@ def debugging_server(serv, serv_evt, client_evt):
         asyncore.close_all()
         serv_evt.set()
 
-MSG_BEGIN = '---------- MESSAGE FOLLOWS ----------\n'
-MSG_END = '------------ END MESSAGE ------------\n'
+MSG_BEGIN = '---------- MESSAGE FOLLOWS ----------/n'
+MSG_END = '------------ END MESSAGE ------------/n'
 
 # NOTE: Some SMTP objects in the tests below are created with a non-default
 # local_hostname argument to the constructor, since (on some systems) the FQDN
@@ -259,7 +259,7 @@ class DebuggingServerTests(unittest.TestCase):
         self.client_evt.set()
         self.serv_evt.wait()
         self.output.flush()
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m, MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m, MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
 
     def testSendBinary(self):
@@ -273,12 +273,12 @@ class DebuggingServerTests(unittest.TestCase):
         self.client_evt.set()
         self.serv_evt.wait()
         self.output.flush()
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m.decode('ascii'), MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m.decode('ascii'), MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
 
     def testSendNeedingDotQuote(self):
         # Issue 12283
-        m = '.A test\n.mes.sage.'
+        m = '.A test/n.mes.sage.'
         smtp = smtplib.SMTP(HOST, self.port, local_hostname='localhost', timeout=3)
         smtp.sendmail('John', 'Sally', m)
         # XXX (see comment in testSend)
@@ -288,7 +288,7 @@ class DebuggingServerTests(unittest.TestCase):
         self.client_evt.set()
         self.serv_evt.wait()
         self.output.flush()
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m, MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m, MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
 
     def testSendNullSender(self):
@@ -302,7 +302,7 @@ class DebuggingServerTests(unittest.TestCase):
         self.client_evt.set()
         self.serv_evt.wait()
         self.output.flush()
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m, MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m, MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: <>$", re.MULTILINE)
@@ -321,7 +321,7 @@ class DebuggingServerTests(unittest.TestCase):
         self.output.flush()
         # Add the X-Peer header that DebuggingServer adds
         m['X-Peer'] = socket.gethostbyname('localhost')
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
 
     def testSendMessageWithAddresses(self):
@@ -346,7 +346,7 @@ class DebuggingServerTests(unittest.TestCase):
         m['X-Peer'] = socket.gethostbyname('localhost')
         # The Bcc header should not be transmitted.
         del m['Bcc']
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: foo@bar.com$", re.MULTILINE)
@@ -373,7 +373,7 @@ class DebuggingServerTests(unittest.TestCase):
         self.output.flush()
         # Add the X-Peer header that DebuggingServer adds
         m['X-Peer'] = socket.gethostbyname('localhost')
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: foo@bar.com$", re.MULTILINE)
@@ -399,7 +399,7 @@ class DebuggingServerTests(unittest.TestCase):
         self.output.flush()
         # Add the X-Peer header that DebuggingServer adds
         m['X-Peer'] = socket.gethostbyname('localhost')
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: joe@example.com$", re.MULTILINE)
@@ -428,7 +428,7 @@ class DebuggingServerTests(unittest.TestCase):
         self.output.flush()
         # Add the X-Peer header that DebuggingServer adds
         m['X-Peer'] = socket.gethostbyname('localhost')
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: the_rescuers@Rescue-Aid-Society.com$", re.MULTILINE)
@@ -462,7 +462,7 @@ class DebuggingServerTests(unittest.TestCase):
         del m['Resent-Bcc']
         # Add the X-Peer header that DebuggingServer adds
         m['X-Peer'] = socket.gethostbyname('localhost')
-        mexpect = '%s%s\n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
+        mexpect = '%s%s/n%s' % (MSG_BEGIN, m.as_string(), MSG_END)
         self.assertEqual(self.output.getvalue(), mexpect)
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: holy@grail.net$", re.MULTILINE)
@@ -568,15 +568,15 @@ class SimSMTPChannel(smtpd.SMTPChannel):
 
     def __init__(self, extra_features, *args, **kw):
         self._extrafeatures = ''.join(
-            [ "250-{0}\r\n".format(x) for x in extra_features ])
+            [ "250-{0}/r/n".format(x) for x in extra_features ])
         super(SimSMTPChannel, self).__init__(*args, **kw)
 
     def smtp_EHLO(self, arg):
-        resp = ('250-testhost\r\n'
-                '250-EXPN\r\n'
-                '250-SIZE 20000000\r\n'
-                '250-STARTTLS\r\n'
-                '250-DELIVERBY\r\n')
+        resp = ('250-testhost/r/n'
+                '250-EXPN/r/n'
+                '250-SIZE 20000000/r/n'
+                '250-STARTTLS/r/n'
+                '250-DELIVERBY/r/n')
         resp = resp + self._extrafeatures + '250 HELP'
         self.push(resp)
 
@@ -742,7 +742,7 @@ class SMTPSimTests(unittest.TestCase):
             users = []
             for m in members:
                 users.append('%s %s' % (sim_users[m], smtplib.quoteaddr(m)))
-            expected_known = (250, bytes('\n'.join(users), "ascii"))
+            expected_known = (250, bytes('/n'.join(users), "ascii"))
             self.assertEqual(smtp.expn(listname), expected_known)
 
         u = 'PSU-Members-List'

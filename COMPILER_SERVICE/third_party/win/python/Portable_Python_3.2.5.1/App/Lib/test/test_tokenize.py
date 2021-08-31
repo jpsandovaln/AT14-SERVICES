@@ -11,29 +11,29 @@ brevity.
     OP         '+'           (1, 2) (1, 3)
     NUMBER     '1'           (1, 4) (1, 5)
 
-    >>> dump_tokens("if False:\\n"
-    ...             "    # NL\\n"
-    ...             "    True = False # NEWLINE\\n")
+    >>> dump_tokens("if False://n"
+    ...             "    # NL//n"
+    ...             "    True = False # NEWLINE//n")
     ENCODING   'utf-8'       (0, 0) (0, 0)
     NAME       'if'          (1, 0) (1, 2)
     NAME       'False'       (1, 3) (1, 8)
     OP         ':'           (1, 8) (1, 9)
-    NEWLINE    '\\n'          (1, 9) (1, 10)
+    NEWLINE    '//n'          (1, 9) (1, 10)
     COMMENT    '# NL'        (2, 4) (2, 8)
-    NL         '\\n'          (2, 8) (2, 9)
+    NL         '//n'          (2, 8) (2, 9)
     INDENT     '    '        (3, 0) (3, 4)
     NAME       'True'        (3, 4) (3, 8)
     OP         '='           (3, 9) (3, 10)
     NAME       'False'       (3, 11) (3, 16)
     COMMENT    '# NEWLINE'   (3, 17) (3, 26)
-    NEWLINE    '\\n'          (3, 26) (3, 27)
+    NEWLINE    '//n'          (3, 26) (3, 27)
     DEDENT     ''            (4, 0) (4, 0)
 
-    >>> indent_error_file = \"""
+    >>> indent_error_file = /"""
     ... def k(x):
     ...     x += 2
     ...   x += 5
-    ... \"""
+    ... /"""
     >>> readline = BytesIO(indent_error_file.encode('utf-8')).readline
     >>> for tok in tokenize(readline): pass
     Traceback (most recent call last):
@@ -42,11 +42,11 @@ brevity.
 
 There are some standard formatting practices that are easy to get right.
 
-    >>> roundtrip("if x == 1:\\n"
-    ...           "    print(x)\\n")
+    >>> roundtrip("if x == 1://n"
+    ...           "    print(x)//n")
     True
 
-    >>> roundtrip("# This is a comment\\n# This also")
+    >>> roundtrip("# This is a comment//n# This also")
     True
 
 Some people use different formatting conventions, which makes
@@ -54,54 +54,54 @@ untokenize a little trickier. Note that this test involves trailing
 whitespace after the colon. Note that we use hex escapes to make the
 two trailing blanks apparent in the expected output.
 
-    >>> roundtrip("if x == 1 : \\n"
-    ...           "  print(x)\\n")
+    >>> roundtrip("if x == 1 : //n"
+    ...           "  print(x)//n")
     True
 
     >>> f = support.findfile("tokenize_tests.txt")
     >>> roundtrip(open(f, 'rb'))
     True
 
-    >>> roundtrip("if x == 1:\\n"
-    ...           "    # A comment by itself.\\n"
-    ...           "    print(x) # Comment here, too.\\n"
-    ...           "    # Another comment.\\n"
-    ...           "after_if = True\\n")
+    >>> roundtrip("if x == 1://n"
+    ...           "    # A comment by itself.//n"
+    ...           "    print(x) # Comment here, too.//n"
+    ...           "    # Another comment.//n"
+    ...           "after_if = True//n")
     True
 
-    >>> roundtrip("if (x # The comments need to go in the right place\\n"
-    ...           "    == 1):\\n"
-    ...           "    print('x==1')\\n")
+    >>> roundtrip("if (x # The comments need to go in the right place//n"
+    ...           "    == 1)://n"
+    ...           "    print('x==1')//n")
     True
 
-    >>> roundtrip("class Test: # A comment here\\n"
-    ...           "  # A comment with weird indent\\n"
-    ...           "  after_com = 5\\n"
-    ...           "  def x(m): return m*5 # a one liner\\n"
-    ...           "  def y(m): # A whitespace after the colon\\n"
-    ...           "     return y*4 # 3-space indent\\n")
+    >>> roundtrip("class Test: # A comment here//n"
+    ...           "  # A comment with weird indent//n"
+    ...           "  after_com = 5//n"
+    ...           "  def x(m): return m*5 # a one liner//n"
+    ...           "  def y(m): # A whitespace after the colon//n"
+    ...           "     return y*4 # 3-space indent//n")
     True
 
 Some error-handling code
 
-    >>> roundtrip("try: import somemodule\\n"
-    ...           "except ImportError: # comment\\n"
-    ...           "    print('Can not import' # comment2\\n)"
-    ...           "else:   print('Loaded')\\n")
+    >>> roundtrip("try: import somemodule//n"
+    ...           "except ImportError: # comment//n"
+    ...           "    print('Can not import' # comment2//n)"
+    ...           "else:   print('Loaded')//n")
     True
 
 Balancing continuation
 
-    >>> roundtrip("a = (3,4, \\n"
-    ...           "5,6)\\n"
-    ...           "y = [3, 4,\\n"
-    ...           "5]\\n"
-    ...           "z = {'a': 5,\\n"
-    ...           "'b':15, 'c':True}\\n"
-    ...           "x = len(y) + 5 - a[\\n"
-    ...           "3] - a[2]\\n"
-    ...           "+ len(z) - z[\\n"
-    ...           "'b']\\n")
+    >>> roundtrip("a = (3,4, //n"
+    ...           "5,6)//n"
+    ...           "y = [3, 4,//n"
+    ...           "5]//n"
+    ...           "z = {'a': 5,//n"
+    ...           "'b':15, 'c':True}//n"
+    ...           "x = len(y) + 5 - a[//n"
+    ...           "3] - a[2]//n"
+    ...           "+ len(z) - z[//n"
+    ...           "'b']//n")
     True
 
 Ordinary integers and binary operators
@@ -227,7 +227,7 @@ Floating point numbers
 
 String literals
 
-    >>> dump_tokens("x = ''; y = \\\"\\\"")
+    >>> dump_tokens("x = ''; y = ///"///"")
     ENCODING   'utf-8'       (0, 0) (0, 0)
     NAME       'x'           (1, 0) (1, 1)
     OP         '='           (1, 2) (1, 3)
@@ -236,20 +236,20 @@ String literals
     NAME       'y'           (1, 8) (1, 9)
     OP         '='           (1, 10) (1, 11)
     STRING     '""'          (1, 12) (1, 14)
-    >>> dump_tokens("x = '\\\"'; y = \\\"'\\\"")
+    >>> dump_tokens("x = '///"'; y = ///"'///"")
     ENCODING   'utf-8'       (0, 0) (0, 0)
     NAME       'x'           (1, 0) (1, 1)
     OP         '='           (1, 2) (1, 3)
-    STRING     '\\'"\\''       (1, 4) (1, 7)
+    STRING     '//'"//''       (1, 4) (1, 7)
     OP         ';'           (1, 7) (1, 8)
     NAME       'y'           (1, 9) (1, 10)
     OP         '='           (1, 11) (1, 12)
-    STRING     '"\\'"'        (1, 13) (1, 16)
-    >>> dump_tokens("x = \\\"doesn't \\\"shrink\\\", does it\\\"")
+    STRING     '"//'"'        (1, 13) (1, 16)
+    >>> dump_tokens("x = ///"doesn't ///"shrink///", does it///"")
     ENCODING   'utf-8'       (0, 0) (0, 0)
     NAME       'x'           (1, 0) (1, 1)
     OP         '='           (1, 2) (1, 3)
-    STRING     '"doesn\\'t "' (1, 4) (1, 14)
+    STRING     '"doesn//'t "' (1, 4) (1, 14)
     NAME       'shrink'      (1, 14) (1, 20)
     STRING     '", does it"' (1, 20) (1, 31)
     >>> dump_tokens("x = 'abc' + 'ABC'")
@@ -461,13 +461,13 @@ Unary
 
 Selector
 
-    >>> dump_tokens("import sys, time\\nx = sys.modules['time'].time()")
+    >>> dump_tokens("import sys, time//nx = sys.modules['time'].time()")
     ENCODING   'utf-8'       (0, 0) (0, 0)
     NAME       'import'      (1, 0) (1, 6)
     NAME       'sys'         (1, 7) (1, 10)
     OP         ','           (1, 10) (1, 11)
     NAME       'time'        (1, 12) (1, 16)
-    NEWLINE    '\\n'          (1, 16) (1, 17)
+    NEWLINE    '//n'          (1, 16) (1, 17)
     NAME       'x'           (2, 0) (2, 1)
     OP         '='           (2, 2) (2, 3)
     NAME       'sys'         (2, 4) (2, 7)
@@ -483,11 +483,11 @@ Selector
 
 Methods
 
-    >>> dump_tokens("@staticmethod\\ndef foo(x,y): pass")
+    >>> dump_tokens("@staticmethod//ndef foo(x,y): pass")
     ENCODING   'utf-8'       (0, 0) (0, 0)
     OP         '@'           (1, 0) (1, 1)
     NAME       'staticmethod (1, 1) (1, 13)
-    NEWLINE    '\\n'          (1, 13) (1, 14)
+    NEWLINE    '//n'          (1, 13) (1, 14)
     NAME       'def'         (2, 0) (2, 3)
     NAME       'foo'         (2, 4) (2, 7)
     OP         '('           (2, 7) (2, 8)
@@ -500,12 +500,12 @@ Methods
 
 Backslash means line continuation, except for comments
 
-    >>> roundtrip("x=1+\\\\n"
-    ...           "1\\n"
-    ...           "# This is a comment\\\\n"
-    ...           "# This also\\n")
+    >>> roundtrip("x=1+////n"
+    ...           "1//n"
+    ...           "# This is a comment////n"
+    ...           "# This also//n")
     True
-    >>> roundtrip("# Comment \\\\nx = 0")
+    >>> roundtrip("# Comment ////nx = 0")
     True
 
 Two string literals on the same line
@@ -535,19 +535,19 @@ the obscure unicode identifiers in it. *sigh*
 
 Evil tabs
 
-    >>> dump_tokens("def f():\\n\\tif x\\n        \\tpass")
+    >>> dump_tokens("def f()://n//tif x//n        //tpass")
     ENCODING   'utf-8'       (0, 0) (0, 0)
     NAME       'def'         (1, 0) (1, 3)
     NAME       'f'           (1, 4) (1, 5)
     OP         '('           (1, 5) (1, 6)
     OP         ')'           (1, 6) (1, 7)
     OP         ':'           (1, 7) (1, 8)
-    NEWLINE    '\\n'          (1, 8) (1, 9)
-    INDENT     '\\t'          (2, 0) (2, 1)
+    NEWLINE    '//n'          (1, 8) (1, 9)
+    INDENT     '//t'          (2, 0) (2, 1)
     NAME       'if'          (2, 1) (2, 3)
     NAME       'x'           (2, 4) (2, 5)
-    NEWLINE    '\\n'          (2, 5) (2, 6)
-    INDENT     '        \\t'  (3, 0) (3, 9)
+    NEWLINE    '//n'          (2, 5) (2, 6)
+    INDENT     '        //t'  (3, 0) (3, 9)
     NAME       'pass'        (3, 9) (3, 13)
     DEDENT     ''            (4, 0) (4, 0)
     DEDENT     ''            (4, 0) (4, 0)
@@ -559,12 +559,12 @@ Pathological whitespace (http://bugs.python.org/issue16152)
 
 Non-ascii identifiers
 
-    >>> dump_tokens("Örter = 'places'\\ngrün = 'green'")
+    >>> dump_tokens("Örter = 'places'//ngrün = 'green'")
     ENCODING   'utf-8'       (0, 0) (0, 0)
     NAME       'Örter'       (1, 0) (1, 5)
     OP         '='           (1, 6) (1, 7)
     STRING     "'places'"    (1, 8) (1, 16)
-    NEWLINE    '\\n'          (1, 16) (1, 17)
+    NEWLINE    '//n'          (1, 16) (1, 17)
     NAME       'grün'        (2, 0) (2, 4)
     OP         '='           (2, 5) (2, 6)
     STRING     "'green'"     (2, 7) (2, 14)
@@ -737,9 +737,9 @@ class TestDetectEncoding(TestCase):
 
     def test_no_bom_no_encoding_cookie(self):
         lines = (
-            b'# something\n',
-            b'print(something)\n',
-            b'do_something(else)\n'
+            b'# something/n',
+            b'print(something)/n',
+            b'do_something(else)/n'
         )
         encoding, consumed_lines = detect_encoding(self.get_readline(lines))
         self.assertEqual(encoding, 'utf-8')
@@ -747,74 +747,74 @@ class TestDetectEncoding(TestCase):
 
     def test_bom_no_cookie(self):
         lines = (
-            b'\xef\xbb\xbf# something\n',
-            b'print(something)\n',
-            b'do_something(else)\n'
+            b'/xef/xbb/xbf# something/n',
+            b'print(something)/n',
+            b'do_something(else)/n'
         )
         encoding, consumed_lines = detect_encoding(self.get_readline(lines))
         self.assertEqual(encoding, 'utf-8-sig')
         self.assertEqual(consumed_lines,
-                         [b'# something\n', b'print(something)\n'])
+                         [b'# something/n', b'print(something)/n'])
 
     def test_cookie_first_line_no_bom(self):
         lines = (
-            b'# -*- coding: latin-1 -*-\n',
-            b'print(something)\n',
-            b'do_something(else)\n'
+            b'# -*- coding: latin-1 -*-/n',
+            b'print(something)/n',
+            b'do_something(else)/n'
         )
         encoding, consumed_lines = detect_encoding(self.get_readline(lines))
         self.assertEqual(encoding, 'iso-8859-1')
-        self.assertEqual(consumed_lines, [b'# -*- coding: latin-1 -*-\n'])
+        self.assertEqual(consumed_lines, [b'# -*- coding: latin-1 -*-/n'])
 
     def test_matched_bom_and_cookie_first_line(self):
         lines = (
-            b'\xef\xbb\xbf# coding=utf-8\n',
-            b'print(something)\n',
-            b'do_something(else)\n'
+            b'/xef/xbb/xbf# coding=utf-8/n',
+            b'print(something)/n',
+            b'do_something(else)/n'
         )
         encoding, consumed_lines = detect_encoding(self.get_readline(lines))
         self.assertEqual(encoding, 'utf-8-sig')
-        self.assertEqual(consumed_lines, [b'# coding=utf-8\n'])
+        self.assertEqual(consumed_lines, [b'# coding=utf-8/n'])
 
     def test_mismatched_bom_and_cookie_first_line_raises_syntaxerror(self):
         lines = (
-            b'\xef\xbb\xbf# vim: set fileencoding=ascii :\n',
-            b'print(something)\n',
-            b'do_something(else)\n'
+            b'/xef/xbb/xbf# vim: set fileencoding=ascii :/n',
+            b'print(something)/n',
+            b'do_something(else)/n'
         )
         readline = self.get_readline(lines)
         self.assertRaises(SyntaxError, detect_encoding, readline)
 
     def test_cookie_second_line_no_bom(self):
         lines = (
-            b'#! something\n',
-            b'# vim: set fileencoding=ascii :\n',
-            b'print(something)\n',
-            b'do_something(else)\n'
+            b'#! something/n',
+            b'# vim: set fileencoding=ascii :/n',
+            b'print(something)/n',
+            b'do_something(else)/n'
         )
         encoding, consumed_lines = detect_encoding(self.get_readline(lines))
         self.assertEqual(encoding, 'ascii')
-        expected = [b'#! something\n', b'# vim: set fileencoding=ascii :\n']
+        expected = [b'#! something/n', b'# vim: set fileencoding=ascii :/n']
         self.assertEqual(consumed_lines, expected)
 
     def test_matched_bom_and_cookie_second_line(self):
         lines = (
-            b'\xef\xbb\xbf#! something\n',
-            b'f# coding=utf-8\n',
-            b'print(something)\n',
-            b'do_something(else)\n'
+            b'/xef/xbb/xbf#! something/n',
+            b'f# coding=utf-8/n',
+            b'print(something)/n',
+            b'do_something(else)/n'
         )
         encoding, consumed_lines = detect_encoding(self.get_readline(lines))
         self.assertEqual(encoding, 'utf-8-sig')
         self.assertEqual(consumed_lines,
-                         [b'#! something\n', b'f# coding=utf-8\n'])
+                         [b'#! something/n', b'f# coding=utf-8/n'])
 
     def test_mismatched_bom_and_cookie_second_line_raises_syntaxerror(self):
         lines = (
-            b'\xef\xbb\xbf#! something\n',
-            b'# vim: set fileencoding=ascii :\n',
-            b'print(something)\n',
-            b'do_something(else)\n'
+            b'/xef/xbb/xbf#! something/n',
+            b'# vim: set fileencoding=ascii :/n',
+            b'print(something)/n',
+            b'do_something(else)/n'
         )
         readline = self.get_readline(lines)
         self.assertRaises(SyntaxError, detect_encoding, readline)
@@ -826,10 +826,10 @@ class TestDetectEncoding(TestCase):
         for encoding in encodings:
             for rep in ("-", "_"):
                 enc = encoding.replace("-", rep)
-                lines = (b"#!/usr/bin/python\n",
-                         b"# coding: " + enc.encode("ascii") + b"\n",
-                         b"print(things)\n",
-                         b"do_something += 4\n")
+                lines = (b"#!/usr/bin/python/n",
+                         b"# coding: " + enc.encode("ascii") + b"/n",
+                         b"print(things)/n",
+                         b"do_something += 4/n")
                 rl = self.get_readline(lines)
                 found, consumed_lines = detect_encoding(rl)
                 self.assertEqual(found, "iso-8859-1")
@@ -838,7 +838,7 @@ class TestDetectEncoding(TestCase):
         # Issue 14629: need to raise SyntaxError if the first
         # line(s) have non-UTF-8 characters
         lines = (
-            b'print("\xdf")', # Latin-1: LATIN SMALL LETTER SHARP S
+            b'print("/xdf")', # Latin-1: LATIN SMALL LETTER SHARP S
             )
         readline = self.get_readline(lines)
         self.assertRaises(SyntaxError, detect_encoding, readline)
@@ -850,34 +850,34 @@ class TestDetectEncoding(TestCase):
         for encoding in encodings:
             for rep in ("-", "_"):
                 enc = encoding.replace("-", rep)
-                lines = (b"#!/usr/bin/python\n",
-                         b"# coding: " + enc.encode("ascii") + b"\n",
-                         b"1 + 3\n")
+                lines = (b"#!/usr/bin/python/n",
+                         b"# coding: " + enc.encode("ascii") + b"/n",
+                         b"1 + 3/n")
                 rl = self.get_readline(lines)
                 found, consumed_lines = detect_encoding(rl)
                 self.assertEqual(found, "utf-8")
 
     def test_short_files(self):
-        readline = self.get_readline((b'print(something)\n',))
+        readline = self.get_readline((b'print(something)/n',))
         encoding, consumed_lines = detect_encoding(readline)
         self.assertEqual(encoding, 'utf-8')
-        self.assertEqual(consumed_lines, [b'print(something)\n'])
+        self.assertEqual(consumed_lines, [b'print(something)/n'])
 
         encoding, consumed_lines = detect_encoding(self.get_readline(()))
         self.assertEqual(encoding, 'utf-8')
         self.assertEqual(consumed_lines, [])
 
-        readline = self.get_readline((b'\xef\xbb\xbfprint(something)\n',))
+        readline = self.get_readline((b'/xef/xbb/xbfprint(something)/n',))
         encoding, consumed_lines = detect_encoding(readline)
         self.assertEqual(encoding, 'utf-8-sig')
-        self.assertEqual(consumed_lines, [b'print(something)\n'])
+        self.assertEqual(consumed_lines, [b'print(something)/n'])
 
-        readline = self.get_readline((b'\xef\xbb\xbf',))
+        readline = self.get_readline((b'/xef/xbb/xbf',))
         encoding, consumed_lines = detect_encoding(readline)
         self.assertEqual(encoding, 'utf-8-sig')
         self.assertEqual(consumed_lines, [])
 
-        readline = self.get_readline((b'# coding: bad\n',))
+        readline = self.get_readline((b'# coding: bad/n',))
         self.assertRaises(SyntaxError, detect_encoding, readline)
 
     def test_open(self):
@@ -888,14 +888,14 @@ class TestDetectEncoding(TestCase):
         for encoding in ('iso-8859-15', 'utf-8'):
             with open(filename, 'w', encoding=encoding) as fp:
                 print("# coding: %s" % encoding, file=fp)
-                print("print('euro:\u20ac')", file=fp)
+                print("print('euro:/u20ac')", file=fp)
             with tokenize_open(filename) as fp:
                 self.assertEqual(fp.encoding, encoding)
                 self.assertEqual(fp.mode, 'r')
 
         # test BOM (no coding cookie)
         with open(filename, 'w', encoding='utf-8-sig') as fp:
-            print("print('euro:\u20ac')", file=fp)
+            print("print('euro:/u20ac')", file=fp)
         with tokenize_open(filename) as fp:
             self.assertEqual(fp.encoding, 'utf-8-sig')
             self.assertEqual(fp.mode, 'r')

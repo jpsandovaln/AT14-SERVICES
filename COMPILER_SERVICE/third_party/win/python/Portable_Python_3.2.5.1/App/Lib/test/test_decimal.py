@@ -223,7 +223,7 @@ class DecimalTest(unittest.TestCase):
             return
         with open(file) as f:
             for line in f:
-                line = line.replace('\r\n', '').replace('\n', '')
+                line = line.replace('/r/n', '').replace('/n', '')
                 #print line
                 try:
                     t = self.eval_line(line)
@@ -325,7 +325,7 @@ class DecimalTest(unittest.TestCase):
                         except error:
                             pass
                         except Signals as e:
-                            self.fail("Raised %s in %s when %s disabled" % \
+                            self.fail("Raised %s in %s when %s disabled" % /
                                       (e, s, error))
                         else:
                             self.fail("Did not raise %s in %s" % (error, s))
@@ -345,7 +345,7 @@ class DecimalTest(unittest.TestCase):
                 except error:
                     pass
                 except Signals as e:
-                    self.fail("Raised %s in %s when %s disabled" % \
+                    self.fail("Raised %s in %s when %s disabled" % /
                               (e, s, error))
                 else:
                     self.fail("Did not raise %s in %s" % (error, s))
@@ -456,7 +456,7 @@ class DecimalExplicitConstructionTest(unittest.TestCase):
         self.assertEqual(str(Decimal('ugly')), 'NaN')
 
         #leading and trailing whitespace permitted
-        self.assertEqual(str(Decimal('1.3E4 \n')), '1.3E+4')
+        self.assertEqual(str(Decimal('1.3E4 /n')), '1.3E+4')
         self.assertEqual(str(Decimal('  -7.89')), '-7.89')
 
     def test_explicit_from_tuples(self):
@@ -577,7 +577,7 @@ class DecimalExplicitConstructionTest(unittest.TestCase):
         # leading and trailing whitespace should result in a NaN;
         # spaces are already checked in Cowlishaw's test-suite, so
         # here we just check that a trailing newline results in a NaN
-        self.assertEqual(str(nc.create_decimal('3.14\n')), 'NaN')
+        self.assertEqual(str(nc.create_decimal('3.14/n')), 'NaN')
 
         # from tuples
         d = Decimal( (1, (4, 3, 4, 9, 1, 3, 5, 3, 4), -25) )
@@ -594,9 +594,9 @@ class DecimalExplicitConstructionTest(unittest.TestCase):
 
     def test_unicode_digits(self):
         test_values = {
-            '\uff11': '1',
-            '\u0660.\u0660\u0663\u0667\u0662e-\u0663' : '0.0000372',
-            '-nan\u0c68\u0c6a\u0c66\u0c66' : '-NaN2400',
+            '/uff11': '1',
+            '/u0660./u0660/u0663/u0667/u0662e-/u0663' : '0.0000372',
+            '-nan/u0c68/u0c6a/u0c66/u0c66' : '-NaN2400',
             }
         for input, expected in test_values.items():
             self.assertEqual(str(Decimal(input)), expected)

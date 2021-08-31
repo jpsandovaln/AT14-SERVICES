@@ -13,8 +13,8 @@ import signal
 import socket
 import unittest
 
-TEST_STRING_1 = b"I wish to buy a fish license.\n"
-TEST_STRING_2 = b"For my pet fish, Eric.\n"
+TEST_STRING_1 = b"I wish to buy a fish license./n"
+TEST_STRING_2 = b"For my pet fish, Eric./n"
 
 if verbose:
     def debug(msg):
@@ -35,13 +35,13 @@ def normalize_output(data):
     # This is about the best we can do without getting some feedback
     # from someone more knowledgable.
 
-    # OSF/1 (Tru64) apparently turns \n into \r\r\n.
-    if data.endswith(b'\r\r\n'):
-        return data.replace(b'\r\r\n', b'\n')
+    # OSF/1 (Tru64) apparently turns /n into /r/r/n.
+    if data.endswith(b'/r/r/n'):
+        return data.replace(b'/r/r/n', b'/n')
 
-    # IRIX apparently turns \n into \r\n.
-    if data.endswith(b'\r\n'):
-        return data.replace(b'\r\n', b'\n')
+    # IRIX apparently turns /n into /r/n.
+    if data.endswith(b'/r/n'):
+        return data.replace(b'/r/n', b'/n')
 
     return data
 
@@ -98,14 +98,14 @@ class PtyTest(unittest.TestCase):
         debug("Writing to slave_fd")
         os.write(slave_fd, TEST_STRING_1)
         s1 = os.read(master_fd, 1024)
-        self.assertEqual(b'I wish to buy a fish license.\n',
+        self.assertEqual(b'I wish to buy a fish license./n',
                          normalize_output(s1))
 
         debug("Writing chunked output")
         os.write(slave_fd, TEST_STRING_2[:5])
         os.write(slave_fd, TEST_STRING_2[5:])
         s2 = os.read(master_fd, 1024)
-        self.assertEqual(b'For my pet fish, Eric.\n', normalize_output(s2))
+        self.assertEqual(b'For my pet fish, Eric./n', normalize_output(s2))
 
         os.close(slave_fd)
         os.close(master_fd)
@@ -163,11 +163,11 @@ class PtyTest(unittest.TestCase):
                     break
                 if not data:
                     break
-                sys.stdout.write(str(data.replace(b'\r\n', b'\n'),
+                sys.stdout.write(str(data.replace(b'/r/n', b'/n'),
                                      encoding='ascii'))
 
             ##line = os.read(master_fd, 80)
-            ##lines = line.replace('\r\n', '\n').split('\n')
+            ##lines = line.replace('/r/n', '/n').split('/n')
             ##if False and lines != ['In child, calling os.setsid()',
             ##             'Good: OSError was raised.', '']:
             ##    raise TestFailed("Unexpected output from child: %r" % line)

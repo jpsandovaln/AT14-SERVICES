@@ -274,7 +274,7 @@ class MersenneTwister_TestBasicOps(TestBasicOps):
         #         init_by_array(init, length);
         #         for (i=0; i<2000; i++) {
         #           printf("%.15f ", genrand_res53());
-        #           if (i%5==4) printf("\n");
+        #           if (i%5==4) printf("/n");
         #         }
         #     }
         expected = [0.45839803073713259,

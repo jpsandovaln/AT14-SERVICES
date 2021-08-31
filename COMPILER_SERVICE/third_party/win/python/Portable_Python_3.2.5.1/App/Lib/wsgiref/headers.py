@@ -8,7 +8,7 @@ written by Barry Warsaw.
 # Regular expression that matches `special' characters in parameters, the
 # existence of which force quoting of the parameter value.
 import re
-tspecials = re.compile(r'[ \(\)<>@,;:\\"/\[\]\?=]')
+tspecials = re.compile(r'[ /(/)<>@,;://"//[/]/?=]')
 
 def _formatparam(param, value=None, quote=1):
     """Convenience function to format and return a key=value pair.
@@ -17,7 +17,7 @@ def _formatparam(param, value=None, quote=1):
     """
     if value is not None and len(value) > 0:
         if quote or tspecials.search(value):
-            value = value.replace('\\', '\\\\').replace('"', r'\"')
+            value = value.replace('//', '////').replace('"', r'/"')
             return '%s="%s"' % (param, value)
         else:
             return '%s=%s' % (param, value)
@@ -136,7 +136,7 @@ class Headers:
     def __str__(self):
         """str() returns the formatted headers, complete with end line,
         suitable for direct HTTP transmission."""
-        return '\r\n'.join(["%s: %s" % kv for kv in self._headers]+['',''])
+        return '/r/n'.join(["%s: %s" % kv for kv in self._headers]+['',''])
 
     def __bytes__(self):
         return str(self).encode('iso-8859-1')

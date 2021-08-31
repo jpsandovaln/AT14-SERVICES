@@ -16,13 +16,13 @@ class TestGB2312Map(test_multibytecodec_support.TestBase_Mapping,
 class TestGBKMap(test_multibytecodec_support.TestBase_Mapping,
                    unittest.TestCase):
     encoding = 'gbk'
-    mapfileurl = 'http://www.unicode.org/Public/MAPPINGS/VENDORS/' \
+    mapfileurl = 'http://www.unicode.org/Public/MAPPINGS/VENDORS/' /
                  'MICSFT/WINDOWS/CP936.TXT'
 
 class TestGB18030Map(test_multibytecodec_support.TestBase_Mapping,
                      unittest.TestCase):
     encoding = 'gb18030'
-    mapfileurl = 'http://source.icu-project.org/repos/icu/data/' \
+    mapfileurl = 'http://source.icu-project.org/repos/icu/data/' /
                  'trunk/charset/data/xml/gb-18030-2000.xml'
 
 

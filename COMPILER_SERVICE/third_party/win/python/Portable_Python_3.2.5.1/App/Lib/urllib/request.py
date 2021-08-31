@@ -158,7 +158,7 @@ def urlcleanup():
         _opener = None
 
 # copied from cookielib.py
-_cut_port_re = re.compile(r":\d+$", re.ASCII)
+_cut_port_re = re.compile(r":/d+$", re.ASCII)
 def request_host(request):
     """Return request-host, as defined by RFC 2965.
 
@@ -594,9 +594,9 @@ class HTTPRedirectHandler(BaseHandler):
 
     http_error_301 = http_error_303 = http_error_307 = http_error_302
 
-    inf_msg = "The HTTP server returned a redirect error that would " \
-              "lead to an infinite loop.\n" \
-              "The last 30x error message was:\n"
+    inf_msg = "The HTTP server returned a redirect error that would " /
+              "lead to an infinite loop./n" /
+              "The last 30x error message was:/n"
 
 
 def _parse_proxy(proxy):
@@ -682,7 +682,7 @@ class ProxyHandler(BaseHandler):
         self.proxies = proxies
         for type, url in proxies.items():
             setattr(self, '%s_open' % type,
-                    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+                    lambda r, proxy=url, type=type, meth=self.proxy_open: /
                     meth(r, proxy, type))
 
     def proxy_open(self, req, proxy, type):
@@ -794,8 +794,8 @@ class AbstractBasicAuthHandler:
 
     # allow for double- and single-quoted realm values
     # (single quotes are a violation of the RFC, but appear in the wild)
-    rx = re.compile('(?:.*,)*[ \t]*([^ \t]+)[ \t]+'
-                    'realm=(["\']?)([^"\']*)\\2', re.I)
+    rx = re.compile('(?:.*,)*[ /t]*([^ /t]+)[ /t]+'
+                    'realm=(["/']?)([^"/']*)//2', re.I)
 
     # XXX could pre-emptively send auth info already accepted (RFC 2617,
     # end of section 2, and section 1.2 immediately after "credentials"
@@ -993,7 +993,7 @@ class AbstractDigestAuthHandler:
 
         # XXX should the partial digests be encoded too?
 
-        base = 'username="%s", realm="%s", nonce="%s", uri="%s", ' \
+        base = 'username="%s", realm="%s", nonce="%s", uri="%s", ' /
                'response="%s"' % (user, realm, nonce, req.selector,
                                   respdig)
         if opaque:
@@ -1066,7 +1066,7 @@ class AbstractHTTPHandler(BaseHandler):
         if request.data is not None:  # POST
             data = request.data
             if isinstance(data, str):
-                msg = "POST data should be bytes or an iterable of bytes. "\
+                msg = "POST data should be bytes or an iterable of bytes. "/
                       "It cannot be of type str."
                 raise TypeError(msg)
             if not request.has_header('Content-type'):
@@ -1229,7 +1229,7 @@ def parse_http_list(s):
             escape = False
             continue
         if quote:
-            if cur == '\\':
+            if cur == '//':
                 escape = True
                 continue
             elif cur == '"':
@@ -1289,11 +1289,11 @@ class FileHandler(BaseHandler):
             modified = email.utils.formatdate(stats.st_mtime, usegmt=True)
             mtype = mimetypes.guess_type(filename)[0]
             headers = email.message_from_string(
-                'Content-type: %s\nContent-length: %d\nLast-modified: %s\n' %
+                'Content-type: %s/nContent-length: %d/nLast-modified: %s/n' %
                 (mtype or 'text/plain', size, modified))
             if host:
                 host, port = splitport(host)
-            if not host or \
+            if not host or /
                 (not port and _safe_gethostbyname(host) in self.get_names()):
                 if host:
                     origurl = 'file://' + host + filename
@@ -1349,16 +1349,16 @@ class FTPHandler(BaseHandler):
             type = file and 'I' or 'D'
             for attr in attrs:
                 attr, value = splitvalue(attr)
-                if attr.lower() == 'type' and \
+                if attr.lower() == 'type' and /
                    value in ('a', 'A', 'i', 'I', 'd', 'D'):
                     type = value.upper()
             fp, retrlen = fw.retrfile(file, type)
             headers = ""
             mtype = mimetypes.guess_type(req.full_url)[0]
             if mtype:
-                headers += "Content-type: %s\n" % mtype
+                headers += "Content-type: %s/n" % mtype
             if retrlen is not None and retrlen >= 0:
-                headers += "Content-length: %d\n" % retrlen
+                headers += "Content-length: %d/n" % retrlen
             headers = email.message_from_string(headers)
             return addinfourl(fp, headers, req.full_url)
         except ftplib.all_errors as exp:
@@ -1772,7 +1772,7 @@ class URLopener:
         modified = email.utils.formatdate(stats.st_mtime, usegmt=True)
         mtype = mimetypes.guess_type(url)[0]
         headers = email.message_from_string(
-            'Content-Type: %s\nContent-Length: %d\nLast-modified: %s\n' %
+            'Content-Type: %s/nContent-Length: %d/nLast-modified: %s/n' %
             (mtype or 'text/plain', size, modified))
         if not host:
             urlfile = file
@@ -1827,22 +1827,22 @@ class URLopener:
                     v.close()
         try:
             if key not in self.ftpcache:
-                self.ftpcache[key] = \
+                self.ftpcache[key] = /
                     ftpwrapper(user, passwd, host, port, dirs)
             if not file: type = 'D'
             else: type = 'I'
             for attr in attrs:
                 attr, value = splitvalue(attr)
-                if attr.lower() == 'type' and \
+                if attr.lower() == 'type' and /
                    value in ('a', 'A', 'i', 'I', 'd', 'D'):
                     type = value.upper()
             (fp, retrlen) = self.ftpcache[key].retrfile(file, type)
             mtype = mimetypes.guess_type("ftp:" + url)[0]
             headers = ""
             if mtype:
-                headers += "Content-Type: %s\n" % mtype
+                headers += "Content-Type: %s/n" % mtype
             if retrlen is not None and retrlen >= 0:
-                headers += "Content-Length: %d\n" % retrlen
+                headers += "Content-Length: %d/n" % retrlen
             headers = email.message_from_string(headers)
             return addinfourl(fp, headers, "ftp:" + url)
         except ftperrors() as exp:
@@ -1883,7 +1883,7 @@ class URLopener:
         msg.append('Content-Length: %d' % len(data))
         msg.append('')
         msg.append(data)
-        msg = '\n'.join(msg)
+        msg = '/n'.join(msg)
         headers = email.message_from_string(msg)
         f = io.StringIO(msg)
         #f.fileno = None     # needed for addinfourl
@@ -1971,7 +1971,7 @@ class FancyURLopener(URLopener):
                                          errcode, errmsg, headers)
         stuff = headers['www-authenticate']
         import re
-        match = re.match('[ \t]*([^ \t]+)[ \t]+realm="([^"]*)"', stuff)
+        match = re.match('[ /t]*([^ /t]+)[ /t]+realm="([^"]*)"', stuff)
         if not match:
             URLopener.http_error_default(self, url, fp,
                                          errcode, errmsg, headers)
@@ -1997,7 +1997,7 @@ class FancyURLopener(URLopener):
                                          errcode, errmsg, headers)
         stuff = headers['proxy-authenticate']
         import re
-        match = re.match('[ \t]*([^ \t]+)[ \t]+realm="([^"]*)"', stuff)
+        match = re.match('[ /t]*([^ /t]+)[ /t]+realm="([^"]*)"', stuff)
         if not match:
             URLopener.http_error_default(self, url, fp,
                                          errcode, errmsg, headers)
@@ -2306,7 +2306,7 @@ def _proxy_bypass_macosx_sysconf(host, proxy_settings):
         # Items in the list are strings like these: *.local, 169.254/16
         if not value: continue
 
-        m = re.match(r"(\d+(?:\.\d+)*)(/\d+)?", value)
+        m = re.match(r"(/d+(?:/./d+)*)(//d+)?", value)
         if m is not None:
             if hostIP is None:
                 try:
@@ -2374,7 +2374,7 @@ elif os.name == 'nt':
             return proxies
         try:
             internetSettings = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
-                r'Software\Microsoft\Windows\CurrentVersion\Internet Settings')
+                r'Software/Microsoft/Windows/CurrentVersion/Internet Settings')
             proxyEnable = winreg.QueryValueEx(internetSettings,
                                                'ProxyEnable')[0]
             if proxyEnable:
@@ -2424,7 +2424,7 @@ elif os.name == 'nt':
             return 0
         try:
             internetSettings = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
-                r'Software\Microsoft\Windows\CurrentVersion\Internet Settings')
+                r'Software/Microsoft/Windows/CurrentVersion/Internet Settings')
             proxyEnable = winreg.QueryValueEx(internetSettings,
                                                'ProxyEnable')[0]
             proxyOverride = str(winreg.QueryValueEx(internetSettings,
@@ -2458,7 +2458,7 @@ elif os.name == 'nt':
             if test == '<local>':
                 if '.' not in rawHost:
                     return 1
-            test = test.replace(".", r"\.")     # mask dots
+            test = test.replace(".", r"/.")     # mask dots
             test = test.replace("*", r".*")     # change glob sequence
             test = test.replace("?", r".")      # change glob char
             for val in host:

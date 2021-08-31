@@ -74,7 +74,7 @@ class LockTests(unittest.TestCase):
         _thread.start_new_thread(delay_unlock,(self.lock, DELAY))
         if support.verbose:
             print()
-            print("*** Waiting for thread to release the lock "\
+            print("*** Waiting for thread to release the lock "/
             "(approx. %s sec.) ***" % DELAY)
         self.lock.acquire()
         end_time = int(time.time())
@@ -152,7 +152,7 @@ class ThreadTests(unittest.TestCase):
         testing_queue = queue.Queue(thread_count)
         if support.verbose:
             print()
-            print("*** Testing multiple thread creation "\
+            print("*** Testing multiple thread creation "/
             "(will take approx. %s to %s sec.) ***" % (DELAY, thread_count))
         for count in range(thread_count):
             if DELAY:

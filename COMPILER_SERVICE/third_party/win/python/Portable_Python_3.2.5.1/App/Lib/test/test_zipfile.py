@@ -38,7 +38,7 @@ class TestsWithSourceFile(unittest.TestCase):
         self.line_gen = (bytes("Zipfile test line %d. random float: %f" %
                                (i, random()), "ascii")
                          for i in range(FIXEDTEST_SIZE))
-        self.data = b'\n'.join(self.line_gen) + b'\n'
+        self.data = b'/n'.join(self.line_gen) + b'/n'
 
         # Make a source file with some lines
         with open(TESTFN, "wb") as fp:
@@ -181,7 +181,7 @@ class TestsWithSourceFile(unittest.TestCase):
     def test_univeral_readaheads(self):
         f = io.BytesIO()
 
-        data = b'a\r\n' * 16 * 1024
+        data = b'a/r/n' * 16 * 1024
         zipfp = zipfile.ZipFile(f, 'w', zipfile.ZIP_STORED)
         zipfp.writestr(TESTFN, data)
         zipfp.close()
@@ -193,7 +193,7 @@ class TestsWithSourceFile(unittest.TestCase):
                 data2 += line
         zipfp.close()
 
-        self.assertEqual(data, data2.replace(b'\n', b'\r\n'))
+        self.assertEqual(data, data2.replace(b'/n', b'/r/n'))
 
     def zip_readline_read_test(self, f, compression):
         self.make_test_archive(f, compression)
@@ -226,7 +226,7 @@ class TestsWithSourceFile(unittest.TestCase):
             with zipfp.open(TESTFN) as zipopen:
                 for line in self.line_gen:
                     linedata = zipopen.readline()
-                    self.assertEqual(linedata, line + '\n')
+                    self.assertEqual(linedata, line + '/n')
         if not isinstance(f, str):
             f.close()
 
@@ -238,7 +238,7 @@ class TestsWithSourceFile(unittest.TestCase):
             with zipfp.open(TESTFN) as zipopen:
                 ziplines = zipopen.readlines()
             for line, zipline in zip(self.line_gen, ziplines):
-                self.assertEqual(zipline, line + '\n')
+                self.assertEqual(zipline, line + '/n')
         if not isinstance(f, str):
             f.close()
 
@@ -249,7 +249,7 @@ class TestsWithSourceFile(unittest.TestCase):
         with zipfile.ZipFile(f, "r") as zipfp:
             with zipfp.open(TESTFN) as zipopen:
                 for line, zipline in zip(self.line_gen, zipopen):
-                    self.assertEqual(zipline, line + '\n')
+                    self.assertEqual(zipline, line + '/n')
         if not isinstance(f, str):
             f.close()
 
@@ -356,7 +356,7 @@ class TestsWithSourceFile(unittest.TestCase):
         with zipfile.ZipFile(TESTFN2, "w", zipfile.ZIP_STORED) as zipfp:
             zipfp.write(TESTFN, TESTFN)
         with open(TESTFN2, 'a') as f:
-            f.write("\r\n\00\00\00")
+            f.write("/r/n/00/00/00")
         with zipfile.ZipFile(TESTFN2, "r") as zipfp:
             self.assertIsInstance(zipfp, zipfile.ZipFile)
 
@@ -365,7 +365,7 @@ class TestsWithSourceFile(unittest.TestCase):
             zipfp.comment = b"this is a comment"
             zipfp.write(TESTFN, TESTFN)
         with open(TESTFN2, 'a') as f:
-            f.write("abcdef\r\n")
+            f.write("abcdef/r/n")
         with zipfile.ZipFile(TESTFN2, "r") as zipfp:
             self.assertIsInstance(zipfp, zipfile.ZipFile)
             self.assertEqual(zipfp.comment, b"this is a comment")
@@ -457,33 +457,33 @@ class TestsWithSourceFile(unittest.TestCase):
             ('/foo/../bar', 'foo/bar'),
             ('/foo/../../bar', 'foo/bar'),
         ]
-        if os.path.sep == '\\':  # Windows.
+        if os.path.sep == '//':  # Windows.
             hacknames.extend([
-                (r'..\foo\bar', 'foo/bar'),
-                (r'..\/foo\/bar', 'foo/bar'),
-                (r'foo/\..\/bar', 'foo/bar'),
-                (r'foo\/../\bar', 'foo/bar'),
+                (r'../foo/bar', 'foo/bar'),
+                (r'..//foo//bar', 'foo/bar'),
+                (r'foo//..//bar', 'foo/bar'),
+                (r'foo//..//bar', 'foo/bar'),
                 (r'C:foo/bar', 'foo/bar'),
                 (r'C:/foo/bar', 'foo/bar'),
                 (r'C://foo/bar', 'foo/bar'),
-                (r'C:\foo\bar', 'foo/bar'),
+                (r'C:/foo/bar', 'foo/bar'),
                 (r'//conky/mountpoint/foo/bar', 'foo/bar'),
-                (r'\\conky\mountpoint\foo\bar', 'foo/bar'),
+                (r'//conky/mountpoint/foo/bar', 'foo/bar'),
                 (r'///conky/mountpoint/foo/bar', 'conky/mountpoint/foo/bar'),
-                (r'\\\conky\mountpoint\foo\bar', 'conky/mountpoint/foo/bar'),
+                (r'///conky/mountpoint/foo/bar', 'conky/mountpoint/foo/bar'),
                 (r'//conky//mountpoint/foo/bar', 'conky/mountpoint/foo/bar'),
-                (r'\\conky\\mountpoint\foo\bar', 'conky/mountpoint/foo/bar'),
+                (r'//conky//mountpoint/foo/bar', 'conky/mountpoint/foo/bar'),
                 (r'//?/C:/foo/bar', 'foo/bar'),
-                (r'\\?\C:\foo\bar', 'foo/bar'),
+                (r'//?/C:/foo/bar', 'foo/bar'),
                 (r'C:/../C:/foo/bar', 'C_/foo/bar'),
-                (r'a:b\c<d>e|f"g?h*i', 'b/c_d_e_f_g_h_i'),
+                (r'a:b/c<d>e|f"g?h*i', 'b/c_d_e_f_g_h_i'),
                 ('../../foo../../ba..r', 'foo/ba..r'),
             ])
         else:  # Unix
             hacknames.extend([
                 ('//foo/bar', 'foo/bar'),
                 ('../../foo../../ba..r', 'foo../ba..r'),
-                (r'foo/..\bar', r'foo/..\bar'),
+                (r'foo/../bar', r'foo/../bar'),
             ])
 
         for arcname, fixedname in hacknames:
@@ -618,7 +618,7 @@ class TestZip64InSmallFiles(unittest.TestCase):
 
         line_gen = (bytes("Test of zipfile line %d." % i, "ascii")
                     for i in range(0, FIXEDTEST_SIZE))
-        self.data = b'\n'.join(line_gen)
+        self.data = b'/n'.join(line_gen)
 
         # Make a source file with some lines
         with open(TESTFN, "wb") as fp:
@@ -778,7 +778,7 @@ class PyZipFileTests(unittest.TestCase):
         optlevel = 1 if __debug__ else 0
         ext = '.pyo' if optlevel == 1 else '.pyc'
 
-        with TemporaryFile() as t, \
+        with TemporaryFile() as t, /
                  zipfile.PyZipFile(t, "w", optimize=optlevel) as zipfp:
             zipfp.writepy(packagedir)
 
@@ -790,13 +790,13 @@ class PyZipFileTests(unittest.TestCase):
         os.mkdir(TESTFN2)
         try:
             with open(os.path.join(TESTFN2, "mod1.py"), "w") as fp:
-                fp.write("print(42)\n")
+                fp.write("print(42)/n")
 
             with open(os.path.join(TESTFN2, "mod2.py"), "w") as fp:
-                fp.write("print(42 * 42)\n")
+                fp.write("print(42 * 42)/n")
 
             with open(os.path.join(TESTFN2, "mod2.txt"), "w") as fp:
-                fp.write("bla bla bla\n")
+                fp.write("bla bla bla/n")
 
             with TemporaryFile() as t, zipfile.PyZipFile(t, "w") as zipfp:
                 zipfp.writepy(TESTFN2)
@@ -820,7 +820,7 @@ class PyZipFileTests(unittest.TestCase):
         os.mkdir(TESTFN2)
         try:
             with open(os.path.join(TESTFN2, "mod1.py"), "w") as fp:
-                fp.write("Bad syntax in python file\n")
+                fp.write("Bad syntax in python file/n")
 
             with TemporaryFile() as t, zipfile.PyZipFile(t, "w") as zipfp:
                 # syntax errors are printed to stdout
@@ -842,34 +842,34 @@ class PyZipFileTests(unittest.TestCase):
 class OtherTests(unittest.TestCase):
     zips_with_bad_crc = {
         zipfile.ZIP_STORED: (
-            b'PK\003\004\024\0\0\0\0\0 \213\212;:r'
-            b'\253\377\f\0\0\0\f\0\0\0\005\0\0\000af'
+            b'PK/003/004/024/0/0/0/0/0 /213/212;:r'
+            b'/253/377/f/0/0/0/f/0/0/0/005/0/0/000af'
             b'ilehello,AworldP'
-            b'K\001\002\024\003\024\0\0\0\0\0 \213\212;:'
-            b'r\253\377\f\0\0\0\f\0\0\0\005\0\0\0\0'
-            b'\0\0\0\0\0\0\0\200\001\0\0\0\000afi'
-            b'lePK\005\006\0\0\0\0\001\0\001\0003\000'
-            b'\0\0/\0\0\0\0\0'),
+            b'K/001/002/024/003/024/0/0/0/0/0 /213/212;:'
+            b'r/253/377/f/0/0/0/f/0/0/0/005/0/0/0/0'
+            b'/0/0/0/0/0/0/0/200/001/0/0/0/000afi'
+            b'lePK/005/006/0/0/0/0/001/0/001/0003/000'
+            b'/0/0//0/0/0/0/0'),
         zipfile.ZIP_DEFLATED: (
-            b'PK\x03\x04\x14\x00\x00\x00\x08\x00n}\x0c=FA'
-            b'KE\x10\x00\x00\x00n\x00\x00\x00\x05\x00\x00\x00af'
-            b'ile\xcbH\xcd\xc9\xc9W(\xcf/\xcaI\xc9\xa0'
-            b'=\x13\x00PK\x01\x02\x14\x03\x14\x00\x00\x00\x08\x00n'
-            b'}\x0c=FAKE\x10\x00\x00\x00n\x00\x00\x00\x05'
-            b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x01\x00\x00\x00'
-            b'\x00afilePK\x05\x06\x00\x00\x00\x00\x01\x00'
-            b'\x01\x003\x00\x00\x003\x00\x00\x00\x00\x00'),
+            b'PK/x03/x04/x14/x00/x00/x00/x08/x00n}/x0c=FA'
+            b'KE/x10/x00/x00/x00n/x00/x00/x00/x05/x00/x00/x00af'
+            b'ile/xcbH/xcd/xc9/xc9W(/xcf//xcaI/xc9/xa0'
+            b'=/x13/x00PK/x01/x02/x14/x03/x14/x00/x00/x00/x08/x00n'
+            b'}/x0c=FAKE/x10/x00/x00/x00n/x00/x00/x00/x05'
+            b'/x00/x00/x00/x00/x00/x00/x00/x00/x00/x00/x00/x80/x01/x00/x00/x00'
+            b'/x00afilePK/x05/x06/x00/x00/x00/x00/x01/x00'
+            b'/x01/x003/x00/x00/x003/x00/x00/x00/x00/x00'),
     }
 
     def test_unicode_filenames(self):
         with zipfile.ZipFile(TESTFN, "w") as zf:
             zf.writestr("foo.txt", "Test for unicode filename")
-            zf.writestr("\xf6.txt", "Test for unicode filename")
+            zf.writestr("/xf6.txt", "Test for unicode filename")
             self.assertIsInstance(zf.infolist()[0].filename, str)
 
         with zipfile.ZipFile(TESTFN, "r") as zf:
             self.assertEqual(zf.filelist[0].filename, "foo.txt")
-            self.assertEqual(zf.filelist[1].filename, "\xf6.txt")
+            self.assertEqual(zf.filelist[1].filename, "/xf6.txt")
 
     def test_create_non_existent_file_for_append(self):
         if os.path.exists(TESTFN):
@@ -898,7 +898,7 @@ class OtherTests(unittest.TestCase):
         # underlying file is still open.  This is SF bug #412214.
         #
         with open(TESTFN, "w") as fp:
-            fp.write("this is not a legal zip file\n")
+            fp.write("this is not a legal zip file/n")
         try:
             zf = zipfile.ZipFile(TESTFN)
         except zipfile.BadZipFile:
@@ -908,7 +908,7 @@ class OtherTests(unittest.TestCase):
         """Check that is_zipfile() correctly identifies non-zip files."""
         # - passing a filename
         with open(TESTFN, "w") as fp:
-            fp.write("this is not a legal zip file\n")
+            fp.write("this is not a legal zip file/n")
         chk = zipfile.is_zipfile(TESTFN)
         self.assertFalse(chk)
         # - passing a file object
@@ -917,7 +917,7 @@ class OtherTests(unittest.TestCase):
             self.assertTrue(not chk)
         # - passing a file-like object
         fp = io.BytesIO()
-        fp.write(b"this is not a legal zip file\n")
+        fp.write(b"this is not a legal zip file/n")
         chk = zipfile.is_zipfile(fp)
         self.assertTrue(not chk)
         fp.seek(0, 0)
@@ -1041,12 +1041,12 @@ class OtherTests(unittest.TestCase):
 
     def test_unsupported_compression(self):
         # data is declared as shrunk, but actually deflated
-        data = (b'PK\x03\x04.\x00\x00\x00\x01\x00\xe4C\xa1@\x00\x00\x00'
-        b'\x00\x02\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00x\x03\x00PK\x01'
-        b'\x02.\x03.\x00\x00\x00\x01\x00\xe4C\xa1@\x00\x00\x00\x00\x02\x00\x00'
-        b'\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-        b'\x80\x01\x00\x00\x00\x00xPK\x05\x06\x00\x00\x00\x00\x01\x00\x01\x00'
-        b'/\x00\x00\x00!\x00\x00\x00\x00\x00')
+        data = (b'PK/x03/x04./x00/x00/x00/x01/x00/xe4C/xa1@/x00/x00/x00'
+        b'/x00/x02/x00/x00/x00/x00/x00/x00/x00/x01/x00/x00/x00x/x03/x00PK/x01'
+        b'/x02./x03./x00/x00/x00/x01/x00/xe4C/xa1@/x00/x00/x00/x00/x02/x00/x00'
+        b'/x00/x00/x00/x00/x00/x01/x00/x00/x00/x00/x00/x00/x00/x00/x00/x00/x00'
+        b'/x80/x01/x00/x00/x00/x00xPK/x05/x06/x00/x00/x00/x00/x01/x00/x01/x00'
+        b'//x00/x00/x00!/x00/x00/x00/x00/x00')
         with zipfile.ZipFile(io.BytesIO(data), 'r') as zipf:
             self.assertRaises(NotImplementedError, zipf.open, 'x')
 
@@ -1054,7 +1054,7 @@ class OtherTests(unittest.TestCase):
         """Check that a filename containing a null byte is properly
         terminated."""
         with zipfile.ZipFile(TESTFN, mode="w") as zipf:
-            zipf.writestr("foo.txt\x00qqq", b"O, for a Muse of Fire!")
+            zipf.writestr("foo.txt/x00qqq", b"O, for a Muse of Fire!")
             self.assertEqual(zipf.namelist(), ['foo.txt'])
 
     def test_struct_sizes(self):
@@ -1243,25 +1243,25 @@ class DecryptionTests(unittest.TestCase):
     ZIP file."""
 
     data = (
-    b'PK\x03\x04\x14\x00\x01\x00\x00\x00n\x92i.#y\xef?&\x00\x00\x00\x1a\x00'
-    b'\x00\x00\x08\x00\x00\x00test.txt\xfa\x10\xa0gly|\xfa-\xc5\xc0=\xf9y'
-    b'\x18\xe0\xa8r\xb3Z}Lg\xbc\xae\xf9|\x9b\x19\xe4\x8b\xba\xbb)\x8c\xb0\xdbl'
-    b'PK\x01\x02\x14\x00\x14\x00\x01\x00\x00\x00n\x92i.#y\xef?&\x00\x00\x00'
-    b'\x1a\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x01\x00 \x00\xb6\x81'
-    b'\x00\x00\x00\x00test.txtPK\x05\x06\x00\x00\x00\x00\x01\x00\x01\x006\x00'
-    b'\x00\x00L\x00\x00\x00\x00\x00' )
+    b'PK/x03/x04/x14/x00/x01/x00/x00/x00n/x92i.#y/xef?&/x00/x00/x00/x1a/x00'
+    b'/x00/x00/x08/x00/x00/x00test.txt/xfa/x10/xa0gly|/xfa-/xc5/xc0=/xf9y'
+    b'/x18/xe0/xa8r/xb3Z}Lg/xbc/xae/xf9|/x9b/x19/xe4/x8b/xba/xbb)/x8c/xb0/xdbl'
+    b'PK/x01/x02/x14/x00/x14/x00/x01/x00/x00/x00n/x92i.#y/xef?&/x00/x00/x00'
+    b'/x1a/x00/x00/x00/x08/x00/x00/x00/x00/x00/x00/x00/x01/x00 /x00/xb6/x81'
+    b'/x00/x00/x00/x00test.txtPK/x05/x06/x00/x00/x00/x00/x01/x00/x01/x006/x00'
+    b'/x00/x00L/x00/x00/x00/x00/x00' )
     data2 = (
-    b'PK\x03\x04\x14\x00\t\x00\x08\x00\xcf}38xu\xaa\xb2\x14\x00\x00\x00\x00\x02'
-    b'\x00\x00\x04\x00\x15\x00zeroUT\t\x00\x03\xd6\x8b\x92G\xda\x8b\x92GUx\x04'
-    b'\x00\xe8\x03\xe8\x03\xc7<M\xb5a\xceX\xa3Y&\x8b{oE\xd7\x9d\x8c\x98\x02\xc0'
-    b'PK\x07\x08xu\xaa\xb2\x14\x00\x00\x00\x00\x02\x00\x00PK\x01\x02\x17\x03'
-    b'\x14\x00\t\x00\x08\x00\xcf}38xu\xaa\xb2\x14\x00\x00\x00\x00\x02\x00\x00'
-    b'\x04\x00\r\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa4\x81\x00\x00\x00\x00ze'
-    b'roUT\x05\x00\x03\xd6\x8b\x92GUx\x00\x00PK\x05\x06\x00\x00\x00\x00\x01'
-    b'\x00\x01\x00?\x00\x00\x00[\x00\x00\x00\x00\x00' )
+    b'PK/x03/x04/x14/x00/t/x00/x08/x00/xcf}38xu/xaa/xb2/x14/x00/x00/x00/x00/x02'
+    b'/x00/x00/x04/x00/x15/x00zeroUT/t/x00/x03/xd6/x8b/x92G/xda/x8b/x92GUx/x04'
+    b'/x00/xe8/x03/xe8/x03/xc7<M/xb5a/xceX/xa3Y&/x8b{oE/xd7/x9d/x8c/x98/x02/xc0'
+    b'PK/x07/x08xu/xaa/xb2/x14/x00/x00/x00/x00/x02/x00/x00PK/x01/x02/x17/x03'
+    b'/x14/x00/t/x00/x08/x00/xcf}38xu/xaa/xb2/x14/x00/x00/x00/x00/x02/x00/x00'
+    b'/x04/x00/r/x00/x00/x00/x00/x00/x00/x00/x00/x00/xa4/x81/x00/x00/x00/x00ze'
+    b'roUT/x05/x00/x03/xd6/x8b/x92GUx/x00/x00PK/x05/x06/x00/x00/x00/x00/x01'
+    b'/x00/x01/x00?/x00/x00/x00[/x00/x00/x00/x00/x00' )
 
     plain = b'zipfile.py encryption test'
-    plain2 = b'\x00'*512
+    plain2 = b'/x00'*512
 
     def setUp(self):
         with open(TESTFN, "wb") as fp:
@@ -1492,7 +1492,7 @@ class UniversalNewlineTests(unittest.TestCase):
     def setUp(self):
         self.line_gen = [bytes("Test of zipfile line %d." % i, "ascii")
                          for i in range(FIXEDTEST_SIZE)]
-        self.seps = ('\r', '\r\n', '\n')
+        self.seps = ('/r', '/r/n', '/n')
         self.arcdata, self.arcfiles = {}, {}
         for n, s in enumerate(self.seps):
             b = s.encode("ascii")
@@ -1541,7 +1541,7 @@ class UniversalNewlineTests(unittest.TestCase):
                             break
                         data += read
 
-            self.assertEqual(data, self.arcdata['\n'])
+            self.assertEqual(data, self.arcdata['/n'])
 
         if not isinstance(f, str):
             f.close()
@@ -1555,7 +1555,7 @@ class UniversalNewlineTests(unittest.TestCase):
                 with zipfp.open(fn, "rU") as zipopen:
                     for line in self.line_gen:
                         linedata = zipopen.readline()
-                        self.assertEqual(linedata, line + b'\n')
+                        self.assertEqual(linedata, line + b'/n')
         if not isinstance(f, str):
             f.close()
 
@@ -1568,7 +1568,7 @@ class UniversalNewlineTests(unittest.TestCase):
                 with zipfp.open(fn, "rU") as fp:
                     ziplines = fp.readlines()
                 for line, zipline in zip(self.line_gen, ziplines):
-                    self.assertEqual(zipline, line + b'\n')
+                    self.assertEqual(zipline, line + b'/n')
         if not isinstance(f, str):
             f.close()
 
@@ -1580,7 +1580,7 @@ class UniversalNewlineTests(unittest.TestCase):
             for sep, fn in self.arcfiles.items():
                 with zipfp.open(fn, "rU") as fp:
                     for line, zipline in zip(self.line_gen, fp):
-                        self.assertEqual(zipline, line + b'\n')
+                        self.assertEqual(zipline, line + b'/n')
         if not isinstance(f, str):
             f.close()
 

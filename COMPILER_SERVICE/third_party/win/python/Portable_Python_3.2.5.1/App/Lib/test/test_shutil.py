@@ -133,7 +133,7 @@ class TestShutil(unittest.TestCase):
         with self.assertRaises(OSError) as cm:
             shutil.rmtree(filename)
         # The reason for this rather odd construct is that Windows sprinkles
-        # a \*.* at the end of file names. But only sometimes on some buildbots
+        # a /*.* at the end of file names. But only sometimes on some buildbots
         possible_args = [filename, os.path.join(filename, '*.*')]
         self.assertIn(cm.exception.filename, possible_args)
         self.assertTrue(os.path.exists(filename))

@@ -81,8 +81,8 @@ class TestPkg(unittest.TestCase):
             else:
                 f = open(fullname, "w")
                 f.write(contents)
-                if contents and contents[-1] != '\n':
-                    f.write('\n')
+                if contents and contents[-1] != '/n':
+                    f.write('/n')
                 f.close()
         self.root = root
         # package name is the name of the first item

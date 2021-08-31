@@ -46,7 +46,7 @@ def hello_app(environ,start_response):
     ])
     return [b"Hello, world!"]
 
-def run_amock(app=hello_app, data=b"GET / HTTP/1.0\n\n"):
+def run_amock(app=hello_app, data=b"GET / HTTP/1.0/n/n"):
     server = make_server("", 80, app, MockServer, MockHandler)
     inp = BufferedReader(BytesIO(data))
     out = BytesIO()
@@ -101,12 +101,12 @@ class IntegrationTests(TestCase):
 
     def check_hello(self, out, has_length=True):
         self.assertEqual(out,
-            ("HTTP/1.0 200 OK\r\n"
-            "Server: WSGIServer/0.2 Python/"+sys.version.split()[0]+"\r\n"
-            "Content-Type: text/plain\r\n"
-            "Date: Mon, 05 Jun 2006 18:49:54 GMT\r\n" +
-            (has_length and  "Content-Length: 13\r\n" or "") +
-            "\r\n"
+            ("HTTP/1.0 200 OK/r/n"
+            "Server: WSGIServer/0.2 Python/"+sys.version.split()[0]+"/r/n"
+            "Content-Type: text/plain/r/n"
+            "Date: Mon, 05 Jun 2006 18:49:54 GMT/r/n" +
+            (has_length and  "Content-Length: 13/r/n" or "") +
+            "/r/n"
             "Hello, world!").encode("iso-8859-1")
         )
 
@@ -154,14 +154,14 @@ class IntegrationTests(TestCase):
                 ])
             return [b"data"]
         out, err = run_amock(validator(app))
-        self.assertTrue(err.endswith('"GET / HTTP/1.0" 200 4\n'))
+        self.assertTrue(err.endswith('"GET / HTTP/1.0" 200 4/n'))
         ver = sys.version.split()[0].encode('ascii')
         self.assertEqual(
-                b"HTTP/1.0 200 OK\r\n"
-                b"Server: WSGIServer/0.2 Python/" + ver + b"\r\n"
-                b"Content-Type: text/plain; charset=utf-8\r\n"
-                b"Date: Wed, 24 Dec 2008 13:29:32 GMT\r\n"
-                b"\r\n"
+                b"HTTP/1.0 200 OK/r/n"
+                b"Server: WSGIServer/0.2 Python/" + ver + b"/r/n"
+                b"Content-Type: text/plain; charset=utf-8/r/n"
+                b"Date: Wed, 24 Dec 2008 13:29:32 GMT/r/n"
+                b"/r/n"
                 b"data",
                 out)
 
@@ -363,20 +363,20 @@ class HeaderTests(TestCase):
 
     def testExtras(self):
         h = Headers([])
-        self.assertEqual(str(h),'\r\n')
+        self.assertEqual(str(h),'/r/n')
 
         h.add_header('foo','bar',baz="spam")
         self.assertEqual(h['foo'], 'bar; baz="spam"')
-        self.assertEqual(str(h),'foo: bar; baz="spam"\r\n\r\n')
+        self.assertEqual(str(h),'foo: bar; baz="spam"/r/n/r/n')
 
         h.add_header('Foo','bar',cheese=None)
         self.assertEqual(h.get_all('foo'),
             ['bar; baz="spam"', 'bar; cheese'])
 
         self.assertEqual(str(h),
-            'foo: bar; baz="spam"\r\n'
-            'Foo: bar; cheese\r\n'
-            '\r\n'
+            'foo: bar; baz="spam"/r/n'
+            'Foo: bar; cheese/r/n'
+            '/r/n'
         )
 
 class ErrorHandler(BaseCGIHandler):
@@ -462,7 +462,7 @@ class HandlerTests(TestCase):
 
         def trivial_app3(e,s):
             s('200 OK',[])
-            return ['\u0442\u0435\u0441\u0442'.encode("utf-8")]
+            return ['/u0442/u0435/u0441/u0442'.encode("utf-8")]
 
         def trivial_app4(e,s):
             # Simulate a response to a HEAD request
@@ -472,32 +472,32 @@ class HandlerTests(TestCase):
         h = TestHandler()
         h.run(trivial_app1)
         self.assertEqual(h.stdout.getvalue(),
-            ("Status: 200 OK\r\n"
-            "Content-Length: 4\r\n"
-            "\r\n"
+            ("Status: 200 OK/r/n"
+            "Content-Length: 4/r/n"
+            "/r/n"
             "http").encode("iso-8859-1"))
 
         h = TestHandler()
         h.run(trivial_app2)
         self.assertEqual(h.stdout.getvalue(),
-            ("Status: 200 OK\r\n"
-            "\r\n"
+            ("Status: 200 OK/r/n"
+            "/r/n"
             "http").encode("iso-8859-1"))
 
         h = TestHandler()
         h.run(trivial_app3)
         self.assertEqual(h.stdout.getvalue(),
-            b'Status: 200 OK\r\n'
-            b'Content-Length: 8\r\n'
-            b'\r\n'
-            b'\xd1\x82\xd0\xb5\xd1\x81\xd1\x82')
+            b'Status: 200 OK/r/n'
+            b'Content-Length: 8/r/n'
+            b'/r/n'
+            b'/xd1/x82/xd0/xb5/xd1/x81/xd1/x82')
 
         h = TestHandler()
         h.run(trivial_app4)
         self.assertEqual(h.stdout.getvalue(),
-            b'Status: 200 OK\r\n'
-            b'Content-Length: 12345\r\n'
-            b'\r\n')
+            b'Status: 200 OK/r/n'
+            b'Content-Length: 12345/r/n'
+            b'/r/n')
 
     def testBasicErrorOutput(self):
 
@@ -511,18 +511,18 @@ class HandlerTests(TestCase):
         h = ErrorHandler()
         h.run(non_error_app)
         self.assertEqual(h.stdout.getvalue(),
-            ("Status: 200 OK\r\n"
-            "Content-Length: 0\r\n"
-            "\r\n").encode("iso-8859-1"))
+            ("Status: 200 OK/r/n"
+            "Content-Length: 0/r/n"
+            "/r/n").encode("iso-8859-1"))
         self.assertEqual(h.stderr.getvalue(),"")
 
         h = ErrorHandler()
         h.run(error_app)
         self.assertEqual(h.stdout.getvalue(),
-            ("Status: %s\r\n"
-            "Content-Type: text/plain\r\n"
-            "Content-Length: %d\r\n"
-            "\r\n" % (h.error_status,len(h.error_body))).encode('iso-8859-1')
+            ("Status: %s/r/n"
+            "Content-Type: text/plain/r/n"
+            "Content-Length: %d/r/n"
+            "/r/n" % (h.error_status,len(h.error_body))).encode('iso-8859-1')
             + h.error_body)
 
         self.assertIn("AssertionError", h.stderr.getvalue())
@@ -536,8 +536,8 @@ class HandlerTests(TestCase):
         h = ErrorHandler()
         h.run(error_app)
         self.assertEqual(h.stdout.getvalue(),
-            ("Status: 200 OK\r\n"
-            "\r\n".encode("iso-8859-1")+MSG))
+            ("Status: 200 OK/r/n"
+            "/r/n".encode("iso-8859-1")+MSG))
         self.assertIn("AssertionError", h.stderr.getvalue())
 
     def testHeaderFormats(self):
@@ -547,16 +547,16 @@ class HandlerTests(TestCase):
             return []
 
         stdpat = (
-            r"HTTP/%s 200 OK\r\n"
-            r"Date: \w{3}, [ 0123]\d \w{3} \d{4} \d\d:\d\d:\d\d GMT\r\n"
-            r"%s" r"Content-Length: 0\r\n" r"\r\n"
+            r"HTTP/%s 200 OK/r/n"
+            r"Date: /w{3}, [ 0123]/d /w{3} /d{4} /d/d:/d/d:/d/d GMT/r/n"
+            r"%s" r"Content-Length: 0/r/n" r"/r/n"
         )
         shortpat = (
-            "Status: 200 OK\r\n" "Content-Length: 0\r\n" "\r\n"
+            "Status: 200 OK/r/n" "Content-Length: 0/r/n" "/r/n"
         ).encode("iso-8859-1")
 
         for ssw in "FooBar/1.0", None:
-            sw = ssw and "Server: %s\r\n" % ssw or ""
+            sw = ssw and "Server: %s/r/n" % ssw or ""
 
             for version in "1.0", "1.1":
                 for proto in "HTTP/0.9", "HTTP/1.0", "HTTP/1.1":
@@ -592,10 +592,10 @@ class HandlerTests(TestCase):
 
         h = TestHandler()
         h.run(app)
-        self.assertEqual(b"Status: 200 OK\r\n"
-            b"Content-Type: text/plain; charset=utf-8\r\n"
-            b"Content-Length: 4\r\n"
-            b"\r\n"
+        self.assertEqual(b"Status: 200 OK/r/n"
+            b"Content-Type: text/plain; charset=utf-8/r/n"
+            b"Content-Length: 4/r/n"
+            b"/r/n"
             b"data",
             h.stdout.getvalue())
 

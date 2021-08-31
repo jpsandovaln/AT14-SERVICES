@@ -390,8 +390,8 @@ class test__mkstemp_inner(TC):
 
         # A text file is truncated at the first Ctrl+Z byte
         f = self.do_create(bin=0)
-        f.write(b"blat\x1a")
-        f.write(b"extra\n")
+        f.write(b"blat/x1a")
+        f.write(b"extra/n")
         os.lseek(f.fd, 0, os.SEEK_SET)
         self.assertEqual(os.read(f.fd, 20), b"blat")
 
@@ -699,7 +699,7 @@ class test_NamedTemporaryFile(TC):
     def test_multiple_close(self):
         # A NamedTemporaryFile can be closed many times without error
         f = tempfile.NamedTemporaryFile()
-        f.write(b'abc\n')
+        f.write(b'abc/n')
         f.close()
         try:
             f.close()
@@ -815,7 +815,7 @@ class test_SpooledTemporaryFile(TC):
     def test_multiple_close_before_rollover(self):
         # A SpooledTemporaryFile can be closed many times without error
         f = tempfile.SpooledTemporaryFile()
-        f.write(b'abc\n')
+        f.write(b'abc/n')
         self.assertFalse(f._rolled)
         f.close()
         try:
@@ -827,7 +827,7 @@ class test_SpooledTemporaryFile(TC):
     def test_multiple_close_after_rollover(self):
         # A SpooledTemporaryFile can be closed many times without error
         f = tempfile.SpooledTemporaryFile(max_size=1)
-        f.write(b'abc\n')
+        f.write(b'abc/n')
         self.assertTrue(f._rolled)
         f.close()
         try:
@@ -874,25 +874,25 @@ class test_SpooledTemporaryFile(TC):
         # Creating a SpooledTemporaryFile with a text mode should produce
         # a file object reading and writing (Unicode) text strings.
         f = tempfile.SpooledTemporaryFile(mode='w+', max_size=10)
-        f.write("abc\n")
+        f.write("abc/n")
         f.seek(0)
-        self.assertEqual(f.read(), "abc\n")
-        f.write("def\n")
+        self.assertEqual(f.read(), "abc/n")
+        f.write("def/n")
         f.seek(0)
-        self.assertEqual(f.read(), "abc\ndef\n")
+        self.assertEqual(f.read(), "abc/ndef/n")
         self.assertFalse(f._rolled)
         self.assertEqual(f.mode, 'w+')
         self.assertIsNone(f.name)
         self.assertIsNone(f.newlines)
         self.assertIsNone(f.encoding)
 
-        f.write("xyzzy\n")
+        f.write("xyzzy/n")
         f.seek(0)
-        self.assertEqual(f.read(), "abc\ndef\nxyzzy\n")
+        self.assertEqual(f.read(), "abc/ndef/nxyzzy/n")
         # Check that Ctrl+Z doesn't truncate the file
-        f.write("foo\x1abar\n")
+        f.write("foo/x1abar/n")
         f.seek(0)
-        self.assertEqual(f.read(), "abc\ndef\nxyzzy\nfoo\x1abar\n")
+        self.assertEqual(f.read(), "abc/ndef/nxyzzy/nfoo/x1abar/n")
         self.assertTrue(f._rolled)
         self.assertEqual(f.mode, 'w+')
         self.assertIsNotNone(f.name)
@@ -902,18 +902,18 @@ class test_SpooledTemporaryFile(TC):
     def test_text_newline_and_encoding(self):
         f = tempfile.SpooledTemporaryFile(mode='w+', max_size=10,
                                           newline='', encoding='utf-8')
-        f.write("\u039B\r\n")
+        f.write("/u039B/r/n")
         f.seek(0)
-        self.assertEqual(f.read(), "\u039B\r\n")
+        self.assertEqual(f.read(), "/u039B/r/n")
         self.assertFalse(f._rolled)
         self.assertEqual(f.mode, 'w+')
         self.assertIsNone(f.name)
         self.assertIsNone(f.newlines)
         self.assertIsNone(f.encoding)
 
-        f.write("\u039B" * 20 + "\r\n")
+        f.write("/u039B" * 20 + "/r/n")
         f.seek(0)
-        self.assertEqual(f.read(), "\u039B\r\n" + ("\u039B" * 20) + "\r\n")
+        self.assertEqual(f.read(), "/u039B/r/n" + ("/u039B" * 20) + "/r/n")
         self.assertTrue(f._rolled)
         self.assertEqual(f.mode, 'w+')
         self.assertIsNotNone(f.name)
@@ -935,7 +935,7 @@ class test_SpooledTemporaryFile(TC):
         # A SpooledTemporaryFile can be used as a context manager
         with tempfile.SpooledTemporaryFile(max_size=1) as f:
             self.assertFalse(f._rolled)
-            f.write(b'abc\n')
+            f.write(b'abc/n')
             f.flush()
             self.assertTrue(f._rolled)
             self.assertFalse(f.closed)
@@ -948,7 +948,7 @@ class test_SpooledTemporaryFile(TC):
     def test_context_manager_after_rollover(self):
         # A SpooledTemporaryFile can be used as a context manager
         f = tempfile.SpooledTemporaryFile(max_size=1)
-        f.write(b'abc\n')
+        f.write(b'abc/n')
         f.flush()
         self.assertTrue(f._rolled)
         with f:
@@ -994,7 +994,7 @@ class test_TemporaryFile(TC):
     def test_multiple_close(self):
         # A TemporaryFile can be closed many times without error
         f = tempfile.TemporaryFile()
-        f.write(b'abc\n')
+        f.write(b'abc/n')
         f.close()
         try:
             f.close()
@@ -1012,9 +1012,9 @@ class test_TemporaryFile(TC):
                 self.assertEqual(input, fileobj.read())
 
         roundtrip(b"1234", "w+b")
-        roundtrip("abdc\n", "w+")
-        roundtrip("\u039B", "w+", encoding="utf-16")
-        roundtrip("foo\r\n", "w+", newline="")
+        roundtrip("abdc/n", "w+")
+        roundtrip("/u039B", "w+", encoding="utf-16")
+        roundtrip("foo/r/n", "w+", newline="")
 
 
 if tempfile.NamedTemporaryFile is not tempfile.TemporaryFile:
@@ -1140,10 +1140,10 @@ class test_TemporaryDirectory(TC):
         #   Issue 10888: may write to stderr if modules are nulled out
         #   ResourceWarning will be triggered by __del__
         with self.do_create() as dir:
-            if os.sep != '\\':
+            if os.sep != '//':
                 # Embed a backslash in order to make sure string escaping
                 # in the displayed error message is dealt with correctly
-                suffix = '\\check_backslash_handling'
+                suffix = '//check_backslash_handling'
             else:
                 suffix = ''
             d = self.do_create(dir=dir, suf=suffix)
@@ -1155,7 +1155,7 @@ class test_TemporaryDirectory(TC):
             with support.captured_stderr() as err:
                 with NulledModules(*modules):
                     d.cleanup()
-            message = err.getvalue().replace('\\\\', '\\')
+            message = err.getvalue().replace('////', '//')
             self.assertIn("while cleaning up",  message)
             self.assertIn(d.name,  message)
 

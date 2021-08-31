@@ -11,10 +11,10 @@ import uu
 from io import BytesIO
 import io
 
-plaintext = b"The smooth-scaled python crept over the sleeping dog\n"
+plaintext = b"The smooth-scaled python crept over the sleeping dog/n"
 
-encodedtext = b"""\
-M5&AE('-M;V]T:\"US8V%L960@<'ET:&]N(&-R97!T(&]V97(@=&AE('-L965P
+encodedtext = b"""/
+M5&AE('-M;V]T:/"US8V%L960@<'ET:&]N(&-R97!T(&]V97(@=&AE('-L965P
 (:6YG(&1O9PH """
 
 # Stolen from io.py
@@ -27,7 +27,7 @@ class FakeIO(io.TextIOWrapper):
     # XXX This is really slow, but fully functional
 
     def __init__(self, initial_value="", encoding="utf-8",
-                 errors="strict", newline="\n"):
+                 errors="strict", newline="/n"):
         super(FakeIO, self).__init__(io.BytesIO(),
                                      encoding=encoding,
                                      errors=errors,
@@ -46,8 +46,8 @@ class FakeIO(io.TextIOWrapper):
 
 
 def encodedtextwrapped(mode, filename):
-    return (bytes("begin %03o %s\n" % (mode, filename), "ascii") +
-            encodedtext + b"\n \nend\n")
+    return (bytes("begin %03o %s/n" % (mode, filename), "ascii") +
+            encodedtext + b"/n /nend/n")
 
 class UUTest(unittest.TestCase):
 
@@ -67,8 +67,8 @@ class UUTest(unittest.TestCase):
         uu.decode(inp, out)
         self.assertEqual(out.getvalue(), plaintext)
         inp = io.BytesIO(
-            b"UUencoded files may contain many lines,\n" +
-            b"even some that have 'begin' in them.\n" +
+            b"UUencoded files may contain many lines,/n" +
+            b"even some that have 'begin' in them./n" +
             encodedtextwrapped(0o666, "t1")
         )
         out = io.BytesIO()
@@ -76,7 +76,7 @@ class UUTest(unittest.TestCase):
         self.assertEqual(out.getvalue(), plaintext)
 
     def test_truncatedinput(self):
-        inp = io.BytesIO(b"begin 644 t1\n" + encodedtext)
+        inp = io.BytesIO(b"begin 644 t1/n" + encodedtext)
         out = io.BytesIO()
         try:
             uu.decode(inp, out)

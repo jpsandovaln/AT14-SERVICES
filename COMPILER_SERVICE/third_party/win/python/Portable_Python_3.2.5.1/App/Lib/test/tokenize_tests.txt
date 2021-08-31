@@ -5,7 +5,7 @@
 "#"
 #'
 #"
-#\
+#/
        #
     # abc
 '''#
@@ -29,10 +29,10 @@ x = (len(repr(y)) + 5*x - a[
   )
 
 # Backslash means line continuation:
-x = 1 \
+x = 1 /
 + 1
 
-# Backslash does not means continuation in comments :\
+# Backslash does not means continuation in comments :/
 x = 0
 
 # Ordinary integers
@@ -69,59 +69,59 @@ x = 3.1e4
 
 # String literals
 x = ''; y = "";
-x = '\''; y = "'";
-x = '"'; y = "\"";
-x = "doesn't \"shrink\" does it"
-y = 'doesn\'t "shrink" does it'
-x = "does \"shrink\" doesn't it"
-y = 'does "shrink" doesn\'t it'
+x = '/''; y = "'";
+x = '"'; y = "/"";
+x = "doesn't /"shrink/" does it"
+y = 'doesn/'t "shrink" does it'
+x = "does /"shrink/" doesn't it"
+y = 'does "shrink" doesn/'t it'
 x = """
 The "quick"
 brown fox
 jumps over
 the 'lazy' dog.
 """
-y = '\nThe "quick"\nbrown fox\njumps over\nthe \'lazy\' dog.\n'
+y = '/nThe "quick"/nbrown fox/njumps over/nthe /'lazy/' dog./n'
 y = '''
 The "quick"
 brown fox
 jumps over
 the 'lazy' dog.
 ''';
-y = "\n\
-The \"quick\"\n\
-brown fox\n\
-jumps over\n\
-the 'lazy' dog.\n\
+y = "/n/
+The /"quick/"/n/
+brown fox/n/
+jumps over/n/
+the 'lazy' dog./n/
 ";
-y = '\n\
-The \"quick\"\n\
-brown fox\n\
-jumps over\n\
-the \'lazy\' dog.\n\
+y = '/n/
+The /"quick/"/n/
+brown fox/n/
+jumps over/n/
+the /'lazy/' dog./n/
 ';
-x = r'\\' + R'\\'
-x = r'\'' + ''
+x = r'//' + R'//'
+x = r'/'' + ''
 y = r'''
-foo bar \\
+foo bar //
 baz''' + R'''
 foo'''
 y = r"""foo
-bar \\ baz
+bar // baz
 """ + R'''spam
 '''
 x = b'abc' + B'ABC'
 y = b"abc" + B"ABC"
 x = br'abc' + Br'ABC' + bR'ABC' + BR'ABC'
 y = br"abc" + Br"ABC" + bR"ABC" + BR"ABC"
-x = br'\\' + BR'\\'
-x = br'\'' + ''
+x = br'//' + BR'//'
+x = br'/'' + ''
 y = br'''
-foo bar \\
+foo bar //
 baz''' + BR'''
 foo'''
 y = Br"""foo
-bar \\ baz
+bar // baz
 """ + bR'''spam
 '''
 

@@ -31,9 +31,9 @@ class MmapTests(unittest.TestCase):
         f = open(TESTFN, 'bw+')
         try:
             # Write 2 pages worth of data to the file
-            f.write(b'\0'* PAGESIZE)
+            f.write(b'/0'* PAGESIZE)
             f.write(b'foo')
-            f.write(b'\0'* (PAGESIZE-3) )
+            f.write(b'/0'* (PAGESIZE-3) )
             f.flush()
             m = mmap.mmap(f.fileno(), 2 * PAGESIZE)
         finally:
@@ -47,11 +47,11 @@ class MmapTests(unittest.TestCase):
         self.assertEqual(len(m), 2*PAGESIZE)
 
         self.assertEqual(m[0], 0)
-        self.assertEqual(m[0:3], b'\0\0\0')
+        self.assertEqual(m[0:3], b'/0/0/0')
 
         # Shouldn't crash on boundary (Issue #5292)
         self.assertRaises(IndexError, m.__getitem__, len(m))
-        self.assertRaises(IndexError, m.__setitem__, len(m), b'\0')
+        self.assertRaises(IndexError, m.__setitem__, len(m), b'/0')
 
         # Modify the file's content
         m[0] = b'3'[0]
@@ -59,8 +59,8 @@ class MmapTests(unittest.TestCase):
 
         # Check that the modification worked
         self.assertEqual(m[0], b'3'[0])
-        self.assertEqual(m[0:3], b'3\0\0')
-        self.assertEqual(m[PAGESIZE-1 : PAGESIZE + 7], b'\0foobar\0')
+        self.assertEqual(m[0:3], b'3/0/0')
+        self.assertEqual(m[PAGESIZE-1 : PAGESIZE + 7], b'/0foobar/0')
 
         m.flush()
 
@@ -249,10 +249,10 @@ class MmapTests(unittest.TestCase):
 
     def test_tougher_find(self):
         # Do a tougher .find() test.  SF bug 515943 pointed out that, in 2.2,
-        # searching for data with embedded \0 bytes didn't work.
+        # searching for data with embedded /0 bytes didn't work.
         with open(TESTFN, 'wb+') as f:
 
-            data = b'aabaac\x00deef\x00\x00aa\x00'
+            data = b'aabaac/x00deef/x00/x00aa/x00'
             n = len(data)
             f.write(data)
             f.flush()
@@ -453,9 +453,9 @@ class MmapTests(unittest.TestCase):
 
     def make_mmap_file (self, f, halfsize):
         # Write 2 pages worth of data to the file
-        f.write (b'\0' * halfsize)
+        f.write (b'/0' * halfsize)
         f.write (b'foo')
-        f.write (b'\0' * (halfsize - 3))
+        f.write (b'/0' * (halfsize - 3))
         f.flush ()
         return mmap.mmap (f.fileno(), 0)
 

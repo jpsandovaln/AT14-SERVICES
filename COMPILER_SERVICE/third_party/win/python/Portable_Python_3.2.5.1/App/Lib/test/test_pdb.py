@@ -614,9 +614,9 @@ class PdbTestCase(unittest.TestCase):
         return stdout, stderr
 
     def test_issue7964(self):
-        # open the file as binary so we can force \r\n newline
+        # open the file as binary so we can force /r/n newline
         with open(support.TESTFN, 'wb') as f:
-            f.write(b'print("testing my pdb")\r\n')
+            f.write(b'print("testing my pdb")/r/n')
         cmd = [sys.executable, '-m', 'pdb', support.TESTFN]
         proc = subprocess.Popen(cmd,
             stdout=subprocess.PIPE,
@@ -624,7 +624,7 @@ class PdbTestCase(unittest.TestCase):
             stderr=subprocess.STDOUT,
             )
         self.addCleanup(proc.stdout.close)
-        stdout, stderr = proc.communicate(b'quit\n')
+        stdout, stderr = proc.communicate(b'quit/n')
         self.assertNotIn(b'SyntaxError', stdout,
                          "Got a syntax error running test script under PDB")
 
@@ -690,7 +690,7 @@ class PdbTestCase(unittest.TestCase):
             stderr=subprocess.STDOUT,
             )
         self.addCleanup(proc.stdout.close)
-        stdout, stderr = proc.communicate(b'cont\n')
+        stdout, stderr = proc.communicate(b'cont/n')
         self.assertNotIn('Error', stdout.decode(),
                          "Got an error running test script under PDB")
 

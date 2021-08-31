@@ -196,7 +196,7 @@ def _format_layoutlist(layout, indent=0, indent_size=2):
         else:
             script.append(head)
 
-    return '\n'.join(script), indent
+    return '/n'.join(script), indent
 
 def _script_from_settings(settings):
     """Returns an appropriate script, based on settings, according to
@@ -220,7 +220,7 @@ def _script_from_settings(settings):
                 s = 'null' # could be any other word, but this one makes sense
             else:
                 s, _ = _format_layoutlist(opts['layout'])
-            script.append("ttk::style layout %s {\n%s\n}" % (name, s))
+            script.append("ttk::style layout %s {/n%s/n}" % (name, s))
 
         if opts.get('element create'): # format 'element create'
             eopts = opts['element create']
@@ -238,7 +238,7 @@ def _script_from_settings(settings):
             script.append("ttk::style element create %s %s %s %s" % (
                 name, etype, spec, opts))
 
-    return '\n'.join(script)
+    return '/n'.join(script)
 
 def _dict_from_tcltuple(ttuple, cut_minus=True):
     """Break tuple in pairs, format it properly, then build the return

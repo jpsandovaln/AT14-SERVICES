@@ -23,9 +23,9 @@ threading = support.import_module('threading')
 
 # the dummy data returned by server over the data channel when
 # RETR, LIST and NLST commands are issued
-RETR_DATA = 'abcde12345\r\n' * 1000
-LIST_DATA = 'foo\r\nbar\r\n'
-NLST_DATA = 'foo\r\nbar\r\n'
+RETR_DATA = 'abcde12345/r/n' * 1000
+LIST_DATA = 'foo/r/nbar/r/n'
+NLST_DATA = 'foo/r/nbar/r/n'
 
 
 class DummyDTPHandler(asynchat.async_chat):
@@ -63,7 +63,7 @@ class DummyFTPHandler(asynchat.async_chat):
         asynchat.async_chat.__init__(self, conn)
         # tells the socket to handle urgent data inline (ABOR command)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_OOBINLINE, 1)
-        self.set_terminator(b"\r\n")
+        self.set_terminator(b"/r/n")
         self.in_buffer = []
         self.dtp = None
         self.last_received_cmd = None
@@ -98,7 +98,7 @@ class DummyFTPHandler(asynchat.async_chat):
         raise
 
     def push(self, data):
-        asynchat.async_chat.push(self, data.encode('ascii') + b'\r\n')
+        asynchat.async_chat.push(self, data.encode('ascii') + b'/r/n')
 
     def cmd_port(self, arg):
         addr = list(map(int, arg.split(',')))
@@ -520,7 +520,7 @@ class TestFTPClass(TestCase):
     def test_retrlines(self):
         received = []
         self.client.retrlines('retr', received.append)
-        self.assertEqual(''.join(received), RETR_DATA.replace('\r\n', ''))
+        self.assertEqual(''.join(received), RETR_DATA.replace('/r/n', ''))
 
     def test_storbinary(self):
         f = io.BytesIO(RETR_DATA.encode('ascii'))
@@ -533,14 +533,14 @@ class TestFTPClass(TestCase):
         self.assertTrue(flag)
 
     def test_storbinary_rest(self):
-        f = io.BytesIO(RETR_DATA.replace('\r\n', '\n').encode('ascii'))
+        f = io.BytesIO(RETR_DATA.replace('/r/n', '/n').encode('ascii'))
         for r in (30, '30'):
             f.seek(0)
             self.client.storbinary('stor', f, rest=r)
             self.assertEqual(self.server.handler_instance.rest, str(r))
 
     def test_storlines(self):
-        f = io.BytesIO(RETR_DATA.replace('\r\n', '\n').encode('ascii'))
+        f = io.BytesIO(RETR_DATA.replace('/r/n', '/n').encode('ascii'))
         self.client.storlines('stor', f)
         self.assertEqual(self.server.handler_instance.last_received_data, RETR_DATA)
         # test new callback arg
@@ -551,12 +551,12 @@ class TestFTPClass(TestCase):
 
     def test_nlst(self):
         self.client.nlst()
-        self.assertEqual(self.client.nlst(), NLST_DATA.split('\r\n')[:-1])
+        self.assertEqual(self.client.nlst(), NLST_DATA.split('/r/n')[:-1])
 
     def test_dir(self):
         l = []
         self.client.dir(lambda x: l.append(x))
-        self.assertEqual(''.join(l), LIST_DATA.replace('\r\n', ''))
+        self.assertEqual(''.join(l), LIST_DATA.replace('/r/n', ''))
 
     def test_makeport(self):
         with self.client.makeport():
@@ -792,7 +792,7 @@ class TestTimeouts(TestCase):
         except socket.timeout:
             pass
         else:
-            conn.send(b"1 Hola mundo\n")
+            conn.send(b"1 Hola mundo/n")
             # (2) Signal the caller that it is safe to close the socket.
             evt.set()
             conn.close()

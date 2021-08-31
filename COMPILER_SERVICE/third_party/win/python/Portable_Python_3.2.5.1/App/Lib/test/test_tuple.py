@@ -68,7 +68,7 @@ class TupleTest(seq_tests.CommonTest):
         N=50
         base = list(range(N))
         xp = [(i, j) for i in base for j in base]
-        inps = base + [(i, j) for i in base for j in xp] + \
+        inps = base + [(i, j) for i in base for j in xp] + /
                      [(i, j) for i in xp for j in base] + xp + list(zip(base))
         collisions = len(inps) - len(set(map(hash, inps)))
         self.assertTrue(collisions <= 15)

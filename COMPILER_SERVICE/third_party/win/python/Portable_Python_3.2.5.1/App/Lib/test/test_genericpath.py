@@ -261,7 +261,7 @@ class CommonTest(GenericTest):
         self.assertIn(b"foo", self.pathmodule.abspath(b"foo"))
 
         # Abspath returns bytes when the arg is bytes
-        for path in (b'', b'foo', b'f\xf2\xf2', b'/foo', b'C:\\'):
+        for path in (b'', b'foo', b'f/xf2/xf2', b'/foo', b'C://'):
             self.assertIsInstance(self.pathmodule.abspath(path), bytes)
 
     def test_realpath(self):
@@ -270,17 +270,17 @@ class CommonTest(GenericTest):
 
     def test_normpath_issue5827(self):
         # Make sure normpath preserves unicode
-        for path in ('', '.', '/', '\\', '///foo/.//bar//'):
+        for path in ('', '.', '/', '//', '///foo/.//bar//'):
             self.assertIsInstance(self.pathmodule.normpath(path), str)
 
     def test_abspath_issue3426(self):
         # Check that abspath returns unicode when the arg is unicode
         # with both ASCII and non-ASCII cwds.
         abspath = self.pathmodule.abspath
-        for path in ('', 'fuu', 'f\xf9\xf9', '/fuu', 'U:\\'):
+        for path in ('', 'fuu', 'f/xf9/xf9', '/fuu', 'U://'):
             self.assertIsInstance(abspath(path), str)
 
-        unicwd = '\xe7w\xf0'
+        unicwd = '/xe7w/xf0'
         try:
             fsencoding = support.TESTFN_ENCODING or "ascii"
             unicwd.encode(fsencoding)
@@ -289,7 +289,7 @@ class CommonTest(GenericTest):
             pass
         else:
             with support.temp_cwd(unicwd):
-                for path in ('', 'fuu', 'f\xf9\xf9', '/fuu', 'U:\\'):
+                for path in ('', 'fuu', 'f/xf9/xf9', '/fuu', 'U://'):
                     self.assertIsInstance(abspath(path), str)
 
     def test_nonascii_abspath(self):

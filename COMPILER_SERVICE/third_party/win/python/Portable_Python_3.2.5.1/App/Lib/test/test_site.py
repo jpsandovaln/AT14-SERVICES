@@ -105,7 +105,7 @@ class HelperFunctionsTests(unittest.TestCase):
 
     def test_addpackage_import_bad_syntax(self):
         # Issue 10642
-        pth_dir, pth_fn = self.make_pth("import bad)syntax\n")
+        pth_dir, pth_fn = self.make_pth("import bad)syntax/n")
         with captured_stderr() as err_out:
             site.addpackage(pth_dir, pth_fn, set())
         self.assertRegex(err_out.getvalue(), "line 1")
@@ -115,12 +115,12 @@ class HelperFunctionsTests(unittest.TestCase):
         # order doesn't matter.  The next three could be a single check
         # but my regex foo isn't good enough to write it.
         self.assertRegex(err_out.getvalue(), 'Traceback')
-        self.assertRegex(err_out.getvalue(), r'import bad\)syntax')
+        self.assertRegex(err_out.getvalue(), r'import bad/)syntax')
         self.assertRegex(err_out.getvalue(), 'SyntaxError')
 
     def test_addpackage_import_bad_exec(self):
         # Issue 10642
-        pth_dir, pth_fn = self.make_pth("randompath\nimport nosuchmodule\n")
+        pth_dir, pth_fn = self.make_pth("randompath/nimport nosuchmodule/n")
         with captured_stderr() as err_out:
             site.addpackage(pth_dir, pth_fn, set())
         self.assertRegex(err_out.getvalue(), "line 2")
@@ -134,7 +134,7 @@ class HelperFunctionsTests(unittest.TestCase):
                       "error for file paths containing null characters")
     def test_addpackage_import_bad_pth_file(self):
         # Issue 5258
-        pth_dir, pth_fn = self.make_pth("abc\x00def\n")
+        pth_dir, pth_fn = self.make_pth("abc/x00def/n")
         with captured_stderr() as err_out:
             site.addpackage(pth_dir, pth_fn, set())
         self.assertRegex(err_out.getvalue(), "line 1")
@@ -278,7 +278,7 @@ class PthFile(object):
         FILE = open(self.file_path, 'w')
         try:
             print("#import @bad module name", file=FILE)
-            print("\n", file=FILE)
+            print("/n", file=FILE)
             print("import %s" % self.imported, file=FILE)
             print(self.good_dirname, file=FILE)
             print(self.bad_dirname, file=FILE)
@@ -328,10 +328,10 @@ class ImportSideEffectTests(unittest.TestCase):
         code = ('import os, sys',
             # use ASCII to avoid locale issues with non-ASCII directories
             'os_file = os.__file__.encode("ascii", "backslashreplace")',
-            r'sys.stdout.buffer.write(os_file + b"\n")',
+            r'sys.stdout.buffer.write(os_file + b"/n")',
             'os_cached = os.__cached__.encode("ascii", "backslashreplace")',
-            r'sys.stdout.buffer.write(os_cached + b"\n")')
-        command = '\n'.join(code)
+            r'sys.stdout.buffer.write(os_cached + b"/n")')
+        command = '/n'.join(code)
         # First, prove that with -S (no 'import site'), the paths are
         # relative.
         proc = subprocess.Popen([sys.executable, '-S', '-c', command],

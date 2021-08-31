@@ -122,7 +122,7 @@ def compile(file, cfile=None, dfile=None, doraise=False, optimize=-1):
         if doraise:
             raise py_exc
         else:
-            sys.stderr.write(py_exc.msg + '\n')
+            sys.stderr.write(py_exc.msg + '/n')
             return
     if cfile is None:
         if optimize >= 0:
@@ -137,7 +137,7 @@ def compile(file, cfile=None, dfile=None, doraise=False, optimize=-1):
         if error.errno != errno.EEXIST:
             raise
     with open(cfile, 'wb') as fc:
-        fc.write(b'\0\0\0\0')
+        fc.write(b'/0/0/0/0')
         wr_long(fc, timestamp)
         marshal.dump(codeobject, fc)
         fc.flush()
@@ -164,15 +164,15 @@ def main(args=None):
             filename = sys.stdin.readline()
             if not filename:
                 break
-            filename = filename.rstrip('\n')
+            filename = filename.rstrip('/n')
             try:
                 compile(filename, doraise=True)
             except PyCompileError as error:
                 rv = 1
-                sys.stderr.write("%s\n" % error.msg)
+                sys.stderr.write("%s/n" % error.msg)
             except IOError as error:
                 rv = 1
-                sys.stderr.write("%s\n" % error)
+                sys.stderr.write("%s/n" % error)
     else:
         for filename in args:
             try:

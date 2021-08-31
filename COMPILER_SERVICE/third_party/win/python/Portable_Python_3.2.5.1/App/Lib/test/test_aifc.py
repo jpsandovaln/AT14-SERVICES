@@ -47,18 +47,18 @@ class AIFCTest(unittest.TestCase):
         f = self.f = aifc.open(self.sndfilepath)
         self.assertEqual(f.readframes(0), b'')
         self.assertEqual(f.tell(), 0)
-        self.assertEqual(f.readframes(2), b'\x00\x00\x00\x00\x0b\xd4\x0b\xd4')
+        self.assertEqual(f.readframes(2), b'/x00/x00/x00/x00/x0b/xd4/x0b/xd4')
         f.rewind()
         pos0 = f.tell()
         self.assertEqual(pos0, 0)
-        self.assertEqual(f.readframes(2), b'\x00\x00\x00\x00\x0b\xd4\x0b\xd4')
+        self.assertEqual(f.readframes(2), b'/x00/x00/x00/x00/x0b/xd4/x0b/xd4')
         pos2 = f.tell()
         self.assertEqual(pos2, 2)
-        self.assertEqual(f.readframes(2), b'\x17t\x17t"\xad"\xad')
+        self.assertEqual(f.readframes(2), b'/x17t/x17t"/xad"/xad')
         f.setpos(pos2)
-        self.assertEqual(f.readframes(2), b'\x17t\x17t"\xad"\xad')
+        self.assertEqual(f.readframes(2), b'/x17t/x17t"/xad"/xad')
         f.setpos(pos0)
-        self.assertEqual(f.readframes(2), b'\x00\x00\x00\x00\x0b\xd4\x0b\xd4')
+        self.assertEqual(f.readframes(2), b'/x00/x00/x00/x00/x0b/xd4/x0b/xd4')
         with self.assertRaises(aifc.Error):
             f.setpos(-1)
         with self.assertRaises(aifc.Error):
@@ -145,7 +145,7 @@ class AIFCTest(unittest.TestCase):
         fout.setparams((1, 1, 1, 1, b'NONE', b''))
         fout.setmark(1, 0, b'odd')
         fout.setmark(2, 0, b'even')
-        fout.writeframes(b'\x00')
+        fout.writeframes(b'/x00')
         fout.close()
         f = self.f = aifc.open(TESTFN, 'rb')
         self.assertEqual(f.getmarkers(), [(1, 0, b'odd'), (2, 0, b'even')])
@@ -178,7 +178,7 @@ class AIFCLowLevelTest(unittest.TestCase):
             self.assertEqual(read_written(x, 'ushort'), x)
 
     def test_read_raises(self):
-        f = io.BytesIO(b'\x00')
+        f = io.BytesIO(b'/x00')
         self.assertRaises(EOFError, aifc._read_ulong, f)
         self.assertRaises(EOFError, aifc._read_long, f)
         self.assertRaises(EOFError, aifc._read_ushort, f)
@@ -212,33 +212,33 @@ class AIFCLowLevelTest(unittest.TestCase):
     def test_read_wrong_marks(self):
         b = b'FORM' + struct.pack('>L', 4) + b'AIFF'
         b += b'COMM' + struct.pack('>LhlhhLL', 18, 0, 0, 0, 0, 0, 0)
-        b += b'SSND' + struct.pack('>L', 8) + b'\x00' * 8
+        b += b'SSND' + struct.pack('>L', 8) + b'/x00' * 8
         b += b'MARK' + struct.pack('>LhB', 3, 1, 1)
         with captured_stdout() as s:
             f = aifc.open(io.BytesIO(b))
         self.assertEqual(
             s.getvalue(),
-            'Warning: MARK chunk contains only 0 markers instead of 1\n')
+            'Warning: MARK chunk contains only 0 markers instead of 1/n')
         self.assertEqual(f.getmarkers(), None)
 
     def test_read_comm_kludge_compname_even(self):
         b = b'FORM' + struct.pack('>L', 4) + b'AIFC'
         b += b'COMM' + struct.pack('>LhlhhLL', 18, 0, 0, 0, 0, 0, 0)
-        b += b'NONE' + struct.pack('B', 4) + b'even' + b'\x00'
-        b += b'SSND' + struct.pack('>L', 8) + b'\x00' * 8
+        b += b'NONE' + struct.pack('B', 4) + b'even' + b'/x00'
+        b += b'SSND' + struct.pack('>L', 8) + b'/x00' * 8
         with captured_stdout() as s:
             f = aifc.open(io.BytesIO(b))
-        self.assertEqual(s.getvalue(), 'Warning: bad COMM chunk size\n')
+        self.assertEqual(s.getvalue(), 'Warning: bad COMM chunk size/n')
         self.assertEqual(f.getcompname(), b'even')
 
     def test_read_comm_kludge_compname_odd(self):
         b = b'FORM' + struct.pack('>L', 4) + b'AIFC'
         b += b'COMM' + struct.pack('>LhlhhLL', 18, 0, 0, 0, 0, 0, 0)
         b += b'NONE' + struct.pack('B', 3) + b'odd'
-        b += b'SSND' + struct.pack('>L', 8) + b'\x00' * 8
+        b += b'SSND' + struct.pack('>L', 8) + b'/x00' * 8
         with captured_stdout() as s:
             f = aifc.open(io.BytesIO(b))
-        self.assertEqual(s.getvalue(), 'Warning: bad COMM chunk size\n')
+        self.assertEqual(s.getvalue(), 'Warning: bad COMM chunk size/n')
         self.assertEqual(f.getcompname(), b'odd')
 
     def test_write_params_raises(self):
@@ -258,7 +258,7 @@ class AIFCLowLevelTest(unittest.TestCase):
         fout.setsampwidth(1)
         fout.setframerate(1)
         fout.setnframes(1)
-        fout.writeframes(b'\x00')
+        fout.writeframes(b'/x00')
         self.assertRaises(aifc.Error, fout.setparams, (1, 1, 1, 1, 1, 1))
         self.assertRaises(aifc.Error, fout.setnchannels, 1)
         self.assertRaises(aifc.Error, fout.setsampwidth, 1)
@@ -283,7 +283,7 @@ class AIFCLowLevelTest(unittest.TestCase):
         self.assertEqual(fout.tell(), 0)
         self.assertEqual(fout.getcomptype(), b'NONE')
         self.assertEqual(fout.getcompname(), b'name')
-        fout.writeframes(b'\x00' * 4 * fout.getsampwidth() * fout.getnchannels())
+        fout.writeframes(b'/x00' * 4 * fout.getsampwidth() * fout.getnchannels())
         self.assertEqual(fout.getnframes(), 4)
         self.assertEqual(fout.tell(), 4)
 
@@ -326,7 +326,7 @@ class AIFCLowLevelTest(unittest.TestCase):
         sampwidth = 2
         fout = self.fout = aifc.open(TESTFN + '.aiff', 'wb')
         fout.setparams((1, sampwidth, 1, 1, b'ULAW', b''))
-        frames = b'\x00' * fout.getnchannels() * sampwidth
+        frames = b'/x00' * fout.getnchannels() * sampwidth
         fout.writeframes(frames)
         fout.close()
         f = self.f = aifc.open(TESTFN + '.aiff', 'rb')

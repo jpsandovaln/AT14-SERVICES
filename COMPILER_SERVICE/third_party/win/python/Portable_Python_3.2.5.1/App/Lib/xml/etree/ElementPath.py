@@ -60,14 +60,14 @@ import re
 
 xpath_tokenizer_re = re.compile(
     "("
-    "'[^']*'|\"[^\"]*\"|"
+    "'[^']*'|/"[^/"]*/"|"
     "::|"
     "//?|"
-    "\.\.|"
-    "\(\)|"
-    "[/.*:\[\]\(\)@=])|"
-    "((?:\{[^}]+\})?[^/\[\]\(\)@=\s]+)|"
-    "\s+"
+    "/./.|"
+    "/(/)|"
+    "[/.*:/[/]/(/)@=])|"
+    "((?:/{[^}]+/})?[^//[/]/(/)@=/s]+)|"
+    "/s+"
     )
 
 def xpath_tokenizer(pattern, namespaces=None):
@@ -153,7 +153,7 @@ def prepare_predicate(next, token):
         token = next()
         if token[0] == "]":
             break
-        if token[0] and token[0][:1] in "'\"":
+        if token[0] and token[0][:1] in "'/"":
             token = "'", token[0][1:-1]
         signature.append(token[0] or "-")
         predicate.append(token[1])
@@ -176,7 +176,7 @@ def prepare_predicate(next, token):
                 if elem.get(key) == value:
                     yield elem
         return select
-    if signature == "-" and not re.match("\d+$", predicate[0]):
+    if signature == "-" and not re.match("/d+$", predicate[0]):
         # [tag]
         tag = predicate[0]
         def select(context, result):
@@ -184,7 +184,7 @@ def prepare_predicate(next, token):
                 if elem.find(tag) is not None:
                     yield elem
         return select
-    if signature == "-='" and not re.match("\d+$", predicate[0]):
+    if signature == "-='" and not re.match("/d+$", predicate[0]):
         # [tag='value']
         tag = predicate[0]
         value = predicate[-1]

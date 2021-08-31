@@ -13,7 +13,7 @@ lengths = list(range(1, 257)) + [512, 1000, 1024, 2048, 4096, 8192, 10000,
 
 class BufferSizeTest(unittest.TestCase):
     def try_one(self, s):
-        # Write s + "\n" + s to file, then open it and ensure that successive
+        # Write s + "/n" + s to file, then open it and ensure that successive
         # .readline()s deliver what we wrote.
 
         # Ensure we can open TESTFN for writing.
@@ -23,14 +23,14 @@ class BufferSizeTest(unittest.TestCase):
         # files, use binary mode.
         f = self.open(support.TESTFN, "wb")
         try:
-            # write once with \n and once without
+            # write once with /n and once without
             f.write(s)
-            f.write(b"\n")
+            f.write(b"/n")
             f.write(s)
             f.close()
             f = open(support.TESTFN, "rb")
             line = f.readline()
-            self.assertEqual(line, s + b"\n")
+            self.assertEqual(line, s + b"/n")
             line = f.readline()
             self.assertEqual(line, s)
             line = f.readline()
@@ -56,7 +56,7 @@ class BufferSizeTest(unittest.TestCase):
     def test_primepat(self):
         # A pattern with prime length, to avoid simple relationships with
         # stdio buffer sizes.
-        self.drive_one(b"1234567890\00\01\02\03\04\05\06")
+        self.drive_one(b"1234567890/00/01/02/03/04/05/06")
 
     def test_nullpat(self):
         self.drive_one(bytes(1000))

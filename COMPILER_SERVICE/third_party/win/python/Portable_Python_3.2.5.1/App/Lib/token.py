@@ -94,12 +94,12 @@ def _main():
     try:
         fp = open(inFileName)
     except IOError as err:
-        sys.stdout.write("I/O error: %s\n" % str(err))
+        sys.stdout.write("I/O error: %s/n" % str(err))
         sys.exit(1)
-    lines = fp.read().split("\n")
+    lines = fp.read().split("/n")
     fp.close()
     prog = re.compile(
-        "#define[ \t][ \t]*([A-Z0-9][A-Z0-9_]*)[ \t][ \t]*([0-9][0-9]*)",
+        "#define[ /t][ /t]*([A-Z0-9][A-Z0-9_]*)[ /t][ /t]*([0-9][0-9]*)",
         re.IGNORECASE)
     tokens = {}
     for line in lines:
@@ -113,9 +113,9 @@ def _main():
     try:
         fp = open(outFileName)
     except IOError as err:
-        sys.stderr.write("I/O error: %s\n" % str(err))
+        sys.stderr.write("I/O error: %s/n" % str(err))
         sys.exit(2)
-    format = fp.read().split("\n")
+    format = fp.read().split("/n")
     fp.close()
     try:
         start = format.index("#--start constants--") + 1
@@ -130,9 +130,9 @@ def _main():
     try:
         fp = open(outFileName, 'w')
     except IOError as err:
-        sys.stderr.write("I/O error: %s\n" % str(err))
+        sys.stderr.write("I/O error: %s/n" % str(err))
         sys.exit(4)
-    fp.write("\n".join(format))
+    fp.write("/n".join(format))
     fp.close()
 
 

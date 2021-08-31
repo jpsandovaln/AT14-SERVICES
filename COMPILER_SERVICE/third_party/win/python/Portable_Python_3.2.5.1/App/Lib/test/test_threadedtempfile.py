@@ -66,8 +66,8 @@ class ThreadedTempFileTest(unittest.TestCase):
 
         threading_cleanup(*thread_info)
 
-        msg = "Errors: errors %d ok %d\n%s" % (len(errors), ok,
-            '\n'.join(errors))
+        msg = "Errors: errors %d ok %d/n%s" % (len(errors), ok,
+            '/n'.join(errors))
         self.assertEqual(errors, [], msg)
         self.assertEqual(ok, NUM_THREADS * FILES_PER_THREAD)
 

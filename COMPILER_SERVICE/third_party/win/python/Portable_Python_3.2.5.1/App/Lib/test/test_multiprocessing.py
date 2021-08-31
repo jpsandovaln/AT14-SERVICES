@@ -1739,7 +1739,7 @@ class _TestConnection(BaseTestCase):
 
     @classmethod
     def _send_data_without_fd(self, conn):
-        os.write(conn.fileno(), b"\0")
+        os.write(conn.fileno(), b"/0")
 
     @unittest.skipUnless(HAS_REDUCTION, "test needs multiprocessing.reduction")
     @unittest.skipIf(sys.platform == "win32", "doesn't make sense on Windows")
@@ -2422,7 +2422,7 @@ class TestInvalidFamily(unittest.TestCase):
     @unittest.skipIf(WIN32, "skipped on Windows")
     def test_invalid_family(self):
         with self.assertRaises(ValueError):
-            multiprocessing.connection.Listener(r'\\.\test')
+            multiprocessing.connection.Listener(r'//./test')
 
     @unittest.skipUnless(WIN32, "skipped on non-Windows platforms")
     def test_invalid_family_win32(self):

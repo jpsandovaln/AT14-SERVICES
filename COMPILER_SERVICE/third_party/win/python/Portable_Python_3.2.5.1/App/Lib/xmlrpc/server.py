@@ -33,7 +33,7 @@ class MyFuncs:
     def _listMethods(self):
         # implement this method so that system.listMethods
         # knows to advertise the sys methods
-        return list_public_methods(self) + \
+        return list_public_methods(self) + /
                 ['sys.' + method for method in list_public_methods(self.sys)]
     def pow(self, x, y): return pow(x, y)
     def add(self, x, y) : return x + y
@@ -332,7 +332,7 @@ class SimpleXMLRPCDispatcher:
             return pydoc.getdoc(method)
 
     def system_multicall(self, call_list):
-        """system.multicall([{'methodName': 'add', 'params': [2, 2]}, ...]) => \
+        """system.multicall([{'methodName': 'add', 'params': [2, 2]}, ...]) => /
 [[4], ...]
 
         Allows the caller to package multiple XML-RPC calls into a single
@@ -430,8 +430,8 @@ class SimpleXMLRPCRequestHandler(BaseHTTPRequestHandler):
 
     # a re to match a gzip Accept-Encoding
     aepattern = re.compile(r"""
-                            \s* ([^\s;]+) \s*            #content-coding
-                            (;\s* q \s*=\s* ([0-9\.]+))? #q
+                            /s* ([^/s;]+) /s*            #content-coding
+                            (;/s* q /s*=/s* ([0-9/.]+))? #q
                             """, re.VERBOSE | re.IGNORECASE)
 
     def accept_encodings(self):
@@ -498,7 +498,7 @@ class SimpleXMLRPCRequestHandler(BaseHTTPRequestHandler):
             self.send_response(500)
 
             # Send information about the exception if requested
-            if hasattr(self.server, '_send_traceback_header') and \
+            if hasattr(self.server, '_send_traceback_header') and /
                     self.server._send_traceback_header:
                 self.send_header("X-exception", str(e))
                 trace = traceback.format_exc()
@@ -656,7 +656,7 @@ class CGIXMLRPCRequestHandler(SimpleXMLRPCDispatcher):
         code = 400
         message, explain = BaseHTTPRequestHandler.responses[code]
 
-        response = http.server.DEFAULT_ERROR_MESSAGE % \
+        response = http.server.DEFAULT_ERROR_MESSAGE % /
             {
              'code' : code,
              'message' : message,
@@ -679,7 +679,7 @@ class CGIXMLRPCRequestHandler(SimpleXMLRPCDispatcher):
         headers.
         """
 
-        if request_text is None and \
+        if request_text is None and /
             os.environ.get('REQUEST_METHOD', None) == 'GET':
             self.handle_get()
         else:
@@ -711,10 +711,10 @@ class ServerHTMLDoc(pydoc.HTMLDoc):
         # hyperlinking of arbitrary strings being used as method
         # names. Only methods with names consisting of word characters
         # and '.'s are hyperlinked.
-        pattern = re.compile(r'\b((http|ftp)://\S+[\w/]|'
-                                r'RFC[- ]?(\d+)|'
-                                r'PEP[- ]?(\d+)|'
-                                r'(self\.)?((?:\w|\.)+))\b')
+        pattern = re.compile(r'/b((http|ftp):///S+[/w/]|'
+                                r'RFC[- ]?(/d+)|'
+                                r'PEP[- ]?(/d+)|'
+                                r'(self/.)?((?:/w|/.)+))/b')
         while 1:
             match = pattern.search(text, here)
             if not match: break
@@ -781,7 +781,7 @@ class ServerHTMLDoc(pydoc.HTMLDoc):
         doc = self.markup(
             docstring, self.preformat, funcs, classes, methods)
         doc = doc and '<dd><tt>%s</tt></dd>' % doc
-        return '<dl><dt>%s</dt>%s</dl>\n' % (decl, doc)
+        return '<dl><dt>%s</dt>%s</dl>/n' % (decl, doc)
 
     def docserver(self, server_name, package_documentation, methods):
         """Produce HTML documentation for an XML-RPC server."""
@@ -797,7 +797,7 @@ class ServerHTMLDoc(pydoc.HTMLDoc):
 
         doc = self.markup(package_documentation, self.preformat, fdict)
         doc = doc and '<tt>%s</tt>' % doc
-        result = result + '<p>%s</p>\n' % doc
+        result = result + '<p>%s</p>/n' % doc
 
         contents = []
         method_items = sorted(methods.items())
@@ -818,8 +818,8 @@ class XMLRPCDocGenerator:
     def __init__(self):
         # setup variables used for HTML documentation
         self.server_name = 'XML-RPC Server Documentation'
-        self.server_documentation = \
-            "This server exports the following methods through the XML-RPC "\
+        self.server_documentation = /
+            "This server exports the following methods through the XML-RPC "/
             "protocol."
         self.server_title = 'XML-RPC Server Documentation'
 
@@ -875,7 +875,7 @@ class XMLRPCDocGenerator:
                 else:
                     method = method_info
             else:
-                assert 0, "Could not find method in self.functions and no "\
+                assert 0, "Could not find method in self.functions and no "/
                           "instance installed"
 
             methods[method_name] = method

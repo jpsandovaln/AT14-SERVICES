@@ -38,7 +38,7 @@ class PopenTest(unittest.TestCase):
             ["foo", "spam and eggs", "silly walk"]
         )
         self._do_test_commandline(
-            'foo "a \\"quoted\\" arg" bar',
+            'foo "a //"quoted//" arg" bar',
             ["foo", 'a "quoted" arg', "bar"]
         )
         support.reap_children()
@@ -52,11 +52,11 @@ class PopenTest(unittest.TestCase):
 
     def test_contextmanager(self):
         with os.popen("echo hello") as f:
-            self.assertEqual(f.read(), "hello\n")
+            self.assertEqual(f.read(), "hello/n")
 
     def test_iterating(self):
         with os.popen("echo hello") as f:
-            self.assertEqual(list(f), ["hello\n"])
+            self.assertEqual(list(f), ["hello/n"])
 
 def test_main():
     support.run_unittest(PopenTest)

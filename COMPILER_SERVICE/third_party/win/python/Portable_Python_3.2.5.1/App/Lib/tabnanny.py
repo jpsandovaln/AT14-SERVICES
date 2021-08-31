@@ -37,7 +37,7 @@ def errprint(*args):
     for arg in args:
         sys.stderr.write(sep + str(arg))
         sep = " "
-    sys.stderr.write("\n")
+    sys.stderr.write("/n")
 
 def main():
     global verbose, filename_only
@@ -134,7 +134,7 @@ def check(file):
 
 class Whitespace:
     # the characters used for space and tab
-    S, T = ' \t'
+    S, T = ' /t'
 
     # members:
     #   raw

@@ -42,18 +42,18 @@ class GeneralFloatCases(unittest.TestCase):
         self.assertRaises(ValueError, float, b"-")
         self.assertRaises(TypeError, float, {})
         # Lone surrogate
-        self.assertRaises(UnicodeEncodeError, float, '\uD8F0')
+        self.assertRaises(UnicodeEncodeError, float, '/uD8F0')
         # check that we don't accept alternate exponent markers
         self.assertRaises(ValueError, float, "-1.7d29")
         self.assertRaises(ValueError, float, "3D-14")
-        self.assertEqual(float("  \u0663.\u0661\u0664  "), 3.14)
-        self.assertEqual(float("\N{EM SPACE}3.14\N{EN SPACE}"), 3.14)
+        self.assertEqual(float("  /u0663./u0661/u0664  "), 3.14)
+        self.assertEqual(float("/N{EM SPACE}3.14/N{EN SPACE}"), 3.14)
         # extra long strings should not be a problem
         float(b'.' + b'1'*1000)
         float('.' + '1'*1000)
 
     def test_error_message(self):
-        testlist = ('\xbd', '123\xbd', '  123 456  ')
+        testlist = ('/xbd', '123/xbd', '  123 456  ')
         for s in testlist:
             try:
                 float(s)
@@ -458,14 +458,14 @@ class FormatFunctionsTestCase(unittest.TestCase):
         self.assertRaises(ValueError, float.__setformat__,
                           'chicken', 'unknown')
 
-BE_DOUBLE_INF = b'\x7f\xf0\x00\x00\x00\x00\x00\x00'
+BE_DOUBLE_INF = b'/x7f/xf0/x00/x00/x00/x00/x00/x00'
 LE_DOUBLE_INF = bytes(reversed(BE_DOUBLE_INF))
-BE_DOUBLE_NAN = b'\x7f\xf8\x00\x00\x00\x00\x00\x00'
+BE_DOUBLE_NAN = b'/x7f/xf8/x00/x00/x00/x00/x00/x00'
 LE_DOUBLE_NAN = bytes(reversed(BE_DOUBLE_NAN))
 
-BE_FLOAT_INF = b'\x7f\x80\x00\x00'
+BE_FLOAT_INF = b'/x7f/x80/x00/x00'
 LE_FLOAT_INF = bytes(reversed(BE_FLOAT_INF))
-BE_FLOAT_NAN = b'\x7f\xc0\x00\x00'
+BE_FLOAT_NAN = b'/x7f/xc0/x00/x00'
 LE_FLOAT_NAN = bytes(reversed(BE_FLOAT_NAN))
 
 # on non-IEEE platforms, attempting to unpack a bit pattern
@@ -941,12 +941,12 @@ class HexFloatTestCase(unittest.TestCase):
             '0x.p0', # no hex digits before or after point
             '0x1,p0', # wrong decimal point character
             '0x1pa',
-            '0x1p\uff10',  # fullwidth Unicode digits
-            '\uff10x1p0',
-            '0x\uff11p0',
-            '0x1.\uff10p0',
-            '0x1p0 \n 0x2p0',
-            '0x1p0\0 0x1p0',  # embedded null byte is not end of string
+            '0x1p/uff10',  # fullwidth Unicode digits
+            '/uff10x1p0',
+            '0x/uff11p0',
+            '0x1./uff10p0',
+            '0x1p0 /n 0x2p0',
+            '0x1p0/0 0x1p0',  # embedded null byte is not end of string
             ]
         for x in invalid_inputs:
             try:
@@ -970,12 +970,12 @@ class HexFloatTestCase(unittest.TestCase):
         whitespace = [
             '',
             ' ',
-            '\t',
-            '\n',
-            '\n \t',
-            '\f',
-            '\v',
-            '\r'
+            '/t',
+            '/n',
+            '/n /t',
+            '/f',
+            '/v',
+            '/r'
             ]
         for inp, expected in value_pairs:
             for lead in whitespace:
@@ -1033,8 +1033,8 @@ class HexFloatTestCase(unittest.TestCase):
         self.identical(fromHex('0x01p0'), 1.0)
         self.identical(fromHex('0x1p00'), 1.0)
         self.identical(fromHex(' 0x1p0 '), 1.0)
-        self.identical(fromHex('\n 0x1p0'), 1.0)
-        self.identical(fromHex('0x1p0 \t'), 1.0)
+        self.identical(fromHex('/n 0x1p0'), 1.0)
+        self.identical(fromHex('0x1p0 /t'), 1.0)
         self.identical(fromHex('0xap0'), 10.0)
         self.identical(fromHex('0xAp0'), 10.0)
         self.identical(fromHex('0xaP0'), 10.0)

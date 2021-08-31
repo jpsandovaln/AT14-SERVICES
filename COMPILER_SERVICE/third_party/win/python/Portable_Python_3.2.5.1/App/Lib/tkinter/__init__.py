@@ -51,8 +51,8 @@ WRITABLE = _tkinter.WRITABLE
 EXCEPTION = _tkinter.EXCEPTION
 
 
-_magic_re = re.compile(r'([\\{}])')
-_space_re = re.compile(r'([\s])', re.ASCII)
+_magic_re = re.compile(r'([//{}])')
+_space_re = re.compile(r'([/s])', re.ASCII)
 
 def _join(value):
     """Internal function."""
@@ -72,9 +72,9 @@ def _stringify(value):
         if not value:
             value = '{}'
         elif _magic_re.search(value):
-            # add '\' before special characters and spaces
-            value = _magic_re.sub(r'\\\1', value)
-            value = _space_re.sub(r'\\\1', value)
+            # add '/' before special characters and spaces
+            value = _magic_re.sub(r'///1', value)
+            value = _space_re.sub(r'///1', value)
         elif value[0] == '"' or _space_re.search(value):
             value = '{%s}' % value
     return value
@@ -257,7 +257,7 @@ class Variable:
         Note: if the Variable's master matters to behavior
         also compare self._master == other._master
         """
-        return self.__class__.__name__ == other.__class__.__name__ \
+        return self.__class__.__name__ == other.__class__.__name__ /
             and self._name == other._name
 
 class StringVar(Variable):
@@ -716,7 +716,7 @@ class Misc:
         return getint(self.tk.call(args))
     def winfo_atomname(self, id, displayof=0):
         """Return name of atom with identifier ID."""
-        args = ('winfo', 'atomname') \
+        args = ('winfo', 'atomname') /
                + self._displayof(displayof) + (id,)
         return self.tk.call(args)
     def winfo_cells(self):
@@ -745,7 +745,7 @@ class Misc:
             self.tk.call('winfo', 'colormapfull', self._w))
     def winfo_containing(self, rootX, rootY, displayof=0):
         """Return the widget which is at the root coordinates ROOTX, ROOTY."""
-        args = ('winfo', 'containing') \
+        args = ('winfo', 'containing') /
                + self._displayof(displayof) + (rootX, rootY)
         name = self.tk.call(args)
         if not name: return None
@@ -792,7 +792,7 @@ class Misc:
         return self.tk.call('winfo', 'parent', self._w)
     def winfo_pathname(self, id, displayof=0):
         """Return the pathname of the widget given by ID."""
-        args = ('winfo', 'pathname') \
+        args = ('winfo', 'pathname') /
                + self._displayof(displayof) + (id,)
         return self.tk.call(args)
     def winfo_pixels(self, number):
@@ -973,7 +973,7 @@ class Misc:
         elif func:
             funcid = self._register(func, self._substitute,
                         needcleanup)
-            cmd = ('%sif {"[%s %s]" == "break"} break\n'
+            cmd = ('%sif {"[%s %s]" == "break"} break/n'
                    %
                    (add and '+' or '',
                 funcid, self._subst_format_str))
@@ -1083,7 +1083,7 @@ class Misc:
         try:
             return self._root()._windowingsystem_cached
         except AttributeError:
-            ws = self._root()._windowingsystem_cached = \
+            ws = self._root()._windowingsystem_cached = /
                         self.tk.call('tk', 'windowingsystem')
             return ws
     def _options(self, cnf, kw = None):
@@ -1749,7 +1749,7 @@ class Tk(Misc, Wm):
         # Under unknown circumstances, tcl_version gets coerced to float
         tcl_version = str(self.tk.getvar('tcl_version'))
         if tcl_version != _tkinter.TCL_VERSION:
-            raise RuntimeError("tcl.h version (%s) doesn't match libtcl.a version (%s)" \
+            raise RuntimeError("tcl.h version (%s) doesn't match libtcl.a version (%s)" /
                                % (_tkinter.TCL_VERSION, tcl_version))
         if TkVersion < 4.0:
             raise RuntimeError("Tk 4.0 or higher is required; found Tk %s"
@@ -1799,7 +1799,7 @@ class Tk(Misc, Wm):
     def report_callback_exception(self, exc, val, tb):
         """Internal function. It reports exception on sys.stderr."""
         import traceback, sys
-        sys.stderr.write("Exception in Tkinter callback\n")
+        sys.stderr.write("Exception in Tkinter callback/n")
         sys.last_type = exc
         sys.last_value = val
         sys.last_traceback = tb
@@ -3751,7 +3751,7 @@ def _test():
     root = Tk()
     text = "This is Tcl/Tk version %s" % TclVersion
     if TclVersion >= 8.1:
-        text += "\nThis should be a cedilla: \xe7"
+        text += "/nThis should be a cedilla: /xe7"
     label = Label(root, text=text)
     label.pack()
     test = Button(root, text="Click me!",

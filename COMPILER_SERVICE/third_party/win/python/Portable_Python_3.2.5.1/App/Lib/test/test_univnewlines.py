@@ -21,14 +21,14 @@ DATA_TEMPLATE = [
     "line4 = '%s'" % FATX,
     ]
 
-DATA_LF = "\n".join(DATA_TEMPLATE) + "\n"
-DATA_CR = "\r".join(DATA_TEMPLATE) + "\r"
-DATA_CRLF = "\r\n".join(DATA_TEMPLATE) + "\r\n"
+DATA_LF = "/n".join(DATA_TEMPLATE) + "/n"
+DATA_CR = "/r".join(DATA_TEMPLATE) + "/r"
+DATA_CRLF = "/r/n".join(DATA_TEMPLATE) + "/r/n"
 
-# Note that DATA_MIXED also tests the ability to recognize a lone \r
+# Note that DATA_MIXED also tests the ability to recognize a lone /r
 # before end-of-file.
-DATA_MIXED = "\n".join(DATA_TEMPLATE) + "\r"
-DATA_SPLIT = [x + "\n" for x in DATA_TEMPLATE]
+DATA_MIXED = "/n".join(DATA_TEMPLATE) + "/r"
+DATA_SPLIT = [x + "/n" for x in DATA_TEMPLATE]
 
 class TestGenericUnivNewlines(unittest.TestCase):
     # use a class variable DATA to define the data to write to the file
@@ -83,15 +83,15 @@ class TestGenericUnivNewlines(unittest.TestCase):
 
 
 class TestCRNewlines(TestGenericUnivNewlines):
-    NEWLINE = '\r'
+    NEWLINE = '/r'
     DATA = DATA_CR
 
 class TestLFNewlines(TestGenericUnivNewlines):
-    NEWLINE = '\n'
+    NEWLINE = '/n'
     DATA = DATA_LF
 
 class TestCRLFNewlines(TestGenericUnivNewlines):
-    NEWLINE = '\r\n'
+    NEWLINE = '/r/n'
     DATA = DATA_CRLF
 
     def test_tell(self):
@@ -102,7 +102,7 @@ class TestCRLFNewlines(TestGenericUnivNewlines):
         self.assertEqual(repr(fp.newlines), repr(self.NEWLINE))
 
 class TestMixedNewlines(TestGenericUnivNewlines):
-    NEWLINE = ('\r', '\n')
+    NEWLINE = ('/r', '/n')
     DATA = DATA_MIXED
 
 

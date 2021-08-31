@@ -68,15 +68,15 @@ test_conv_no_sign = [
         ('314', 314),
         (' 314', 314),
         ('314 ', 314),
-        ('  \t\t  314  \t\t  ', 314),
+        ('  /t/t  314  /t/t  ', 314),
         (repr(sys.maxsize), sys.maxsize),
         ('  1x', ValueError),
         ('  1  ', 1),
-        ('  1\02  ', ValueError),
+        ('  1/02  ', ValueError),
         ('', ValueError),
         (' ', ValueError),
-        ('  \t\t  ', ValueError),
-        (str(b'\u0663\u0661\u0664 ','raw-unicode-escape'), 314),
+        ('  /t/t  ', ValueError),
+        (str(b'/u0663/u0661/u0664 ','raw-unicode-escape'), 314),
         (chr(0x200), ValueError),
 ]
 
@@ -90,15 +90,15 @@ test_conv_sign = [
         ('314', 314),
         (' 314', ValueError),
         ('314 ', 314),
-        ('  \t\t  314  \t\t  ', ValueError),
+        ('  /t/t  314  /t/t  ', ValueError),
         (repr(sys.maxsize), sys.maxsize),
         ('  1x', ValueError),
         ('  1  ', ValueError),
-        ('  1\02  ', ValueError),
+        ('  1/02  ', ValueError),
         ('', ValueError),
         (' ', ValueError),
-        ('  \t\t  ', ValueError),
-        (str(b'\u0663\u0661\u0664 ','raw-unicode-escape'), 314),
+        ('  /t/t  ', ValueError),
+        (str(b'/u0663/u0661/u0664 ','raw-unicode-escape'), 314),
         (chr(0x200), ValueError),
 ]
 
@@ -177,7 +177,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertEqual(any(x > 42 for x in S), False)
 
     def test_ascii(self):
-        self.assertEqual(ascii(''), '\'\'')
+        self.assertEqual(ascii(''), '/'/'')
         self.assertEqual(ascii(0), '0')
         self.assertEqual(ascii(()), '()')
         self.assertEqual(ascii([]), '[]')
@@ -193,23 +193,23 @@ class BuiltinTest(unittest.TestCase):
             self.assertEqual(ascii(s), repr(s))
         _check_uni("'")
         _check_uni('"')
-        _check_uni('"\'')
-        _check_uni('\0')
-        _check_uni('\r\n\t .')
+        _check_uni('"/'')
+        _check_uni('/0')
+        _check_uni('/r/n/t .')
         # Unprintable non-ASCII characters
-        _check_uni('\x85')
-        _check_uni('\u1fff')
-        _check_uni('\U00012fff')
+        _check_uni('/x85')
+        _check_uni('/u1fff')
+        _check_uni('/U00012fff')
         # Lone surrogates
-        _check_uni('\ud800')
-        _check_uni('\udfff')
+        _check_uni('/ud800')
+        _check_uni('/udfff')
         # Issue #9804: surrogates should be joined even for printable
         # wide characters (UCS-2 builds).
-        self.assertEqual(ascii('\U0001d121'), "'\\U0001d121'")
+        self.assertEqual(ascii('/U0001d121'), "'//U0001d121'")
         # All together
-        s = "'\0\"\n\r\t abcd\x85é\U00012fff\uD800\U0001D121xxx."
+        s = "'/0/"/n/r/t abcd/x85é/U00012fff/uD800/U0001D121xxx."
         self.assertEqual(ascii(s),
-            r"""'\'\x00"\n\r\t abcd\x85\xe9\U00012fff\ud800\U0001d121xxx.'""")
+            r"""'/'/x00"/n/r/t abcd/x85/xe9/U00012fff/ud800/U0001d121xxx.'""")
 
     def test_neg(self):
         x = -sys.maxsize-1
@@ -254,21 +254,21 @@ class BuiltinTest(unittest.TestCase):
         self.assertEqual(chr(32), ' ')
         self.assertEqual(chr(65), 'A')
         self.assertEqual(chr(97), 'a')
-        self.assertEqual(chr(0xff), '\xff')
+        self.assertEqual(chr(0xff), '/xff')
         self.assertRaises(ValueError, chr, 1<<24)
         self.assertEqual(chr(sys.maxunicode),
-                         str(('\\U%08x' % (sys.maxunicode)).encode("ascii"),
+                         str(('//U%08x' % (sys.maxunicode)).encode("ascii"),
                              'unicode-escape'))
         self.assertRaises(TypeError, chr)
-        self.assertEqual(chr(0x0000FFFF), "\U0000FFFF")
-        self.assertEqual(chr(0x00010000), "\U00010000")
-        self.assertEqual(chr(0x00010001), "\U00010001")
-        self.assertEqual(chr(0x000FFFFE), "\U000FFFFE")
-        self.assertEqual(chr(0x000FFFFF), "\U000FFFFF")
-        self.assertEqual(chr(0x00100000), "\U00100000")
-        self.assertEqual(chr(0x00100001), "\U00100001")
-        self.assertEqual(chr(0x0010FFFE), "\U0010FFFE")
-        self.assertEqual(chr(0x0010FFFF), "\U0010FFFF")
+        self.assertEqual(chr(0x0000FFFF), "/U0000FFFF")
+        self.assertEqual(chr(0x00010000), "/U00010000")
+        self.assertEqual(chr(0x00010001), "/U00010001")
+        self.assertEqual(chr(0x000FFFFE), "/U000FFFFE")
+        self.assertEqual(chr(0x000FFFFF), "/U000FFFFF")
+        self.assertEqual(chr(0x00100000), "/U00100000")
+        self.assertEqual(chr(0x00100001), "/U00100001")
+        self.assertEqual(chr(0x0010FFFE), "/U0010FFFE")
+        self.assertEqual(chr(0x0010FFFF), "/U0010FFFF")
         self.assertRaises(ValueError, chr, -1)
         self.assertRaises(ValueError, chr, 0x00110000)
         self.assertRaises((OverflowError, ValueError), chr, 2**32)
@@ -277,20 +277,20 @@ class BuiltinTest(unittest.TestCase):
         self.assertTrue(not hasattr(builtins, "cmp"))
 
     def test_compile(self):
-        compile('print(1)\n', '', 'exec')
-        bom = b'\xef\xbb\xbf'
-        compile(bom + b'print(1)\n', '', 'exec')
+        compile('print(1)/n', '', 'exec')
+        bom = b'/xef/xbb/xbf'
+        compile(bom + b'print(1)/n', '', 'exec')
         compile(source='pass', filename='?', mode='exec')
         compile(dont_inherit=0, filename='tmp', source='0', mode='eval')
         compile('pass', '?', dont_inherit=1, mode='exec')
         compile(memoryview(b"text"), "name", "exec")
         self.assertRaises(TypeError, compile)
-        self.assertRaises(ValueError, compile, 'print(42)\n', '<string>', 'badmode')
-        self.assertRaises(ValueError, compile, 'print(42)\n', '<string>', 'single', 0xff)
+        self.assertRaises(ValueError, compile, 'print(42)/n', '<string>', 'badmode')
+        self.assertRaises(ValueError, compile, 'print(42)/n', '<string>', 'single', 0xff)
         self.assertRaises(TypeError, compile, chr(0), 'f', 'exec')
         self.assertRaises(TypeError, compile, 'pass', '?', 'exec',
                           mode='eval', source='0', filename='tmp')
-        compile('print("\xe5")\n', '', 'exec')
+        compile('print("/xe5")/n', '', 'exec')
         self.assertRaises(TypeError, compile, chr(0), 'f', 'exec')
         self.assertRaises(ValueError, compile, str('a = 1'), 'f', 'bad')
 
@@ -411,7 +411,7 @@ class BuiltinTest(unittest.TestCase):
 
     def test_eval(self):
         self.assertEqual(eval('1+1'), 2)
-        self.assertEqual(eval(' 1+1\n'), 2)
+        self.assertEqual(eval(' 1+1/n'), 2)
         globals = {'a': 1, 'b': 2}
         locals = {'b': 200, 'c': 300}
         self.assertEqual(eval('a', globals) , 1)
@@ -420,9 +420,9 @@ class BuiltinTest(unittest.TestCase):
         self.assertEqual(eval('c', globals, locals), 300)
         globals = {'a': 1, 'b': 2}
         locals = {'b': 200, 'c': 300}
-        bom = b'\xef\xbb\xbf'
+        bom = b'/xef/xbb/xbf'
         self.assertEqual(eval(bom + b'a', globals, locals), 1)
-        self.assertEqual(eval('"\xe5"', globals), "\xe5")
+        self.assertEqual(eval('"/xe5"', globals), "/xe5")
         self.assertRaises(TypeError, eval)
         self.assertRaises(TypeError, eval, ())
         self.assertRaises(SyntaxError, eval, bom[:2] + b'a')
@@ -563,7 +563,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(TypeError, getattr)
         self.assertRaises(AttributeError, getattr, sys, chr(sys.maxunicode))
         # unicode surrogates are not encodable to the default encoding (utf8)
-        self.assertRaises(AttributeError, getattr, 1, "\uDAD1\uD51E")
+        self.assertRaises(AttributeError, getattr, 1, "/uDAD1/uD51E")
 
     def test_hasattr(self):
         self.assertTrue(hasattr(sys, 'stdout'))
@@ -861,10 +861,10 @@ class BuiltinTest(unittest.TestCase):
         # NB the first 4 lines are also used to test input, below
         fp = open(TESTFN, 'w')
         try:
-            fp.write('1+1\n')
+            fp.write('1+1/n')
             fp.write('The quick brown fox jumps over the lazy dog')
-            fp.write('.\n')
-            fp.write('Dear John\n')
+            fp.write('./n')
+            fp.write('Dear John/n')
             fp.write('XXX'*100)
             fp.write('YYY'*100)
         finally:
@@ -874,10 +874,10 @@ class BuiltinTest(unittest.TestCase):
         self.write_testfile()
         fp = open(TESTFN, 'r')
         try:
-            self.assertEqual(fp.readline(4), '1+1\n')
-            self.assertEqual(fp.readline(), 'The quick brown fox jumps over the lazy dog.\n')
+            self.assertEqual(fp.readline(4), '1+1/n')
+            self.assertEqual(fp.readline(), 'The quick brown fox jumps over the lazy dog./n')
             self.assertEqual(fp.readline(4), 'Dear')
-            self.assertEqual(fp.readline(100), ' John\n')
+            self.assertEqual(fp.readline(100), ' John/n')
             self.assertEqual(fp.read(300), 'XXX'*100)
             self.assertEqual(fp.read(1000), 'YYY'*100)
         finally:
@@ -888,28 +888,28 @@ class BuiltinTest(unittest.TestCase):
         self.assertEqual(ord(' '), 32)
         self.assertEqual(ord('A'), 65)
         self.assertEqual(ord('a'), 97)
-        self.assertEqual(ord('\x80'), 128)
-        self.assertEqual(ord('\xff'), 255)
+        self.assertEqual(ord('/x80'), 128)
+        self.assertEqual(ord('/xff'), 255)
 
         self.assertEqual(ord(b' '), 32)
         self.assertEqual(ord(b'A'), 65)
         self.assertEqual(ord(b'a'), 97)
-        self.assertEqual(ord(b'\x80'), 128)
-        self.assertEqual(ord(b'\xff'), 255)
+        self.assertEqual(ord(b'/x80'), 128)
+        self.assertEqual(ord(b'/xff'), 255)
 
         self.assertEqual(ord(chr(sys.maxunicode)), sys.maxunicode)
         self.assertRaises(TypeError, ord, 42)
 
         self.assertEqual(ord(chr(0x10FFFF)), 0x10FFFF)
-        self.assertEqual(ord("\U0000FFFF"), 0x0000FFFF)
-        self.assertEqual(ord("\U00010000"), 0x00010000)
-        self.assertEqual(ord("\U00010001"), 0x00010001)
-        self.assertEqual(ord("\U000FFFFE"), 0x000FFFFE)
-        self.assertEqual(ord("\U000FFFFF"), 0x000FFFFF)
-        self.assertEqual(ord("\U00100000"), 0x00100000)
-        self.assertEqual(ord("\U00100001"), 0x00100001)
-        self.assertEqual(ord("\U0010FFFE"), 0x0010FFFE)
-        self.assertEqual(ord("\U0010FFFF"), 0x0010FFFF)
+        self.assertEqual(ord("/U0000FFFF"), 0x0000FFFF)
+        self.assertEqual(ord("/U00010000"), 0x00010000)
+        self.assertEqual(ord("/U00010001"), 0x00010001)
+        self.assertEqual(ord("/U000FFFFE"), 0x000FFFFE)
+        self.assertEqual(ord("/U000FFFFF"), 0x000FFFFF)
+        self.assertEqual(ord("/U00100000"), 0x00100000)
+        self.assertEqual(ord("/U00100001"), 0x00100001)
+        self.assertEqual(ord("/U0010FFFE"), 0x0010FFFE)
+        self.assertEqual(ord("/U0010FFFF"), 0x0010FFFF)
 
     def test_pow(self):
         self.assertEqual(pow(0,0), 1)
@@ -945,8 +945,8 @@ class BuiltinTest(unittest.TestCase):
         for x in 2, 2.0:
             for y in 10, 10.0:
                 for z in 1000, 1000.0:
-                    if isinstance(x, float) or \
-                       isinstance(y, float) or \
+                    if isinstance(x, float) or /
+                       isinstance(y, float) or /
                        isinstance(z, float):
                         self.assertRaises(TypeError, pow, x, y, z)
                     else:
@@ -970,7 +970,7 @@ class BuiltinTest(unittest.TestCase):
             sys.stdout = BitBucket()
             self.assertEqual(input(), "1+1")
             self.assertEqual(input(), 'The quick brown fox jumps over the lazy dog.')
-            self.assertEqual(input('testing\n'), 'Dear John')
+            self.assertEqual(input('testing/n'), 'Dear John')
 
             # SF 1535165: don't segfault on closed stdin
             # sys.stdout must be a regular file for triggering
@@ -979,7 +979,7 @@ class BuiltinTest(unittest.TestCase):
             self.assertRaises(ValueError, input)
 
             sys.stdout = BitBucket()
-            sys.stdin = io.StringIO("NULL\0")
+            sys.stdin = io.StringIO("NULL/0")
             self.assertRaises(TypeError, input, 42, 42)
             sys.stdin = io.StringIO("    'whitespace'")
             self.assertEqual(input(), "    'whitespace'")
@@ -1031,7 +1031,7 @@ class BuiltinTest(unittest.TestCase):
                 os._exit(0)
         # Parent
         os.close(w)
-        os.write(fd, terminal_input + b"\r\n")
+        os.write(fd, terminal_input + b"/r/n")
         # Get results from the pipe
         with open(r, "r") as rpipe:
             lines = []
@@ -1045,7 +1045,7 @@ class BuiltinTest(unittest.TestCase):
         if len(lines) != 2:
             # Something went wrong, try to get at stderr
             with open(fd, "r", encoding="ascii", errors="ignore") as child_output:
-                self.fail("got %d lines in pipe but expected 2, child output was:\n%s"
+                self.fail("got %d lines in pipe but expected 2, child output was:/n%s"
                           % (len(lines), child_output.read()))
         os.close(fd)
         # Check we did exercise the GNU readline path
@@ -1066,14 +1066,14 @@ class BuiltinTest(unittest.TestCase):
 
     def test_input_tty_non_ascii(self):
         # Check stdin/stdout encoding is used when invoking GNU readline
-        self.check_input_tty("prompté", b"quux\xe9", "utf-8")
+        self.check_input_tty("prompté", b"quux/xe9", "utf-8")
 
     def test_input_tty_non_ascii_unicode_errors(self):
         # Check stdin/stdout error handler is used when invoking GNU readline
-        self.check_input_tty("prompté", b"quux\xe9", "ascii")
+        self.check_input_tty("prompté", b"quux/xe9", "ascii")
 
     def test_repr(self):
-        self.assertEqual(repr(''), '\'\'')
+        self.assertEqual(repr(''), '/'/'')
         self.assertEqual(repr(0), '0')
         self.assertEqual(repr(()), '()')
         self.assertEqual(repr([]), '[]')

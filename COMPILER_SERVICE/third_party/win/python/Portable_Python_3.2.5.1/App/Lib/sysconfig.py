@@ -126,10 +126,10 @@ else:
 if os.name == "nt" and "pcbuild" in _PROJECT_BASE[-8:].lower():
     _PROJECT_BASE = _safe_realpath(os.path.join(_PROJECT_BASE, pardir))
 # PC/VS7.1
-if os.name == "nt" and "\\pc\\v" in _PROJECT_BASE[-10:].lower():
+if os.name == "nt" and "//pc//v" in _PROJECT_BASE[-10:].lower():
     _PROJECT_BASE = _safe_realpath(os.path.join(_PROJECT_BASE, pardir, pardir))
 # PC/AMD64
-if os.name == "nt" and "\\pcbuild\\amd64" in _PROJECT_BASE[-14:].lower():
+if os.name == "nt" and "//pcbuild//amd64" in _PROJECT_BASE[-14:].lower():
     _PROJECT_BASE = _safe_realpath(os.path.join(_PROJECT_BASE, pardir, pardir))
 
 def is_python_build():
@@ -208,9 +208,9 @@ def _parse_makefile(filename, vars=None):
     import re
     # Regexes needed for parsing Makefile (and similar syntaxes,
     # like old-style Setup files).
-    _variable_rx = re.compile("([a-zA-Z][a-zA-Z0-9_]+)\s*=\s*(.*)")
-    _findvar1_rx = re.compile(r"\$\(([A-Za-z][A-Za-z0-9_]*)\)")
-    _findvar2_rx = re.compile(r"\${([A-Za-z][A-Za-z0-9_]*)}")
+    _variable_rx = re.compile("([a-zA-Z][a-zA-Z0-9_]+)/s*=/s*(.*)")
+    _findvar1_rx = re.compile(r"/$/(([A-Za-z][A-Za-z0-9_]*)/)")
+    _findvar2_rx = re.compile(r"/${([A-Za-z][A-Za-z0-9_]*)}")
 
     if vars is None:
         vars = {}
@@ -293,7 +293,7 @@ def _parse_makefile(filename, vars=None):
                             done[name] = value
                         variables.remove(name)
 
-                        if name.startswith('PY_') \
+                        if name.startswith('PY_') /
                         and name[3:] in renamed_variables:
 
                             name = name[3:]
@@ -380,8 +380,8 @@ def parse_config_h(fp, vars=None):
     import re
     if vars is None:
         vars = {}
-    define_rx = re.compile("#define ([A-Z][A-Za-z0-9_]+) (.*)\n")
-    undef_rx = re.compile("/[*] #undef ([A-Z][A-Za-z0-9_]+) [*]/\n")
+    define_rx = re.compile("#define ([A-Z][A-Za-z0-9_]+) (.*)/n")
+    undef_rx = re.compile("/[*] #undef ([A-Z][A-Za-z0-9_]+) [*]//n")
 
     while True:
         line = fp.readline()
@@ -599,7 +599,7 @@ def get_platform():
         return "%s-%s.%s" % (osname, version, release)
     elif osname[:6] == "cygwin":
         osname = "cygwin"
-        rel_re = re.compile (r'[\d.]+')
+        rel_re = re.compile (r'[/d.]+')
         m = rel_re.match(release)
         if m:
             release = m.group()
@@ -619,7 +619,7 @@ def _print_dict(title, data):
     for index, (key, value) in enumerate(sorted(data.items())):
         if index == 0:
             print('{0}: '.format(title))
-        print('\t{0} = "{1}"'.format(key, value))
+        print('/t{0} = "{1}"'.format(key, value))
 
 def _main():
     """Display all information sysconfig detains."""

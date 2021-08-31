@@ -20,7 +20,7 @@ class CompileallTests(unittest.TestCase):
         self.source_path = os.path.join(self.directory, '_test.py')
         self.bc_path = imp.cache_from_source(self.source_path)
         with open(self.source_path, 'w') as file:
-            file.write('x = 123\n')
+            file.write('x = 123/n')
         self.source_path2 = os.path.join(self.directory, '_test2.py')
         self.bc_path2 = imp.cache_from_source(self.source_path2)
         shutil.copyfile(self.source_path, self.source_path2)
@@ -61,7 +61,7 @@ class CompileallTests(unittest.TestCase):
 
     def test_magic_number(self):
         # Test a change in mtime leads to a new .pyc.
-        self.recreation_check(b'\0\0\0\0')
+        self.recreation_check(b'/0/0/0/0')
 
     def test_compile_files(self):
         # Test compiling a single file, and complete directory
@@ -116,8 +116,8 @@ class EncodingTest(unittest.TestCase):
         self.directory = tempfile.mkdtemp()
         self.source_path = os.path.join(self.directory, '_test.py')
         with open(self.source_path, 'w', encoding='utf-8') as file:
-            file.write('# -*- coding: utf-8 -*-\n')
-            file.write('print u"\u20ac"\n')
+            file.write('# -*- coding: utf-8 -*-/n')
+            file.write('print u"/u20ac"/n')
 
     def tearDown(self):
         shutil.rmtree(self.directory)
@@ -256,7 +256,7 @@ class CommandLineTests(unittest.TestCase):
         self.assertEqual(b'', quiet)
 
     def test_regexp(self):
-        self.assertRunOK('-q', '-x', r'ba[^\\/]*$', self.pkgdir)
+        self.assertRunOK('-q', '-x', r'ba[^///]*$', self.pkgdir)
         self.assertNotCompiled(self.barfn)
         self.assertCompiled(self.initfn)
 

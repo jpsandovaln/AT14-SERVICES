@@ -118,7 +118,7 @@ def __ge__(self, *args):
 
 # Synthesize all the other AllTests methods from the names in testmeths.
 
-method_template = """\
+method_template = """/
 @trackCall
 def __%s__(self, *args):
     pass
@@ -139,7 +139,7 @@ class ClassTests(unittest.TestCase):
         actualCallList = callLst[:]  # need to copy because the comparison below will add
                                      # additional calls to callLst
         if expected_calls != actualCallList:
-            self.fail("Expected call list:\n  %s\ndoes not match actual call list\n  %s" %
+            self.fail("Expected call list:/n  %s/ndoes not match actual call list/n  %s" %
                       (expected_calls, actualCallList))
 
     def testInit(self):

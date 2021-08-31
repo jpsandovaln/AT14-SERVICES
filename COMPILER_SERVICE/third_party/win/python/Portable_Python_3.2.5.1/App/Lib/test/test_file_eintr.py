@@ -65,7 +65,7 @@ class TestFileIOSignalInterrupt(unittest.TestCase):
             stdout_end, stderr_end = self._process.communicate()
             stdout += stdout_end
             stderr += stderr_end
-        self.fail('Error from IO process %s:\nSTDOUT:\n%sSTDERR:\n%s\n' %
+        self.fail('Error from IO process %s:/nSTDOUT:/n%sSTDERR:/n%s/n' %
                   (why, stdout.decode(), stderr.decode()))
 
     def _test_reading(self, data_to_write, read_and_verify_code):
@@ -91,9 +91,9 @@ class TestFileIOSignalInterrupt(unittest.TestCase):
                 [sys.executable, '-u', '-c',
                  'import signal, sys ;'
                  'signal.signal(signal.SIGINT, '
-                               'lambda s, f: sys.stderr.write("$\\n")) ;'
+                               'lambda s, f: sys.stderr.write("$//n")) ;'
                  + infile_setup_code + ' ;' +
-                 'sys.stderr.write("Worm Sign!\\n") ;'
+                 'sys.stderr.write("Worm Sign!//n") ;'
                  + read_and_verify_code + ' ;' +
                  'infile.close()'
                 ],
@@ -101,8 +101,8 @@ class TestFileIOSignalInterrupt(unittest.TestCase):
                 stderr=subprocess.PIPE)
 
         # Wait for the signal handler to be installed.
-        worm_sign = self._process.stderr.read(len(b'Worm Sign!\n'))
-        if worm_sign != b'Worm Sign!\n':  # See also, Dune by Frank Herbert.
+        worm_sign = self._process.stderr.read(len(b'Worm Sign!/n'))
+        if worm_sign != b'Worm Sign!/n':  # See also, Dune by Frank Herbert.
             self.fail_with_process_info('while awaiting a sign',
                                         stderr=worm_sign)
         self._process.stdin.write(data_to_write)
@@ -124,7 +124,7 @@ class TestFileIOSignalInterrupt(unittest.TestCase):
         # This assumes anything unexpected that writes to stderr will also
         # write a newline.  That is true of the traceback printing code.
         signal_line = self._process.stderr.readline()
-        if signal_line != b'$\n':
+        if signal_line != b'$/n':
             self.fail_with_process_info('while awaiting signal',
                                         stderr=signal_line)
 
@@ -132,7 +132,7 @@ class TestFileIOSignalInterrupt(unittest.TestCase):
         # end on its own before the EOF is seen and so that we're testing
         # the read call that was interrupted by a signal before the end of
         # the data stream has been reached.
-        stdout, stderr = self._process.communicate(input=b'\n')
+        stdout, stderr = self._process.communicate(input=b'/n')
         if self._process.returncode:
             self.fail_with_process_info(
                     'exited rc=%d' % self._process.returncode,
@@ -144,8 +144,8 @@ class TestFileIOSignalInterrupt(unittest.TestCase):
             'got = infile.{read_method_name}() ;'
             'expected = {expected!r} ;'
             'assert got == expected, ('
-                    '"{read_method_name} returned wrong data.\\n"'
-                    '"got data %r\\nexpected %r" % (got, expected))'
+                    '"{read_method_name} returned wrong data.//n"'
+                    '"got data %r//nexpected %r" % (got, expected))'
             )
 
     def test_readline(self):
@@ -154,29 +154,29 @@ class TestFileIOSignalInterrupt(unittest.TestCase):
                 data_to_write=b'hello, world!',
                 read_and_verify_code=self._READING_CODE_TEMPLATE.format(
                         read_method_name='readline',
-                        expected=b'hello, world!\n'))
+                        expected=b'hello, world!/n'))
 
     def test_readlines(self):
         """readlines() must handle signals and not lose data."""
         self._test_reading(
-                data_to_write=b'hello\nworld!',
+                data_to_write=b'hello/nworld!',
                 read_and_verify_code=self._READING_CODE_TEMPLATE.format(
                         read_method_name='readlines',
-                        expected=[b'hello\n', b'world!\n']))
+                        expected=[b'hello/n', b'world!/n']))
 
     def test_readall(self):
         """readall() must handle signals and not lose data."""
         self._test_reading(
-                data_to_write=b'hello\nworld!',
+                data_to_write=b'hello/nworld!',
                 read_and_verify_code=self._READING_CODE_TEMPLATE.format(
                         read_method_name='readall',
-                        expected=b'hello\nworld!\n'))
+                        expected=b'hello/nworld!/n'))
         # read() is the same thing as readall().
         self._test_reading(
-                data_to_write=b'hello\nworld!',
+                data_to_write=b'hello/nworld!',
                 read_and_verify_code=self._READING_CODE_TEMPLATE.format(
                         read_method_name='read',
-                        expected=b'hello\nworld!\n'))
+                        expected=b'hello/nworld!/n'))
 
 
 class TestBufferedIOSignalInterrupt(TestFileIOSignalInterrupt):
@@ -188,10 +188,10 @@ class TestBufferedIOSignalInterrupt(TestFileIOSignalInterrupt):
     def test_readall(self):
         """BufferedReader.read() must handle signals and not lose data."""
         self._test_reading(
-                data_to_write=b'hello\nworld!',
+                data_to_write=b'hello/nworld!',
                 read_and_verify_code=self._READING_CODE_TEMPLATE.format(
                         read_method_name='read',
-                        expected=b'hello\nworld!\n'))
+                        expected=b'hello/nworld!/n'))
 
 
 class TestTextIOSignalInterrupt(TestFileIOSignalInterrupt):
@@ -206,23 +206,23 @@ class TestTextIOSignalInterrupt(TestFileIOSignalInterrupt):
                 data_to_write=b'hello, world!',
                 read_and_verify_code=self._READING_CODE_TEMPLATE.format(
                         read_method_name='readline',
-                        expected='hello, world!\n'))
+                        expected='hello, world!/n'))
 
     def test_readlines(self):
         """readlines() must handle signals and not lose data."""
         self._test_reading(
-                data_to_write=b'hello\r\nworld!',
+                data_to_write=b'hello/r/nworld!',
                 read_and_verify_code=self._READING_CODE_TEMPLATE.format(
                         read_method_name='readlines',
-                        expected=['hello\n', 'world!\n']))
+                        expected=['hello/n', 'world!/n']))
 
     def test_readall(self):
         """read() must handle signals and not lose data."""
         self._test_reading(
-                data_to_write=b'hello\nworld!',
+                data_to_write=b'hello/nworld!',
                 read_and_verify_code=self._READING_CODE_TEMPLATE.format(
                         read_method_name='read',
-                        expected="hello\nworld!\n"))
+                        expected="hello/nworld!/n"))
 
 
 def test_main():

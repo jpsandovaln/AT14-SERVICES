@@ -105,10 +105,10 @@ If env is not None, it defines the environment variables for the new
 process.
 
 If universal_newlines is true, the file objects stdout and stderr are
-opened as a text files, but lines may be terminated by any of '\n',
-the Unix end-of-line convention, '\r', the old Macintosh convention or
-'\r\n', the Windows convention.  All of these external representations
-are seen as '\n' by the Python program.  Also, the newlines attribute
+opened as a text files, but lines may be terminated by any of '/n',
+the Unix end-of-line convention, '/r', the old Macintosh convention or
+'/r/n', the Windows convention.  All of these external representations
+are seen as '/n' by the Python program.  Also, the newlines attribute
 of the file objects stdout, stdin and stderr are not updated by the
 communicate() method.
 
@@ -499,7 +499,7 @@ def check_output(*popenargs, **kwargs):
     The arguments are the same as for the Popen constructor.  Example:
 
     >>> check_output(["ls", "-l", "/dev/null"])
-    b'crw-rw-rw- 1 root root 1, 3 Oct 18  2007 /dev/null\n'
+    b'crw-rw-rw- 1 root root 1, 3 Oct 18  2007 /dev/null/n'
 
     The stdout argument is not allowed as it is used internally.
     To capture standard error in the result, use stderr=STDOUT.
@@ -507,7 +507,7 @@ def check_output(*popenargs, **kwargs):
     >>> check_output(["/bin/sh", "-c",
     ...               "ls -l non_existent_file ; exit 0"],
     ...              stderr=STDOUT)
-    b'ls: non_existent_file: No such file or directory\n'
+    b'ls: non_existent_file: No such file or directory/n'
     """
     if 'stdout' in kwargs:
         raise ValueError('stdout argument not allowed, it will be overridden.')
@@ -561,19 +561,19 @@ def list2cmdline(seq):
         if result:
             result.append(' ')
 
-        needquote = (" " in arg) or ("\t" in arg) or not arg
+        needquote = (" " in arg) or ("/t" in arg) or not arg
         if needquote:
             result.append('"')
 
         for c in arg:
-            if c == '\\':
+            if c == '//':
                 # Don't know if we need to double yet.
                 bs_buf.append(c)
             elif c == '"':
                 # Double backslashes.
-                result.append('\\' * len(bs_buf)*2)
+                result.append('//' * len(bs_buf)*2)
                 bs_buf = []
-                result.append('\\"')
+                result.append('//"')
             else:
                 # Normal char
                 if bs_buf:
@@ -617,7 +617,7 @@ def getstatusoutput(cmd):
     text = pipe.read()
     sts = pipe.close()
     if sts is None: sts = 0
-    if text[-1:] == '\n': text = text[:-1]
+    if text[-1:] == '/n': text = text[:-1]
     return sts, text
 
 
@@ -769,7 +769,7 @@ class Popen(object):
 
     def _translate_newlines(self, data, encoding):
         data = data.decode(encoding)
-        return data.replace("\r\n", "\n").replace("\r", "\n")
+        return data.replace("/r/n", "/n").replace("/r", "/n")
 
     def __enter__(self):
         return self

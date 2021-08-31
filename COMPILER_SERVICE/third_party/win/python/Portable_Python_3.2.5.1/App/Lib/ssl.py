@@ -118,8 +118,8 @@ def _dnsname_to_pat(dn):
         else:
             # Otherwise, '*' matches any dotless fragment.
             frag = re.escape(frag)
-            pats.append(frag.replace(r'\*', '[^.]*'))
-    return re.compile(r'\A' + r'\.'.join(pats) + r'\Z', re.IGNORECASE)
+            pats.append(frag.replace(r'/*', '[^.]*'))
+    return re.compile(r'/A' + r'/.'.join(pats) + r'/Z', re.IGNORECASE)
 
 
 def match_hostname(cert, hostname):
@@ -498,7 +498,7 @@ class SSLSocket(socket):
         return newsock, addr
 
     def __del__(self):
-        # sys.stderr.write("__del__ on %s\n" % repr(self))
+        # sys.stderr.write("__del__ on %s/n" % repr(self))
         self._real_close()
 
 
@@ -533,9 +533,9 @@ def DER_cert_to_PEM_cert(der_cert_bytes):
     PEM version of it as a string."""
 
     f = str(base64.standard_b64encode(der_cert_bytes), 'ASCII', 'strict')
-    return (PEM_HEADER + '\n' +
-            textwrap.fill(f, 64) + '\n' +
-            PEM_FOOTER + '\n')
+    return (PEM_HEADER + '/n' +
+            textwrap.fill(f, 64) + '/n' +
+            PEM_FOOTER + '/n')
 
 def PEM_cert_to_DER_cert(pem_cert_string):
     """Takes a certificate in ASCII PEM format and returns the

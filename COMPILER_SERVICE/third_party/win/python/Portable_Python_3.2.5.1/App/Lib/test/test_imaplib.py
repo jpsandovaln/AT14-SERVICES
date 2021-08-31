@@ -86,7 +86,7 @@ class SimpleIMAPHandler(socketserver.StreamRequestHandler):
         self.wfile.write(message)
 
     def _send_line(self, message):
-        self._send(message + b'\r\n')
+        self._send(message + b'/r/n')
 
     def _send_textline(self, message):
         self._send_line(message.encode('ASCII'))
@@ -112,7 +112,7 @@ class SimpleIMAPHandler(socketserver.StreamRequestHandler):
                 except IOError:
                     # ..but SSLSockets raise exceptions.
                     return
-                if line.endswith(b'\r\n'):
+                if line.endswith(b'/r/n'):
                     break
 
             if verbose: print('GOT: %r' % line.strip())
@@ -226,7 +226,7 @@ class BaseThreadedNetworkedTests(unittest.TestCase):
         class BadNewlineHandler(SimpleIMAPHandler):
 
             def cmd_CAPABILITY(self, tag, args):
-                self._send(b'* CAPABILITY IMAP4rev1 AUTH\n')
+                self._send(b'* CAPABILITY IMAP4rev1 AUTH/n')
                 self._send_tagged(tag, 'OK', 'CAPABILITY completed')
 
         with self.reaped_server(BadNewlineHandler) as server:
@@ -274,13 +274,13 @@ class BaseThreadedNetworkedTests(unittest.TestCase):
             code, data = client.authenticate('MYAUTH', lambda x: b'fake')
             self.assertEqual(code, 'OK')
             self.assertEqual(server.response,
-                             b'ZmFrZQ==\r\n') #b64 encoded 'fake'
+                             b'ZmFrZQ==/r/n') #b64 encoded 'fake'
 
         with self.reaped_pair(MyServer) as (server, client):
             code, data = client.authenticate('MYAUTH', lambda x: 'fake')
             self.assertEqual(code, 'OK')
             self.assertEqual(server.response,
-                             b'ZmFrZQ==\r\n') #b64 encoded 'fake'
+                             b'ZmFrZQ==/r/n') #b64 encoded 'fake'
 
     @reap_threads
     def test_login_cram_md5(self):
@@ -293,7 +293,7 @@ class BaseThreadedNetworkedTests(unittest.TestCase):
                 self._send_textline('+ PDE4OTYuNjk3MTcwOTUyQHBvc3RvZmZpY2Uucm'
                                        'VzdG9uLm1jaS5uZXQ=')
                 r = yield
-                if r ==  b'dGltIGYxY2E2YmU0NjRiOWVmYTFjY2E2ZmZkNmNmMmQ5ZjMy\r\n':
+                if r ==  b'dGltIGYxY2E2YmU0NjRiOWVmYTFjY2E2ZmZkNmNmMmQ5ZjMy/r/n':
                     self._send_tagged(tag, 'OK', 'CRAM-MD5 successful')
                 else:
                     self._send_tagged(tag, 'NO', 'No access')

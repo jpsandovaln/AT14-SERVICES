@@ -65,8 +65,8 @@ all_errors = (Error, IOError, EOFError)
 
 
 # Line terminators (we always output CRLF, but accept any of CRLF, CR, LF)
-CRLF = '\r\n'
-B_CRLF = b'\r\n'
+CRLF = '/r/n'
+B_CRLF = b'/r/n'
 
 # The class itself
 class FTP:
@@ -171,7 +171,7 @@ class FTP:
     def sanitize(self, s):
         if s[:5] == 'pass ' or s[:5] == 'PASS ':
             i = len(s)
-            while i > 5 and s[i-1] in {'\r', '\n'}:
+            while i > 5 and s[i-1] in {'/r', '/n'}:
                 i = i-1
             s = s[:5] + '*'*(i-5) + s[i:]
         return repr(s)
@@ -201,15 +201,15 @@ class FTP:
     # Internal: get a response from the server, which may possibly
     # consist of multiple lines.  Return a single string with no
     # trailing CRLF.  If the response consists of multiple lines,
-    # these are separated by '\n' characters in the string
+    # these are separated by '/n' characters in the string
     def getmultiline(self):
         line = self.getline()
         if line[3:4] == '-':
             code = line[:3]
             while 1:
                 nextline = self.getline()
-                line = line + ('\n' + nextline)
-                if nextline[:3] == code and \
+                line = line + ('/n' + nextline)
+                if nextline[:3] == code and /
                         nextline[3:4] != '-':
                     break
         return line
@@ -441,7 +441,7 @@ class FTP:
         """
         if callback is None: callback = print_line
         resp = self.sendcmd('TYPE A')
-        with self.transfercmd(cmd) as conn, \
+        with self.transfercmd(cmd) as conn, /
                  conn.makefile('r', encoding=self.encoding) as fp:
             while 1:
                 line = fp.readline()
@@ -450,7 +450,7 @@ class FTP:
                     break
                 if line[-2:] == CRLF:
                     line = line[:-2]
-                elif line[-1:] == '\n':
+                elif line[-1:] == '/n':
                     line = line[:-1]
                 callback(line)
         return self.voidresp()
@@ -747,7 +747,7 @@ else:
                         break
                     if line[-2:] == CRLF:
                         line = line[:-2]
-                    elif line[-1:] == '\n':
+                    elif line[-1:] == '/n':
                         line = line[:-1]
                     callback(line)
                 # shutdown ssl layer
@@ -819,7 +819,7 @@ def parse150(resp):
     if _150_re is None:
         import re
         _150_re = re.compile(
-            "150 .* \((\d+) bytes\)", re.IGNORECASE | re.ASCII)
+            "150 .* /((/d+) bytes/)", re.IGNORECASE | re.ASCII)
     m = _150_re.match(resp)
     if not m:
         return None
@@ -842,7 +842,7 @@ def parse227(resp):
     global _227_re
     if _227_re is None:
         import re
-        _227_re = re.compile(r'(\d+),(\d+),(\d+),(\d+),(\d+),(\d+)', re.ASCII)
+        _227_re = re.compile(r'(/d+),(/d+),(/d+),(/d+),(/d+),(/d+)', re.ASCII)
     m = _227_re.search(resp)
     if not m:
         raise error_proto(resp)
@@ -989,7 +989,7 @@ class Netrc:
                 self.__defacct = acct or self.__defacct
             if host:
                 if host in self.__hosts:
-                    ouser, opasswd, oacct = \
+                    ouser, opasswd, oacct = /
                            self.__hosts[host]
                     user = user or ouser
                     passwd = passwd or opasswd
@@ -1077,7 +1077,7 @@ def test():
         elif file == '-p':
             ftp.set_pasv(not ftp.passiveserver)
         else:
-            ftp.retrbinary('RETR ' + file, \
+            ftp.retrbinary('RETR ' + file, /
                            sys.stdout.write, 1024)
     ftp.quit()
 

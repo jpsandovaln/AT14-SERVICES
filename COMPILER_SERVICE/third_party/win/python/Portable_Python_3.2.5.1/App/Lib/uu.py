@@ -76,12 +76,12 @@ def encode(in_file, out_file, name=None, mode=None):
         #
         # Write the data
         #
-        out_file.write(('begin %o %s\n' % ((mode & 0o777), name)).encode("ascii"))
+        out_file.write(('begin %o %s/n' % ((mode & 0o777), name)).encode("ascii"))
         data = in_file.read(45)
         while len(data) > 0:
             out_file.write(binascii.b2a_uu(data))
             data = in_file.read(45)
-        out_file.write(b' \nend\n')
+        out_file.write(b' /nend/n')
     finally:
         for f in opened_files:
             f.close()
@@ -118,7 +118,7 @@ def decode(in_file, out_file=None, mode=None, quiet=False):
                     pass
         if out_file is None:
             # If the filename isn't ASCII, what's up with that?!?
-            out_file = hdrfields[2].rstrip(b' \t\r\n\f').decode("ascii")
+            out_file = hdrfields[2].rstrip(b' /t/r/n/f').decode("ascii")
             if os.path.exists(out_file):
                 raise Error('Cannot overwrite existing file: %s' % out_file)
         if mode is None:
@@ -140,7 +140,7 @@ def decode(in_file, out_file=None, mode=None, quiet=False):
         # Main decoding loop
         #
         s = in_file.readline()
-        while s and s.strip(b' \t\r\n\f') != b'end':
+        while s and s.strip(b' /t/r/n/f') != b'end':
             try:
                 data = binascii.a2b_uu(s)
             except binascii.Error as v:
@@ -148,7 +148,7 @@ def decode(in_file, out_file=None, mode=None, quiet=False):
                 nbytes = (((s[0]-32) & 63) * 4 + 5) // 3
                 data = binascii.a2b_uu(s[:nbytes])
                 if not quiet:
-                    sys.stderr.write("Warning: %s\n" % v)
+                    sys.stderr.write("Warning: %s/n" % v)
             out_file.write(data)
             s = in_file.readline()
         if not s:

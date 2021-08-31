@@ -74,10 +74,10 @@ class NormalizationTest(unittest.TestCase):
             self.assertTrue(c4 ==  NFC(c4) ==  NFC(c5), line)
             self.assertTrue(c3 ==  NFD(c1) ==  NFD(c2) ==  NFD(c3), line)
             self.assertTrue(c5 ==  NFD(c4) ==  NFD(c5), line)
-            self.assertTrue(c4 == NFKC(c1) == NFKC(c2) == \
+            self.assertTrue(c4 == NFKC(c1) == NFKC(c2) == /
                             NFKC(c3) == NFKC(c4) == NFKC(c5),
                             line)
-            self.assertTrue(c5 == NFKD(c1) == NFKD(c2) == \
+            self.assertTrue(c5 == NFKD(c1) == NFKD(c2) == /
                             NFKD(c3) == NFKD(c4) == NFKD(c5),
                             line)
 
@@ -94,7 +94,7 @@ class NormalizationTest(unittest.TestCase):
 
     def test_bug_834676(self):
         # Check for bug 834676
-        normalize('NFC', '\ud55c\uae00')
+        normalize('NFC', '/ud55c/uae00')
 
 
 def test_main():

@@ -1,4 +1,4 @@
-"""\
+"""/
 A library of useful helper classes to the SAX classes, for the
 convenience of application and driver writers.
 """
@@ -49,7 +49,7 @@ def quoteattr(data, entities={}):
     """Escape and quote an attribute value.
 
     Escape &, <, and > in a string of data, then quote it for use as
-    an attribute value.  The \" character will be escaped as well, if
+    an attribute value.  The /" character will be escaped as well, if
     necessary.
 
     You can escape other strings of data by passing a dictionary as
@@ -57,7 +57,7 @@ def quoteattr(data, entities={}):
     strings; each key will be replaced with its corresponding value.
     """
     entities = entities.copy()
-    entities.update({'\n': '&#10;', '\r': '&#13;', '\t':'&#9;'})
+    entities.update({'/n': '&#10;', '/r': '&#13;', '/t':'&#9;'})
     data = escape(data, entities)
     if '"' in data:
         if "'" in data:
@@ -107,7 +107,7 @@ def _gettextwriter(out, encoding):
             pass
     return io.TextIOWrapper(buffer, encoding=encoding,
                             errors='xmlcharrefreplace',
-                            newline='\n',
+                            newline='/n',
                             write_through=True)
 
 class XMLGenerator(handler.ContentHandler):
@@ -149,7 +149,7 @@ class XMLGenerator(handler.ContentHandler):
     # ContentHandler methods
 
     def startDocument(self):
-        self._write('<?xml version="1.0" encoding="%s"?>\n' %
+        self._write('<?xml version="1.0" encoding="%s"?>/n' %
                         self._encoding)
 
     def endDocument(self):

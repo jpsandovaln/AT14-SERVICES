@@ -11,11 +11,11 @@ class TypesTests(unittest.TestCase):
         if None: self.fail('None is true instead of false')
         if 0: self.fail('0 is true instead of false')
         if 0.0: self.fail('0.0 is true instead of false')
-        if '': self.fail('\'\' is true instead of false')
+        if '': self.fail('/'/' is true instead of false')
         if not 1: self.fail('1 is false instead of true')
         if not 1.0: self.fail('1.0 is false instead of true')
-        if not 'x': self.fail('\'x\' is false instead of true')
-        if not {'x': 1}: self.fail('{\'x\': 1} is false instead of true')
+        if not 'x': self.fail('/'x/' is false instead of true')
+        if not {'x': 1}: self.fail('{/'x/': 1} is false instead of true')
         def f(): pass
         class C: pass
         x = C()
@@ -42,7 +42,7 @@ class TypesTests(unittest.TestCase):
 
     def test_float_constructor(self):
         self.assertRaises(ValueError, float, '')
-        self.assertRaises(ValueError, float, '5\0')
+        self.assertRaises(ValueError, float, '5/0')
 
     def test_zero_division(self):
         try: 5.0 / 0.0
@@ -172,9 +172,9 @@ class TypesTests(unittest.TestCase):
         if not -24.0 < -12.0: self.fail('float op')
 
     def test_strings(self):
-        if len('') != 0: self.fail('len(\'\')')
-        if len('a') != 1: self.fail('len(\'a\')')
-        if len('abcdef') != 6: self.fail('len(\'abcdef\')')
+        if len('') != 0: self.fail('len(/'/')')
+        if len('a') != 1: self.fail('len(/'a/')')
+        if len('abcdef') != 6: self.fail('len(/'abcdef/')')
         if 'xyz' + 'abcde' != 'xyzabcde': self.fail('string concatenation')
         if 'xyz'*3 != 'xyzxyzxyz': self.fail('string repetition *3')
         if 0*'abcde' != '': self.fail('string repetition 0*')
@@ -210,7 +210,7 @@ class TypesTests(unittest.TestCase):
         test(123456789, 'd', '123456789')
         test(123456789, 'd', '123456789')
 
-        test(1, 'c', '\01')
+        test(1, 'c', '/01')
 
         # sign and aligning are interdependent
         test(1, "-", '1')

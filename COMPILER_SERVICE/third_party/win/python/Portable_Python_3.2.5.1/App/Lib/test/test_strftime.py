@@ -23,9 +23,9 @@ def escapestr(text, ampm):
     """
     new_text = re.escape(text)
     new_text = new_text.replace(re.escape(ampm), ampm)
-    new_text = new_text.replace('\%', '%')
-    new_text = new_text.replace('\:', ':')
-    new_text = new_text.replace('\?', '?')
+    new_text = new_text.replace('/%', '%')
+    new_text = new_text.replace('/:', ':')
+    new_text = new_text.replace('/?', '?')
     return new_text
 
 
@@ -68,7 +68,7 @@ class StrftimeTest(unittest.TestCase):
         self.strftest2(now)
 
         if support.verbose:
-            print("Strftime test, platform: %s, Python version: %s" % \
+            print("Strftime test, platform: %s, Python version: %s" % /
                   (sys.platform, sys.version.split()[0]))
 
         for j in range(-5, 5):
@@ -142,12 +142,12 @@ class StrftimeTest(unittest.TestCase):
             ('%e', '%2d' % now[2], 'day of month as number, blank padded ( 0-31)'),
             ('%h', calendar.month_abbr[now[1]], 'abbreviated month name'),
             ('%k', '%2d' % now[3], 'hour, blank padded ( 0-23)'),
-            ('%n', '\n', 'newline character'),
+            ('%n', '/n', 'newline character'),
             ('%r', '%02d:%02d:%02d %s' % (self.clock12, now[4], now[5], self.ampm),
             '%I:%M:%S %p'),
             ('%R', '%02d:%02d' % (now[3], now[4]), '%H:%M'),
             ('%s', nowsecs, 'seconds since the Epoch in UCT'),
-            ('%t', '\t', 'tab character'),
+            ('%t', '/t', 'tab character'),
             ('%T', '%02d:%02d:%02d' % (now[3], now[4], now[5]), '%H:%M:%S'),
             ('%3y', '%03d' % (now[0]%100),
             'year without century rendered using fieldwidth'),
@@ -158,7 +158,7 @@ class StrftimeTest(unittest.TestCase):
             try:
                 result = time.strftime(e[0], now)
             except ValueError as result:
-                msg = "Error for nonstandard '%s' format (%s): %s" % \
+                msg = "Error for nonstandard '%s' format (%s): %s" % /
                       (e[0], e[2], str(result))
                 if support.verbose:
                     print(msg)
@@ -168,11 +168,11 @@ class StrftimeTest(unittest.TestCase):
                     print("Supports nonstandard '%s' format (%s)" % (e[0], e[2]))
             elif not result or result[0] == '%':
                 if support.verbose:
-                    print("Does not appear to support '%s' format (%s)" % \
+                    print("Does not appear to support '%s' format (%s)" % /
                            (e[0], e[2]))
             else:
                 if support.verbose:
-                    print("Conflict for nonstandard '%s' format (%s):" % \
+                    print("Conflict for nonstandard '%s' format (%s):" % /
                            (e[0], e[2]))
                     print("  Expected %s, but got %s" % (e[1], result))
 

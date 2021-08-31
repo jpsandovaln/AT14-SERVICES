@@ -84,9 +84,9 @@ class TestCaseBase(unittest.TestCase):
         parser.close()
         events = parser.get_events()
         if events != expected_events:
-            self.fail("received events did not match expected events\n"
-                      "Expected:\n" + pprint.pformat(expected_events) +
-                      "\nReceived:\n" + pprint.pformat(events))
+            self.fail("received events did not match expected events/n"
+                      "Expected:/n" + pprint.pformat(expected_events) +
+                      "/nReceived:/n" + pprint.pformat(events))
 
     def _run_check_extra(self, source, events):
         self._run_check(source, events, EventCollectorExtra())
@@ -125,23 +125,23 @@ text
 <!--comment2a-- --comment2b-->
 </Html>
 """, [
-    ("data", "\n"),
+    ("data", "/n"),
     ("decl", "DOCTYPE html PUBLIC 'foo'"),
-    ("data", "\n"),
+    ("data", "/n"),
     ("starttag", "html", []),
     ("entityref", "entity"),
     ("charref", "32"),
-    ("data", "\n"),
-    ("comment", "comment1a\n-></foo><bar>&lt;<?pi?></foo<bar\ncomment1b"),
-    ("data", "\n"),
+    ("data", "/n"),
+    ("comment", "comment1a/n-></foo><bar>&lt;<?pi?></foo<bar/ncomment1b"),
+    ("data", "/n"),
     ("starttag", "img", [("src", "Bar"), ("ismap", None)]),
-    ("data", "sample\ntext\n"),
+    ("data", "sample/ntext/n"),
     ("charref", "x201C"),
-    ("data", "\n"),
+    ("data", "/n"),
     ("comment", "comment2a-- --comment2b"),
-    ("data", "\n"),
+    ("data", "/n"),
     ("endtag", "html"),
-    ("data", "\n"),
+    ("data", "/n"),
     ])
 
     def test_malformatted_charref(self):
@@ -271,7 +271,7 @@ text
             ])
 
     def test_get_starttag_text(self):
-        s = """<foo:bar   \n   one="1"\ttwo=2   >"""
+        s = """<foo:bar   /n   one="1"/ttwo=2   >"""
         self._run_check_extra(s, [
             ("starttag", "foo:bar", [("one", "1"), ("two", "2")]),
             ("starttag_text", s)])
@@ -283,18 +283,18 @@ text
             '<a href="" /> <p> <span></span>',
             'foo = "</scr" + "ipt>";',
             'foo = "</SCRIPT" + ">";',
-            'foo = <\n/script> ',
+            'foo = </n/script> ',
             '<!-- document.write("</scr" + "ipt>"); -->',
-            ('\n//<![CDATA[\n'
-             'document.write(\'<s\'+\'cript type="text/javascript" '
-             'src="http://www.example.org/r=\'+new '
-             'Date().getTime()+\'"><\\/s\'+\'cript>\');\n//]]>'),
-            '\n<!-- //\nvar foo = 3.14;\n// -->\n',
+            ('/n//<![CDATA[/n'
+             'document.write(/'<s/'+/'cript type="text/javascript" '
+             'src="http://www.example.org/r=/'+new '
+             'Date().getTime()+/'"><///s/'+/'cript>/');/n//]]>'),
+            '/n<!-- ///nvar foo = 3.14;/n// -->/n',
             'foo = "</sty" + "le>";',
-            '<!-- \u2603 -->',
+            '<!-- /u2603 -->',
             # these two should be invalid according to the HTML 5 spec,
             # section 8.1.2.2
-            #'foo = </\nscript>',
+            #'foo = <//nscript>',
             #'foo = </ script>',
         ]
         elements = ['script', 'style', 'SCRIPT', 'STYLE', 'Script', 'Style']
@@ -320,7 +320,7 @@ text
                   <a href="" /> </p><p> <span></span></style>
                   '</script' + '>'"""
         for element in [' script', 'script ', ' script ',
-                        '\nscript', 'script\n', '\nscript\n']:
+                        '/nscript', 'script/n', '/nscript/n']:
             element_lower = element.lower().strip()
             s = '<script>{content}</{element}>'.format(element=element,
                                                        content=content)
@@ -347,7 +347,7 @@ text
         self._run_check(html, expected)
 
     def test_condcoms(self):
-        html = ('<!--[if IE & !(lte IE 8)]>aren\'t<![endif]-->'
+        html = ('<!--[if IE & !(lte IE 8)]>aren/'t<![endif]-->'
                 '<!--[if IE 8]>condcoms<![endif]-->'
                 '<!--[if lte IE 7]>pretty?<![endif]-->')
         expected = [('comment', "[if IE & !(lte IE 8)]>aren't<![endif]"),
@@ -362,7 +362,7 @@ class HTMLParserTolerantTestCase(HTMLParserStrictTestCase):
         return EventCollector(strict=False)
 
     def test_tolerant_parsing(self):
-        self._run_check('<html <html>te>>xt&a<<bc</a></html>\n'
+        self._run_check('<html <html>te>>xt&a<<bc</a></html>/n'
                         '<img src="URL><//img></html</html>', [
                             ('starttag', 'html', [('<html', None)]),
                             ('data', 'te>>xt'),
@@ -370,7 +370,7 @@ class HTMLParserTolerantTestCase(HTMLParserStrictTestCase):
                             ('data', '<<bc'),
                             ('endtag', 'a'),
                             ('endtag', 'html'),
-                            ('data', '\n<img src="URL>'),
+                            ('data', '/n<img src="URL>'),
                             ('comment', '/img'),
                             ('endtag', 'html<')])
 
@@ -468,7 +468,7 @@ class HTMLParserTolerantTestCase(HTMLParserStrictTestCase):
         # see http://www.w3.org/TR/html5/tokenization.html#end-tag-open-state
         # and #13993
         html = ('<br></label</p><br></div end tmAd-leaderBoard><br></<h4><br>'
-                '</li class="unit"><br></li\r\n\t\t\t\t\t\t</ul><br></><br>')
+                '</li class="unit"><br></li/r/n/t/t/t/t/t/t</ul><br></><br>')
         expected = [('starttag', 'br', []),
                     # < is part of the name, / is discarded, p is an attribute
                     ('endtag', 'label<'),
@@ -602,14 +602,14 @@ class AttributesStrictTestCase(TestCaseBase):
         ]
         self._run_check("""<a b='v' c="v" d=v e>""", output)
         self._run_check("""<a  b = 'v' c = "v" d = v e>""", output)
-        self._run_check("""<a\nb\n=\n'v'\nc\n=\n"v"\nd\n=\nv\ne>""", output)
-        self._run_check("""<a\tb\t=\t'v'\tc\t=\t"v"\td\t=\tv\te>""", output)
+        self._run_check("""<a/nb/n=/n'v'/nc/n=/n"v"/nd/n=/nv/ne>""", output)
+        self._run_check("""<a/tb/t=/t'v'/tc/t=/t"v"/td/t=/tv/te>""", output)
 
     def test_attr_values(self):
-        self._run_check("""<a b='xxx\n\txxx' c="yyy\t\nyyy" d='\txyz\n'>""",
-                        [("starttag", "a", [("b", "xxx\n\txxx"),
-                                            ("c", "yyy\t\nyyy"),
-                                            ("d", "\txyz\n")])])
+        self._run_check("""<a b='xxx/n/txxx' c="yyy/t/nyyy" d='/txyz/n'>""",
+                        [("starttag", "a", [("b", "xxx/n/txxx"),
+                                            ("c", "yyy/t/nyyy"),
+                                            ("d", "/txyz/n")])])
         self._run_check("""<a b='' c="">""",
                         [("starttag", "a", [("b", ""), ("c", "")])])
         # Regression test for SF patch #669683.
@@ -623,22 +623,22 @@ class AttributesStrictTestCase(TestCaseBase):
     def test_attr_nonascii(self):
         # see issue 7311
         self._run_check(
-            "<img src=/foo/bar.png alt=\u4e2d\u6587>",
+            "<img src=/foo/bar.png alt=/u4e2d/u6587>",
             [("starttag", "img", [("src", "/foo/bar.png"),
-                                  ("alt", "\u4e2d\u6587")])])
+                                  ("alt", "/u4e2d/u6587")])])
         self._run_check(
-            "<a title='\u30c6\u30b9\u30c8' href='\u30c6\u30b9\u30c8.html'>",
-            [("starttag", "a", [("title", "\u30c6\u30b9\u30c8"),
-                                ("href", "\u30c6\u30b9\u30c8.html")])])
+            "<a title='/u30c6/u30b9/u30c8' href='/u30c6/u30b9/u30c8.html'>",
+            [("starttag", "a", [("title", "/u30c6/u30b9/u30c8"),
+                                ("href", "/u30c6/u30b9/u30c8.html")])])
         self._run_check(
-            '<a title="\u30c6\u30b9\u30c8" href="\u30c6\u30b9\u30c8.html">',
-            [("starttag", "a", [("title", "\u30c6\u30b9\u30c8"),
-                                ("href", "\u30c6\u30b9\u30c8.html")])])
+            '<a title="/u30c6/u30b9/u30c8" href="/u30c6/u30b9/u30c8.html">',
+            [("starttag", "a", [("title", "/u30c6/u30b9/u30c8"),
+                                ("href", "/u30c6/u30b9/u30c8.html")])])
 
     def test_attr_entity_replacement(self):
         self._run_check(
             "<a b='&amp;&gt;&lt;&quot;&apos;'>",
-            [("starttag", "a", [("b", "&><\"'")])])
+            [("starttag", "a", [("b", "&></"'")])])
 
     def test_attr_funky_names(self):
         self._run_check(
@@ -648,7 +648,7 @@ class AttributesStrictTestCase(TestCaseBase):
     def test_entityrefs_in_attributes(self):
         self._run_check(
             "<html foo='&euro;&amp;&#97;&#x61;&unsupported;'>",
-            [("starttag", "html", [("foo", "\u20AC&aa&unsupported;")])])
+            [("starttag", "html", [("foo", "/u20AC&aa&unsupported;")])])
 
 
 
@@ -659,10 +659,10 @@ class AttributesTolerantTestCase(AttributesStrictTestCase):
 
     def test_attr_funky_names2(self):
         self._run_check(
-            "<a $><b $=%><c \=/>",
+            "<a $><b $=%><c /=/>",
             [("starttag", "a", [("$", None)]),
              ("starttag", "b", [("$", "%")]),
-             ("starttag", "c", [("\\", "/")])])
+             ("starttag", "c", [("//", "/")])])
 
     def test_entities_in_attribute_value(self):
         # see #1200313
@@ -687,9 +687,9 @@ class AttributesTolerantTestCase(AttributesStrictTestCase):
             ('data', 'test - bad1'), ('endtag', 'a'),
             ('starttag', 'a', [('href', "test'+style='color:red;ba2'")]),
             ('data', 'test - bad2'), ('endtag', 'a'),
-            ('starttag', 'a', [('href', "test'\xa0style='color:red;bad3'")]),
+            ('starttag', 'a', [('href', "test'/xa0style='color:red;bad3'")]),
             ('data', 'test - bad3'), ('endtag', 'a'),
-            ('starttag', 'a', [('href', "test'\xa0style='color:red;bad4'")]),
+            ('starttag', 'a', [('href', "test'/xa0style='color:red;bad4'")]),
             ('data', 'test - bad4'), ('endtag', 'a')
         ]
         self._run_check(html, expected)
@@ -726,9 +726,9 @@ class AttributesTolerantTestCase(AttributesStrictTestCase):
 
     def test_end_tag_in_attribute_value(self):
         # see #1745761
-        self._run_check("<a href='http://www.example.org/\">;'>spam</a>",
+        self._run_check("<a href='http://www.example.org//">;'>spam</a>",
                         [("starttag", "a",
-                          [("href", "http://www.example.org/\">;")]),
+                          [("href", "http://www.example.org//">;")]),
                          ("data", "spam"), ("endtag", "a")])
 
 

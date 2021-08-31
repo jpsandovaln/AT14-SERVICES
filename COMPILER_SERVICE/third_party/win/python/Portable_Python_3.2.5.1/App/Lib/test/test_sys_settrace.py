@@ -260,8 +260,8 @@ class TraceTestCase(unittest.TestCase):
         events = [(l - line_offset, e) for (l, e) in events]
         if events != expected_events:
             self.fail(
-                "events did not match expectation:\n" +
-                "\n".join(difflib.ndiff([str(x) for x in expected_events],
+                "events did not match expectation:/n" +
+                "/n".join(difflib.ndiff([str(x) for x in expected_events],
                                         [str(x) for x in events])))
 
     def run_and_compare(self, func, events):
@@ -380,7 +380,7 @@ class TraceTestCase(unittest.TestCase):
 
     def test_16_blank_lines(self):
         namespace = {}
-        exec("def f():\n" + "\n" * 256 + "    pass", namespace)
+        exec("def f():/n" + "/n" * 256 + "    pass", namespace)
         self.run_and_compare(
             namespace["f"],
             [(0, 'call'),
@@ -698,8 +698,8 @@ def no_jump_without_trace_function():
 class JumpTestCase(unittest.TestCase):
     def compare_jump_output(self, expected, received):
         if received != expected:
-            self.fail( "Outputs don't match:\n" +
-                       "Expected: " + repr(expected) + "\n" +
+            self.fail( "Outputs don't match:/n" +
+                       "Expected: " + repr(expected) + "/n" +
                        "Received: " + repr(received))
 
     def run_test(self, func):
@@ -762,7 +762,7 @@ class JumpTestCase(unittest.TestCase):
             '''                       # line 1005
             x += 1                    # line 1006
             output.append(x)          # line 1007
-            return""" % ('\n' * 1000,), d)
+            return""" % ('/n' * 1000,), d)
         f = d['f']
 
         f.jump = (2, 1007)

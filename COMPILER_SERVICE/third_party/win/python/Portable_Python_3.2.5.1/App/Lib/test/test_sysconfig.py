@@ -130,7 +130,7 @@ class TestSysConfig(unittest.TestCase):
         # macbook
         os.name = 'posix'
         sys.version = ('2.5 (r25:51918, Sep 19 2006, 08:49:13) '
-                       '\n[GCC 4.0.1 (Apple Computer, Inc. build 5341)]')
+                       '/n[GCC 4.0.1 (Apple Computer, Inc. build 5341)]')
         sys.platform = 'darwin'
         self._set_uname(('Darwin', 'macziade', '8.11.1',
                    ('Darwin Kernel Version 8.11.1: '
@@ -221,7 +221,7 @@ class TestSysConfig(unittest.TestCase):
         # linux debian sarge
         os.name = 'posix'
         sys.version = ('2.3.5 (#1, Jul  4 2007, 17:28:59) '
-                       '\n[GCC 4.1.2 20061115 (prerelease) (Debian 4.1.1-21)]')
+                       '/n[GCC 4.1.2 20061115 (prerelease) (Debian 4.1.1-21)]')
         sys.platform = 'linux2'
         self._set_uname(('Linux', 'aglae', '2.6.21.1dedibox-r7',
                     '#1 Mon Apr 30 17:25:38 CEST 2007', 'i686'))
@@ -282,7 +282,7 @@ class TestSysConfig(unittest.TestCase):
         # just making sure _main() runs and returns things in the stdout
         with captured_stdout() as output:
             _main()
-        self.assertTrue(len(output.getvalue().split('\n')) > 0)
+        self.assertTrue(len(output.getvalue().split('/n')) > 0)
 
     @unittest.skipIf(sys.platform == "win32", "Does not apply to Windows")
     def test_ldshared_value(self):

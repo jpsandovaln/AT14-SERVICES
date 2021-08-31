@@ -13,7 +13,7 @@ class FrozenTests(unittest.TestCase):
                 self.fail("import __hello__ failed:" + str(x))
             self.assertEqual(__hello__.initialized, True)
             self.assertEqual(len(dir(__hello__)), 7, dir(__hello__))
-            self.assertEqual(stdout.getvalue(), 'Hello world!\n')
+            self.assertEqual(stdout.getvalue(), 'Hello world!/n')
 
         with captured_stdout() as stdout:
             try:
@@ -26,7 +26,7 @@ class FrozenTests(unittest.TestCase):
             else:
                 self.assertEqual(len(dir(__phello__)), 9, dir(__phello__))
             self.assertEqual(__phello__.__path__, [__phello__.__name__])
-            self.assertEqual(stdout.getvalue(), 'Hello world!\n')
+            self.assertEqual(stdout.getvalue(), 'Hello world!/n')
 
         with captured_stdout() as stdout:
             try:
@@ -36,7 +36,7 @@ class FrozenTests(unittest.TestCase):
             self.assertEqual(__phello__.spam.initialized, True)
             self.assertEqual(len(dir(__phello__.spam)), 7)
             self.assertEqual(len(dir(__phello__)), 9)
-            self.assertEqual(stdout.getvalue(), 'Hello world!\n')
+            self.assertEqual(stdout.getvalue(), 'Hello world!/n')
 
         try:
             import __phello__.foo

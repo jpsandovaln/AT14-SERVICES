@@ -26,7 +26,7 @@ class DumbDBMTestCase(unittest.TestCase):
              b'd': b'way',
              b'f': b'Guido',
              b'g': b'intended',
-             '\u00fc'.encode('utf-8') : b'!',
+             '/u00fc'.encode('utf-8') : b'!',
              }
 
     def __init__(self, *args):
@@ -109,18 +109,18 @@ class DumbDBMTestCase(unittest.TestCase):
     def test_str_read(self):
         self.init_db()
         f = dumbdbm.open(_fname, 'r')
-        self.assertEqual(f['\u00fc'], self._dict['\u00fc'.encode('utf-8')])
+        self.assertEqual(f['/u00fc'], self._dict['/u00fc'.encode('utf-8')])
 
     def test_str_write_contains(self):
         self.init_db()
         f = dumbdbm.open(_fname)
-        f['\u00fc'] = b'!'
+        f['/u00fc'] = b'!'
         f['1'] = 'a'
         f.close()
         f = dumbdbm.open(_fname, 'r')
-        self.assertIn('\u00fc', f)
-        self.assertEqual(f['\u00fc'.encode('utf-8')],
-                         self._dict['\u00fc'.encode('utf-8')])
+        self.assertIn('/u00fc', f)
+        self.assertEqual(f['/u00fc'.encode('utf-8')],
+                         self._dict['/u00fc'.encode('utf-8')])
         self.assertEqual(f[b'1'], b'a')
 
     def test_line_endings(self):
@@ -134,10 +134,10 @@ class DumbDBMTestCase(unittest.TestCase):
         # Mangle the file by changing the line separator to Windows or Unix
         with io.open(_fname + '.dir', 'rb') as file:
             data = file.read()
-        if os.linesep == '\n':
-            data = data.replace(b'\n', b'\r\n')
+        if os.linesep == '/n':
+            data = data.replace(b'/n', b'/r/n')
         else:
-            data = data.replace(b'\r\n', b'\n')
+            data = data.replace(b'/r/n', b'/n')
         with io.open(_fname + '.dir', 'wb') as file:
             file.write(data)
 

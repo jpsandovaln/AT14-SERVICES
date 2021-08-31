@@ -135,12 +135,12 @@ class TclTest(unittest.TestCase):
     def testLoadWithUNC(self):
         # Build a UNC path from the regular path.
         # Something like
-        #   \\%COMPUTERNAME%\c$\python27\python.exe
+        #   //%COMPUTERNAME%/c$/python27/python.exe
 
         fullname = os.path.abspath(sys.executable)
         if fullname[1] != ':':
             raise unittest.SkipTest('Absolute path should have drive part')
-        unc_name = r'\\%s\%s$\%s' % (os.environ['COMPUTERNAME'],
+        unc_name = r'//%s/%s$/%s' % (os.environ['COMPUTERNAME'],
                                     fullname[0],
                                     fullname[3:])
         if not os.path.exists(unc_name):
@@ -161,7 +161,7 @@ class TclTest(unittest.TestCase):
         self.assertEqual(passValue(True), True)
         self.assertEqual(passValue(False), False)
         self.assertEqual(passValue('string'), 'string')
-        self.assertEqual(passValue('string\u20ac'), 'string\u20ac')
+        self.assertEqual(passValue('string/u20ac'), 'string/u20ac')
         for i in (0, 1, -1, 2**31-1, -2**31):
             self.assertEqual(passValue(i), i)
         for f in (0.0, 1.0, -1.0, 1/3,

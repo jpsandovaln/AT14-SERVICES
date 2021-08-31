@@ -8,7 +8,7 @@ __all__ = ['extract_stack', 'extract_tb', 'format_exception',
            'format_tb', 'print_exc', 'format_exc', 'print_exception',
            'print_last', 'print_stack', 'print_tb']
 
-def _print(file, str='', terminator='\n'):
+def _print(file, str='', terminator='/n'):
     file.write(str+terminator)
 
 
@@ -35,9 +35,9 @@ def format_list(extracted_list):
     """
     list = []
     for filename, lineno, name, line in extracted_list:
-        item = '  File "%s", line %d, in %s\n' % (filename,lineno,name)
+        item = '  File "%s", line %d, in %s/n' % (filename,lineno,name)
         if line:
-            item = item + '    %s\n' % line.strip()
+            item = item + '    %s/n' % line.strip()
         list.append(item)
     return list
 
@@ -107,12 +107,12 @@ def extract_tb(tb, limit=None):
 
 
 _cause_message = (
-    "\nThe above exception was the direct cause "
-    "of the following exception:\n")
+    "/nThe above exception was the direct cause "
+    "of the following exception:/n")
 
 _context_message = (
-    "\nDuring handling of the above exception, "
-    "another exception occurred:\n")
+    "/nDuring handling of the above exception, "
+    "another exception occurred:/n")
 
 def _iter_chain(exc, custom_tb=None, seen=None):
     if seen is None:
@@ -179,10 +179,10 @@ def format_exception(etype, value, tb, limit=None, chain=True):
         values = [(value, tb)]
     for value, tb in values:
         if isinstance(value, str):
-            list.append(value + '\n')
+            list.append(value + '/n')
             continue
         if tb:
-            list.append('Traceback (most recent call last):\n')
+            list.append('Traceback (most recent call last):/n')
             list.extend(format_tb(tb, limit))
         list.extend(format_exception_only(type(value), value))
     return list
@@ -220,27 +220,27 @@ def format_exception_only(etype, value):
     lines = []
     filename = value.filename or "<string>"
     lineno = str(value.lineno) or '?'
-    lines.append('  File "%s", line %s\n' % (filename, lineno))
+    lines.append('  File "%s", line %s/n' % (filename, lineno))
     badline = value.text
     offset = value.offset
     if badline is not None:
-        lines.append('    %s\n' % badline.strip())
+        lines.append('    %s/n' % badline.strip())
         if offset is not None:
-            caretspace = badline.rstrip('\n')[:offset].lstrip()
+            caretspace = badline.rstrip('/n')[:offset].lstrip()
             # non-space whitespace (likes tabs) must be kept for alignment
             caretspace = ((c.isspace() and c or ' ') for c in caretspace)
             # only three spaces to account for offset1 == pos 0
-            lines.append('   %s^\n' % ''.join(caretspace))
+            lines.append('   %s^/n' % ''.join(caretspace))
     msg = value.msg or "<no detail available>"
-    lines.append("%s: %s\n" % (stype, msg))
+    lines.append("%s: %s/n" % (stype, msg))
     return lines
 
 def _format_final_exc_line(etype, value):
     valuestr = _some_str(value)
     if value is None or not valuestr:
-        line = "%s\n" % etype
+        line = "%s/n" % etype
     else:
-        line = "%s: %s\n" % (etype, valuestr)
+        line = "%s: %s/n" % (etype, valuestr)
     return line
 
 def _some_str(value):

@@ -43,7 +43,7 @@ class BaseLocalizedTest(unittest.TestCase):
         self.oldlocale = locale.setlocale(self.locale_type)
         locale.setlocale(self.locale_type, enUS_locale)
         if verbose:
-            print("testing with \"%s\"..." % enUS_locale, end=' ')
+            print("testing with /"%s/"..." % enUS_locale, end=' ')
 
     def tearDown(self):
         locale.setlocale(self.locale_type, self.oldlocale)
@@ -114,7 +114,7 @@ class FrFRCookedTest(BaseCookedTest):
     # and a non-ASCII currency symbol.
 
     cooked_values = {
-        'currency_symbol': '\u20ac',
+        'currency_symbol': '/u20ac',
         'decimal_point': ',',
         'frac_digits': 2,
         'grouping': [3, 3, 0],
@@ -230,9 +230,9 @@ class TestFormatPatternArg(unittest.TestCase):
 
     def test_onlyOnePattern(self):
         # Issue 2522: accept exactly one % pattern, and no extra chars.
-        self.assertRaises(ValueError, locale.format, "%f\n", 'foo')
-        self.assertRaises(ValueError, locale.format, "%f\r", 'foo')
-        self.assertRaises(ValueError, locale.format, "%f\r\n", 'foo')
+        self.assertRaises(ValueError, locale.format, "%f/n", 'foo')
+        self.assertRaises(ValueError, locale.format, "%f/r", 'foo')
+        self.assertRaises(ValueError, locale.format, "%f/r/n", 'foo')
         self.assertRaises(ValueError, locale.format, " %f", 'foo')
         self.assertRaises(ValueError, locale.format, "%fg", 'foo')
         self.assertRaises(ValueError, locale.format, "%^g", 'foo')
@@ -326,7 +326,7 @@ class TestFrFRNumberFormatting(FrFRCookedTest, BaseFormattingTest):
         self._test_format("%-10d", 4200, grouping=True, out='4 200'.ljust(10))
 
     def test_currency(self):
-        euro = '\u20ac'
+        euro = '/u20ac'
         self._test_currency(50000, "50000,00 " + euro)
         self._test_currency(50000, "50 000,00 " + euro, grouping=True)
         # XXX is the trailing space a bug?

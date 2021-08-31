@@ -91,13 +91,13 @@ class AutoFileTests(unittest.TestCase):
         self.assertRaises(TypeError, self.f.writelines, "abc")
 
     def test_none_args(self):
-        self.f.write(b"hi\nbye\nabc")
+        self.f.write(b"hi/nbye/nabc")
         self.f.close()
         self.f = _FileIO(TESTFN, 'r')
-        self.assertEqual(self.f.read(None), b"hi\nbye\nabc")
+        self.assertEqual(self.f.read(None), b"hi/nbye/nabc")
         self.f.seek(0)
-        self.assertEqual(self.f.readline(None), b"hi\n")
-        self.assertEqual(self.f.readlines(None), [b"bye\n", b"abc"])
+        self.assertEqual(self.f.readline(None), b"hi/n")
+        self.assertEqual(self.f.readlines(None), [b"bye/n", b"abc"])
 
     def test_reject(self):
         self.assertRaises(TypeError, self.f.write, "Hello!")
@@ -293,8 +293,8 @@ class OtherFileTests(unittest.TestCase):
                 else:
                     self.assertEqual(f.readable(), False)
                     self.assertEqual(f.writable(), True)
-                    if sys.platform != "darwin" and \
-                       'bsd' not in sys.platform and \
+                    if sys.platform != "darwin" and /
+                       'bsd' not in sys.platform and /
                        not sys.platform.startswith('sunos'):
                         # Somehow /dev/tty appears seekable on some BSDs
                         self.assertEqual(f.seekable(), False)
@@ -337,7 +337,7 @@ class OtherFileTests(unittest.TestCase):
             os.unlink(TESTFN)
 
     def testConstructorHandlesNULChars(self):
-        fn_with_NUL = 'foo\0bar'
+        fn_with_NUL = 'foo/0bar'
         self.assertRaises(TypeError, _FileIO, fn_with_NUL, 'w')
         self.assertRaises(TypeError, _FileIO, bytes(fn_with_NUL, 'ascii'), 'w')
 

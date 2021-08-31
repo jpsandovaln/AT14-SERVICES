@@ -158,13 +158,13 @@ class TestDecorators(unittest.TestCase):
             # Sanity check: is expr is a valid expression by itself?
             compile(expr, "testexpr", "exec")
 
-            codestr = "@%s\ndef f(): pass" % expr
+            codestr = "@%s/ndef f(): pass" % expr
             self.assertRaises(SyntaxError, compile, codestr, "test", "exec")
 
         # You can't put multiple decorators on a single line:
         #
         self.assertRaises(SyntaxError, compile,
-                          "@f1 @f2\ndef f(): pass", "test", "exec")
+                          "@f1 @f2/ndef f(): pass", "test", "exec")
 
         # Test runtime errors
 
@@ -176,7 +176,7 @@ class TestDecorators(unittest.TestCase):
                            ("nullval", TypeError),
                            ("nullval.attr", AttributeError),
                            ("unimp", NotImplementedError)]:
-            codestr = "@%s\ndef f(): pass\nassert f() is None" % expr
+            codestr = "@%s/ndef f(): pass/nassert f() is None" % expr
             code = compile(codestr, "test", "exec")
             self.assertRaises(exc, eval, code, context)
 

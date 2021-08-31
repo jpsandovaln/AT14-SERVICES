@@ -23,7 +23,7 @@ def skip_if_ABSTFN_contains_backslash(test):
     instead of posix forward slashes. If this is the case, several tests
     fail, so skip them.
     """
-    found_backslash = '\\' in ABSTFN
+    found_backslash = '//' in ABSTFN
     msg = "ABSTFN is not a posix path - tests fail"
     return [test, unittest.skip(msg)(test)][found_backslash]
 

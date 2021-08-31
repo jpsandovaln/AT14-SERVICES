@@ -1,7 +1,7 @@
 #-*- coding: ISO-8859-1 -*-
 # pysqlite2/test/dbapi.py: tests for DB-API compliance
 #
-# Copyright (C) 2004-2010 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2004-2010 Gerhard Hï¿½ring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
@@ -226,11 +226,11 @@ class CursorTests(unittest.TestCase):
         self.cu.execute("insert into test(name) values (?)", ("Hugo",))
 
     def CheckExecuteArgStringWithZeroByte(self):
-        self.cu.execute("insert into test(name) values (?)", ("Hu\x00go",))
+        self.cu.execute("insert into test(name) values (?)", ("Hu/x00go",))
 
         self.cu.execute("select name from test where id=?", (self.cu.lastrowid,))
         row = self.cu.fetchone()
-        self.assertEqual(row[0], "Hu\x00go")
+        self.assertEqual(row[0], "Hu/x00go")
 
     def CheckExecuteWrongNoOfArgs1(self):
         # too many parameters
@@ -520,7 +520,7 @@ class ThreadTests(unittest.TestCase):
         t.start()
         t.join()
         if len(errors) > 0:
-            self.fail("\n".join(errors))
+            self.fail("/n".join(errors))
 
     def CheckConCommit(self):
         def run(con, errors):
@@ -538,7 +538,7 @@ class ThreadTests(unittest.TestCase):
         t.start()
         t.join()
         if len(errors) > 0:
-            self.fail("\n".join(errors))
+            self.fail("/n".join(errors))
 
     def CheckConRollback(self):
         def run(con, errors):
@@ -556,7 +556,7 @@ class ThreadTests(unittest.TestCase):
         t.start()
         t.join()
         if len(errors) > 0:
-            self.fail("\n".join(errors))
+            self.fail("/n".join(errors))
 
     def CheckConClose(self):
         def run(con, errors):
@@ -574,7 +574,7 @@ class ThreadTests(unittest.TestCase):
         t.start()
         t.join()
         if len(errors) > 0:
-            self.fail("\n".join(errors))
+            self.fail("/n".join(errors))
 
     def CheckCurImplicitBegin(self):
         def run(cur, errors):
@@ -592,7 +592,7 @@ class ThreadTests(unittest.TestCase):
         t.start()
         t.join()
         if len(errors) > 0:
-            self.fail("\n".join(errors))
+            self.fail("/n".join(errors))
 
     def CheckCurClose(self):
         def run(cur, errors):
@@ -610,7 +610,7 @@ class ThreadTests(unittest.TestCase):
         t.start()
         t.join()
         if len(errors) > 0:
-            self.fail("\n".join(errors))
+            self.fail("/n".join(errors))
 
     def CheckCurExecute(self):
         def run(cur, errors):
@@ -629,7 +629,7 @@ class ThreadTests(unittest.TestCase):
         t.start()
         t.join()
         if len(errors) > 0:
-            self.fail("\n".join(errors))
+            self.fail("/n".join(errors))
 
     def CheckCurIterNext(self):
         def run(cur, errors):
@@ -649,7 +649,7 @@ class ThreadTests(unittest.TestCase):
         t.start()
         t.join()
         if len(errors) > 0:
-            self.fail("\n".join(errors))
+            self.fail("/n".join(errors))
 
 class ConstructorTests(unittest.TestCase):
     def CheckDate(self):
@@ -671,7 +671,7 @@ class ConstructorTests(unittest.TestCase):
         ts = sqlite.TimestampFromTicks(42)
 
     def CheckBinary(self):
-        b = sqlite.Binary(b"\0'")
+        b = sqlite.Binary(b"/0'")
 
 class ExtensionTests(unittest.TestCase):
     def CheckScriptStringSql(self):

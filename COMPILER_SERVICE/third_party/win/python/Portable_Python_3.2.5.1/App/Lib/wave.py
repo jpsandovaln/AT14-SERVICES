@@ -84,7 +84,7 @@ _array_fmts = None, 'b', 'h', None, 'l'
 
 # Determine endian-ness
 import struct
-if struct.pack("h", 1) == b"\000\001":
+if struct.pack("h", 1) == b"/000/001":
     big_endian = 1
 else:
     big_endian = 0
@@ -206,8 +206,8 @@ class Wave_read:
         return self._compname
 
     def getparams(self):
-        return self.getnchannels(), self.getsampwidth(), \
-               self.getframerate(), self.getnframes(), \
+        return self.getnchannels(), self.getsampwidth(), /
+               self.getframerate(), self.getnframes(), /
                self.getcomptype(), self.getcompname()
 
     def getmarkers(self):
@@ -398,7 +398,7 @@ class Wave_write:
     def getparams(self):
         if not self._nchannels or not self._sampwidth or not self._framerate:
             raise Error('not all parameters set')
-        return self._nchannels, self._sampwidth, self._framerate, \
+        return self._nchannels, self._sampwidth, self._framerate, /
               self._nframes, self._comptype, self._compname
 
     def setmark(self, id, pos, name):

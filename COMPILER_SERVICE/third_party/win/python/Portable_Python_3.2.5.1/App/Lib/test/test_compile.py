@@ -7,16 +7,16 @@ class TestSpecifics(unittest.TestCase):
 
     def test_no_ending_newline(self):
         compile("hi", "<test>", "exec")
-        compile("hi\r", "<test>", "exec")
+        compile("hi/r", "<test>", "exec")
 
     def test_empty(self):
         compile("", "<test>", "exec")
 
     def test_other_newlines(self):
-        compile("\r\n", "<test>", "exec")
-        compile("\r", "<test>", "exec")
-        compile("hi\r\nstuff\r\ndef f():\n    pass\r", "<test>", "exec")
-        compile("this_is\rreally_old_mac\rdef f():\n    pass", "<test>", "exec")
+        compile("/r/n", "<test>", "exec")
+        compile("/r", "<test>", "exec")
+        compile("hi/r/nstuff/r/ndef f():/n    pass/r", "<test>", "exec")
+        compile("this_is/rreally_old_mac/rdef f():/n    pass", "<test>", "exec")
 
     def test_debug_assignment(self):
         # catch assignments to __debug__
@@ -138,7 +138,7 @@ if 1:
     # the first line of code starts after 256, correct line numbers
     # in tracebacks are still produced.
     def test_leading_newlines(self):
-        s256 = "".join(["\n"] * 256 + ["spam"])
+        s256 = "".join(["/n"] * 256 + ["spam"])
         co = compile(s256, 'fn', 'exec')
         self.assertEqual(co.co_firstlineno, 257)
         self.assertEqual(co.co_lnotab, bytes())
@@ -232,7 +232,7 @@ if 1:
             'from x import y as None'
         ]
         for stmt in stmts:
-            stmt += "\n"
+            stmt += "/n"
             self.assertRaises(SyntaxError, compile, stmt, 'tmp', 'single')
             self.assertRaises(SyntaxError, compile, stmt, 'tmp', 'exec')
 
@@ -243,13 +243,13 @@ if 1:
             'import os as bar',
             'import os.path as bar',
             'from __future__ import nested_scopes, generators',
-            'from __future__ import (nested_scopes,\ngenerators)',
-            'from __future__ import (nested_scopes,\ngenerators,)',
+            'from __future__ import (nested_scopes,/ngenerators)',
+            'from __future__ import (nested_scopes,/ngenerators,)',
             'from sys import stdin, stderr, stdout',
-            'from sys import (stdin, stderr,\nstdout)',
-            'from sys import (stdin, stderr,\nstdout,)',
-            'from sys import (stdin\n, stderr, stdout)',
-            'from sys import (stdin\n, stderr, stdout,)',
+            'from sys import (stdin, stderr,/nstdout)',
+            'from sys import (stdin, stderr,/nstdout,)',
+            'from sys import (stdin/n, stderr, stdout)',
+            'from sys import (stdin/n, stderr, stdout,)',
             'from sys import stdin as si, stdout as so, stderr as se',
             'from sys import (stdin as si, stdout as so, stderr as se)',
             'from sys import (stdin as si, stdout as so, stderr as se,)',
@@ -268,10 +268,10 @@ if 1:
             'from (sys) import stdin',
             'from __future__ import (nested_scopes',
             'from __future__ import nested_scopes)',
-            'from __future__ import nested_scopes,\ngenerators',
+            'from __future__ import nested_scopes,/ngenerators',
             'from sys import (stdin',
             'from sys import stdin)',
-            'from sys import stdin, stdout,\nstderr',
+            'from sys import stdin, stdout,/nstderr',
             'from sys import stdin si',
             'from sys import stdin,'
             'from sys import (*)',
@@ -297,7 +297,7 @@ if 1:
         self.assertIsNone(l.__doc__)
 
 ##     def test_unicode_encoding(self):
-##         code = "# -*- coding: utf-8 -*-\npass\n"
+##         code = "# -*- coding: utf-8 -*-/npass/n"
 ##         self.assertRaises(SyntaxError, compile, code, "tmp", "exec")
 
     def test_subscripts(self):
@@ -406,9 +406,9 @@ if 1:
             fcontents = f.read()
         sample_code = [
             ['<assign>', 'x = 5'],
-            ['<ifblock>', """if True:\n    pass\n"""],
-            ['<forblock>', """for n in [1, 2, 3]:\n    print(n)\n"""],
-            ['<deffunc>', """def foo():\n    pass\nfoo()\n"""],
+            ['<ifblock>', """if True:/n    pass/n"""],
+            ['<forblock>', """for n in [1, 2, 3]:/n    print(n)/n"""],
+            ['<deffunc>', """def foo():/n    pass/nfoo()/n"""],
             [fname, fcontents],
         ]
 

@@ -44,7 +44,7 @@ class SysModuleTest(unittest.TestCase):
         self.assertEqual(out.getvalue(), "")
         self.assertTrue(not hasattr(builtins, "_"))
         dh(42)
-        self.assertEqual(out.getvalue(), "42\n")
+        self.assertEqual(out.getvalue(), "42/n")
         self.assertEqual(builtins._, 42)
 
         del sys.stdout
@@ -74,12 +74,12 @@ class SysModuleTest(unittest.TestCase):
         except ValueError as exc:
             eh(*sys.exc_info())
 
-        self.assertTrue(err.getvalue().endswith("ValueError: 42\n"))
+        self.assertTrue(err.getvalue().endswith("ValueError: 42/n"))
 
     def test_excepthook(self):
         with test.support.captured_output("stderr") as stderr:
             sys.excepthook(1, '1', 1)
-        self.assertTrue("TypeError: print_exception(): Exception expected for " \
+        self.assertTrue("TypeError: print_exception(): Exception expected for " /
                          "value, str found" in stderr.getvalue())
 
     # FIXME: testing the code for a lost or replaced excepthook in
@@ -162,16 +162,16 @@ class SysModuleTest(unittest.TestCase):
         # test that the exit message is written with backslashreplace error
         # handler to stderr
         check_exit_message(
-            r'import sys; sys.exit("surrogates:\uDCFF")',
-            b"surrogates:\\udcff")
+            r'import sys; sys.exit("surrogates:/uDCFF")',
+            b"surrogates://udcff")
 
         # test that the unicode message is encoded to the stderr encoding
         # instead of the default encoding (utf8)
         env = os.environ.copy()
         env['PYTHONIOENCODING'] = 'latin-1'
         check_exit_message(
-            r'import sys; sys.exit("h\xe9")',
-            b"h\xe9", env=env)
+            r'import sys; sys.exit("h/xe9")',
+            b"h/xe9", env=env)
 
     def test_getdefaultencoding(self):
         self.assertRaises(TypeError, sys.getdefaultencoding, 42)
@@ -320,7 +320,7 @@ class SysModuleTest(unittest.TestCase):
         self.assertRaises(TypeError, sys._getframe, 42, 42)
         self.assertRaises(ValueError, sys._getframe, 2000000000)
         self.assertTrue(
-            SysModuleTest.test_getframe.__code__ \
+            SysModuleTest.test_getframe.__code__ /
             is sys._getframe().f_code
         )
 
@@ -521,7 +521,7 @@ class SysModuleTest(unittest.TestCase):
         p = subprocess.Popen([sys.executable, "-c", 'print(chr(0xa2))'],
                              stdout = subprocess.PIPE, env=env)
         out = p.communicate()[0].strip()
-        expected = ("\xa2" + os.linesep).encode("cp424")
+        expected = ("/xa2" + os.linesep).encode("cp424")
         self.assertEqual(out, expected)
 
         env["PYTHONIOENCODING"] = "ascii:replace"
@@ -682,7 +682,7 @@ class SizeofTest(unittest.TestCase):
         x = inspect.currentframe()
         ncells = len(x.f_code.co_cellvars)
         nfrees = len(x.f_code.co_freevars)
-        extras = x.f_code.co_stacksize + x.f_code.co_nlocals +\
+        extras = x.f_code.co_stacksize + x.f_code.co_nlocals +/
                   ncells + nfrees - 1
         check(x, vsize('12P3i' + CO_MAXBLOCKS*'3i' + 'P' + extras*'P'))
         # function
@@ -791,7 +791,7 @@ class SizeofTest(unittest.TestCase):
         class newstyleclass(object): pass
         check(newstyleclass, s)
         # unicode
-        usize = len('\0'.encode('unicode-internal'))
+        usize = len('/0'.encode('unicode-internal'))
         samples = ['', '1'*100]
         # we need to test for both sizes, because we don't know if the string
         # has been cached

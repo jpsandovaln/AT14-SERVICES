@@ -8,7 +8,7 @@ class EOFTestCase(unittest.TestCase):
     def test_EOFC(self):
         expect = "EOL while scanning string literal (<string>, line 1)"
         try:
-            eval("""'this is a test\
+            eval("""'this is a test/
             """)
         except SyntaxError as msg:
             self.assertEqual(str(msg), expect)

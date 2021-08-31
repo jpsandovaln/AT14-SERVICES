@@ -114,7 +114,7 @@ class OtherNetworkTests(unittest.TestCase):
         TESTFN = support.TESTFN
         f = open(TESTFN, 'w')
         try:
-            f.write('hi there\n')
+            f.write('hi there/n')
             f.close()
             urls = [
                 'file:' + sanepathname2url(os.path.abspath(TESTFN)),
@@ -187,7 +187,7 @@ class OtherNetworkTests(unittest.TestCase):
                 with urllib.request.urlopen(URL) as res:
                     pass
             except ValueError as e:
-                self.fail("urlopen failed for site not sending \
+                self.fail("urlopen failed for site not sending /
                            Connection:close")
             else:
                 self.assertTrue(res)
@@ -229,8 +229,8 @@ class OtherNetworkTests(unittest.TestCase):
                         raise
                 else:
                     try:
-                        with support.time_out, \
-                             support.socket_peer_reset, \
+                        with support.time_out, /
+                             support.socket_peer_reset, /
                              support.ioerror_peer_reset:
                             buf = f.read()
                             debug("read %d bytes" % len(buf))

@@ -23,7 +23,19 @@ services:
     ports:
       - 8080:8080
     networks:
-      - my-network-name      
+      - my-network-name
+  APOLLO:
+    build:
+      context: ./APOLLO_SERVER
+      dockerfile: Dockerfile
+    image: image_apollo  
+    env_file: 
+      - ./APOLLO_SERVER/.env
+    container_name: container_apollo
+    ports:
+      - 4000:4000
+    networks:
+      - my-network-name            
   mongo_db:
     image: mongo:latest
     volumes:

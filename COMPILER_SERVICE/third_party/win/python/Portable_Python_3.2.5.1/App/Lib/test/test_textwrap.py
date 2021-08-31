@@ -22,15 +22,15 @@ class BaseTestCase(unittest.TestCase):
             result = []
             for i in range(len(textin)):
                 result.append("  %d: %r" % (i, textin[i]))
-            result = "\n".join(result) if result else "  no lines"
+            result = "/n".join(result) if result else "  no lines"
         elif isinstance(textin, str):
-            result = "  %s\n" % repr(textin)
+            result = "  %s/n" % repr(textin)
         return result
 
 
     def check(self, result, expect):
         self.assertEqual(result, expect,
-            'expected:\n%s\nbut got:\n%s' % (
+            'expected:/n%s/nbut got:/n%s' % (
                 self.show(expect), self.show(result)))
 
     def check_wrap(self, text, width, expect, **kwargs):
@@ -40,7 +40,7 @@ class BaseTestCase(unittest.TestCase):
     def check_split(self, text, expect):
         result = self.wrapper._split(text)
         self.assertEqual(result, expect,
-                         "\nexpected %r\n"
+                         "/nexpected %r/n"
                          "but got  %r" % (expect, result))
 
 
@@ -79,11 +79,11 @@ class WrapTestCase(BaseTestCase):
     def test_whitespace(self):
         # Whitespace munging and end-of-sentence detection
 
-        text = """\
+        text = """/
 This is a paragraph that already has
 line breaks.  But some of its lines are much longer than the others,
 so it needs to be wrapped.
-Some lines are \ttabbed too.
+Some lines are /ttabbed too.
 What a mess!
 """
 
@@ -98,7 +98,7 @@ What a mess!
         self.check(result, expect)
 
         result = wrapper.fill(text)
-        self.check(result, '\n'.join(expect))
+        self.check(result, '/n'.join(expect))
 
     def test_fix_sentence_endings(self):
         wrapper = TextWrapper(60, fix_sentence_endings=True)
@@ -117,10 +117,10 @@ What a mess!
         expect = ["Well, Doctor?  What do you think?"]
         self.check(wrapper.wrap(text), expect)
 
-        text = "Well, Doctor?\nWhat do you think?"
+        text = "Well, Doctor?/nWhat do you think?"
         self.check(wrapper.wrap(text), expect)
 
-        text = 'I say, chaps! Anyone for "tennis?"\nHmmph!'
+        text = 'I say, chaps! Anyone for "tennis?"/nHmmph!'
         expect = ['I say, chaps!  Anyone for "tennis?"  Hmmph!']
         self.check(wrapper.wrap(text), expect)
 
@@ -128,7 +128,7 @@ What a mess!
         expect = ['I say, chaps!', 'Anyone for "tennis?"', 'Hmmph!']
         self.check(wrapper.wrap(text), expect)
 
-        text = 'And she said, "Go to hell!"\nCan you believe that?'
+        text = 'And she said, "Go to hell!"/nCan you believe that?'
         expect = ['And she said, "Go to',
                   'hell!"  Can you',
                   'believe that?']
@@ -145,7 +145,7 @@ What a mess!
     def test_wrap_short(self):
         # Wrapping to make short lines longer
 
-        text = "This is a\nshort paragraph."
+        text = "This is a/nshort paragraph."
 
         self.check_wrap(text, 20, ["This is a short",
                                    "paragraph."])
@@ -180,7 +180,7 @@ What a mess!
 
     def test_hyphenated_numbers(self):
         # Test that hyphenated numbers (eg. dates) are not broken like words.
-        text = ("Python 1.0.0 was released on 1994-01-26.  Python 1.0.1 was\n"
+        text = ("Python 1.0.0 was released on 1994-01-26.  Python 1.0.1 was/n"
                 "released on 1994-02-15.")
 
         self.check_wrap(text, 30, ['Python 1.0.0 was released on',
@@ -414,18 +414,18 @@ What a mess!
         self.assertRaises(ValueError, wrap, text, -1)
 
     def test_no_split_at_umlaut(self):
-        text = "Die Empf\xe4nger-Auswahl"
-        self.check_wrap(text, 13, ["Die", "Empf\xe4nger-", "Auswahl"])
+        text = "Die Empf/xe4nger-Auswahl"
+        self.check_wrap(text, 13, ["Die", "Empf/xe4nger-", "Auswahl"])
 
     def test_umlaut_followed_by_dash(self):
-        text = "aa \xe4\xe4-\xe4\xe4"
-        self.check_wrap(text, 7, ["aa \xe4\xe4-", "\xe4\xe4"])
+        text = "aa /xe4/xe4-/xe4/xe4"
+        self.check_wrap(text, 7, ["aa /xe4/xe4-", "/xe4/xe4"])
 
 
 class LongWordTestCase (BaseTestCase):
     def setUp(self):
         self.wrapper = TextWrapper()
-        self.text = '''\
+        self.text = '''/
 Did you say "supercalifragilisticexpialidocious?"
 How *do* you spell that odd word, anyways?
 '''
@@ -487,7 +487,7 @@ class IndentTestCases(BaseTestCase):
 
     # called before each test method
     def setUp(self):
-        self.text = '''\
+        self.text = '''/
 This paragraph will be filled, first without any indentation,
 and then with some (including a hanging indent).'''
 
@@ -495,7 +495,7 @@ and then with some (including a hanging indent).'''
     def test_fill(self):
         # Test the fill() method
 
-        expect = '''\
+        expect = '''/
 This paragraph will be filled, first
 without any indentation, and then with
 some (including a hanging indent).'''
@@ -513,7 +513,7 @@ some (including a hanging indent).'''
         result = wrap(self.text, 40, initial_indent="     ")
         self.check(result, expect)
 
-        expect = "\n".join(expect)
+        expect = "/n".join(expect)
         result = fill(self.text, 40, initial_indent="     ")
         self.check(result, expect)
 
@@ -521,7 +521,7 @@ some (including a hanging indent).'''
     def test_subsequent_indent(self):
         # Test subsequent_indent parameter
 
-        expect = '''\
+        expect = '''/
   * This paragraph will be filled, first
     without any indentation, and then
     with some (including a hanging
@@ -542,45 +542,45 @@ class DedentTestCase(unittest.TestCase):
 
     def test_dedent_nomargin(self):
         # No lines indented.
-        text = "Hello there.\nHow are you?\nOh good, I'm glad."
+        text = "Hello there./nHow are you?/nOh good, I'm glad."
         self.assertUnchanged(text)
 
         # Similar, with a blank line.
-        text = "Hello there.\n\nBoo!"
+        text = "Hello there./n/nBoo!"
         self.assertUnchanged(text)
 
         # Some lines indented, but overall margin is still zero.
-        text = "Hello there.\n  This is indented."
+        text = "Hello there./n  This is indented."
         self.assertUnchanged(text)
 
         # Again, add a blank line.
-        text = "Hello there.\n\n  Boo!\n"
+        text = "Hello there./n/n  Boo!/n"
         self.assertUnchanged(text)
 
     def test_dedent_even(self):
         # All lines indented by two spaces.
-        text = "  Hello there.\n  How are ya?\n  Oh good."
-        expect = "Hello there.\nHow are ya?\nOh good."
+        text = "  Hello there./n  How are ya?/n  Oh good."
+        expect = "Hello there./nHow are ya?/nOh good."
         self.assertEqual(expect, dedent(text))
 
         # Same, with blank lines.
-        text = "  Hello there.\n\n  How are ya?\n  Oh good.\n"
-        expect = "Hello there.\n\nHow are ya?\nOh good.\n"
+        text = "  Hello there./n/n  How are ya?/n  Oh good./n"
+        expect = "Hello there./n/nHow are ya?/nOh good./n"
         self.assertEqual(expect, dedent(text))
 
         # Now indent one of the blank lines.
-        text = "  Hello there.\n  \n  How are ya?\n  Oh good.\n"
-        expect = "Hello there.\n\nHow are ya?\nOh good.\n"
+        text = "  Hello there./n  /n  How are ya?/n  Oh good./n"
+        expect = "Hello there./n/nHow are ya?/nOh good./n"
         self.assertEqual(expect, dedent(text))
 
     def test_dedent_uneven(self):
         # Lines indented unevenly.
-        text = '''\
+        text = '''/
         def foo():
             while 1:
                 return foo
         '''
-        expect = '''\
+        expect = '''/
 def foo():
     while 1:
         return foo
@@ -588,19 +588,19 @@ def foo():
         self.assertEqual(expect, dedent(text))
 
         # Uneven indentation with a blank line.
-        text = "  Foo\n    Bar\n\n   Baz\n"
-        expect = "Foo\n  Bar\n\n Baz\n"
+        text = "  Foo/n    Bar/n/n   Baz/n"
+        expect = "Foo/n  Bar/n/n Baz/n"
         self.assertEqual(expect, dedent(text))
 
         # Uneven indentation with a whitespace-only line.
-        text = "  Foo\n    Bar\n \n   Baz\n"
-        expect = "Foo\n  Bar\n\n Baz\n"
+        text = "  Foo/n    Bar/n /n   Baz/n"
+        expect = "Foo/n  Bar/n/n Baz/n"
         self.assertEqual(expect, dedent(text))
 
     # dedent() should not mangle internal tabs
     def test_dedent_preserve_internal_tabs(self):
-        text = "  hello\tthere\n  how are\tyou?"
-        expect = "hello\tthere\nhow are\tyou?"
+        text = "  hello/tthere/n  how are/tyou?"
+        expect = "hello/tthere/nhow are/tyou?"
         self.assertEqual(expect, dedent(text))
 
         # make sure that it preserves tabs when it's not making any
@@ -611,26 +611,26 @@ def foo():
     # tabs and spaces both count as margin, but are *not*
     # considered equivalent)
     def test_dedent_preserve_margin_tabs(self):
-        text = "  hello there\n\thow are you?"
+        text = "  hello there/n/thow are you?"
         self.assertUnchanged(text)
 
         # same effect even if we have 8 spaces
-        text = "        hello there\n\thow are you?"
+        text = "        hello there/n/thow are you?"
         self.assertUnchanged(text)
 
         # dedent() only removes whitespace that can be uniformly removed!
-        text = "\thello there\n\thow are you?"
-        expect = "hello there\nhow are you?"
+        text = "/thello there/n/thow are you?"
+        expect = "hello there/nhow are you?"
         self.assertEqual(expect, dedent(text))
 
-        text = "  \thello there\n  \thow are you?"
+        text = "  /thello there/n  /thow are you?"
         self.assertEqual(expect, dedent(text))
 
-        text = "  \t  hello there\n  \t  how are you?"
+        text = "  /t  hello there/n  /t  how are you?"
         self.assertEqual(expect, dedent(text))
 
-        text = "  \thello there\n  \t  how are you?"
-        expect = "hello there\n  how are you?"
+        text = "  /thello there/n  /t  how are you?"
+        expect = "hello there/n  how are you?"
         self.assertEqual(expect, dedent(text))
 
 

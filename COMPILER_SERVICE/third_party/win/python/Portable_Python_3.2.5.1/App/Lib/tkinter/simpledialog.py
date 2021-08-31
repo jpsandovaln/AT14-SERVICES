@@ -294,7 +294,7 @@ class _QueryDialog(Dialog):
         except ValueError:
             messagebox.showwarning(
                 "Illegal value",
-                self.errormessage + "\nPlease try again",
+                self.errormessage + "/nPlease try again",
                 parent = self
             )
             return 0
@@ -403,7 +403,7 @@ if __name__ == '__main__':
                          text="This is a test dialog.  "
                               "Would this have been an actual dialog, "
                               "the buttons below would have been glowing "
-                              "in soft pink light.\n"
+                              "in soft pink light./n"
                               "Do you believe this?",
                          buttons=["Yes", "No", "Cancel"],
                          default=0,
@@ -411,7 +411,7 @@ if __name__ == '__main__':
                          title="Test Dialog")
             print(d.go())
             print(askinteger("Spam", "Egg count", initialvalue=12*12))
-            print(askfloat("Spam", "Egg weight\n(in tons)", minvalue=1,
+            print(askfloat("Spam", "Egg weight/n(in tons)", minvalue=1,
                            maxvalue=100))
             print(askstring("Spam", "Egg label"))
         t = Button(root, text='Test', command=doit)

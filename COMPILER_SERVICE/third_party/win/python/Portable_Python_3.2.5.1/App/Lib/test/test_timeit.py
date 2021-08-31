@@ -60,16 +60,16 @@ class TestTimeit(unittest.TestCase):
         self.assertEqual(timeit.reindent("pass", 4), "pass")
 
     def test_reindent_multi_empty(self):
-        self.assertEqual(timeit.reindent("\n\n", 0), "\n\n")
-        self.assertEqual(timeit.reindent("\n\n", 4), "\n    \n    ")
+        self.assertEqual(timeit.reindent("/n/n", 0), "/n/n")
+        self.assertEqual(timeit.reindent("/n/n", 4), "/n    /n    ")
 
     def test_reindent_multi(self):
         self.assertEqual(timeit.reindent(
-            "print()\npass\nbreak", 0),
-            "print()\npass\nbreak")
+            "print()/npass/nbreak", 0),
+            "print()/npass/nbreak")
         self.assertEqual(timeit.reindent(
-            "print()\npass\nbreak", 4),
-            "print()\n    pass\n    break")
+            "print()/npass/nbreak", 4),
+            "print()/n    pass/n    break")
 
     def test_timer_invalid_stmt(self):
         self.assertRaises(ValueError, timeit.Timer, stmt=None)
@@ -196,7 +196,7 @@ class TestTimeit(unittest.TestCase):
             t.print_exc(s)
         self.assert_exc_string(s.getvalue(), 'ZeroDivisionError')
 
-    MAIN_DEFAULT_OUTPUT = "10 loops, best of 3: 1 sec per loop\n"
+    MAIN_DEFAULT_OUTPUT = "10 loops, best of 3: 1 sec per loop/n"
 
     def run_main(self, seconds_per_increment=1.0, switches=None, timer=None):
         if timer is None:
@@ -215,40 +215,40 @@ class TestTimeit(unittest.TestCase):
 
     def test_main_bad_switch(self):
         s = self.run_main(switches=['--bad-switch'])
-        self.assertEqual(s, dedent("""\
+        self.assertEqual(s, dedent("""/
             option --bad-switch not recognized
             use -h/--help for command line help
             """))
 
     def test_main_seconds(self):
         s = self.run_main(seconds_per_increment=5.5)
-        self.assertEqual(s, "10 loops, best of 3: 5.5 sec per loop\n")
+        self.assertEqual(s, "10 loops, best of 3: 5.5 sec per loop/n")
 
     def test_main_milliseconds(self):
         s = self.run_main(seconds_per_increment=0.0055)
-        self.assertEqual(s, "100 loops, best of 3: 5.5 msec per loop\n")
+        self.assertEqual(s, "100 loops, best of 3: 5.5 msec per loop/n")
 
     def test_main_microseconds(self):
         s = self.run_main(seconds_per_increment=0.0000025, switches=['-n100'])
-        self.assertEqual(s, "100 loops, best of 3: 2.5 usec per loop\n")
+        self.assertEqual(s, "100 loops, best of 3: 2.5 usec per loop/n")
 
     def test_main_fixed_iters(self):
         s = self.run_main(seconds_per_increment=2.0, switches=['-n35'])
-        self.assertEqual(s, "35 loops, best of 3: 2 sec per loop\n")
+        self.assertEqual(s, "35 loops, best of 3: 2 sec per loop/n")
 
     def test_main_setup(self):
         s = self.run_main(seconds_per_increment=2.0,
                 switches=['-n35', '-s', 'print("CustomSetup")'])
-        self.assertEqual(s, "CustomSetup\n" * 3 +
-                "35 loops, best of 3: 2 sec per loop\n")
+        self.assertEqual(s, "CustomSetup/n" * 3 +
+                "35 loops, best of 3: 2 sec per loop/n")
 
     def test_main_fixed_reps(self):
         s = self.run_main(seconds_per_increment=60.0, switches=['-r9'])
-        self.assertEqual(s, "10 loops, best of 9: 60 sec per loop\n")
+        self.assertEqual(s, "10 loops, best of 9: 60 sec per loop/n")
 
     def test_main_negative_reps(self):
         s = self.run_main(seconds_per_increment=60.0, switches=['-r-5'])
-        self.assertEqual(s, "10 loops, best of 1: 60 sec per loop\n")
+        self.assertEqual(s, "10 loops, best of 1: 60 sec per loop/n")
 
     @unittest.skipIf(sys.flags.optimize >= 2, "need __doc__")
     def test_main_help(self):
@@ -271,7 +271,7 @@ class TestTimeit(unittest.TestCase):
 
     def test_main_verbose(self):
         s = self.run_main(switches=['-v'])
-        self.assertEqual(s, dedent("""\
+        self.assertEqual(s, dedent("""/
                 10 loops -> 10 secs
                 raw times: 10 10 10
                 10 loops, best of 3: 1 sec per loop
@@ -279,7 +279,7 @@ class TestTimeit(unittest.TestCase):
 
     def test_main_very_verbose(self):
         s = self.run_main(seconds_per_increment=0.000050, switches=['-vv'])
-        self.assertEqual(s, dedent("""\
+        self.assertEqual(s, dedent("""/
                 10 loops -> 0.0005 secs
                 100 loops -> 0.005 secs
                 1000 loops -> 0.05 secs

@@ -82,7 +82,7 @@ def unix_getpass(prompt='Password: ', stream=None):
             del input, tty  # clean up unused file objects before blocking
             passwd = fallback_getpass(prompt, stream)
 
-    stream.write('\n')
+    stream.write('/n')
     return passwd
 
 
@@ -96,16 +96,16 @@ def win_getpass(prompt='Password: ', stream=None):
     pw = ""
     while 1:
         c = msvcrt.getwch()
-        if c == '\r' or c == '\n':
+        if c == '/r' or c == '/n':
             break
-        if c == '\003':
+        if c == '/003':
             raise KeyboardInterrupt
-        if c == '\b':
+        if c == '/b':
             pw = pw[:-1]
         else:
             pw = pw + c
-    msvcrt.putwch('\r')
-    msvcrt.putwch('\n')
+    msvcrt.putwch('/r')
+    msvcrt.putwch('/n')
     return pw
 
 
@@ -132,7 +132,7 @@ def _raw_input(prompt="", stream=None, input=None):
     line = input.readline()
     if not line:
         raise EOFError
-    if line[-1] == '\n':
+    if line[-1] == '/n':
         line = line[:-1]
     return line
 

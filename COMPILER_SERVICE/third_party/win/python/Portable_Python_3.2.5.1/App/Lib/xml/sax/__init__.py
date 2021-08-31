@@ -21,8 +21,8 @@ expatreader -- Driver that allows use of the Expat parser with SAX.
 
 from .xmlreader import InputSource
 from .handler import ContentHandler, ErrorHandler
-from ._exceptions import SAXException, SAXNotRecognizedException, \
-                        SAXParseException, SAXNotSupportedException, \
+from ._exceptions import SAXException, SAXNotRecognizedException, /
+                        SAXParseException, SAXNotSupportedException, /
                         SAXReaderNotAvailable
 
 

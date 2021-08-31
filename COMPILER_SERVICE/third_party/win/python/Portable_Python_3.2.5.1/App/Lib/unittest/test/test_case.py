@@ -516,7 +516,7 @@ class Test_TestCase(unittest.TestCase, TestEquality, TestHashing):
             one = ''.join(chr(i) for i in range(255))
             # this used to cause a UnicodeDecodeError constructing the failure msg
             with self.assertRaises(self.failureException):
-                self.assertDictContainsSubset({'foo': one}, {'foo': '\uFFFD'})
+                self.assertDictContainsSubset({'foo': one}, {'foo': '/uFFFD'})
 
     def testAssertEqual(self):
         equal_pairs = [
@@ -611,9 +611,9 @@ class Test_TestCase(unittest.TestCase, TestEquality, TestHashing):
         self.assertEqual(self.maxDiff, 80*8)
         seq1 = 'a' + 'x' * 80**2
         seq2 = 'b' + 'x' * 80**2
-        diff = '\n'.join(difflib.ndiff(pprint.pformat(seq1).splitlines(),
+        diff = '/n'.join(difflib.ndiff(pprint.pformat(seq1).splitlines(),
                                        pprint.pformat(seq2).splitlines()))
-        # the +1 is the leading \n added by assertSequenceEqual
+        # the +1 is the leading /n added by assertSequenceEqual
         omitted = unittest.case.DIFF_OMITTED % (len(diff) + 1,)
 
         self.maxDiff = len(diff)//2
@@ -882,18 +882,18 @@ class Test_TestCase(unittest.TestCase, TestEquality, TestHashing):
         self.assertRaises(self.failureException, self.assertLessEqual, b'bug', b'ant')
 
     def testAssertMultiLineEqual(self):
-        sample_text = """\
+        sample_text = """/
 http://www.python.org/doc/2.3/lib/module-unittest.html
 test case
     A test case is the smallest unit of testing. [...]
 """
-        revised_sample_text = """\
+        revised_sample_text = """/
 http://www.python.org/doc/2.4.1/lib/module-unittest.html
 test case
     A test case is the smallest unit of testing. [...] You may provide your
     own implementation that does not subclass from TestCase, of course.
 """
-        sample_text_error = """\
+        sample_text_error = """/
 - http://www.python.org/doc/2.3/lib/module-unittest.html
 ?                             ^
 + http://www.python.org/doc/2.4.1/lib/module-unittest.html
@@ -909,7 +909,7 @@ test case
             self.assertMultiLineEqual(sample_text, revised_sample_text)
         except self.failureException as e:
             # need to remove the first line of the error message
-            error = str(e).split('\n', 1)[1]
+            error = str(e).split('/n', 1)[1]
 
             # no fair testing ourself with ourself, and assertEqual is used for strings
             # so can't use assertEqual either. Just use assertTrue.
@@ -918,7 +918,7 @@ test case
     def testAsertEqualSingleLine(self):
         sample_text = "laden swallows fly slowly"
         revised_sample_text = "unladen swallows fly quickly"
-        sample_text_error = """\
+        sample_text_error = """/
 - laden swallows fly slowly
 ?                    ^^^^
 + unladen swallows fly quickly
@@ -927,7 +927,7 @@ test case
         try:
             self.assertEqual(sample_text, revised_sample_text)
         except self.failureException as e:
-            error = str(e).split('\n', 1)[1]
+            error = str(e).split('/n', 1)[1]
             self.assertTrue(sample_text_error == error)
 
     def testAssertIsNone(self):
@@ -967,12 +967,12 @@ test case
 
         self.assertRaisesRegex(
                 self.failureException,
-                r'"\^Expected\$" does not match "Unexpected"',
+                r'"/^Expected/$" does not match "Unexpected"',
                 self.assertRaisesRegex, Exception, '^Expected$',
                 Stub)
         self.assertRaisesRegex(
                 self.failureException,
-                r'"\^Expected\$" does not match "Unexpected"',
+                r'"/^Expected/$" does not match "Unexpected"',
                 self.assertRaisesRegex, Exception,
                 re.compile('^Expected$'), Stub)
 

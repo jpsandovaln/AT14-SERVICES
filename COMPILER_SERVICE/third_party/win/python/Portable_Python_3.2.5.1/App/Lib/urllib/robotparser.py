@@ -147,7 +147,7 @@ class RobotFileParser:
         return True
 
     def __str__(self):
-        return ''.join([str(entry) + "\n" for entry in self.entries])
+        return ''.join([str(entry) + "/n" for entry in self.entries])
 
 
 class RuleLine:
@@ -176,9 +176,9 @@ class Entry:
     def __str__(self):
         ret = []
         for agent in self.useragents:
-            ret.extend(["User-agent: ", agent, "\n"])
+            ret.extend(["User-agent: ", agent, "/n"])
         for line in self.rulelines:
-            ret.extend([str(line), "\n"])
+            ret.extend([str(line), "/n"])
         return ''.join(ret)
 
     def applies_to(self, useragent):

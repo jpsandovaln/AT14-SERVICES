@@ -225,17 +225,17 @@ class OtherFileTests(unittest.TestCase):
         # Test the complex interaction when mixing file-iteration and the
         # various read* methods.
         dataoffset = 16384
-        filler = b"ham\n"
-        assert not dataoffset % len(filler), \
+        filler = b"ham/n"
+        assert not dataoffset % len(filler), /
             "dataoffset must be multiple of len(filler)"
         nchunks = dataoffset // len(filler)
         testlines = [
-            b"spam, spam and eggs\n",
-            b"eggs, spam, ham and spam\n",
-            b"saussages, spam, spam and eggs\n",
-            b"spam, ham, spam and eggs\n",
-            b"spam, spam, spam, spam, spam, ham, spam\n",
-            b"wonderful spaaaaaam.\n"
+            b"spam, spam and eggs/n",
+            b"eggs, spam, ham and spam/n",
+            b"saussages, spam, spam and eggs/n",
+            b"spam, ham, spam and eggs/n",
+            b"spam, spam, spam, spam, spam, ham, spam/n",
+            b"wonderful spaaaaaam./n"
         ]
         methods = [("readline", ()), ("read", ()), ("readlines", ()),
                    ("readinto", (array("b", b" "*100),))]
@@ -259,7 +259,7 @@ class OtherFileTests(unittest.TestCase):
             # iteration still works. This depends on the size of the internal
             # iteration buffer (currently 8192,) but we can test it in a
             # flexible manner.  Each line in the bag o' ham is 4 bytes
-            # ("h", "a", "m", "\n"), so 4096 lines of that should get us
+            # ("h", "a", "m", "/n"), so 4096 lines of that should get us
             # exactly on the buffer boundary for any power-of-2 buffersize
             # between 4 and 16384 (inclusive).
             f = self.open(TESTFN, 'rb')
@@ -275,7 +275,7 @@ class OtherFileTests(unittest.TestCase):
                 self.fail("readline() after next() with empty buffer "
                           "failed. Got %r, expected %r" % (line, testline))
             testline = testlines.pop(0)
-            buf = array("b", b"\x00" * len(testline))
+            buf = array("b", b"/x00" * len(testline))
             try:
                 f.readinto(buf)
             except ValueError:

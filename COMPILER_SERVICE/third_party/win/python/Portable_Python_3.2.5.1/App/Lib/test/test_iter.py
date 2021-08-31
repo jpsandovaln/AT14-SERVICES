@@ -232,12 +232,12 @@ class TestCase(unittest.TestCase):
         f = open(TESTFN, "w")
         try:
             for i in range(5):
-                f.write("%d\n" % i)
+                f.write("%d/n" % i)
         finally:
             f.close()
         f = open(TESTFN, "r")
         try:
-            self.check_for_loop(f, ["0\n", "1\n", "2\n", "3\n", "4\n"])
+            self.check_for_loop(f, ["0/n", "1/n", "2/n", "3/n", "4/n"])
             self.check_for_loop(f, [])
         finally:
             f.close()
@@ -261,15 +261,15 @@ class TestCase(unittest.TestCase):
         f = open(TESTFN, "w")
         try:
             for i in range(5):
-                f.write("%d\n" % i)
+                f.write("%d/n" % i)
         finally:
             f.close()
         f = open(TESTFN, "r")
         try:
-            self.assertEqual(list(f), ["0\n", "1\n", "2\n", "3\n", "4\n"])
+            self.assertEqual(list(f), ["0/n", "1/n", "2/n", "3/n", "4/n"])
             f.seek(0, 0)
             self.assertEqual(list(f),
-                             ["0\n", "1\n", "2\n", "3\n", "4\n"])
+                             ["0/n", "1/n", "2/n", "3/n", "4/n"])
         finally:
             f.close()
             try:
@@ -294,15 +294,15 @@ class TestCase(unittest.TestCase):
         f = open(TESTFN, "w")
         try:
             for i in range(5):
-                f.write("%d\n" % i)
+                f.write("%d/n" % i)
         finally:
             f.close()
         f = open(TESTFN, "r")
         try:
-            self.assertEqual(tuple(f), ("0\n", "1\n", "2\n", "3\n", "4\n"))
+            self.assertEqual(tuple(f), ("0/n", "1/n", "2/n", "3/n", "4/n"))
             f.seek(0, 0)
             self.assertEqual(tuple(f),
-                             ("0\n", "1\n", "2\n", "3\n", "4\n"))
+                             ("0/n", "1/n", "2/n", "3/n", "4/n"))
         finally:
             f.close()
             try:
@@ -370,16 +370,16 @@ class TestCase(unittest.TestCase):
 
         f = open(TESTFN, "w")
         try:
-            f.write("medium line\n")
-            f.write("xtra large line\n")
-            f.write("itty-bitty line\n")
+            f.write("medium line/n")
+            f.write("xtra large line/n")
+            f.write("itty-bitty line/n")
         finally:
             f.close()
         f = open(TESTFN, "r")
         try:
-            self.assertEqual(min(f), "itty-bitty line\n")
+            self.assertEqual(min(f), "itty-bitty line/n")
             f.seek(0, 0)
-            self.assertEqual(max(f), "xtra large line\n")
+            self.assertEqual(max(f), "xtra large line/n")
         finally:
             f.close()
             try:
@@ -404,7 +404,7 @@ class TestCase(unittest.TestCase):
         f = open(TESTFN, "w")
         try:
             for i in range(10):
-                f.write("xy" * i + "\n") # line i has len 2*i+1
+                f.write("xy" * i + "/n") # line i has len 2*i+1
         finally:
             f.close()
         f = open(TESTFN, "r")
@@ -450,15 +450,15 @@ class TestCase(unittest.TestCase):
 
         f = open(TESTFN, "w")
         try:
-            f.write("a\n" "bbb\n" "cc\n")
+            f.write("a/n" "bbb/n" "cc/n")
         finally:
             f.close()
         f = open(TESTFN, "r")
         try:
             self.assertEqual(list(zip(IntsFrom(0), f, IntsFrom(-100))),
-                             [(0, "a\n", -100),
-                              (1, "bbb\n", -99),
-                              (2, "cc\n", -98)])
+                             [(0, "a/n", -100),
+                              (1, "bbb/n", -99),
+                              (2, "cc/n", -98)])
         finally:
             f.close()
             try:
@@ -518,7 +518,7 @@ class TestCase(unittest.TestCase):
 
         f = open(TESTFN, "w")
         try:
-            f.write("a\n" + "b\n" + "c\n")
+            f.write("a/n" + "b/n" + "c/n")
         finally:
             f.close()
 
@@ -530,7 +530,7 @@ class TestCase(unittest.TestCase):
         # and pass that on to unicode.join().
         try:
             got = " - ".join(OhPhooey(f))
-            self.assertEqual(got, "a\n - b\n - fooled you! - c\n")
+            self.assertEqual(got, "a/n - b/n - fooled you! - c/n")
         finally:
             f.close()
             try:
@@ -562,7 +562,7 @@ class TestCase(unittest.TestCase):
 
         f = open(TESTFN, "w")
         try:
-            f.write("a\n" "b\n" "c\n")
+            f.write("a/n" "b/n" "c/n")
         finally:
             f.close()
         f = open(TESTFN, "r")
@@ -571,7 +571,7 @@ class TestCase(unittest.TestCase):
                 f.seek(0, 0)
                 self.assertNotIn(chunk, f)
                 f.seek(0, 0)
-                self.assertIn((chunk + "\n"), f)
+                self.assertIn((chunk + "/n"), f)
         finally:
             f.close()
             try:
@@ -599,14 +599,14 @@ class TestCase(unittest.TestCase):
 
         f = open(TESTFN, "w")
         try:
-            f.write("a\n" "b\n" "c\n" "b\n")
+            f.write("a/n" "b/n" "c/n" "b/n")
         finally:
             f.close()
         f = open(TESTFN, "r")
         try:
             for letter, count in ("a", 1), ("b", 2), ("c", 1), ("d", 0):
                 f.seek(0, 0)
-                self.assertEqual(countOf(f, letter + "\n"), count)
+                self.assertEqual(countOf(f, letter + "/n"), count)
         finally:
             f.close()
             try:
@@ -633,16 +633,16 @@ class TestCase(unittest.TestCase):
 
         f = open(TESTFN, "w")
         try:
-            f.write("a\n" "b\n" "c\n" "d\n" "e\n")
+            f.write("a/n" "b/n" "c/n" "d/n" "e/n")
         finally:
             f.close()
         f = open(TESTFN, "r")
         try:
             fiter = iter(f)
-            self.assertEqual(indexOf(fiter, "b\n"), 1)
-            self.assertEqual(indexOf(fiter, "d\n"), 1)
-            self.assertEqual(indexOf(fiter, "e\n"), 0)
-            self.assertRaises(ValueError, indexOf, fiter, "a\n")
+            self.assertEqual(indexOf(fiter, "b/n"), 1)
+            self.assertEqual(indexOf(fiter, "d/n"), 1)
+            self.assertEqual(indexOf(fiter, "e/n"), 0)
+            self.assertRaises(ValueError, indexOf, fiter, "a/n")
         finally:
             f.close()
             try:
@@ -663,9 +663,9 @@ class TestCase(unittest.TestCase):
             self.assertRaises(TypeError, f.writelines, None)
             self.assertRaises(TypeError, f.writelines, 42)
 
-            f.writelines(["1\n", "2\n"])
-            f.writelines(("3\n", "4\n"))
-            f.writelines({'5\n': None})
+            f.writelines(["1/n", "2/n"])
+            f.writelines(("3/n", "4/n"))
+            f.writelines({'5/n': None})
             f.writelines({})
 
             # Try a big chunk too.
@@ -678,7 +678,7 @@ class TestCase(unittest.TestCase):
                 def __next__(self):
                     if self.i >= self.finish:
                         raise StopIteration
-                    result = str(self.i) + '\n'
+                    result = str(self.i) + '/n'
                     self.i += 1
                     return result
 
@@ -697,7 +697,7 @@ class TestCase(unittest.TestCase):
             f.close()
 
             f = open(TESTFN)
-            expected = [str(i) + "\n" for i in range(1, 2006)]
+            expected = [str(i) + "/n" for i in range(1, 2006)]
             self.assertEqual(list(f), expected)
 
         finally:
@@ -741,7 +741,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual((a, b, c), (42, 42, 42))
 
         f = open(TESTFN, "w")
-        lines = ("a\n", "bb\n", "ccc\n")
+        lines = ("a/n", "bb/n", "ccc/n")
         try:
             for line in lines:
                 f.write(line)

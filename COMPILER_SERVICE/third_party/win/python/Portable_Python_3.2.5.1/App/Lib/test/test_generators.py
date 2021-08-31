@@ -238,9 +238,9 @@ Guido's binary tree example.
     ...     def __repr__(self, level=0, indent="    "):
     ...         s = level*indent + repr(self.label)
     ...         if self.left:
-    ...             s = s + "\\n" + self.left.__repr__(level+1, indent)
+    ...             s = s + "//n" + self.left.__repr__(level+1, indent)
     ...         if self.right:
-    ...             s = s + "\\n" + self.right.__repr__(level+1, indent)
+    ...             s = s + "//n" + self.right.__repr__(level+1, indent)
     ...         return s
     ...
     ...     def __iter__(self):
@@ -1270,8 +1270,8 @@ class Knights:
         if m*n < 4:
             self.squaregenerators = [first]
         else:
-            self.squaregenerators = [first, second] + \
-                [hard and advance_hard or advance] * (m*n - 3) + \
+            self.squaregenerators = [first, second] + /
+                [hard and advance_hard or advance] * (m*n - 3) + /
                 [last]
 
     def coords2index(self, i, j):
@@ -1472,7 +1472,7 @@ Solution 2
 +---+---+---+---+---+---+---+---+---+---+
 """
 
-weakref_tests = """\
+weakref_tests = """/
 Generators are weakly referencable:
 
 >>> import weakref
@@ -1496,7 +1496,7 @@ True
 
 """
 
-coroutine_tests = """\
+coroutine_tests = """/
 Sending a value into a started generator:
 
 >>> def f():

@@ -105,7 +105,7 @@ class SampleClass:
 
 class SampleNewStyleClass(object):
     r"""
-    >>> print('1\n2\n3')
+    >>> print('1/n2/n3')
     1
     2
     3
@@ -148,7 +148,7 @@ class _FakeInput:
     def readline(self):
         line = self.lines.pop(0)
         print(line)
-        return line+'\n'
+        return line+'/n'
 
 ######################################################################
 ## Test Cases
@@ -170,10 +170,10 @@ Example is a simple container class that holds:
 These attributes are set by the constructor.  `source` and `want` are
 required; the other attributes all have default values:
 
-    >>> example = doctest.Example('print(1)', '1\n')
+    >>> example = doctest.Example('print(1)', '1/n')
     >>> (example.source, example.want, example.exc_msg,
     ...  example.lineno, example.indent, example.options)
-    ('print(1)\n', '1\n', None, 0, 0, {})
+    ('print(1)/n', '1/n', None, 0, 0, {})
 
 The first three attributes (`source`, `want`, and `exc_msg`) may be
 specified positionally; the remaining arguments should be specified as
@@ -185,47 +185,47 @@ keyword arguments:
     ...                           options={doctest.ELLIPSIS: True})
     >>> (example.source, example.want, example.exc_msg,
     ...  example.lineno, example.indent, example.options)
-    ('[].pop()\n', '', 'IndexError: pop from an empty list\n', 5, 4, {8: True})
+    ('[].pop()/n', '', 'IndexError: pop from an empty list/n', 5, 4, {8: True})
 
 The constructor normalizes the `source` string to end in a newline:
 
     Source spans a single line: no terminating newline.
-    >>> e = doctest.Example('print(1)', '1\n')
+    >>> e = doctest.Example('print(1)', '1/n')
     >>> e.source, e.want
-    ('print(1)\n', '1\n')
+    ('print(1)/n', '1/n')
 
-    >>> e = doctest.Example('print(1)\n', '1\n')
+    >>> e = doctest.Example('print(1)/n', '1/n')
     >>> e.source, e.want
-    ('print(1)\n', '1\n')
+    ('print(1)/n', '1/n')
 
     Source spans multiple lines: require terminating newline.
-    >>> e = doctest.Example('print(1);\nprint(2)\n', '1\n2\n')
+    >>> e = doctest.Example('print(1);/nprint(2)/n', '1/n2/n')
     >>> e.source, e.want
-    ('print(1);\nprint(2)\n', '1\n2\n')
+    ('print(1);/nprint(2)/n', '1/n2/n')
 
-    >>> e = doctest.Example('print(1);\nprint(2)', '1\n2\n')
+    >>> e = doctest.Example('print(1);/nprint(2)', '1/n2/n')
     >>> e.source, e.want
-    ('print(1);\nprint(2)\n', '1\n2\n')
+    ('print(1);/nprint(2)/n', '1/n2/n')
 
     Empty source string (which should never appear in real examples)
     >>> e = doctest.Example('', '')
     >>> e.source, e.want
-    ('\n', '')
+    ('/n', '')
 
 The constructor normalizes the `want` string to end in a newline,
 unless it's the empty string:
 
-    >>> e = doctest.Example('print(1)', '1\n')
+    >>> e = doctest.Example('print(1)', '1/n')
     >>> e.source, e.want
-    ('print(1)\n', '1\n')
+    ('print(1)/n', '1/n')
 
     >>> e = doctest.Example('print(1)', '1')
     >>> e.source, e.want
-    ('print(1)\n', '1\n')
+    ('print(1)/n', '1/n')
 
     >>> e = doctest.Example('print', '')
     >>> e.source, e.want
-    ('print\n', '')
+    ('print/n', '')
 
 The constructor normalizes the `exc_msg` string to end in a newline,
 unless it's `None`:
@@ -234,35 +234,35 @@ unless it's `None`:
     >>> exc_msg = 'IndexError: pop from an empty list'
     >>> e = doctest.Example('[].pop()', '', exc_msg)
     >>> e.exc_msg
-    'IndexError: pop from an empty list\n'
+    'IndexError: pop from an empty list/n'
 
-    >>> exc_msg = 'IndexError: pop from an empty list\n'
+    >>> exc_msg = 'IndexError: pop from an empty list/n'
     >>> e = doctest.Example('[].pop()', '', exc_msg)
     >>> e.exc_msg
-    'IndexError: pop from an empty list\n'
+    'IndexError: pop from an empty list/n'
 
     Message spans multiple lines
-    >>> exc_msg = 'ValueError: 1\n  2'
-    >>> e = doctest.Example('raise ValueError("1\n  2")', '', exc_msg)
+    >>> exc_msg = 'ValueError: 1/n  2'
+    >>> e = doctest.Example('raise ValueError("1/n  2")', '', exc_msg)
     >>> e.exc_msg
-    'ValueError: 1\n  2\n'
+    'ValueError: 1/n  2/n'
 
-    >>> exc_msg = 'ValueError: 1\n  2\n'
-    >>> e = doctest.Example('raise ValueError("1\n  2")', '', exc_msg)
+    >>> exc_msg = 'ValueError: 1/n  2/n'
+    >>> e = doctest.Example('raise ValueError("1/n  2")', '', exc_msg)
     >>> e.exc_msg
-    'ValueError: 1\n  2\n'
+    'ValueError: 1/n  2/n'
 
     Empty (but non-None) exception message (which should never appear
     in real examples)
     >>> exc_msg = ''
     >>> e = doctest.Example('raise X()', '', exc_msg)
     >>> e.exc_msg
-    '\n'
+    '/n'
 
 Compare `Example`:
-    >>> example = doctest.Example('print 1', '1\n')
-    >>> same_example = doctest.Example('print 1', '1\n')
-    >>> other_example = doctest.Example('print 42', '42\n')
+    >>> example = doctest.Example('print 1', '1/n')
+    >>> same_example = doctest.Example('print 1', '1/n')
+    >>> other_example = doctest.Example('print 42', '42/n')
     >>> example == same_example
     True
     >>> example != same_example
@@ -289,7 +289,7 @@ constructor:
     ...
     ... Non-example text.
     ...
-    ...     >>> print('another\example')
+    ...     >>> print('another/example')
     ...     another
     ...     example
     ... '''
@@ -303,9 +303,9 @@ constructor:
     2
     >>> e1, e2 = test.examples
     >>> (e1.source, e1.want, e1.lineno)
-    ('print(12)\n', '12\n', 1)
+    ('print(12)/n', '12/n', 1)
     >>> (e2.source, e2.want, e2.lineno)
-    ("print('another\\example')\n", 'another\nexample\n', 6)
+    ("print('another//example')/n", 'another/nexample/n', 6)
 
 Source information (name, filename, and line number) is available as
 attributes on the doctest object:
@@ -326,7 +326,7 @@ If the docstring contains inconsistant leading whitespace in the
 expected output of an example, then `DocTest` will raise a ValueError:
 
     >>> docstring = r'''
-    ...       >>> print('bad\nindentation')
+    ...       >>> print('bad/nindentation')
     ...       bad
     ...     indentation
     ...     '''
@@ -349,7 +349,7 @@ continuation lines, then `DocTest` will raise a ValueError:
 If there's no blank space after a PS1 prompt ('>>>'), then `DocTest`
 will raise a ValueError:
 
-    >>> docstring = '>>>print(1)\n1'
+    >>> docstring = '>>>print(1)/n1'
     >>> parser.get_doctest(docstring, globs, 'some_test', 'filename', 0)
     Traceback (most recent call last):
     ValueError: line 1 of the docstring for some_test lacks blank after >>>: '>>>print(1)'
@@ -357,7 +357,7 @@ will raise a ValueError:
 If there's no blank space after a PS2 prompt ('...'), then `DocTest`
 will raise a ValueError:
 
-    >>> docstring = '>>> if 1:\n...print(1)\n1'
+    >>> docstring = '>>> if 1:/n...print(1)/n1'
     >>> parser.get_doctest(docstring, globs, 'some_test', 'filename', 0)
     Traceback (most recent call last):
     ValueError: line 2 of the docstring for some_test lacks blank after ...: '...print(1)'
@@ -445,7 +445,7 @@ leading path components.
 
     >>> e = tests[0].examples[0]
     >>> (e.source, e.want, e.lineno)
-    ('print(sample_func(22))\n', '44\n', 3)
+    ('print(sample_func(22))/n', '44/n', 3)
 
 By default, tests are created for objects with no docstring:
 
@@ -528,7 +528,7 @@ functions, classes, and the `__test__` dictionary, if it exists:
     ...             module
     ...         ''',
     ...     '__test__': {
-    ...         'd': '>>> print(6)\n6\n>>> print(7)\n7\n',
+    ...         'd': '>>> print(6)/n6/n>>> print(7)/n7/n',
     ...         'c': triple}})
 
     >>> finder = doctest.DocTestFinder()
@@ -671,21 +671,21 @@ text:
     ...         print('Example:', (piece.source, piece.want, piece.lineno))
     ...     else:
     ...         print('   Text:', repr(piece))
-       Text: '\n'
-    Example: ('x, y = 2, 3  # no output expected\n', '', 1)
+       Text: '/n'
+    Example: ('x, y = 2, 3  # no output expected/n', '', 1)
        Text: ''
-    Example: ('if 1:\n    print(x)\n    print(y)\n', '2\n3\n', 2)
-       Text: '\nSome text.\n'
-    Example: ('x+y\n', '5\n', 9)
+    Example: ('if 1:/n    print(x)/n    print(y)/n', '2/n3/n', 2)
+       Text: '/nSome text./n'
+    Example: ('x+y/n', '5/n', 9)
        Text: ''
 
 The `get_examples` method returns just the examples:
 
     >>> for piece in parser.get_examples(s):
     ...     print((piece.source, piece.want, piece.lineno))
-    ('x, y = 2, 3  # no output expected\n', '', 1)
-    ('if 1:\n    print(x)\n    print(y)\n', '2\n3\n', 2)
-    ('x+y\n', '5\n', 9)
+    ('x, y = 2, 3  # no output expected/n', '', 1)
+    ('if 1:/n    print(x)/n    print(y)/n', '2/n3/n', 2)
+    ('x+y/n', '5/n', 9)
 
 The `get_doctest` method creates a Test from the examples, along with the
 given arguments:
@@ -695,9 +695,9 @@ given arguments:
     ('name', 'filename', 5)
     >>> for piece in test.examples:
     ...     print((piece.source, piece.want, piece.lineno))
-    ('x, y = 2, 3  # no output expected\n', '', 1)
-    ('if 1:\n    print(x)\n    print(y)\n', '2\n3\n', 2)
-    ('x+y\n', '5\n', 9)
+    ('x, y = 2, 3  # no output expected/n', '', 1)
+    ('if 1:/n    print(x)/n    print(y)/n', '2/n3/n', 2)
+    ('x+y/n', '5/n', 9)
 """
 
 class test_DocTestRunner:
@@ -876,7 +876,7 @@ Exception messages may contain newlines:
 
     >>> def f(x):
     ...     r'''
-    ...     >>> raise ValueError('multi\nline\nmessage')
+    ...     >>> raise ValueError('multi/nline/nmessage')
     ...     Traceback (most recent call last):
     ...     ValueError: multi
     ...     line
@@ -1081,7 +1081,7 @@ The DONT_ACCEPT_TRUE_FOR_1 flag disables matches between True/False
 and 1/0:
 
     >>> def f(x):
-    ...     '>>> True\n1\n'
+    ...     '>>> True/n1/n'
 
     >>> # Without the flag:
     >>> test = doctest.DocTestFinder().find(f)[0]
@@ -1107,7 +1107,7 @@ The DONT_ACCEPT_BLANKLINE flag disables the match between blank lines
 and the '<BLANKLINE>' marker:
 
     >>> def f(x):
-    ...     '>>> print("a\\n\\nb")\na\n<BLANKLINE>\nb\n'
+    ...     '>>> print("a//n//nb")/na/n<BLANKLINE>/nb/n'
 
     >>> # Without the flag:
     >>> test = doctest.DocTestFinder().find(f)[0]
@@ -1122,7 +1122,7 @@ and the '<BLANKLINE>' marker:
     **********************************************************************
     File ..., line 2, in f
     Failed example:
-        print("a\n\nb")
+        print("a/n/nb")
     Expected:
         a
         <BLANKLINE>
@@ -1137,7 +1137,7 @@ The NORMALIZE_WHITESPACE flag causes all sequences of whitespace to be
 treated as equal:
 
     >>> def f(x):
-    ...     '>>> print(1, 2, 3)\n  1   2\n 3'
+    ...     '>>> print(1, 2, 3)/n  1   2/n 3'
 
     >>> # Without the flag:
     >>> test = doctest.DocTestFinder().find(f)[0]
@@ -1169,7 +1169,7 @@ The ELLIPSIS flag causes ellipsis marker ("...") in the expected
 output to match any substring in the actual output:
 
     >>> def f(x):
-    ...     '>>> print(list(range(15)))\n[0, 1, 2, ..., 14]\n'
+    ...     '>>> print(list(range(15)))/n[0, 1, 2, ..., 14]/n'
 
     >>> # Without the flag:
     >>> test = doctest.DocTestFinder().find(f)[0]
@@ -1240,7 +1240,7 @@ and actual outputs to be displayed using a unified diff:
 
     >>> def f(x):
     ...     r'''
-    ...     >>> print('\n'.join('abcdefg'))
+    ...     >>> print('/n'.join('abcdefg'))
     ...     a
     ...     B
     ...     c
@@ -1257,7 +1257,7 @@ and actual outputs to be displayed using a unified diff:
     **********************************************************************
     File ..., line 3, in f
     Failed example:
-        print('\n'.join('abcdefg'))
+        print('/n'.join('abcdefg'))
     Expected:
         a
         B
@@ -1284,7 +1284,7 @@ and actual outputs to be displayed using a unified diff:
     **********************************************************************
     File ..., line 3, in f
     Failed example:
-        print('\n'.join('abcdefg'))
+        print('/n'.join('abcdefg'))
     Differences (unified diff with -expected +actual):
         @@ -1,7 +1,7 @@
          a
@@ -1309,7 +1309,7 @@ and actual outputs to be displayed using a context diff:
     **********************************************************************
     File ..., line 3, in f
     Failed example:
-        print('\n'.join('abcdefg'))
+        print('/n'.join('abcdefg'))
     Differences (context diff with expected followed by actual):
         ***************
         *** 1,7 ****
@@ -1697,7 +1697,7 @@ words and expected output are converted to comments:
 
     >>> name = 'test.test_doctest.SampleNewStyleClass'
     >>> print(doctest.testsource(test.test_doctest, name))
-    print('1\n2\n3')
+    print('1/n2/n3')
     # Expected:
     ## 1
     ## 2
@@ -2252,7 +2252,7 @@ def test_trailing_space_in_test():
 
       >>> x, y = 'foo', ''
       >>> print(x, y)
-      foo \n
+      foo /n
     """
 
 
@@ -2468,9 +2468,9 @@ using the optional keyword argument `encoding`:
     Failed example:
         '...'
     Expected:
-        'f\xf6\xf6'
+        'f/xf6/xf6'
     Got:
-        'f\xc3\xb6\xc3\xb6'
+        'f/xc3/xb6/xc3/xb6'
     **********************************************************************
     ...
     **********************************************************************
@@ -2490,12 +2490,12 @@ Test the verbose output:
     Trying:
         'föö'
     Expecting:
-        'f\xf6\xf6'
+        'f/xf6/xf6'
     ok
     Trying:
         'bąr'
     Expecting:
-        'b\u0105r'
+        'b/u0105r'
     ok
     1 items passed all tests:
        2 tests in test_doctest4.txt

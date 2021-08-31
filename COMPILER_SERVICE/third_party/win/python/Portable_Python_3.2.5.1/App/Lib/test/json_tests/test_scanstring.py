@@ -6,20 +6,20 @@ class TestScanstring:
     def test_scanstring(self):
         scanstring = self.json.decoder.scanstring
         self.assertEqual(
-            scanstring('"z\\ud834\\udd20x"', 1, True),
-            ('z\U0001d120x', 16))
+            scanstring('"z//ud834//udd20x"', 1, True),
+            ('z/U0001d120x', 16))
 
         if sys.maxunicode == 65535:
             self.assertEqual(
-                scanstring('"z\U0001d120x"', 1, True),
-                ('z\U0001d120x', 6))
+                scanstring('"z/U0001d120x"', 1, True),
+                ('z/U0001d120x', 6))
         else:
             self.assertEqual(
-                scanstring('"z\U0001d120x"', 1, True),
-                ('z\U0001d120x', 5))
+                scanstring('"z/U0001d120x"', 1, True),
+                ('z/U0001d120x', 5))
 
         self.assertEqual(
-            scanstring('"\\u007b"', 1, True),
+            scanstring('"//u007b"', 1, True),
             ('{', 8))
 
         self.assertEqual(

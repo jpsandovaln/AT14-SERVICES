@@ -528,9 +528,9 @@ class _WarningsTests(BaseTest):
             with support.captured_output('stderr') as stream:
                 warning_tests.inner(text)
                 result = stream.getvalue()
-        self.assertEqual(result.count('\n'), 2,
+        self.assertEqual(result.count('/n'), 2,
                              "Too many newlines in %r" % result)
-        first_line, second_line = result.split('\n', 1)
+        first_line, second_line = result.split('/n', 1)
         expected_file = os.path.splitext(warning_tests.__file__)[0] + '.py'
         first_line_parts = first_line.rsplit(':', 3)
         path, line, warning_class, message = first_line_parts
@@ -538,7 +538,7 @@ class _WarningsTests(BaseTest):
         self.assertEqual(expected_file, path)
         self.assertEqual(warning_class, ' ' + UserWarning.__name__)
         self.assertEqual(message, ' ' + text)
-        expected_line = '  ' + linecache.getline(path, line).strip() + '\n'
+        expected_line = '  ' + linecache.getline(path, line).strip() + '/n'
         assert expected_line
         self.assertEqual(second_line, expected_line)
 
@@ -566,7 +566,7 @@ class WarningsDisplayTests(unittest.TestCase):
         file_name = os.path.splitext(warning_tests.__file__)[0] + '.py'
         line_num = 3
         file_line = linecache.getline(file_name, line_num).strip()
-        format = "%s:%s: %s: %s\n  %s\n"
+        format = "%s:%s: %s: %s/n  %s/n"
         expect = format % (file_name, line_num, category.__name__, message,
                             file_line)
         self.assertEqual(expect, self.module.formatwarning(message,

@@ -24,7 +24,7 @@ class PyclbrTest(TestCase):
         ''' succeed iff {l1} - {ignore} == {l2} - {ignore} '''
         missing = (set(l1) ^ set(l2)) - set(ignore)
         if missing:
-            print("l1=%r\nl2=%r\nignore=%r" % (l1, l2, ignore), file=sys.stderr)
+            print("l1=%r/nl2=%r/nignore=%r" % (l1, l2, ignore), file=sys.stderr)
             self.fail("%r missing" % missing.pop())
 
     def assertHasattr(self, obj, attr, ignore):

@@ -537,8 +537,8 @@ dqbas522 toSci '7e123567890x'    -> NaN Conversion_syntax
 dqbas523 toSci '7e12356789012x'  -> NaN Conversion_syntax
 dqbas524 toSci ''                -> NaN Conversion_syntax
 dqbas525 toSci 'e100'            -> NaN Conversion_syntax
-dqbas526 toSci '\u0e5a'          -> NaN Conversion_syntax
-dqbas527 toSci '\u0b65'          -> NaN Conversion_syntax
+dqbas526 toSci '/u0e5a'          -> NaN Conversion_syntax
+dqbas527 toSci '/u0b65'          -> NaN Conversion_syntax
 dqbas528 toSci '123,65'          -> NaN Conversion_syntax
 dqbas529 toSci '1.34.5'          -> NaN Conversion_syntax
 dqbas530 toSci '.123.5'          -> NaN Conversion_syntax

@@ -24,7 +24,7 @@ class TrivialTests(unittest.TestCase):
         self.assertRaises(ValueError, urllib.request.urlopen, 'bogus url')
 
         # XXX Name hacking to get this to work on Windows.
-        fname = os.path.abspath(urllib.request.__file__).replace('\\', '/')
+        fname = os.path.abspath(urllib.request.__file__).replace('//', '/')
 
         if os.name == 'nt':
             file_url = "file:///%s" % fname
@@ -42,8 +42,8 @@ class TrivialTests(unittest.TestCase):
             ('path"o,l"og"i"cal, example', ['path"o,l"og"i"cal', 'example']),
             ('a, b, "c", "d", "e,f", g, h',
              ['a', 'b', '"c"', '"d"', '"e,f"', 'g', 'h']),
-            ('a="b\\"c", d="e\\,f", g="h\\\\i"',
-             ['a="b"c"', 'd="e,f"', 'g="h\\i"'])]
+            ('a="b//"c", d="e//,f", g="h////i"',
+             ['a="b"c"', 'd="e,f"', 'g="h//i"'])]
         for string, list in tests:
             self.assertEqual(urllib.request.parse_http_list(string), list)
 
@@ -427,7 +427,7 @@ class MockHTTPHandler(urllib.request.BaseHandler):
                 "http", req, MockFile(), self.code, name, msg)
         else:
             self.req = req
-            msg = email.message_from_string("\r\n\r\n")
+            msg = email.message_from_string("/r/n/r/n")
             return MockResponse(200, "OK", msg, "", req.get_full_url())
 
 class MockHTTPSHandler(urllib.request.AbstractHTTPHandler):
@@ -684,7 +684,7 @@ class HandlerTests(unittest.TestCase):
 
         TESTFN = support.TESTFN
         urlpath = sanepathname2url(os.path.abspath(TESTFN))
-        towrite = b"hello, world\n"
+        towrite = b"hello, world/n"
         urls = [
             "file://localhost%s" % urlpath,
             "file://%s" % urlpath,
@@ -855,7 +855,7 @@ class HandlerTests(unittest.TestCase):
         # Test only Content-Length attribute of request.
 
         file_obj = io.BytesIO()
-        file_obj.write(b"Something\nSomething\nSomething\n")
+        file_obj.write(b"Something/nSomething/nSomething/n")
 
         for headers in {}, {"Content-Length": 30}:
             req = Request("http://example.com/", file_obj, headers)
@@ -975,7 +975,7 @@ class HandlerTests(unittest.TestCase):
 
         # ordinary redirect behaviour
         for code in 301, 302, 303, 307:
-            for data in None, "blah\nblah\n":
+            for data in None, "blah/nblah/n":
                 method = getattr(h, "http_error_%s" % code)
                 req = Request(from_url, data)
                 req.timeout = socket._GLOBAL_DEFAULT_TIMEOUT
@@ -1082,7 +1082,7 @@ class HandlerTests(unittest.TestCase):
 
         cj = CookieJar()
         interact_netscape(cj, "http://www.example.com/", "spam=eggs")
-        hh = MockHTTPHandler(302, "Location: http://www.cracker.com/\r\n\r\n")
+        hh = MockHTTPHandler(302, "Location: http://www.cracker.com//r/n/r/n")
         hdeh = urllib.request.HTTPDefaultErrorHandler()
         hrh = urllib.request.HTTPRedirectHandler()
         cp = urllib.request.HTTPCookieProcessor(cj)
@@ -1091,7 +1091,7 @@ class HandlerTests(unittest.TestCase):
         self.assertFalse(hh.req.has_header("Cookie"))
 
     def test_redirect_fragment(self):
-        redirected_url = 'http://www.example.com/index.html#OK\r\n\r\n'
+        redirected_url = 'http://www.example.com/index.html#OK/r/n/r/n'
         hh = MockHTTPHandler(302, 'Location: ' + redirected_url)
         hdeh = urllib.request.HTTPDefaultErrorHandler()
         hrh = urllib.request.HTTPRedirectHandler()
@@ -1208,7 +1208,7 @@ class HandlerTests(unittest.TestCase):
         auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
         realm = "ACME Widget Store"
         http_handler = MockHTTPHandler(
-            401, 'WWW-Authenticate: Basic realm=%s%s%s\r\n\r\n' %
+            401, 'WWW-Authenticate: Basic realm=%s%s%s/r/n/r/n' %
             (quote_char, realm, quote_char) )
         opener.add_handler(auth_handler)
         opener.add_handler(http_handler)
@@ -1227,7 +1227,7 @@ class HandlerTests(unittest.TestCase):
         auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
         realm = "ACME Widget Store"
         http_handler = MockHTTPHandler(
-            401, 'WWW-Authenticate: Basic realm=%s\r\n\r\n' % realm)
+            401, 'WWW-Authenticate: Basic realm=%s/r/n/r/n' % realm)
         opener.add_handler(auth_handler)
         opener.add_handler(http_handler)
         with self.assertWarns(UserWarning):
@@ -1245,7 +1245,7 @@ class HandlerTests(unittest.TestCase):
         auth_handler = urllib.request.ProxyBasicAuthHandler(password_manager)
         realm = "ACME Networks"
         http_handler = MockHTTPHandler(
-            407, 'Proxy-Authenticate: Basic realm="%s"\r\n\r\n' % realm)
+            407, 'Proxy-Authenticate: Basic realm="%s"/r/n/r/n' % realm)
         opener.add_handler(auth_handler)
         opener.add_handler(http_handler)
         self._test_basic_auth(opener, auth_handler, "Proxy-authorization",
@@ -1286,7 +1286,7 @@ class HandlerTests(unittest.TestCase):
         basic_handler = TestBasicAuthHandler(password_manager)
         realm = "ACME Networks"
         http_handler = MockHTTPHandler(
-            401, 'WWW-Authenticate: Basic realm="%s"\r\n\r\n' % realm)
+            401, 'WWW-Authenticate: Basic realm="%s"/r/n/r/n' % realm)
         opener.add_handler(basic_handler)
         opener.add_handler(digest_handler)
         opener.add_handler(http_handler)

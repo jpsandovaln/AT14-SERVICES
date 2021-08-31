@@ -16,11 +16,11 @@ __unittest = True
 # what about .pyc or .pyo (etc)
 # we would need to avoid loading the same tests multiple times
 # from '.py', '.pyc' *and* '.pyo'
-VALID_MODULE_NAME = re.compile(r'[_a-z]\w*\.py$', re.IGNORECASE)
+VALID_MODULE_NAME = re.compile(r'[_a-z]/w*/.py$', re.IGNORECASE)
 
 
 def _make_failed_import_test(name, suiteClass):
-    message = 'Failed to import test module: %s\n%s' % (name, traceback.format_exc())
+    message = 'Failed to import test module: %s/n%s' % (name, traceback.format_exc())
     return _make_failed_test('ModuleImportFailure', name, ImportError(message),
                              suiteClass)
 
@@ -53,7 +53,7 @@ class TestLoader(object):
     def loadTestsFromTestCase(self, testCaseClass):
         """Return a suite of all tests cases contained in testCaseClass"""
         if issubclass(testCaseClass, suite.TestSuite):
-            raise TypeError("Test cases should not be derived from TestSuite." \
+            raise TypeError("Test cases should not be derived from TestSuite." /
                                 " Maybe you meant to derive from TestCase?")
         testCaseNames = self.getTestCaseNames(testCaseClass)
         if not testCaseNames and hasattr(testCaseClass, 'runTest'):
@@ -142,7 +142,7 @@ class TestLoader(object):
         """
         def isTestMethod(attrname, testCaseClass=testCaseClass,
                          prefix=self.testMethodPrefix):
-            return attrname.startswith(prefix) and \
+            return attrname.startswith(prefix) and /
                 callable(getattr(testCaseClass, attrname))
         testFnNames = list(filter(isTestMethod, dir(testCaseClass)))
         if self.sortTestMethodsUsing:
@@ -321,5 +321,5 @@ def makeSuite(testCaseClass, prefix='test', sortUsing=util.three_way_cmp,
 
 def findTestCases(module, prefix='test', sortUsing=util.three_way_cmp,
                   suiteClass=suite.TestSuite):
-    return _makeLoader(prefix, sortUsing, suiteClass).loadTestsFromModule(\
+    return _makeLoader(prefix, sortUsing, suiteClass).loadTestsFromModule(/
         module)

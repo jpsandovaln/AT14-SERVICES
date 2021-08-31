@@ -18,8 +18,8 @@ def failfast(method):
         return method(self, *args, **kw)
     return inner
 
-STDOUT_LINE = '\nStdout:\n%s'
-STDERR_LINE = '\nStderr:\n%s'
+STDOUT_LINE = '/nStdout:/n%s'
+STDERR_LINE = '/nStderr:/n%s'
 
 
 class TestResult(object):
@@ -86,12 +86,12 @@ class TestResult(object):
                 output = sys.stdout.getvalue()
                 error = sys.stderr.getvalue()
                 if output:
-                    if not output.endswith('\n'):
-                        output += '\n'
+                    if not output.endswith('/n'):
+                        output += '/n'
                     self._original_stdout.write(STDOUT_LINE % output)
                 if error:
-                    if not error.endswith('\n'):
-                        error += '\n'
+                    if not error.endswith('/n'):
+                        error += '/n'
                     self._original_stderr.write(STDERR_LINE % error)
 
             sys.stdout = self._original_stdout
@@ -166,12 +166,12 @@ class TestResult(object):
             output = sys.stdout.getvalue()
             error = sys.stderr.getvalue()
             if output:
-                if not output.endswith('\n'):
-                    output += '\n'
+                if not output.endswith('/n'):
+                    output += '/n'
                 msgLines.append(STDOUT_LINE % output)
             if error:
-                if not error.endswith('\n'):
-                    error += '\n'
+                if not error.endswith('/n'):
+                    error += '/n'
                 msgLines.append(STDERR_LINE % error)
         return ''.join(msgLines)
 

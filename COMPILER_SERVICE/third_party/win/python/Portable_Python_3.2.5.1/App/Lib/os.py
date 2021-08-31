@@ -6,11 +6,11 @@ This exports:
   - os.name is either 'posix', 'nt', 'os2' or 'ce'.
   - os.curdir is a string representing the current directory ('.' or ':')
   - os.pardir is a string representing the parent directory ('..' or '::')
-  - os.sep is the (or a most common) pathname separator ('/' or ':' or '\\')
+  - os.sep is the (or a most common) pathname separator ('/' or ':' or '//')
   - os.extsep is the extension separator (always '.')
   - os.altsep is the alternate pathname separator (None or '/')
   - os.pathsep is the component separator used in $PATH etc
-  - os.linesep is the line separator in text files ('\r' or '\n' or '\r\n')
+  - os.linesep is the line separator in text files ('/r' or '/n' or '/r/n')
   - os.defpath is the default search path for executables
   - os.devnull is the file path of the null device ('/dev/null', etc.)
 
@@ -40,7 +40,7 @@ def _get_exports_list(module):
 
 if 'posix' in _names:
     name = 'posix'
-    linesep = '\n'
+    linesep = '/n'
     from posix import *
     try:
         from posix import _exit
@@ -54,7 +54,7 @@ if 'posix' in _names:
 
 elif 'nt' in _names:
     name = 'nt'
-    linesep = '\r\n'
+    linesep = '/r/n'
     from nt import *
     try:
         from nt import _exit
@@ -68,7 +68,7 @@ elif 'nt' in _names:
 
 elif 'os2' in _names:
     name = 'os2'
-    linesep = '\r\n'
+    linesep = '/r/n'
     from os2 import *
     try:
         from os2 import _exit
@@ -86,7 +86,7 @@ elif 'os2' in _names:
 
 elif 'ce' in _names:
     name = 'ce'
-    linesep = '\r\n'
+    linesep = '/r/n'
     from ce import *
     try:
         from ce import _exit

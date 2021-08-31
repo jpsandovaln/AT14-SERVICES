@@ -152,7 +152,7 @@ class NetworkedNNTPTestsMixin:
         for line in article.lines:
             self.assertIsInstance(line, bytes)
         # XXX this could exceptionally happen...
-        self.assertNotIn(article.lines[-1], (b".", b".\n", b".\r\n"))
+        self.assertNotIn(article.lines[-1], (b".", b"./n", b"./r/n"))
 
     def test_article_head_body(self):
         resp, count, first, last, name = self.server.group(self.GROUP_NAME)
@@ -401,7 +401,7 @@ class NNTPv1Handler:
                 if not line:
                     return
                 self.body.append(line)
-                if line == b".\r\n":
+                if line == b"./r/n":
                     break
             try:
                 meth, tokens = self.body_callback
@@ -414,8 +414,8 @@ class NNTPv1Handler:
             line = self._decode(self._readline())
             if not line:
                 return
-            if not line.endswith("\r\n"):
-                raise ValueError("line doesn't end with \\r\\n: {!r}".format(line))
+            if not line.endswith("/r/n"):
+                raise ValueError("line doesn't end with //r//n: {!r}".format(line))
             line = line[:-2]
             cmd, *tokens = line.split()
             #meth = getattr(self.handler, "handle_" + cmd.upper(), None)
@@ -443,7 +443,7 @@ class NNTPv1Handler:
     def push_lit(self, lit):
         """Push a string literal"""
         lit = textwrap.dedent(lit)
-        lit = "\r\n".join(lit.splitlines()) + "\r\n"
+        lit = "/r/n".join(lit.splitlines()) + "/r/n"
         lit = lit.encode('utf-8')
         self.push_data(lit)
 
@@ -466,7 +466,7 @@ class NNTPv1Handler:
             self.push_lit("411 No such group {}".format(group))
 
     def handle_HELP(self):
-        self.push_lit("""\
+        self.push_lit("""/
             100 Legal commands
               authinfo user Name|pass Password|generic <prog> <args>
               date
@@ -492,7 +492,7 @@ class NNTPv1Handler:
 
     def handle_LIST(self, action=None, param=None):
         if action is None:
-            self.push_lit("""\
+            self.push_lit("""/
                 215 Newsgroups in form "group high low flags".
                 comp.lang.python 0000052340 0000002828 y
                 comp.lang.python.announce 0000001153 0000000993 m
@@ -503,17 +503,17 @@ class NNTPv1Handler:
                 .""")
         elif action == "ACTIVE":
             if param == "*distutils*":
-                self.push_lit("""\
+                self.push_lit("""/
                     215 Newsgroups in form "group high low flags"
                     gmane.comp.python.distutils.devel 0000014104 0000000001 m
                     gmane.comp.python.distutils.cvs 0000000000 0000000001 m
                     .""")
             else:
-                self.push_lit("""\
+                self.push_lit("""/
                     215 Newsgroups in form "group high low flags"
                     .""")
         elif action == "OVERVIEW.FMT":
-            self.push_lit("""\
+            self.push_lit("""/
                 215 Order of fields in overview database.
                 Subject:
                 From:
@@ -527,18 +527,18 @@ class NNTPv1Handler:
         elif action == "NEWSGROUPS":
             assert param is not None
             if param == "comp.lang.python":
-                self.push_lit("""\
+                self.push_lit("""/
                     215 Descriptions in form "group description".
-                    comp.lang.python\tThe Python computer language.
+                    comp.lang.python/tThe Python computer language.
                     .""")
             elif param == "comp.lang.python*":
-                self.push_lit("""\
+                self.push_lit("""/
                     215 Descriptions in form "group description".
-                    comp.lang.python.announce\tAnnouncements about the Python language. (Moderated)
-                    comp.lang.python\tThe Python computer language.
+                    comp.lang.python.announce/tAnnouncements about the Python language. (Moderated)
+                    comp.lang.python/tThe Python computer language.
                     .""")
             else:
-                self.push_lit("""\
+                self.push_lit("""/
                     215 Descriptions in form "group description".
                     .""")
         else:
@@ -550,7 +550,7 @@ class NNTPv1Handler:
         if (group == "comp.lang.python" and date_str == "20100913"
             and time_str == "082004"):
             # Date was passed in RFC 3977 format (NNTP "v2")
-            self.push_lit("""\
+            self.push_lit("""/
                 230 list of newsarticles (NNTP v2) created after Mon Sep 13 08:20:04 2010 follows
                 <a4929a40-6328-491a-aaaf-cb79ed7309a2@q2g2000vbk.googlegroups.com>
                 <f30c0419-f549-4218-848f-d7d0131da931@y3g2000vbm.googlegroups.com>
@@ -558,13 +558,13 @@ class NNTPv1Handler:
         elif (group == "comp.lang.python" and date_str == "100913"
             and time_str == "082004"):
             # Date was passed in RFC 977 format (NNTP "v1")
-            self.push_lit("""\
+            self.push_lit("""/
                 230 list of newsarticles (NNTP v1) created after Mon Sep 13 08:20:04 2010 follows
                 <a4929a40-6328-491a-aaaf-cb79ed7309a2@q2g2000vbk.googlegroups.com>
                 <f30c0419-f549-4218-848f-d7d0131da931@y3g2000vbm.googlegroups.com>
                 .""")
         else:
-            self.push_lit("""\
+            self.push_lit("""/
                 230 An empty list of newsarticles follows
                 .""")
         # (Note for experiments: many servers disable NEWNEWS.
@@ -573,32 +573,32 @@ class NNTPv1Handler:
     def handle_XOVER(self, message_spec):
         if message_spec == "57-59":
             self.push_lit(
-                "224 Overview information for 57-58 follows\n"
-                "57\tRe: ANN: New Plone book with strong Python (and Zope) themes throughout"
-                    "\tDoug Hellmann <doug.hellmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>"
-                    "\tSat, 19 Jun 2010 18:04:08 -0400"
-                    "\t<4FD05F05-F98B-44DC-8111-C6009C925F0C@gmail.com>"
-                    "\t<hvalf7$ort$1@dough.gmane.org>\t7103\t16"
-                    "\tXref: news.gmane.org gmane.comp.python.authors:57"
-                    "\n"
-                "58\tLooking for a few good bloggers"
-                    "\tDoug Hellmann <doug.hellmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>"
-                    "\tThu, 22 Jul 2010 09:14:14 -0400"
-                    "\t<A29863FA-F388-40C3-AA25-0FD06B09B5BF@gmail.com>"
-                    "\t\t6683\t16"
-                    "\t"
-                    "\n"
+                "224 Overview information for 57-58 follows/n"
+                "57/tRe: ANN: New Plone book with strong Python (and Zope) themes throughout"
+                    "/tDoug Hellmann <doug.hellmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>"
+                    "/tSat, 19 Jun 2010 18:04:08 -0400"
+                    "/t<4FD05F05-F98B-44DC-8111-C6009C925F0C@gmail.com>"
+                    "/t<hvalf7$ort$1@dough.gmane.org>/t7103/t16"
+                    "/tXref: news.gmane.org gmane.comp.python.authors:57"
+                    "/n"
+                "58/tLooking for a few good bloggers"
+                    "/tDoug Hellmann <doug.hellmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>"
+                    "/tThu, 22 Jul 2010 09:14:14 -0400"
+                    "/t<A29863FA-F388-40C3-AA25-0FD06B09B5BF@gmail.com>"
+                    "/t/t6683/t16"
+                    "/t"
+                    "/n"
                 # An UTF-8 overview line from fr.comp.lang.python
-                "59\tRe: Message d'erreur incompréhensible (par moi)"
-                    "\tEric Brunel <eric.brunel@pragmadev.nospam.com>"
-                    "\tWed, 15 Sep 2010 18:09:15 +0200"
-                    "\t<eric.brunel-2B8B56.18091515092010@news.wanadoo.fr>"
-                    "\t<4c90ec87$0$32425$ba4acef3@reader.news.orange.fr>\t1641\t27"
-                    "\tXref: saria.nerim.net fr.comp.lang.python:1265"
-                    "\n"
-                ".\n")
+                "59/tRe: Message d'erreur incompréhensible (par moi)"
+                    "/tEric Brunel <eric.brunel@pragmadev.nospam.com>"
+                    "/tWed, 15 Sep 2010 18:09:15 +0200"
+                    "/t<eric.brunel-2B8B56.18091515092010@news.wanadoo.fr>"
+                    "/t<4c90ec87$0$32425$ba4acef3@reader.news.orange.fr>/t1641/t27"
+                    "/tXref: saria.nerim.net fr.comp.lang.python:1265"
+                    "/n"
+                "./n")
         else:
-            self.push_lit("""\
+            self.push_lit("""/
                 224 No articles
                 .""")
 
@@ -627,19 +627,19 @@ class NNTPv1Handler:
             self.push_lit("235 Article transferred OK")
             self.posted_body = body
 
-    sample_head = """\
+    sample_head = """/
         From: "Demo User" <nobody@example.net>
         Subject: I am just a test article
         Content-Type: text/plain; charset=UTF-8; format=flowed
         Message-ID: <i.am.an.article.you.will.want@example.com>"""
 
-    sample_body = """\
+    sample_body = """/
         This is just a test article.
         ..Here is a dot-starting line.
 
-        -- Signed by Andr\xe9."""
+        -- Signed by Andr/xe9."""
 
-    sample_article = sample_head + "\n\n" + sample_body
+    sample_article = sample_head + "/n/n" + sample_body
 
     def handle_ARTICLE(self, message_spec=None):
         if message_spec is None:
@@ -700,7 +700,7 @@ class NNTPv2Handler(NNTPv1Handler):
     """A handler for RFC 3977 (NNTP "v2")"""
 
     def handle_CAPABILITIES(self):
-        fmt = """\
+        fmt = """/
             101 Capability list:
             VERSION 2 3
             IMPLEMENTATION INN 2.5.1{}
@@ -712,7 +712,7 @@ class NNTPv2Handler(NNTPv1Handler):
             ."""
 
         if not self._logged_in:
-            self.push_lit(fmt.format('\n            AUTHINFO USER'))
+            self.push_lit(fmt.format('/n            AUTHINFO USER'))
         else:
             self.push_lit(fmt.format(''))
 
@@ -740,7 +740,7 @@ class ModeSwitchingNNTPv2Handler(NNTPv2Handler):
         self._switched = False
 
     def handle_CAPABILITIES(self):
-        fmt = """\
+        fmt = """/
             101 Capability list:
             VERSION 2 3
             IMPLEMENTATION INN 2.5.1
@@ -948,14 +948,14 @@ class NNTPv1v2TestsMixin:
         self.assertEqual(lines, [])
         data = f.getvalue()
         self.assertTrue(data.startswith(
-            b'From: "Demo User" <nobody@example.net>\r\n'
-            b'Subject: I am just a test article\r\n'
+            b'From: "Demo User" <nobody@example.net>/r/n'
+            b'Subject: I am just a test article/r/n'
             ), ascii(data))
         self.assertTrue(data.endswith(
-            b'This is just a test article.\r\n'
-            b'.Here is a dot-starting line.\r\n'
-            b'\r\n'
-            b'-- Signed by Andr\xc3\xa9.\r\n'
+            b'This is just a test article./r/n'
+            b'.Here is a dot-starting line./r/n'
+            b'/r/n'
+            b'-- Signed by Andr/xc3/xa9./r/n'
             ), ascii(data))
 
     def test_head(self):
@@ -995,14 +995,14 @@ class NNTPv1v2TestsMixin:
         self.assertEqual(lines, [])
         data = f.getvalue()
         self.assertTrue(data.startswith(
-            b'From: "Demo User" <nobody@example.net>\r\n'
-            b'Subject: I am just a test article\r\n'
+            b'From: "Demo User" <nobody@example.net>/r/n'
+            b'Subject: I am just a test article/r/n'
             ), ascii(data))
         self.assertFalse(data.endswith(
-            b'This is just a test article.\r\n'
-            b'.Here is a dot-starting line.\r\n'
-            b'\r\n'
-            b'-- Signed by Andr\xc3\xa9.\r\n'
+            b'This is just a test article./r/n'
+            b'.Here is a dot-starting line./r/n'
+            b'/r/n'
+            b'-- Signed by Andr/xc3/xa9./r/n'
             ), ascii(data))
 
     def test_body(self):
@@ -1042,14 +1042,14 @@ class NNTPv1v2TestsMixin:
         self.assertEqual(lines, [])
         data = f.getvalue()
         self.assertFalse(data.startswith(
-            b'From: "Demo User" <nobody@example.net>\r\n'
-            b'Subject: I am just a test article\r\n'
+            b'From: "Demo User" <nobody@example.net>/r/n'
+            b'Subject: I am just a test article/r/n'
             ), ascii(data))
         self.assertTrue(data.endswith(
-            b'This is just a test article.\r\n'
-            b'.Here is a dot-starting line.\r\n'
-            b'\r\n'
-            b'-- Signed by Andr\xc3\xa9.\r\n'
+            b'This is just a test article./r/n'
+            b'.Here is a dot-starting line./r/n'
+            b'/r/n'
+            b'-- Signed by Andr/xc3/xa9./r/n'
             ), ascii(data))
 
     def check_over_xover_resp(self, resp, overviews):
@@ -1083,15 +1083,15 @@ class NNTPv1v2TestsMixin:
         self.check_over_xover_resp(resp, overviews)
 
     sample_post = (
-        b'From: "Demo User" <nobody@example.net>\r\n'
-        b'Subject: I am just a test article\r\n'
-        b'Content-Type: text/plain; charset=UTF-8; format=flowed\r\n'
-        b'Message-ID: <i.am.an.article.you.will.want@example.com>\r\n'
-        b'\r\n'
-        b'This is just a test article.\r\n'
-        b'.Here is a dot-starting line.\r\n'
-        b'\r\n'
-        b'-- Signed by Andr\xc3\xa9.\r\n'
+        b'From: "Demo User" <nobody@example.net>/r/n'
+        b'Subject: I am just a test article/r/n'
+        b'Content-Type: text/plain; charset=UTF-8; format=flowed/r/n'
+        b'Message-ID: <i.am.an.article.you.will.want@example.com>/r/n'
+        b'/r/n'
+        b'This is just a test article./r/n'
+        b'.Here is a dot-starting line./r/n'
+        b'/r/n'
+        b'-- Signed by Andr/xc3/xa9./r/n'
     )
 
     def _check_posted_body(self):
@@ -1099,11 +1099,11 @@ class NNTPv1v2TestsMixin:
         lines = self.handler.posted_body
         # One additional line for the "." terminator
         self.assertEqual(len(lines), 10)
-        self.assertEqual(lines[-1], b'.\r\n')
-        self.assertEqual(lines[-2], b'-- Signed by Andr\xc3\xa9.\r\n')
-        self.assertEqual(lines[-3], b'\r\n')
-        self.assertEqual(lines[-4], b'..Here is a dot-starting line.\r\n')
-        self.assertEqual(lines[0], b'From: "Demo User" <nobody@example.net>\r\n')
+        self.assertEqual(lines[-1], b'./r/n')
+        self.assertEqual(lines[-2], b'-- Signed by Andr/xc3/xa9./r/n')
+        self.assertEqual(lines[-3], b'/r/n')
+        self.assertEqual(lines[-4], b'..Here is a dot-starting line./r/n')
+        self.assertEqual(lines[0], b'From: "Demo User" <nobody@example.net>/r/n')
 
     def _check_post_ihave_sub(self, func, *args, file_factory):
         # First the prepared post with CRLF endings
@@ -1114,7 +1114,7 @@ class NNTPv1v2TestsMixin:
         self._check_posted_body()
         # Then the same post with "normal" line endings - they should be
         # converted by NNTP.post and NNTP.ihave.
-        post = self.sample_post.replace(b"\r\n", b"\n")
+        post = self.sample_post.replace(b"/r/n", b"/n")
         func_args = args + (file_factory(post),)
         self.handler.posted_body = None
         resp = func(*func_args)
@@ -1281,10 +1281,10 @@ class MiscTests(unittest.TestCase):
         fmt = nntplib._DEFAULT_OVERVIEW_FMT + ["xref"]
         # First example from RFC 3977
         lines = [
-            '3000234\tI am just a test article\t"Demo User" '
-            '<nobody@example.com>\t6 Oct 1998 04:38:40 -0500\t'
-            '<45223423@example.com>\t<45454@example.net>\t1234\t'
-            '17\tXref: news.example.com misc.test:3000363',
+            '3000234/tI am just a test article/t"Demo User" '
+            '<nobody@example.com>/t6 Oct 1998 04:38:40 -0500/t'
+            '<45223423@example.com>/t<45454@example.net>/t1234/t'
+            '17/tXref: news.example.com misc.test:3000363',
         ]
         overview = nntplib._parse_overview(lines, fmt)
         (art_num, fields), = overview
@@ -1302,10 +1302,10 @@ class MiscTests(unittest.TestCase):
         # Second example; here the "Xref" field is totally absent (including
         # the header name) and comes out as None
         lines = [
-            '3000234\tI am just a test article\t"Demo User" '
-            '<nobody@example.com>\t6 Oct 1998 04:38:40 -0500\t'
-            '<45223423@example.com>\t<45454@example.net>\t1234\t'
-            '17\t\t',
+            '3000234/tI am just a test article/t"Demo User" '
+            '<nobody@example.com>/t6 Oct 1998 04:38:40 -0500/t'
+            '<45223423@example.com>/t<45454@example.net>/t1234/t'
+            '17/t/t',
         ]
         overview = nntplib._parse_overview(lines, fmt)
         (art_num, fields), = overview
@@ -1313,10 +1313,10 @@ class MiscTests(unittest.TestCase):
         # Third example; the "Xref" is an empty string, while "references"
         # is a single space.
         lines = [
-            '3000234\tI am just a test article\t"Demo User" '
-            '<nobody@example.com>\t6 Oct 1998 04:38:40 -0500\t'
-            '<45223423@example.com>\t \t1234\t'
-            '17\tXref: \t',
+            '3000234/tI am just a test article/t"Demo User" '
+            '<nobody@example.com>/t6 Oct 1998 04:38:40 -0500/t'
+            '<45223423@example.com>/t /t1234/t'
+            '17/tXref: /t',
         ]
         overview = nntplib._parse_overview(lines, fmt)
         (art_num, fields), = overview

@@ -5,7 +5,7 @@ In order to get this test to pass, we have to manually specify the
 encoding.
 
   >>> 'föö'
-  'f\xf6\xf6'
+  'f/xf6/xf6'
 
   >>> 'bąr'
-  'b\u0105r'
+  'b/u0105r'

@@ -28,7 +28,7 @@ class SunAUTest(unittest.TestCase):
         self.f.setsampwidth(sampwidth)
         self.f.setframerate(framerate)
         self.f.setcomptype('NONE', 'not compressed')
-        output = b'\xff\x00\x12\xcc' * (nframes * nchannels * sampwidth // 4)
+        output = b'/xff/x00/x12/xcc' * (nframes * nchannels * sampwidth // 4)
         self.f.writeframes(output)
         self.f.close()
 
@@ -49,7 +49,7 @@ class SunAUTest(unittest.TestCase):
         self.f.setcomptype('ULAW', '')
         # u-law compression is lossy, therefore we can't expect non-zero data
         # to come back unchanged.
-        output = b'\0' * nframes * nchannels * sampwidth
+        output = b'/0' * nframes * nchannels * sampwidth
         self.f.writeframes(output)
         self.f.close()
 

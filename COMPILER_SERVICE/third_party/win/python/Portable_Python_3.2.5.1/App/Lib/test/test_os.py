@@ -84,9 +84,9 @@ class FileTests(unittest.TestCase):
         # os.write() accepts bytes- and buffer-like objects but not strings
         fd = os.open(support.TESTFN, os.O_CREAT | os.O_WRONLY)
         self.assertRaises(TypeError, os.write, fd, "beans")
-        os.write(fd, b"bacon\n")
-        os.write(fd, bytearray(b"eggs\n"))
-        os.write(fd, memoryview(b"spam\n"))
+        os.write(fd, b"bacon/n")
+        os.write(fd, bytearray(b"eggs/n"))
+        os.write(fd, memoryview(b"spam/n"))
         os.close(fd)
         with open(support.TESTFN, "rb") as fobj:
             self.assertEqual(fobj.read().splitlines(),
@@ -269,7 +269,7 @@ class StatAttributeTests(unittest.TestCase):
     # systems support centiseconds
     if sys.platform == 'win32':
         def get_file_system(path):
-            root = os.path.splitdrive(os.path.abspath(path))[0] + '\\'
+            root = os.path.splitdrive(os.path.abspath(path))[0] + '//'
             import ctypes
             kernel32 = ctypes.windll.kernel32
             buf = ctypes.create_unicode_buffer("", 100)
@@ -290,7 +290,7 @@ class StatAttributeTests(unittest.TestCase):
         def test_1686475(self):
             # Verify that an open file can be stat'ed
             try:
-                os.stat(r"c:\pagefile.sys")
+                os.stat(r"c:/pagefile.sys")
             except WindowsError as e:
                 if e.errno == 2: # file does not exist; cannot run test
                     return
@@ -335,11 +335,11 @@ class EnvironTests(mapping_tests.BasicTestMappingProtocol):
     def test_os_popen_iter(self):
         if os.path.exists("/bin/sh"):
             with os.popen(
-                "/bin/sh -c 'echo \"line1\nline2\nline3\"'") as popen:
+                "/bin/sh -c 'echo /"line1/nline2/nline3/"'") as popen:
                 it = iter(popen)
-                self.assertEqual(next(it), "line1\n")
-                self.assertEqual(next(it), "line2\n")
-                self.assertEqual(next(it), "line3\n")
+                self.assertEqual(next(it), "line1/n")
+                self.assertEqual(next(it), "line2/n")
+                self.assertEqual(next(it), "line3/n")
                 self.assertRaises(StopIteration, next, it)
 
     # Verify environ keys and values from the OS are of the
@@ -406,7 +406,7 @@ class EnvironTests(mapping_tests.BasicTestMappingProtocol):
                          "os.environb required for this test.")
     def test_environb(self):
         # os.environ -> os.environb
-        value = 'euro\u20ac'
+        value = 'euro/u20ac'
         try:
             value_bytes = value.encode(sys.getfilesystemencoding(),
                                        'surrogateescape')
@@ -419,7 +419,7 @@ class EnvironTests(mapping_tests.BasicTestMappingProtocol):
         self.assertEqual(os.environb[b'unicode'], value_bytes)
 
         # os.environb -> os.environ
-        value = b'\xff'
+        value = b'/xff'
         os.environb[b'bytes'] = value
         self.assertEqual(os.environb[b'bytes'], value)
         value_str = value.decode(sys.getfilesystemencoding(), 'surrogateescape')
@@ -475,7 +475,7 @@ class WalkTests(unittest.TestCase):
         os.makedirs(t2_path)
         for path in tmp1_path, tmp2_path, tmp3_path, tmp4_path:
             f = open(path, "w")
-            f.write("I'm " + path + " and proud of it.  Blame test_os.\n")
+            f.write("I'm " + path + " and proud of it.  Blame test_os./n")
             f.close()
         if support.can_symlink():
             if os.name == 'nt':
@@ -701,7 +701,7 @@ class URandomTests(unittest.TestCase):
         self.assertNotEqual(data1, data2)
 
     def get_urandom_subprocess(self, count):
-        code = '\n'.join((
+        code = '/n'.join((
             'import os, sys',
             'data = os.urandom(%s)' % count,
             'sys.stdout.buffer.write(data)',
@@ -944,11 +944,11 @@ class LinkTests(unittest.TestCase):
 
     def test_unicode_name(self):
         try:
-            os.fsencode("\xf1")
+            os.fsencode("/xf1")
         except UnicodeError:
             raise unittest.SkipTest("Unable to encode for this platform.")
 
-        self.file1 += "\xf1"
+        self.file1 += "/xf1"
         self.file2 = self.file1 + "2"
         self._test_link(self.file1, self.file2)
 
@@ -1238,7 +1238,7 @@ class Win32SymlinkTests(unittest.TestCase):
         linkname = self.missing_link
         if os.path.lexists(linkname):
             os.remove(linkname)
-        target = r'c:\\target does not exist.29r3c740'
+        target = r'c://target does not exist.29r3c740'
         assert not os.path.exists(target)
         target_is_dir = True
         os.symlink(target, linkname, target_is_dir)
@@ -1314,12 +1314,12 @@ class Win32SymlinkTests(unittest.TestCase):
 
 class FSEncodingTests(unittest.TestCase):
     def test_nop(self):
-        self.assertEqual(os.fsencode(b'abc\xff'), b'abc\xff')
-        self.assertEqual(os.fsdecode('abc\u0141'), 'abc\u0141')
+        self.assertEqual(os.fsencode(b'abc/xff'), b'abc/xff')
+        self.assertEqual(os.fsdecode('abc/u0141'), 'abc/u0141')
 
     def test_identity(self):
         # assert fsdecode(fsencode(x)) == x
-        for fn in ('unicode\u0141', 'latin\xe9', 'ascii'):
+        for fn in ('unicode/u0141', 'latin/xe9', 'ascii'):
             try:
                 bytesfn = os.fsencode(fn)
             except UnicodeEncodeError:

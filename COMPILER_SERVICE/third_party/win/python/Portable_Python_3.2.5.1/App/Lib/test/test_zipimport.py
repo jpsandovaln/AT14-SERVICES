@@ -23,7 +23,7 @@ import doctest
 import inspect
 import io
 from traceback import extract_tb, extract_stack, print_tb
-raise_src = 'def do_raise(): raise TypeError\n'
+raise_src = 'def do_raise(): raise TypeError/n'
 
 def make_pyc(co, mtime):
     data = marshal.dumps(co)
@@ -298,7 +298,7 @@ class UncompressedZipImportTestCase(ImportHooksBaseTestCase):
         def get_file():
             return __file__
         if __loader__.get_data("some.data") != b"some data":
-            raise AssertionError("bad data")\n"""
+            raise AssertionError("bad data")/n"""
         pyc = make_pyc(compile(src, "<???>", "exec"), NOW)
         files = {TESTMOD + pyc_ext: (NOW, pyc),
                  "some.data": (NOW, "some data")}
@@ -326,7 +326,7 @@ class UncompressedZipImportTestCase(ImportHooksBaseTestCase):
 
     def runDoctest(self, callback):
         files = {TESTMOD + ".py": (NOW, test_src),
-                 "xyz.txt": (NOW, ">>> log.append(True)\n")}
+                 "xyz.txt": (NOW, ">>> log.append(True)/n")}
         self.doTest(".py", files, TESTMOD, call=callback)
 
     def doDoctestFile(self, module):

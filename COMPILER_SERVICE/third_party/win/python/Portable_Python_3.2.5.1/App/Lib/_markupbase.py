@@ -7,15 +7,15 @@ documented public API and should not be used directly.
 
 import re
 
-_declname_match = re.compile(r'[a-zA-Z][-_.a-zA-Z0-9]*\s*').match
-_declstringlit_match = re.compile(r'(\'[^\']*\'|"[^"]*")\s*').match
-_commentclose = re.compile(r'--\s*>')
-_markedsectionclose = re.compile(r']\s*]\s*>')
+_declname_match = re.compile(r'[a-zA-Z][-_.a-zA-Z0-9]*/s*').match
+_declstringlit_match = re.compile(r'(/'[^/']*/'|"[^"]*")/s*').match
+_commentclose = re.compile(r'--/s*>')
+_markedsectionclose = re.compile(r']/s*]/s*>')
 
 # An analysis of the MS-Word extensions is available at
 # http://www.planetpublish.com/xmlarena/xap/Thursday/WordtoXML.pdf
 
-_msmarkedsectionclose = re.compile(r']\s*>')
+_msmarkedsectionclose = re.compile(r']/s*>')
 
 del re
 
@@ -49,10 +49,10 @@ class ParserBase:
         if i >= j:
             return j
         rawdata = self.rawdata
-        nlines = rawdata.count("\n", i, j)
+        nlines = rawdata.count("/n", i, j)
         if nlines:
             self.lineno = self.lineno + nlines
-            pos = rawdata.rindex("\n", i, j) # Should not fail
+            pos = rawdata.rindex("/n", i, j) # Should not fail
             self.offset = j-(pos+1)
         else:
             self.offset = self.offset + j-i
@@ -113,7 +113,7 @@ class ParserBase:
                     # Calling unknown_decl provides more flexibility though.
                     self.unknown_decl(data)
                 return j + 1
-            if c in "\"'":
+            if c in "/"'":
                 m = _declstringlit_match(rawdata, j)
                 if not m:
                     return -1 # incomplete
@@ -290,7 +290,7 @@ class ParserBase:
             c = rawdata[j:j+1]
             if not c:
                 return -1
-            if c in "'\"":
+            if c in "'/"":
                 m = _declstringlit_match(rawdata, j)
                 if m:
                     j = m.end()
@@ -326,7 +326,7 @@ class ParserBase:
                 return -1
             if c == '>':
                 return j + 1
-            if c in "'\"":
+            if c in "'/"":
                 m = _declstringlit_match(rawdata, j)
                 if not m:
                     return -1
@@ -358,7 +358,7 @@ class ParserBase:
             c = self.rawdata[j:j+1]
             if not c:
                 return -1
-            if c in "'\"":
+            if c in "'/"":
                 m = _declstringlit_match(rawdata, j)
                 if m:
                     j = m.end()

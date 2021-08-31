@@ -3,6 +3,7 @@ const express = require("express");
 const Routes = require("./src/routes");
 const app = express();
 const mongoose = require('mongoose');
+require("dotenv").config(".env");
 
 mongoose.connect('mongodb://localhost:27018/converterDB',{ useNewUrlParser: true, useUnifiedTopology: true })
     .then(db => console.log('Db is connected to', db.connection.host))
@@ -13,7 +14,7 @@ global.__basedir = __dirname;
 class Index {
     constructor(
         corsOptions = { origin: "http://localhost:8081" },
-        port = 8080
+        port = process.env.PORT
     ) {
         app.use(cors(corsOptions));
         app.use(express.json());

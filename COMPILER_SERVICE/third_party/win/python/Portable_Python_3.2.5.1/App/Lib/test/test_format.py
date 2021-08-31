@@ -39,7 +39,7 @@ def testformat(formatstr, args, output=None, limit=None, overflowok=False):
                 len(result)!=len(output) or result[:limit]!=output[:limit]):
             if verbose:
                 print('no')
-            print("%s %% %s == %s != %s" % \
+            print("%s %% %s == %s != %s" % /
                   (repr(formatstr), repr(args), repr(result), repr(output)))
         else:
             if verbose:
@@ -215,10 +215,10 @@ class FormatTest(unittest.TestCase):
         testformat("%o", 0o42, "42")
         testformat("%o", -0o42, "-42")
         testformat("%o", float(0o42), "42")
-        testformat("%r", "\u0378", "'\\u0378'")  # non printable
-        testformat("%a", "\u0378", "'\\u0378'")  # non printable
-        testformat("%r", "\u0374", "'\u0374'")   # printable
-        testformat("%a", "\u0374", "'\\u0374'")  # printable
+        testformat("%r", "/u0378", "'//u0378'")  # non printable
+        testformat("%a", "/u0378", "'//u0378'")  # non printable
+        testformat("%r", "/u0374", "'/u0374'")   # printable
+        testformat("%a", "/u0374", "'//u0374'")  # printable
 
         # alternate float formatting
         testformat('%g', 1.1, '1.1')
@@ -245,7 +245,7 @@ class FormatTest(unittest.TestCase):
                 raise TestFailed('did not get expected exception: %s' % excmsg)
         test_exc('abc %b', 1, ValueError,
                  "unsupported format character 'b' (0x62) at index 5")
-        #test_exc(unicode('abc %\u3000','raw-unicode-escape'), 1, ValueError,
+        #test_exc(unicode('abc %/u3000','raw-unicode-escape'), 1, ValueError,
         #         "unsupported format character '?' (0x3000) at index 5")
         test_exc('%d', '1', TypeError, "%d format: a number is required, not str")
         test_exc('%g', '1', TypeError, "a float is required")

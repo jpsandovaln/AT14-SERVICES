@@ -100,7 +100,7 @@ def _get_system_version():
             pass
         else:
             try:
-                m = re.search(r'<key>ProductUserVisibleVersion</key>\s*'
+                m = re.search(r'<key>ProductUserVisibleVersion</key>/s*'
                               r'<string>(.*?)</string>', f.read())
             finally:
                 f.close()
@@ -181,7 +181,7 @@ def _find_appropriate_compiler(_config_vars):
     elif os.path.basename(cc).startswith('gcc'):
         # Compiler is GCC, check if it is LLVM-GCC
         data = _read_output("'%s' --version"
-                             % (cc.replace("'", "'\"'\"'"),))
+                             % (cc.replace("'", "'/"'/"'"),))
         if 'llvm-gcc' in data:
             # Found LLVM-GCC, fall back to clang
             cc = _find_build_tool('clang')
@@ -210,8 +210,8 @@ def _remove_universal_flags(_config_vars):
         # Do not alter a config var explicitly overriden by env var
         if cv in _config_vars and cv not in os.environ:
             flags = _config_vars[cv]
-            flags = re.sub('-arch\s+\w+\s', ' ', flags, re.ASCII)
-            flags = re.sub('-isysroot [^ \t]*', ' ', flags)
+            flags = re.sub('-arch/s+/w+/s', ' ', flags, re.ASCII)
+            flags = re.sub('-isysroot [^ /t]*', ' ', flags)
             _save_modified_value(_config_vars, cv, flags)
 
     return _config_vars
@@ -232,11 +232,11 @@ def _remove_unsupported_archs(_config_vars):
     if 'CC' in os.environ:
         return _config_vars
 
-    if re.search('-arch\s+ppc', _config_vars['CFLAGS']) is not None:
+    if re.search('-arch/s+ppc', _config_vars['CFLAGS']) is not None:
         # NOTE: Cannot use subprocess here because of bootstrap
         # issues when building Python itself
         status = os.system("'%s' -arch ppc -x c /dev/null 2>/dev/null"%(
-            _config_vars['CC'].replace("'", "'\"'\"'"),))
+            _config_vars['CC'].replace("'", "'/"'/"'"),))
         # The Apple compiler drivers return status 255 if no PPC
         if (status >> 8) == 255:
             # Compiler doesn't support PPC, remove the related
@@ -245,7 +245,7 @@ def _remove_unsupported_archs(_config_vars):
             for cv in _UNIVERSAL_CONFIG_VARS:
                 if cv in _config_vars and cv not in os.environ:
                     flags = _config_vars[cv]
-                    flags = re.sub('-arch\s+ppc\w*\s', ' ', flags)
+                    flags = re.sub('-arch/s+ppc/w*/s', ' ', flags)
                     _save_modified_value(_config_vars, cv, flags)
 
     return _config_vars
@@ -261,7 +261,7 @@ def _override_all_archs(_config_vars):
         for cv in _UNIVERSAL_CONFIG_VARS:
             if cv in _config_vars and '-arch' in _config_vars[cv]:
                 flags = _config_vars[cv]
-                flags = re.sub('-arch\s+\w+\s', ' ', flags)
+                flags = re.sub('-arch/s+/w+/s', ' ', flags)
                 flags = flags + ' ' + arch
                 _save_modified_value(_config_vars, cv, flags)
 
@@ -281,7 +281,7 @@ def _check_for_unavailable_sdk(_config_vars):
     # to /usr and /System/Library by either a standalone CLT
     # package or the CLT component within Xcode.
     cflags = _config_vars.get('CFLAGS', '')
-    m = re.search(r'-isysroot\s+(\S+)', cflags)
+    m = re.search(r'-isysroot/s+(/S+)', cflags)
     if m is not None:
         sdk = m.group(1)
         if not os.path.exists(sdk):
@@ -289,7 +289,7 @@ def _check_for_unavailable_sdk(_config_vars):
                 # Do not alter a config var explicitly overriden by env var
                 if cv in _config_vars and cv not in os.environ:
                     flags = _config_vars[cv]
-                    flags = re.sub(r'-isysroot\s+\S+(?:\s|$)', ' ', flags)
+                    flags = re.sub(r'-isysroot/s+/S+(?:/s|$)', ' ', flags)
                     _save_modified_value(_config_vars, cv, flags)
 
     return _config_vars
@@ -451,7 +451,7 @@ def get_platform_osx(_config_vars, osname, release, machine):
 
             machine = 'fat'
 
-            archs = re.findall('-arch\s+(\S+)', cflags)
+            archs = re.findall('-arch/s+(/S+)', cflags)
             archs = tuple(sorted(set(archs)))
 
             if len(archs) == 1:

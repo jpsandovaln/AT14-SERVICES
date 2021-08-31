@@ -219,9 +219,9 @@ if __name__ == "__main__":
     def dump(f, d, prefix):
         items = sorted(d.items(), key=lambda a: a[1])
         for k, v in items:
-            f.write("#define %s_%s %s\n" % (prefix, k.upper(), v))
+            f.write("#define %s_%s %s/n" % (prefix, k.upper(), v))
     f = open("sre_constants.h", "w")
-    f.write("""\
+    f.write("""/
 /*
  * Secret Labs' Regular Expression Engine
  *
@@ -237,23 +237,23 @@ if __name__ == "__main__":
 
 """)
 
-    f.write("#define SRE_MAGIC %d\n" % MAGIC)
+    f.write("#define SRE_MAGIC %d/n" % MAGIC)
 
     dump(f, OPCODES, "SRE_OP")
     dump(f, ATCODES, "SRE")
     dump(f, CHCODES, "SRE")
 
-    f.write("#define SRE_FLAG_TEMPLATE %d\n" % SRE_FLAG_TEMPLATE)
-    f.write("#define SRE_FLAG_IGNORECASE %d\n" % SRE_FLAG_IGNORECASE)
-    f.write("#define SRE_FLAG_LOCALE %d\n" % SRE_FLAG_LOCALE)
-    f.write("#define SRE_FLAG_MULTILINE %d\n" % SRE_FLAG_MULTILINE)
-    f.write("#define SRE_FLAG_DOTALL %d\n" % SRE_FLAG_DOTALL)
-    f.write("#define SRE_FLAG_UNICODE %d\n" % SRE_FLAG_UNICODE)
-    f.write("#define SRE_FLAG_VERBOSE %d\n" % SRE_FLAG_VERBOSE)
+    f.write("#define SRE_FLAG_TEMPLATE %d/n" % SRE_FLAG_TEMPLATE)
+    f.write("#define SRE_FLAG_IGNORECASE %d/n" % SRE_FLAG_IGNORECASE)
+    f.write("#define SRE_FLAG_LOCALE %d/n" % SRE_FLAG_LOCALE)
+    f.write("#define SRE_FLAG_MULTILINE %d/n" % SRE_FLAG_MULTILINE)
+    f.write("#define SRE_FLAG_DOTALL %d/n" % SRE_FLAG_DOTALL)
+    f.write("#define SRE_FLAG_UNICODE %d/n" % SRE_FLAG_UNICODE)
+    f.write("#define SRE_FLAG_VERBOSE %d/n" % SRE_FLAG_VERBOSE)
 
-    f.write("#define SRE_INFO_PREFIX %d\n" % SRE_INFO_PREFIX)
-    f.write("#define SRE_INFO_LITERAL %d\n" % SRE_INFO_LITERAL)
-    f.write("#define SRE_INFO_CHARSET %d\n" % SRE_INFO_CHARSET)
+    f.write("#define SRE_INFO_PREFIX %d/n" % SRE_INFO_PREFIX)
+    f.write("#define SRE_INFO_LITERAL %d/n" % SRE_INFO_LITERAL)
+    f.write("#define SRE_INFO_CHARSET %d/n" % SRE_INFO_CHARSET)
 
     f.close()
     print("done")

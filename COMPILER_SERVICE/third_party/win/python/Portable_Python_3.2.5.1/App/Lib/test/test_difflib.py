@@ -78,11 +78,11 @@ class TestSFbugs(unittest.TestCase):
 
     def test_added_tab_hint(self):
         # Check fix for bug #1488943
-        diff = list(difflib.Differ().compare(["\tI am a buggy"],["\t\tI am a bug"]))
-        self.assertEqual("- \tI am a buggy", diff[0])
-        self.assertEqual("?            --\n", diff[1])
-        self.assertEqual("+ \t\tI am a bug", diff[2])
-        self.assertEqual("? +\n", diff[3])
+        diff = list(difflib.Differ().compare(["/tI am a buggy"],["/t/tI am a bug"]))
+        self.assertEqual("- /tI am a buggy", diff[0])
+        self.assertEqual("?            --/n", diff[1])
+        self.assertEqual("+ /t/tI am a bug", diff[2])
+        self.assertEqual("? +/n", diff[3])
 
 patch914575_from1 = """
    1. Beautiful is beTTer than ugly.
@@ -99,16 +99,16 @@ patch914575_to1 = """
 """
 
 patch914575_from2 = """
-\t\tLine 1: preceeded by from:[tt] to:[ssss]
-  \t\tLine 2: preceeded by from:[sstt] to:[sssst]
-  \t \tLine 3: preceeded by from:[sstst] to:[ssssss]
-Line 4:  \thas from:[sst] to:[sss] after :
-Line 5: has from:[t] to:[ss] at end\t
+/t/tLine 1: preceeded by from:[tt] to:[ssss]
+  /t/tLine 2: preceeded by from:[sstt] to:[sssst]
+  /t /tLine 3: preceeded by from:[sstst] to:[ssssss]
+Line 4:  /thas from:[sst] to:[sss] after :
+Line 5: has from:[t] to:[ss] at end/t
 """
 
 patch914575_to2 = """
     Line 1: preceeded by from:[tt] to:[ssss]
-    \tLine 2: preceeded by from:[sstt] to:[sssst]
+    /tLine 2: preceeded by from:[sstt] to:[sssst]
       Line 3: preceeded by from:[sstst] to:[ssssss]
 Line 4:   has from:[sst] to:[sss] after :
 Line 5: has from:[t] to:[ss] at end
@@ -152,10 +152,10 @@ class TestSFpatches(unittest.TestCase):
 
     def test_html_diff(self):
         # Check SF patch 914575 for generating HTML differences
-        f1a = ((patch914575_from1 + '123\n'*10)*3)
-        t1a = (patch914575_to1 + '123\n'*10)*3
-        f1b = '456\n'*10 + f1a
-        t1b = '456\n'*10 + t1a
+        f1a = ((patch914575_from1 + '123/n'*10)*3)
+        t1a = (patch914575_to1 + '123/n'*10)*3
+        f1b = '456/n'*10 + f1a
+        t1b = '456/n'*10 + t1a
         f1a = f1a.splitlines()
         t1a = t1a.splitlines()
         f1b = f1b.splitlines()
@@ -169,7 +169,7 @@ class TestSFpatches(unittest.TestCase):
         k = difflib.HtmlDiff(wrapcolumn=14)
 
         full = i.make_file(f1a,t1a,'from','to',context=False,numlines=5)
-        tables = '\n'.join(
+        tables = '/n'.join(
             [
              '<h2>Context (first diff within numlines=5(default))</h2>',
              i.make_table(f1a,t1a,'from','to',context=True),
@@ -198,7 +198,7 @@ class TestSFpatches(unittest.TestCase):
              '<h2>wrapcolumn=14,splitlines(True)</h2>',
              k.make_table(f3.splitlines(True),t3.splitlines(True)),
              ])
-        actual = full.replace('</body>','\n%s\n</body>' % tables)
+        actual = full.replace('</body>','/n%s/n</body>' % tables)
 
         # temporarily uncomment next two lines to baseline this test
         #with open('test_difflib_expect.html','w') as fp:
@@ -221,12 +221,12 @@ class TestOutputFormat(unittest.TestCase):
             '2005-01-26 23:30:50', '2010-04-02 10:20:52']
         ud = difflib.unified_diff(*args, lineterm='')
         self.assertEqual(list(ud)[0:2], [
-                           "--- Original\t2005-01-26 23:30:50",
-                           "+++ Current\t2010-04-02 10:20:52"])
+                           "--- Original/t2005-01-26 23:30:50",
+                           "+++ Current/t2010-04-02 10:20:52"])
         cd = difflib.context_diff(*args, lineterm='')
         self.assertEqual(list(cd)[0:2], [
-                           "*** Original\t2005-01-26 23:30:50",
-                           "--- Current\t2010-04-02 10:20:52"])
+                           "*** Original/t2005-01-26 23:30:50",
+                           "--- Current/t2010-04-02 10:20:52"])
 
     def test_no_trailing_tab_on_empty_filedate(self):
         args = ['one', 'two', 'Original', 'Current']
@@ -238,7 +238,7 @@ class TestOutputFormat(unittest.TestCase):
 
     def test_range_format_unified(self):
         # Per the diff spec at http://www.unix.org/single_unix_specification/
-        spec = '''\
+        spec = '''/
            Each <range> field shall be of the form:
              %1d", <beginning line number>  if the range contains exactly one line,
            and:
@@ -255,20 +255,20 @@ class TestOutputFormat(unittest.TestCase):
 
     def test_range_format_context(self):
         # Per the diff spec at http://www.unix.org/single_unix_specification/
-        spec = '''\
+        spec = '''/
            The range of lines in file1 shall be written in the following format
            if the range contains two or more lines:
-               "*** %d,%d ****\n", <beginning line number>, <ending line number>
+               "*** %d,%d ****/n", <beginning line number>, <ending line number>
            and the following format otherwise:
-               "*** %d ****\n", <ending line number>
+               "*** %d ****/n", <ending line number>
            The ending line number of an empty range shall be the number of the preceding line,
            or 0 if the range is at the start of the file.
 
            Next, the range of lines in file2 shall be written in the following format
            if the range contains two or more lines:
-               "--- %d,%d ----\n", <beginning line number>, <ending line number>
+               "--- %d,%d ----/n", <beginning line number>, <ending line number>
            and the following format otherwise:
-               "--- %d ----\n", <ending line number>
+               "--- %d ----/n", <ending line number>
         '''
         fmt = difflib._format_range_context
         self.assertEqual(fmt(3,3), '3')

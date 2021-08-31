@@ -31,18 +31,18 @@ class FnmatchTestCase(unittest.TestCase):
         check('a', '??', 0)
         check('a', 'b', 0)
 
-        # these test that '\' is handled correctly in character sets;
+        # these test that '/' is handled correctly in character sets;
         # see SF bug #409651
-        check('\\', r'[\]')
-        check('a', r'[!\]')
-        check('\\', r'[!\]', 0)
+        check('//', r'[/]')
+        check('a', r'[!/]')
+        check('//', r'[!/]', 0)
 
         # test that filenames with newlines in them are handled correctly.
         # http://bugs.python.org/issue6665
-        check('foo\nbar', 'foo*')
-        check('foo\nbar\n', 'foo*')
-        check('\nfoo', 'foo*', False)
-        check('\n', '*')
+        check('foo/nbar', 'foo*')
+        check('foo/nbar/n', 'foo*')
+        check('/nfoo', 'foo*', False)
+        check('/n', '*')
 
     def test_mix_bytes_str(self):
         self.assertRaises(TypeError, fnmatch, 'test', b'*')
@@ -57,20 +57,20 @@ class FnmatchTestCase(unittest.TestCase):
 
     def test_bytes(self):
         self.check_match(b'test', b'te*')
-        self.check_match(b'test\xff', b'te*\xff')
-        self.check_match(b'foo\nbar', b'foo*')
+        self.check_match(b'test/xff', b'te*/xff')
+        self.check_match(b'foo/nbar', b'foo*')
 
 class TranslateTestCase(unittest.TestCase):
 
     def test_translate(self):
-        self.assertEqual(translate('*'), '.*\Z(?ms)')
-        self.assertEqual(translate('?'), '.\Z(?ms)')
-        self.assertEqual(translate('a?b*'), 'a.b.*\Z(?ms)')
-        self.assertEqual(translate('[abc]'), '[abc]\Z(?ms)')
-        self.assertEqual(translate('[]]'), '[]]\Z(?ms)')
-        self.assertEqual(translate('[!x]'), '[^x]\Z(?ms)')
-        self.assertEqual(translate('[^x]'), '[\\^x]\Z(?ms)')
-        self.assertEqual(translate('[x'), '\\[x\Z(?ms)')
+        self.assertEqual(translate('*'), '.*/Z(?ms)')
+        self.assertEqual(translate('?'), './Z(?ms)')
+        self.assertEqual(translate('a?b*'), 'a.b.*/Z(?ms)')
+        self.assertEqual(translate('[abc]'), '[abc]/Z(?ms)')
+        self.assertEqual(translate('[]]'), '[]]/Z(?ms)')
+        self.assertEqual(translate('[!x]'), '[^x]/Z(?ms)')
+        self.assertEqual(translate('[^x]'), '[//^x]/Z(?ms)')
+        self.assertEqual(translate('[x'), '//[x/Z(?ms)')
 
 
 class FilterTestCase(unittest.TestCase):

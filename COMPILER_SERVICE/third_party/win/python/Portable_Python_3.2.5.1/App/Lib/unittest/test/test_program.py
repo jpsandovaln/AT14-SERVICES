@@ -301,7 +301,7 @@ class TestCommandLineArgs(unittest.TestCase):
 
     def testParseArgsFilePaths(self):
         program = self.program
-        argv = ['progname', 'foo/bar/baz.py', 'green\\red.py']
+        argv = ['progname', 'foo/bar/baz.py', 'green//red.py']
         self._patch_isfile(argv)
 
         program.createTests = lambda: None
@@ -313,7 +313,7 @@ class TestCommandLineArgs(unittest.TestCase):
 
     def testParseArgsNonExistentFiles(self):
         program = self.program
-        argv = ['progname', 'foo/bar/baz.py', 'green\\red.py']
+        argv = ['progname', 'foo/bar/baz.py', 'green//red.py']
         self._patch_isfile([])
 
         program.createTests = lambda: None
@@ -326,7 +326,7 @@ class TestCommandLineArgs(unittest.TestCase):
         program = self.program
         def _join(name):
             return os.path.join(cur_dir, name)
-        argv = ['progname', _join('foo/bar/baz.py'), _join('green\\red.py')]
+        argv = ['progname', _join('foo/bar/baz.py'), _join('green//red.py')]
         self._patch_isfile(argv)
 
         program.createTests = lambda: None
@@ -347,7 +347,7 @@ class TestCommandLineArgs(unittest.TestCase):
         self.assertEqual(program.testNames, argv[1:])
 
         # it may be better to use platform specific functions to normalise paths
-        # rather than accepting '.PY' and '\' as file seprator on Linux / Mac
+        # rather than accepting '.PY' and '/' as file seprator on Linux / Mac
         # it would also be better to check that a filename is a valid module
         # identifier (we have a regex for this in loader.py)
         # for invalid filenames should we raise a useful error rather than

@@ -47,7 +47,7 @@ class Node(xml.dom.Node):
     def toxml(self, encoding=None):
         return self.toprettyxml("", "", encoding)
 
-    def toprettyxml(self, indent="\t", newl="\n", encoding=None):
+    def toprettyxml(self, indent="/t", newl="/n", encoding=None):
         # indent = the indentation string to prepend, per level
         # newl = the newline string to append
         use_encoding = "utf-8" if encoding is None else encoding
@@ -303,13 +303,13 @@ def _in_document(node):
 def _write_data(writer, data):
     "Writes datachars to writer."
     if data:
-        data = data.replace("&", "&amp;").replace("<", "&lt;"). \
-                    replace("\"", "&quot;").replace(">", "&gt;")
+        data = data.replace("&", "&amp;").replace("<", "&lt;"). /
+                    replace("/"", "&quot;").replace(">", "&gt;")
         writer.write(data)
 
 def _get_elements_by_tagName_helper(parent, name, rc):
     for node in parent.childNodes:
-        if node.nodeType == Node.ELEMENT_NODE and \
+        if node.nodeType == Node.ELEMENT_NODE and /
             (name == "*" or node.tagName == name):
             rc.append(node)
         _get_elements_by_tagName_helper(node, name, rc)
@@ -833,9 +833,9 @@ class Element(Node):
         a_names = sorted(attrs.keys())
 
         for a_name in a_names:
-            writer.write(" %s=\"" % a_name)
+            writer.write(" %s=/"" % a_name)
             _write_data(writer, attrs[a_name].value)
-            writer.write("\"")
+            writer.write("/"")
         if self.childNodes:
             writer.write(">")
             if (len(self.childNodes) == 1 and
@@ -1418,7 +1418,7 @@ class DOMImplementation(DOMImplementationLS):
 
         if add_root_element:
             prefix, localname = _nssplit(qualifiedName)
-            if prefix == "xml" \
+            if prefix == "xml" /
                and namespaceURI != "http://www.w3.org/XML/1998/namespace":
                 raise xml.dom.NamespaceErr("illegal use of 'xml' prefix")
             if prefix and not namespaceURI:
@@ -1579,7 +1579,7 @@ class Document(Node, DocumentLS):
             # end up re-ordered to the end.
             node.parentNode.removeChild(node)
 
-        if node.nodeType == Node.ELEMENT_NODE \
+        if node.nodeType == Node.ELEMENT_NODE /
            and self._get_documentElement():
             raise xml.dom.HierarchyRequestErr(
                 "two document elements disallowed")
@@ -1786,8 +1786,8 @@ class Document(Node, DocumentLS):
     def renameNode(self, n, namespaceURI, name):
         if n.ownerDocument is not self:
             raise xml.dom.WrongDocumentErr(
-                "cannot rename nodes from other documents;\n"
-                "expected %s,\nfound %s" % (self, n.ownerDocument))
+                "cannot rename nodes from other documents;/n"
+                "expected %s,/nfound %s" % (self, n.ownerDocument))
         if n.nodeType not in (Node.ELEMENT_NODE, Node.ATTRIBUTE_NODE):
             raise xml.dom.NotSupportedErr(
                 "renameNode() only applies to element and attribute nodes")

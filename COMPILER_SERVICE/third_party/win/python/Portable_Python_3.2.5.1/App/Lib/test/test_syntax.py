@@ -569,15 +569,15 @@ class SyntaxTestCase(unittest.TestCase):
         self._check_error("break", "outside loop")
 
     def test_unexpected_indent(self):
-        self._check_error("foo()\n bar()\n", "unexpected indent",
+        self._check_error("foo()/n bar()/n", "unexpected indent",
                           subclass=IndentationError)
 
     def test_no_indent(self):
-        self._check_error("if 1:\nfoo()", "expected an indented block",
+        self._check_error("if 1:/nfoo()", "expected an indented block",
                           subclass=IndentationError)
 
     def test_bad_outdent(self):
-        self._check_error("if 1:\n  foo()\n bar()",
+        self._check_error("if 1:/n  foo()/n bar()",
                           "unindent does not match .* level",
                           subclass=IndentationError)
 

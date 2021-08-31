@@ -9,11 +9,11 @@ from .signals import installHandler
 
 __unittest = True
 
-FAILFAST     = "  -f, --failfast   Stop on first failure\n"
-CATCHBREAK   = "  -c, --catch      Catch control-C and display results\n"
-BUFFEROUTPUT = "  -b, --buffer     Buffer stdout and stderr during test runs\n"
+FAILFAST     = "  -f, --failfast   Stop on first failure/n"
+CATCHBREAK   = "  -c, --catch      Catch control-C and display results/n"
+BUFFEROUTPUT = "  -b, --buffer     Buffer stdout and stderr during test runs/n"
 
-USAGE_AS_MAIN = """\
+USAGE_AS_MAIN = """/
 Usage: %(progName)s [options] [tests]
 
 Options:
@@ -42,7 +42,7 @@ For test discovery all test modules must be importable from the top
 level directory of the project.
 """
 
-USAGE_FROM_MODULE = """\
+USAGE_FROM_MODULE = """/
 Usage: %(progName)s [options] [test] [...]
 
 Options:
@@ -69,9 +69,9 @@ def _convert_name(name):
             if os.path.isabs(rel_path) or rel_path.startswith(os.pardir):
                 return name
             name = rel_path
-        # on Windows both '\' and '/' are used as path
+        # on Windows both '/' and '/' are used as path
         # separators. Better to replace both than rely on os.path.sep
-        return name[:-3].replace('\\', '.').replace('/', '.')
+        return name[:-3].replace('//', '.').replace('/', '.')
     return name
 
 def _convert_names(names):

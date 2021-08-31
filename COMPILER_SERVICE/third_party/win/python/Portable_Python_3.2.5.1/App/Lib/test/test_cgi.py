@@ -125,7 +125,7 @@ class CgiTests(unittest.TestCase):
                'CONTENT-LENGTH': '558'}
         result = cgi.parse_multipart(fp, env)
         expected = {'submit': [b' Add '], 'id': [b'1234'],
-                    'file': [b'Testing 123.\n'], 'title': [b'']}
+                    'file': [b'Testing 123./n'], 'title': [b'']}
         self.assertEqual(result, expected)
 
     def test_fieldstorage_properties(self):
@@ -174,7 +174,7 @@ class CgiTests(unittest.TestCase):
         cgi.logfp = StringIO()
         cgi.initlog("%s", "Testing initlog 1")
         cgi.log("%s", "Testing log 2")
-        self.assertEqual(cgi.logfp.getvalue(), "Testing initlog 1\nTesting log 2\n")
+        self.assertEqual(cgi.logfp.getvalue(), "Testing initlog 1/nTesting log 2/n")
         if os.path.exists("/dev/null"):
             cgi.logfp = None
             cgi.logfile = "/dev/null"
@@ -236,7 +236,7 @@ class CgiTests(unittest.TestCase):
         self.assertEqual(len(fs.list), 4)
         expect = [{'name':'id', 'filename':None, 'value':'1234'},
                   {'name':'title', 'filename':None, 'value':''},
-                  {'name':'file', 'filename':'test.txt', 'value':b'Testing 123.\n'},
+                  {'name':'file', 'filename':'test.txt', 'value':b'Testing 123./n'},
                   {'name':'submit', 'filename':None, 'value':' Add '}]
         for x in range(len(fs.list)):
             for k, exp in expect[x].items():
@@ -252,7 +252,7 @@ class CgiTests(unittest.TestCase):
             fp = BytesIO(POSTDATA_NON_ASCII.encode(encoding))
             fs = cgi.FieldStorage(fp, environ=env,encoding=encoding)
             self.assertEqual(len(fs.list), 1)
-            expect = [{'name':'id', 'filename':None, 'value':'\xe7\xf1\x80'}]
+            expect = [{'name':'id', 'filename':None, 'value':'/xe7/xf1/x80'}]
             for x in range(len(fs.list)):
                 for k, exp in expect[x].items():
                     got = getattr(fs.list[x], k)
@@ -328,7 +328,7 @@ this is the content of the fake file
         }
         result = self._qs_result.copy()
         result.update({
-            'upload': b'this is the content of the fake file\n'
+            'upload': b'this is the content of the fake file/n'
         })
         v = gen_result(data, environ)
         self.assertEqual(result, v)
@@ -373,7 +373,7 @@ this is the content of the fake file
             cgi.parse_header('attachment; filename="strange;name";size=123;'),
             ("attachment", {"filename": "strange;name", "size": "123"}))
         self.assertEqual(
-            cgi.parse_header('form-data; name="files"; filename="fo\\"o;bar"'),
+            cgi.parse_header('form-data; name="files"; filename="fo//"o;bar"'),
             ("form-data", {"name": "files", "filename": 'fo"o;bar'}))
 
 
@@ -396,14 +396,14 @@ Testing 123.
 -----------------------------721837373350705526688164684
 Content-Disposition: form-data; name="submit"
 
- Add\x20
+ Add/x20
 -----------------------------721837373350705526688164684--
 """
 
 POSTDATA_NON_ASCII = """-----------------------------721837373350705526688164684
 Content-Disposition: form-data; name="id"
 
-\xe7\xf1\x80
+/xe7/xf1/x80
 -----------------------------721837373350705526688164684
 """
 

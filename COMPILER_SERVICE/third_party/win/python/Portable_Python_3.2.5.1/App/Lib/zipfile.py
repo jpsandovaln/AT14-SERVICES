@@ -56,7 +56,7 @@ ZIP_DEFLATED = 8
 # The "end of central directory" structure, magic number, size, and indices
 # (section V.I in the format document)
 structEndArchive = b"<4s4H2LH"
-stringEndArchive = b"PK\005\006"
+stringEndArchive = b"PK/005/006"
 sizeEndCentDir = struct.calcsize(structEndArchive)
 
 _ECD_SIGNATURE = 0
@@ -75,7 +75,7 @@ _ECD_LOCATION = 9
 # The "central directory" structure, magic number, size, and indices
 # of entries in the structure (section V.F in the format document)
 structCentralDir = "<4s4B4HL2L5H2L"
-stringCentralDir = b"PK\001\002"
+stringCentralDir = b"PK/001/002"
 sizeCentralDir = struct.calcsize(structCentralDir)
 
 # indexes of entries in the central directory structure
@@ -102,7 +102,7 @@ _CD_LOCAL_HEADER_OFFSET = 18
 # The "local file header" structure, magic number, size, and indices
 # (section V.A in the format document)
 structFileHeader = "<4s2B4HL2L2H"
-stringFileHeader = b"PK\003\004"
+stringFileHeader = b"PK/003/004"
 sizeFileHeader = struct.calcsize(structFileHeader)
 
 _FH_SIGNATURE = 0
@@ -120,13 +120,13 @@ _FH_EXTRA_FIELD_LENGTH = 11
 
 # The "Zip64 end of central directory locator" structure, magic number, and size
 structEndArchive64Locator = "<4sLQL"
-stringEndArchive64Locator = b"PK\x06\x07"
+stringEndArchive64Locator = b"PK/x06/x07"
 sizeEndCentDir64Locator = struct.calcsize(structEndArchive64Locator)
 
 # The "Zip64 end of central directory" record, magic number, size, and indices
 # (section V.G in the format document)
 structEndArchive64 = "<4sQ2H2L4Q"
-stringEndArchive64 = b"PK\x06\x06"
+stringEndArchive64 = b"PK/x06/x06"
 sizeEndCentDir64 = struct.calcsize(structEndArchive64)
 
 _CD64_SIGNATURE = 0
@@ -190,8 +190,8 @@ def _EndRecData64(fpin, offset, endrec):
     data = fpin.read(sizeEndCentDir64)
     if len(data) != sizeEndCentDir64:
         return endrec
-    sig, sz, create_version, read_version, disk_num, disk_dir, \
-            dircount, dircount2, dirsize, diroffset = \
+    sig, sz, create_version, read_version, disk_num, disk_dir, /
+            dircount, dircount2, dirsize, diroffset = /
             struct.unpack(structEndArchive64, data)
     if sig != stringEndArchive64:
         return endrec
@@ -227,7 +227,7 @@ def _EndRecData(fpin):
     data = fpin.read()
     if (len(data) == sizeEndCentDir and
         data[0:4] == stringEndArchive and
-        data[-2:] == b"\000\000"):
+        data[-2:] == b"/000/000"):
         # the signature is correct and there's no comment, unpack structure
         endrec = struct.unpack(structEndArchive, data)
         endrec=list(endrec)
@@ -509,7 +509,7 @@ class ZipExtFile(io.BufferedIOBase):
     MIN_READ_SIZE = 4096
 
     # Search for universal newlines or line chunks.
-    PATTERN = re.compile(br'^(?P<chunk>[^\r\n]+)|(?P<newline>\n|\r\n?)')
+    PATTERN = re.compile(br'^(?P<chunk>[^/r/n]+)|(?P<newline>/n|/r/n?)')
 
     def __init__(self, fileobj, mode, zipinfo, decrypter=None,
                  close_fileobj=False):
@@ -559,7 +559,7 @@ class ZipExtFile(io.BufferedIOBase):
 
         if not self._universal and limit < 0:
             # Shortcut common case - newline found in buffer.
-            i = self._readbuffer.find(b'\n', self._offset) + 1
+            i = self._readbuffer.find(b'/n', self._offset) + 1
             if i > 0:
                 line = self._readbuffer[self._offset: i]
                 self._offset = i
@@ -579,8 +579,8 @@ class ZipExtFile(io.BufferedIOBase):
             #
             # The pattern returns either a line chunk or a newline, but not
             # both. Combined with peek(2), we are assured that the sequence
-            # '\r\n' is always retrieved completely and never split into
-            # separate newlines - '\r', '\n' due to coincidental readaheads.
+            # '/r/n' is always retrieved completely and never split into
+            # separate newlines - '/r', '/n' due to coincidental readaheads.
             #
             match = self.PATTERN.search(readahead)
             newline = match.group('newline')
@@ -590,7 +590,7 @@ class ZipExtFile(io.BufferedIOBase):
                 if newline not in self.newlines:
                     self.newlines.append(newline)
                 self._offset += len(newline)
-                return line + b'\n'
+                return line + b'/n'
 
             chunk = match.group('chunk')
             if limit >= 0:
@@ -1071,7 +1071,7 @@ class ZipFile:
         arcname = os.path.splitdrive(arcname)[1]
         arcname = os.path.sep.join(x for x in arcname.split(os.path.sep)
                     if x not in ('', os.path.curdir, os.path.pardir))
-        if os.path.sep == '\\':
+        if os.path.sep == '//':
             # filter illegal characters on Windows
             illegal = ':<>|"?*'
             table = str.maketrans(illegal, '_' * len(illegal))
@@ -1093,7 +1093,7 @@ class ZipFile:
                 os.mkdir(targetpath)
             return targetpath
 
-        with self.open(member, pwd=pwd) as source, \
+        with self.open(member, pwd=pwd) as source, /
              open(targetpath, "wb") as target:
             shutil.copyfileobj(source, target)
 
@@ -1169,7 +1169,7 @@ class ZipFile:
             zinfo.CRC = CRC = 0
             zinfo.compress_size = compress_size = 0
             # Compressed size can be larger than uncompressed size
-            zip64 = self._allowZip64 and \
+            zip64 = self._allowZip64 and /
                     zinfo.file_size * 1.05 > ZIP64_LIMIT
             self.fp.write(zinfo.FileHeader(zip64))
             if zinfo.compress_type == ZIP_DEFLATED:
@@ -1246,7 +1246,7 @@ class ZipFile:
             zinfo.compress_size = len(data)    # Compressed size
         else:
             zinfo.compress_size = zinfo.file_size
-        zip64 = zinfo.file_size > ZIP64_LIMIT or \
+        zip64 = zinfo.file_size > ZIP64_LIMIT or /
                 zinfo.compress_size > ZIP64_LIMIT
         if zip64 and not self._allowZip64:
             raise LargeZipFile("Filesize would require ZIP64 extensions")
@@ -1281,7 +1281,7 @@ class ZipFile:
                     dosdate = (dt[0] - 1980) << 9 | dt[1] << 5 | dt[2]
                     dostime = dt[3] << 11 | dt[4] << 5 | (dt[5] // 2)
                     extra = []
-                    if zinfo.file_size > ZIP64_LIMIT \
+                    if zinfo.file_size > ZIP64_LIMIT /
                             or zinfo.compress_size > ZIP64_LIMIT:
                         extra.append(zinfo.file_size)
                         extra.append(zinfo.compress_size)
@@ -1516,7 +1516,7 @@ class PyZipFile(ZipFile):
 
 def main(args = None):
     import textwrap
-    USAGE=textwrap.dedent("""\
+    USAGE=textwrap.dedent("""/
         Usage:
             zipfile.py -l zipfile.zip        # Show listing of a zipfile
             zipfile.py -t zipfile.zip        # Test if a zipfile is valid

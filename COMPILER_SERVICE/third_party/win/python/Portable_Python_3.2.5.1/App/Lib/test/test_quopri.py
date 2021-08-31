@@ -6,7 +6,7 @@ import quopri
 
 
 
-ENCSAMPLE = b"""\
+ENCSAMPLE = b"""/
 Here's a bunch of special=20
 
 =A1=A2=A3=A4=A5=A6=A7=A8=A9
@@ -25,20 +25,20 @@ characters... have fun!
 """
 
 # First line ends with a space
-DECSAMPLE = b"Here's a bunch of special \n" + \
-b"""\
+DECSAMPLE = b"Here's a bunch of special /n" + /
+b"""/
 
-\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9
-\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3
-\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe
-\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6
-\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf
-\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7
-\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf
-\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7
-\xe8\xe9\xea\xeb\xec\xed\xee\xef
-\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7
-\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff
+/xa1/xa2/xa3/xa4/xa5/xa6/xa7/xa8/xa9
+/xaa/xab/xac/xad/xae/xaf/xb0/xb1/xb2/xb3
+/xb4/xb5/xb6/xb7/xb8/xb9/xba/xbb/xbc/xbd/xbe
+/xbf/xc0/xc1/xc2/xc3/xc4/xc5/xc6
+/xc7/xc8/xc9/xca/xcb/xcc/xcd/xce/xcf
+/xd0/xd1/xd2/xd3/xd4/xd5/xd6/xd7
+/xd8/xd9/xda/xdb/xdc/xdd/xde/xdf
+/xe0/xe1/xe2/xe3/xe4/xe5/xe6/xe7
+/xe8/xe9/xea/xeb/xec/xed/xee/xef
+/xf0/xf1/xf2/xf3/xf4/xf5/xf6/xf7
+/xf8/xf9/xfa/xfb/xfc/xfd/xfe/xff
 
 characters... have fun!
 """
@@ -80,12 +80,12 @@ class QuopriTestCase(unittest.TestCase):
         there
         world
 '''),
-        (b'\201\202\203', b'=81=82=83'),
+        (b'/201/202/203', b'=81=82=83'),
         # Add some trailing MUST QUOTE strings
         (b'hello ', b'hello=20'),
-        (b'hello\t', b'hello=09'),
+        (b'hello/t', b'hello=09'),
         # Some long lines.  First, a single line of 108 characters
-        (b'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\xd8\xd9\xda\xdb\xdc\xdd\xde\xdfxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        (b'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/xd8/xd9/xda/xdb/xdc/xdd/xde/xdfxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
          b'''xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=D8=D9=DA=DB=DC=DD=DE=DFx=
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'''),
         # A line of exactly 76 characters, no soft line break should be needed
@@ -118,7 +118,7 @@ zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz''')
     # These are used in the "quotetabs=1" tests.
     ESTRINGS = (
         (b'hello world', b'hello=20world'),
-        (b'hello\tworld', b'hello=09world'),
+        (b'hello/tworld', b'hello=09world'),
         )
 
     # These are used in the "header=1" tests.

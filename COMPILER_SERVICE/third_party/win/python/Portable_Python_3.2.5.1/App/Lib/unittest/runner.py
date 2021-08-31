@@ -23,7 +23,7 @@ class _WritelnDecorator(object):
     def writeln(self, arg=None):
         if arg:
             self.write(arg)
-        self.write('\n') # text-mode streams translate to \r\n if needed
+        self.write('/n') # text-mode streams translate to /r/n if needed
 
 
 class TextTestResult(result.TestResult):
@@ -44,7 +44,7 @@ class TextTestResult(result.TestResult):
     def getDescription(self, test):
         doc_first_line = test.shortDescription()
         if self.descriptions and doc_first_line:
-            return '\n'.join((str(test), doc_first_line))
+            return '/n'.join((str(test), doc_first_line))
         else:
             return str(test)
 
@@ -159,7 +159,7 @@ class TextTestRunner(object):
                 if self.warnings in ['default', 'always']:
                     warnings.filterwarnings('module',
                             category=DeprecationWarning,
-                            message='Please use assert\w+ instead.')
+                            message='Please use assert/w+ instead.')
             startTime = time.time()
             startTestRun = getattr(result, 'startTestRun', None)
             if startTestRun is not None:
@@ -209,5 +209,5 @@ class TextTestRunner(object):
         if infos:
             self.stream.writeln(" (%s)" % (", ".join(infos),))
         else:
-            self.stream.write("\n")
+            self.stream.write("/n")
         return result

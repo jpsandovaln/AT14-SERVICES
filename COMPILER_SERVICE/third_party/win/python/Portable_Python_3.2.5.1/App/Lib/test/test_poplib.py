@@ -19,23 +19,23 @@ HOST = test_support.HOST
 PORT = 0
 
 # the dummy data returned by server when LIST and RETR commands are issued
-LIST_RESP = b'1 1\r\n2 2\r\n3 3\r\n4 4\r\n5 5\r\n.\r\n'
-RETR_RESP = b"""From: postmaster@python.org\
-\r\nContent-Type: text/plain\r\n\
-MIME-Version: 1.0\r\n\
-Subject: Dummy\r\n\
-\r\n\
-line1\r\n\
-line2\r\n\
-line3\r\n\
-.\r\n"""
+LIST_RESP = b'1 1/r/n2 2/r/n3 3/r/n4 4/r/n5 5/r/n./r/n'
+RETR_RESP = b"""From: postmaster@python.org/
+/r/nContent-Type: text/plain/r/n/
+MIME-Version: 1.0/r/n/
+Subject: Dummy/r/n/
+/r/n/
+line1/r/n/
+line2/r/n/
+line3/r/n/
+./r/n"""
 
 
 class DummyPOP3Handler(asynchat.async_chat):
 
     def __init__(self, conn):
         asynchat.async_chat.__init__(self, conn)
-        self.set_terminator(b"\r\n")
+        self.set_terminator(b"/r/n")
         self.in_buffer = []
         self.push('+OK dummy pop3 server ready. <timestamp>')
 
@@ -62,7 +62,7 @@ class DummyPOP3Handler(asynchat.async_chat):
         raise
 
     def push(self, data):
-        asynchat.async_chat.push(self, data.encode("ISO-8859-1") + b'\r\n')
+        asynchat.async_chat.push(self, data.encode("ISO-8859-1") + b'/r/n')
 
     def cmd_echo(self, arg):
         # sends back the received string (used by the test suite)
@@ -248,7 +248,7 @@ if hasattr(poplib, 'POP3_SSL'):
             # Must try handshake before calling push()
             self._ssl_accepting = True
             self._do_ssl_handshake()
-            self.set_terminator(b"\r\n")
+            self.set_terminator(b"/r/n")
             self.in_buffer = []
             self.push('+OK dummy pop3 server ready. <timestamp>')
 
@@ -325,7 +325,7 @@ class TestTimeouts(TestCase):
         evt.set()
         try:
             conn, addr = serv.accept()
-            conn.send(b"+ Hola mundo\n")
+            conn.send(b"+ Hola mundo/n")
             conn.close()
         except socket.timeout:
             pass

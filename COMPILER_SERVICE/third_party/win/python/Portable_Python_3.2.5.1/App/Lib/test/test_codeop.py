@@ -64,63 +64,63 @@ class CodeopTests(unittest.TestCase):
             self.assertEqual(compile_command(""),
                              compile("pass", "<input>", 'single',
                                      PyCF_DONT_IMPLY_DEDENT))
-            self.assertEqual(compile_command("\n"),
+            self.assertEqual(compile_command("/n"),
                              compile("pass", "<input>", 'single',
                                      PyCF_DONT_IMPLY_DEDENT))
         else:
             av("")
-            av("\n")
+            av("/n")
 
         av("a = 1")
-        av("\na = 1")
-        av("a = 1\n")
-        av("a = 1\n\n")
-        av("\n\na = 1\n\n")
+        av("/na = 1")
+        av("a = 1/n")
+        av("a = 1/n/n")
+        av("/n/na = 1/n/n")
 
-        av("def x():\n  pass\n")
-        av("if 1:\n pass\n")
+        av("def x():/n  pass/n")
+        av("if 1:/n pass/n")
 
-        av("\n\nif 1: pass\n")
-        av("\n\nif 1: pass\n\n")
+        av("/n/nif 1: pass/n")
+        av("/n/nif 1: pass/n/n")
 
-        av("def x():\n\n pass\n")
-        av("def x():\n  pass\n  \n")
-        av("def x():\n  pass\n \n")
+        av("def x():/n/n pass/n")
+        av("def x():/n  pass/n  /n")
+        av("def x():/n  pass/n /n")
 
-        av("pass\n")
-        av("3**3\n")
+        av("pass/n")
+        av("3**3/n")
 
-        av("if 9==3:\n   pass\nelse:\n   pass\n")
-        av("if 1:\n pass\n if 1:\n  pass\n else:\n  pass\n")
+        av("if 9==3:/n   pass/nelse:/n   pass/n")
+        av("if 1:/n pass/n if 1:/n  pass/n else:/n  pass/n")
 
-        av("#a\n#b\na = 3\n")
-        av("#a\n\n   \na=3\n")
-        av("a=3\n\n")
-        av("a = 9+ \\\n3")
+        av("#a/n#b/na = 3/n")
+        av("#a/n/n   /na=3/n")
+        av("a=3/n/n")
+        av("a = 9+ ///n3")
 
         av("3**3","eval")
-        av("(lambda z: \n z**3)","eval")
+        av("(lambda z: /n z**3)","eval")
 
-        av("9+ \\\n3","eval")
-        av("9+ \\\n3\n","eval")
+        av("9+ ///n3","eval")
+        av("9+ ///n3/n","eval")
 
-        av("\n\na**3","eval")
-        av("\n \na**3","eval")
-        av("#a\n#b\na**3","eval")
+        av("/n/na**3","eval")
+        av("/n /na**3","eval")
+        av("#a/n#b/na**3","eval")
 
-        av("\n\na = 1\n\n")
-        av("\n\nif 1: a=1\n\n")
+        av("/n/na = 1/n/n")
+        av("/n/nif 1: a=1/n/n")
 
-        av("if 1:\n pass\n if 1:\n  pass\n else:\n  pass\n")
-        av("#a\n\n   \na=3\n\n")
+        av("if 1:/n pass/n if 1:/n  pass/n else:/n  pass/n")
+        av("#a/n/n   /na=3/n/n")
 
-        av("\n\na**3","eval")
-        av("\n \na**3","eval")
-        av("#a\n#b\na**3","eval")
+        av("/n/na**3","eval")
+        av("/n /na**3","eval")
+        av("#a/n#b/na**3","eval")
 
-        av("def f():\n try: pass\n finally: [x for x in (1,2)]\n")
-        av("def f():\n pass\n#foo\n")
-        av("@a.b.c\ndef f():\n pass\n")
+        av("def f():/n try: pass/n finally: [x for x in (1,2)]/n")
+        av("def f():/n pass/n#foo/n")
+        av("@a.b.c/ndef f():/n pass/n")
 
     def test_incomplete(self):
         ai = self.assertIncomplete
@@ -133,37 +133,37 @@ class CodeopTests(unittest.TestCase):
         ai("a = {")
         ai("b + {")
 
-        ai("if 9==3:\n   pass\nelse:")
-        ai("if 9==3:\n   pass\nelse:\n")
-        ai("if 9==3:\n   pass\nelse:\n   pass")
+        ai("if 9==3:/n   pass/nelse:")
+        ai("if 9==3:/n   pass/nelse:/n")
+        ai("if 9==3:/n   pass/nelse:/n   pass")
         ai("if 1:")
-        ai("if 1:\n")
-        ai("if 1:\n pass\n if 1:\n  pass\n else:")
-        ai("if 1:\n pass\n if 1:\n  pass\n else:\n")
-        ai("if 1:\n pass\n if 1:\n  pass\n else:\n  pass")
+        ai("if 1:/n")
+        ai("if 1:/n pass/n if 1:/n  pass/n else:")
+        ai("if 1:/n pass/n if 1:/n  pass/n else:/n")
+        ai("if 1:/n pass/n if 1:/n  pass/n else:/n  pass")
 
         ai("def x():")
-        ai("def x():\n")
-        ai("def x():\n\n")
+        ai("def x():/n")
+        ai("def x():/n/n")
 
-        ai("def x():\n  pass")
-        ai("def x():\n  pass\n ")
-        ai("def x():\n  pass\n  ")
-        ai("\n\ndef x():\n  pass")
+        ai("def x():/n  pass")
+        ai("def x():/n  pass/n ")
+        ai("def x():/n  pass/n  ")
+        ai("/n/ndef x():/n  pass")
 
-        ai("a = 9+ \\")
-        ai("a = 'a\\")
+        ai("a = 9+ //")
+        ai("a = 'a//")
         ai("a = '''xy")
 
         ai("","eval")
-        ai("\n","eval")
+        ai("/n","eval")
         ai("(","eval")
-        ai("(\n\n\n","eval")
+        ai("(/n/n/n","eval")
         ai("(9+","eval")
-        ai("9+ \\","eval")
-        ai("lambda z: \\","eval")
+        ai("9+ //","eval")
+        ai("lambda z: //","eval")
 
-        ai("if True:\n if True:\n  if True:   \n")
+        ai("if True:/n if True:/n  if True:   /n")
 
         ai("@a(")
         ai("@a(b")
@@ -219,19 +219,19 @@ class CodeopTests(unittest.TestCase):
         ai("(a,b")
         ai("(a,b,")
 
-        ai("if a:\n pass\nelif b:")
-        ai("if a:\n pass\nelif b:\n pass\nelse:")
+        ai("if a:/n pass/nelif b:")
+        ai("if a:/n pass/nelif b:/n pass/nelse:")
 
         ai("while a:")
-        ai("while a:\n pass\nelse:")
+        ai("while a:/n pass/nelse:")
 
         ai("for a in b:")
-        ai("for a in b:\n pass\nelse:")
+        ai("for a in b:/n pass/nelse:")
 
         ai("try:")
-        ai("try:\n pass\nexcept:")
-        ai("try:\n pass\nfinally:")
-        ai("try:\n pass\nexcept:\n pass\nfinally:")
+        ai("try:/n pass/nexcept:")
+        ai("try:/n pass/nfinally:")
+        ai("try:/n pass/nexcept:/n pass/nfinally:")
 
         ai("with a:")
         ai("with a as b:")
@@ -261,13 +261,13 @@ class CodeopTests(unittest.TestCase):
         ai("a = ")
         ai("a = 9 +")
 
-        ai("def x():\n\npass\n")
+        ai("def x():/n/npass/n")
 
-        ai("\n\n if 1: pass\n\npass")
+        ai("/n/n if 1: pass/n/npass")
 
-        ai("a = 9+ \\\n")
-        ai("a = 'a\\ ")
-        ai("a = 'a\\\n")
+        ai("a = 9+ ///n")
+        ai("a = 'a// ")
+        ai("a = 'a///n")
 
         ai("a = 1","eval")
         ai("a = (","eval")
@@ -290,10 +290,10 @@ class CodeopTests(unittest.TestCase):
         ai("[i for i in range(10)] = (1, 2, 3)")
 
     def test_filename(self):
-        self.assertEqual(compile_command("a = 1\n", "abc").co_filename,
-                         compile("a = 1\n", "abc", 'single').co_filename)
-        self.assertNotEqual(compile_command("a = 1\n", "abc").co_filename,
-                            compile("a = 1\n", "def", 'single').co_filename)
+        self.assertEqual(compile_command("a = 1/n", "abc").co_filename,
+                         compile("a = 1/n", "abc", 'single').co_filename)
+        self.assertNotEqual(compile_command("a = 1/n", "abc").co_filename,
+                            compile("a = 1/n", "def", 'single').co_filename)
 
 
 def test_main():

@@ -58,13 +58,13 @@ class InterProcessSignalTests(unittest.TestCase):
     def handlerA(self, signum, frame):
         self.a_called = True
         if support.verbose:
-            print("handlerA invoked from signal %s at:\n%s" % (
+            print("handlerA invoked from signal %s at:/n%s" % (
                 signum, self.format_frame(frame, limit=1)))
 
     def handlerB(self, signum, frame):
         self.b_called = True
         if support.verbose:
-            print ("handlerB invoked from signal %s at:\n%s" % (
+            print ("handlerB invoked from signal %s at:/n%s" % (
                 signum, self.format_frame(frame, limit=1)))
         raise HandlerBCalled(signum, self.format_frame(frame))
 
@@ -154,7 +154,7 @@ class InterProcessSignalTests(unittest.TestCase):
         # re-raises information about any exceptions the child
         # raises. The real work happens in self.run_test().
         os_done_r, os_done_w = os.pipe()
-        with closing(os.fdopen(os_done_r, 'rb')) as done_r, \
+        with closing(os.fdopen(os_done_r, 'rb')) as done_r, /
              closing(os.fdopen(os_done_w, 'wb')) as done_w:
             child = os.fork()
             if child == 0:
@@ -460,7 +460,7 @@ class ItimerTest(unittest.TestCase):
         self.itimer = signal.ITIMER_REAL
         signal.setitimer(self.itimer, 1.0)
         if support.verbose:
-            print("\ncall pause()...")
+            print("/ncall pause()...")
         signal.pause()
 
         self.assertEqual(self.hndl_called, True)

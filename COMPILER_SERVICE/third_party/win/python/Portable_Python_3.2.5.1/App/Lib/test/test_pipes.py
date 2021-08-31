@@ -81,8 +81,8 @@ class SimplePipeTests(unittest.TestCase):
 
     def testQuoting(self):
         safeunquoted = string.ascii_letters + string.digits + '@%_-+=:,./'
-        unicode_sample = '\xe9\xe0\xdf'  # e + acute accent, a + grave, sharp s
-        unsafe = '"`$\\!' + unicode_sample
+        unicode_sample = '/xe9/xe0/xdf'  # e + acute accent, a + grave, sharp s
+        unsafe = '"`$//!' + unicode_sample
 
         self.assertEqual(pipes.quote(''), "''")
         self.assertEqual(pipes.quote(safeunquoted), safeunquoted)
@@ -92,7 +92,7 @@ class SimplePipeTests(unittest.TestCase):
                               "'test%sname'" % u)
         for u in unsafe:
             self.assertEqual(pipes.quote("test%s'name'" % u),
-                             "'test%s'\"'\"'name'\"'\"''" % u)
+                             "'test%s'/"'/"'name'/"'/"''" % u)
 
     def testRepr(self):
         t = pipes.Template()

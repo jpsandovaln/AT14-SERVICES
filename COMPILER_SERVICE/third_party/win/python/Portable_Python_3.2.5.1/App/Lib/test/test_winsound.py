@@ -20,7 +20,7 @@ def has_sound(sound):
             return False
 
         key = winreg.OpenKeyEx(winreg.HKEY_CURRENT_USER,
-                "AppEvents\Schemes\Apps\.Default\{0}\.Default".format(sound))
+                "AppEvents/Schemes/Apps/.Default/{0}/.Default".format(sound))
         value = winreg.EnumValue(key, 0)[1]
         if value is not "":
             return True

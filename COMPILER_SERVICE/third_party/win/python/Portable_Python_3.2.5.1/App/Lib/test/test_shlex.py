@@ -13,12 +13,12 @@ foo bar|foo|bar|
  foo bar |foo|bar|
 foo   bar    bla     fasel|foo|bar|bla|fasel|
 x y  z              xxxx|x|y|z|xxxx|
-\x bar|\|x|bar|
-\ x bar|\|x|bar|
-\ bar|\|bar|
-foo \x bar|foo|\|x|bar|
-foo \ x bar|foo|\|x|bar|
-foo \ bar|foo|\|bar|
+/x bar|/|x|bar|
+/ x bar|/|x|bar|
+/ bar|/|bar|
+foo /x bar|foo|/|x|bar|
+foo / x bar|foo|/|x|bar|
+foo / bar|foo|/|bar|
 foo "bar" bla|foo|"bar"|bla|
 "foo" "bar" "bla"|"foo"|"bar"|"bla"|
 "foo" bar "bla"|"foo"|bar|"bla"|
@@ -35,37 +35,37 @@ foo "" bar|foo|""|bar|
 foo '' bar|foo|''|bar|
 foo "" "" "" bar|foo|""|""|""|bar|
 foo '' '' '' bar|foo|''|''|''|bar|
-\""|\|""|
-"\"|"\"|
-"foo\ bar"|"foo\ bar"|
-"foo\\ bar"|"foo\\ bar"|
-"foo\\ bar\"|"foo\\ bar\"|
-"foo\\" bar\""|"foo\\"|bar|\|""|
-"foo\\ bar\" dfadf"|"foo\\ bar\"|dfadf"|
-"foo\\\ bar\" dfadf"|"foo\\\ bar\"|dfadf"|
-"foo\\\x bar\" dfadf"|"foo\\\x bar\"|dfadf"|
-"foo\x bar\" dfadf"|"foo\x bar\"|dfadf"|
-\''|\|''|
-'foo\ bar'|'foo\ bar'|
-'foo\\ bar'|'foo\\ bar'|
-"foo\\\x bar\" df'a\ 'df'|"foo\\\x bar\"|df'a|\|'df'|
-\"foo"|\|"foo"|
-\"foo"\x|\|"foo"|\|x|
-"foo\x"|"foo\x"|
-"foo\ "|"foo\ "|
-foo\ xx|foo|\|xx|
-foo\ x\x|foo|\|x|\|x|
-foo\ x\x\""|foo|\|x|\|x|\|""|
-"foo\ x\x"|"foo\ x\x"|
-"foo\ x\x\\"|"foo\ x\x\\"|
-"foo\ x\x\\""foobar"|"foo\ x\x\\"|"foobar"|
-"foo\ x\x\\"\''"foobar"|"foo\ x\x\\"|\|''|"foobar"|
-"foo\ x\x\\"\'"fo'obar"|"foo\ x\x\\"|\|'"fo'|obar"|
-"foo\ x\x\\"\'"fo'obar" 'don'\''t'|"foo\ x\x\\"|\|'"fo'|obar"|'don'|\|''|t'|
-'foo\ bar'|'foo\ bar'|
-'foo\\ bar'|'foo\\ bar'|
-foo\ bar|foo|\|bar|
-foo#bar\nbaz|foobaz|
+/""|/|""|
+"/"|"/"|
+"foo/ bar"|"foo/ bar"|
+"foo// bar"|"foo// bar"|
+"foo// bar/"|"foo// bar/"|
+"foo//" bar/""|"foo//"|bar|/|""|
+"foo// bar/" dfadf"|"foo// bar/"|dfadf"|
+"foo/// bar/" dfadf"|"foo/// bar/"|dfadf"|
+"foo///x bar/" dfadf"|"foo///x bar/"|dfadf"|
+"foo/x bar/" dfadf"|"foo/x bar/"|dfadf"|
+/''|/|''|
+'foo/ bar'|'foo/ bar'|
+'foo// bar'|'foo// bar'|
+"foo///x bar/" df'a/ 'df'|"foo///x bar/"|df'a|/|'df'|
+/"foo"|/|"foo"|
+/"foo"/x|/|"foo"|/|x|
+"foo/x"|"foo/x"|
+"foo/ "|"foo/ "|
+foo/ xx|foo|/|xx|
+foo/ x/x|foo|/|x|/|x|
+foo/ x/x/""|foo|/|x|/|x|/|""|
+"foo/ x/x"|"foo/ x/x"|
+"foo/ x/x//"|"foo/ x/x//"|
+"foo/ x/x//""foobar"|"foo/ x/x//"|"foobar"|
+"foo/ x/x//"/''"foobar"|"foo/ x/x//"|/|''|"foobar"|
+"foo/ x/x//"/'"fo'obar"|"foo/ x/x//"|/|'"fo'|obar"|
+"foo/ x/x//"/'"fo'obar" 'don'/''t'|"foo/ x/x//"|/|'"fo'|obar"|'don'|/|''|t'|
+'foo/ bar'|'foo/ bar'|
+'foo// bar'|'foo// bar'|
+foo/ bar|foo|/|bar|
+foo#bar/nbaz|foobaz|
 :-) ;-)|:|-|)|;|-|)|
 áéíóú|á|é|í|ó|ú|
 """
@@ -76,12 +76,12 @@ foo bar|foo|bar|
  foo bar |foo|bar|
 foo   bar    bla     fasel|foo|bar|bla|fasel|
 x y  z              xxxx|x|y|z|xxxx|
-\x bar|x|bar|
-\ x bar| x|bar|
-\ bar| bar|
-foo \x bar|foo|x|bar|
-foo \ x bar|foo| x|bar|
-foo \ bar|foo| bar|
+/x bar|x|bar|
+/ x bar| x|bar|
+/ bar| bar|
+foo /x bar|foo|x|bar|
+foo / x bar|foo| x|bar|
+foo / bar|foo| bar|
 foo "bar" bla|foo|bar|bla|
 "foo" "bar" "bla"|foo|bar|bla|
 "foo" bar "bla"|foo|bar|bla|
@@ -98,38 +98,38 @@ foo "" bar|foo||bar|
 foo '' bar|foo||bar|
 foo "" "" "" bar|foo||||bar|
 foo '' '' '' bar|foo||||bar|
-\"|"|
-"\""|"|
-"foo\ bar"|foo\ bar|
-"foo\\ bar"|foo\ bar|
-"foo\\ bar\""|foo\ bar"|
-"foo\\" bar\"|foo\|bar"|
-"foo\\ bar\" dfadf"|foo\ bar" dfadf|
-"foo\\\ bar\" dfadf"|foo\\ bar" dfadf|
-"foo\\\x bar\" dfadf"|foo\\x bar" dfadf|
-"foo\x bar\" dfadf"|foo\x bar" dfadf|
-\'|'|
-'foo\ bar'|foo\ bar|
-'foo\\ bar'|foo\\ bar|
-"foo\\\x bar\" df'a\ 'df"|foo\\x bar" df'a\ 'df|
-\"foo|"foo|
-\"foo\x|"foox|
-"foo\x"|foo\x|
-"foo\ "|foo\ |
-foo\ xx|foo xx|
-foo\ x\x|foo xx|
-foo\ x\x\"|foo xx"|
-"foo\ x\x"|foo\ x\x|
-"foo\ x\x\\"|foo\ x\x\|
-"foo\ x\x\\""foobar"|foo\ x\x\foobar|
-"foo\ x\x\\"\'"foobar"|foo\ x\x\'foobar|
-"foo\ x\x\\"\'"fo'obar"|foo\ x\x\'fo'obar|
-"foo\ x\x\\"\'"fo'obar" 'don'\''t'|foo\ x\x\'fo'obar|don't|
-"foo\ x\x\\"\'"fo'obar" 'don'\''t' \\|foo\ x\x\'fo'obar|don't|\|
-'foo\ bar'|foo\ bar|
-'foo\\ bar'|foo\\ bar|
-foo\ bar|foo bar|
-foo#bar\nbaz|foo|baz|
+/"|"|
+"/""|"|
+"foo/ bar"|foo/ bar|
+"foo// bar"|foo/ bar|
+"foo// bar/""|foo/ bar"|
+"foo//" bar/"|foo/|bar"|
+"foo// bar/" dfadf"|foo/ bar" dfadf|
+"foo/// bar/" dfadf"|foo// bar" dfadf|
+"foo///x bar/" dfadf"|foo//x bar" dfadf|
+"foo/x bar/" dfadf"|foo/x bar" dfadf|
+/'|'|
+'foo/ bar'|foo/ bar|
+'foo// bar'|foo// bar|
+"foo///x bar/" df'a/ 'df"|foo//x bar" df'a/ 'df|
+/"foo|"foo|
+/"foo/x|"foox|
+"foo/x"|foo/x|
+"foo/ "|foo/ |
+foo/ xx|foo xx|
+foo/ x/x|foo xx|
+foo/ x/x/"|foo xx"|
+"foo/ x/x"|foo/ x/x|
+"foo/ x/x//"|foo/ x/x/|
+"foo/ x/x//""foobar"|foo/ x/x/foobar|
+"foo/ x/x//"/'"foobar"|foo/ x/x/'foobar|
+"foo/ x/x//"/'"fo'obar"|foo/ x/x/'fo'obar|
+"foo/ x/x//"/'"fo'obar" 'don'/''t'|foo/ x/x/'fo'obar|don't|
+"foo/ x/x//"/'"fo'obar" 'don'/''t' //|foo/ x/x/'fo'obar|don't|/|
+'foo/ bar'|foo/ bar|
+'foo// bar'|foo// bar|
+foo/ bar|foo bar|
+foo#bar/nbaz|foo|baz|
 :-) ;-)|:-)|;-)|
 áéíóú|áéíóú|
 """
@@ -141,9 +141,9 @@ class ShlexTest(unittest.TestCase):
         self.posix_data = [x.split("|")[:-1]
                            for x in posix_data.splitlines()]
         for item in self.data:
-            item[0] = item[0].replace(r"\n", "\n")
+            item[0] = item[0].replace(r"/n", "/n")
         for item in self.posix_data:
-            item[0] = item[0].replace(r"\n", "\n")
+            item[0] = item[0].replace(r"/n", "/n")
 
     def splitTest(self, data, comments):
         for i in range(len(data)):

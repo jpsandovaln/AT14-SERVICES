@@ -4,7 +4,7 @@ Written by Cody A.W. Somerville <cody-somerville@ubuntu.com>,
 Josip Dzolonga, and Michael Otteneder for the 2007/08 GHOP contest.
 """
 
-from http.server import BaseHTTPRequestHandler, HTTPServer, \
+from http.server import BaseHTTPRequestHandler, HTTPServer, /
      SimpleHTTPRequestHandler, CGIHTTPRequestHandler
 from http import server
 
@@ -117,7 +117,7 @@ class BaseHTTPServerTestCase(BaseTestCase):
         self.assertEqual(res.status, 501)
 
     def test_request_line_trimming(self):
-        self.con._http_vsn_str = 'HTTP/1.1\n'
+        self.con._http_vsn_str = 'HTTP/1.1/n'
         self.con.putrequest('GET', '/')
         self.con.endheaders()
         res = self.con.getresponse()
@@ -287,7 +287,7 @@ class SimpleHTTPServerTestCase(BaseTestCase):
         self.check_status_and_reason(response, 501)
 
 
-cgi_file1 = """\
+cgi_file1 = """/
 #!%s
 
 print("Content-type: text/html")
@@ -295,7 +295,7 @@ print()
 print("Hello World")
 """
 
-cgi_file2 = """\
+cgi_file2 = """/
 #!%s
 import cgi
 
@@ -376,7 +376,7 @@ class CGIHTTPServerTestCase(BaseTestCase):
             '/.//..': IndexError,
             '/': '//',
             '//': '//',
-            '/\\': '//\\',
+            '///': '////',
             '/.//': '//',
             'cgi-bin/file1.py': '/cgi-bin/file1.py',
             '/cgi-bin/file1.py': '/cgi-bin/file1.py',
@@ -407,7 +407,7 @@ class CGIHTTPServerTestCase(BaseTestCase):
             else:
                 actual = server._url_collapse_path(path)
                 self.assertEqual(expected, actual,
-                                 msg='path = %r\nGot:    %r\nWanted: %r' %
+                                 msg='path = %r/nGot:    %r/nWanted: %r' %
                                  (path, actual, expected))
 
     def test_headers_and_content(self):
@@ -460,7 +460,7 @@ class SocketlessRequestHandler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-Type', 'text/html')
         self.end_headers()
-        self.wfile.write(b'<html><body>Data</body></html>\r\n')
+        self.wfile.write(b'<html><body>Data</body></html>/r/n')
 
     def log_message(self, format, *args):
         pass
@@ -502,39 +502,39 @@ class BaseHTTPRequestHandlerTestCase(unittest.TestCase):
         self.assertTrue(match is not None)
 
     def test_http_1_1(self):
-        result = self.send_typical_request(b'GET / HTTP/1.1\r\n\r\n')
+        result = self.send_typical_request(b'GET / HTTP/1.1/r/n/r/n')
         self.verify_http_server_response(result[0])
         self.verify_expected_headers(result[1:-1])
         self.verify_get_called()
-        self.assertEqual(result[-1], b'<html><body>Data</body></html>\r\n')
+        self.assertEqual(result[-1], b'<html><body>Data</body></html>/r/n')
 
     def test_http_1_0(self):
-        result = self.send_typical_request(b'GET / HTTP/1.0\r\n\r\n')
+        result = self.send_typical_request(b'GET / HTTP/1.0/r/n/r/n')
         self.verify_http_server_response(result[0])
         self.verify_expected_headers(result[1:-1])
         self.verify_get_called()
-        self.assertEqual(result[-1], b'<html><body>Data</body></html>\r\n')
+        self.assertEqual(result[-1], b'<html><body>Data</body></html>/r/n')
 
     def test_http_0_9(self):
-        result = self.send_typical_request(b'GET / HTTP/0.9\r\n\r\n')
+        result = self.send_typical_request(b'GET / HTTP/0.9/r/n/r/n')
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0], b'<html><body>Data</body></html>\r\n')
+        self.assertEqual(result[0], b'<html><body>Data</body></html>/r/n')
         self.verify_get_called()
 
     def test_with_continue_1_0(self):
-        result = self.send_typical_request(b'GET / HTTP/1.0\r\nExpect: 100-continue\r\n\r\n')
+        result = self.send_typical_request(b'GET / HTTP/1.0/r/nExpect: 100-continue/r/n/r/n')
         self.verify_http_server_response(result[0])
         self.verify_expected_headers(result[1:-1])
         self.verify_get_called()
-        self.assertEqual(result[-1], b'<html><body>Data</body></html>\r\n')
+        self.assertEqual(result[-1], b'<html><body>Data</body></html>/r/n')
 
     def test_with_continue_1_1(self):
-        result = self.send_typical_request(b'GET / HTTP/1.1\r\nExpect: 100-continue\r\n\r\n')
-        self.assertEqual(result[0], b'HTTP/1.1 100 Continue\r\n')
-        self.assertEqual(result[1], b'HTTP/1.1 200 OK\r\n')
+        result = self.send_typical_request(b'GET / HTTP/1.1/r/nExpect: 100-continue/r/n/r/n')
+        self.assertEqual(result[0], b'HTTP/1.1 100 Continue/r/n')
+        self.assertEqual(result[1], b'HTTP/1.1 200 OK/r/n')
         self.verify_expected_headers(result[2:-1])
         self.verify_get_called()
-        self.assertEqual(result[-1], b'<html><body>Data</body></html>\r\n')
+        self.assertEqual(result[-1], b'<html><body>Data</body></html>/r/n')
 
     def test_header_buffering(self):
 
@@ -545,7 +545,7 @@ class BaseHTTPRequestHandlerTestCase(unittest.TestCase):
             f.seek(pos)
             return data
 
-        input = BytesIO(b'GET / HTTP/1.1\r\n\r\n')
+        input = BytesIO(b'GET / HTTP/1.1/r/n/r/n')
         output = BytesIO()
         self.handler.rfile = input
         self.handler.wfile = output
@@ -556,7 +556,7 @@ class BaseHTTPRequestHandlerTestCase(unittest.TestCase):
         self.assertEqual(_readAndReseek(output), b'')
         self.handler.end_headers()
         self.assertEqual(_readAndReseek(output),
-                         b'Foo: foo\r\nbar: bar\r\n\r\n')
+                         b'Foo: foo/r/nbar: bar/r/n/r/n')
 
     def test_header_unbuffered_when_continue(self):
 
@@ -567,7 +567,7 @@ class BaseHTTPRequestHandlerTestCase(unittest.TestCase):
             f.seek(pos)
             return data
 
-        input = BytesIO(b'GET / HTTP/1.1\r\nExpect: 100-continue\r\n\r\n')
+        input = BytesIO(b'GET / HTTP/1.1/r/nExpect: 100-continue/r/n/r/n')
         output = BytesIO()
         self.handler.rfile = input
         self.handler.wfile = output
@@ -575,34 +575,34 @@ class BaseHTTPRequestHandlerTestCase(unittest.TestCase):
 
         self.handler.handle_one_request()
         self.assertNotEqual(_readAndReseek(output), b'')
-        result = _readAndReseek(output).split(b'\r\n')
+        result = _readAndReseek(output).split(b'/r/n')
         self.assertEqual(result[0], b'HTTP/1.1 100 Continue')
         self.assertEqual(result[1], b'HTTP/1.1 200 OK')
 
     def test_with_continue_rejected(self):
         usual_handler = self.handler        # Save to avoid breaking any subsequent tests.
         self.handler = RejectingSocketlessRequestHandler()
-        result = self.send_typical_request(b'GET / HTTP/1.1\r\nExpect: 100-continue\r\n\r\n')
-        self.assertEqual(result[0], b'HTTP/1.1 417 Expectation Failed\r\n')
+        result = self.send_typical_request(b'GET / HTTP/1.1/r/nExpect: 100-continue/r/n/r/n')
+        self.assertEqual(result[0], b'HTTP/1.1 417 Expectation Failed/r/n')
         self.verify_expected_headers(result[1:-1])
         # The expect handler should short circuit the usual get method by
         # returning false here, so get_called should be false
         self.assertFalse(self.handler.get_called)
-        self.assertEqual(sum(r == b'Connection: close\r\n' for r in result[1:-1]), 1)
+        self.assertEqual(sum(r == b'Connection: close/r/n' for r in result[1:-1]), 1)
         self.handler = usual_handler        # Restore to avoid breaking any subsequent tests.
 
     def test_request_length(self):
         # Issue #10714: huge request lines are discarded, to avoid Denial
         # of Service attacks.
         result = self.send_typical_request(b'GET ' + b'x' * 65537)
-        self.assertEqual(result[0], b'HTTP/1.1 414 Request-URI Too Long\r\n')
+        self.assertEqual(result[0], b'HTTP/1.1 414 Request-URI Too Long/r/n')
         self.assertFalse(self.handler.get_called)
 
     def test_header_length(self):
         # Issue #6791: same for headers
         result = self.send_typical_request(
-            b'GET / HTTP/1.1\r\nX-Foo: bar' + b'r' * 65537 + b'\r\n\r\n')
-        self.assertEqual(result[0], b'HTTP/1.1 400 Line too long\r\n')
+            b'GET / HTTP/1.1/r/nX-Foo: bar' + b'r' * 65537 + b'/r/n/r/n')
+        self.assertEqual(result[0], b'HTTP/1.1 400 Line too long/r/n')
         self.assertFalse(self.handler.get_called)
 
 class SimpleHTTPRequestHandlerTestCase(unittest.TestCase):

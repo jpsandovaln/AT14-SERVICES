@@ -16,9 +16,9 @@ from io import StringIO
 from test import support
 
 
-from optparse import make_option, Option, \
-     TitledHelpFormatter, OptionParser, OptionGroup, \
-     SUPPRESS_USAGE, OptionError, OptionConflictError, \
+from optparse import make_option, Option, /
+     TitledHelpFormatter, OptionParser, OptionGroup, /
+     SUPPRESS_USAGE, OptionError, OptionConflictError, /
      BadOptionError, OptionValueError, Values
 from optparse import _match_abbrev
 from optparse import _parse_num
@@ -108,7 +108,7 @@ Args were %(args)s.""" % locals ())
             actual_message = str(err)
             if isinstance(expected_message, retype):
                 self.assertTrue(expected_message.search(actual_message),
-                             """\
+                             """/
 expected exception message pattern:
 /%s/
 actual exception message:
@@ -117,7 +117,7 @@ actual exception message:
             else:
                 self.assertEqual(actual_message,
                                  expected_message,
-                                 """\
+                                 """/
 expected exception message:
 '''%s'''
 actual exception message:
@@ -169,8 +169,8 @@ and kwargs %(kwargs)r
                 % type(output))
 
             if output != expected_output:
-                self.fail("expected: \n'''\n" + expected_output +
-                          "'''\nbut got \n'''\n" + output + "'''")
+                self.fail("expected: /n'''/n" + expected_output +
+                          "'''/nbut got /n'''/n" + output + "'''")
             self.assertEqual(err.exit_status, expected_status)
             self.assertEqual(err.exit_message, expected_error)
         else:
@@ -184,9 +184,9 @@ and kwargs %(kwargs)r
         actual_help = parser.format_help()
         if actual_help != expected_help:
             raise self.failureException(
-                'help text failure; expected:\n"' +
-                expected_help + '"; got:\n"' +
-                actual_help + '"\n')
+                'help text failure; expected:/n"' +
+                expected_help + '"; got:/n"' +
+                actual_help + '"/n')
 
 # -- Test make_option() aka Option -------------------------------------
 
@@ -520,14 +520,14 @@ class TestProgName(BaseTest):
         try:
             sys.argv[0] = os.path.join("foo", "bar", "baz.py")
             parser = OptionParser("%prog ...", version="%prog 1.2")
-            expected_usage = "Usage: baz.py ...\n"
+            expected_usage = "Usage: baz.py .../n"
             self.assertUsage(parser, expected_usage)
             self.assertVersion(parser, "baz.py 1.2")
             self.assertHelp(parser,
-                            expected_usage + "\n" +
-                            "Options:\n"
-                            "  --version   show program's version number and exit\n"
-                            "  -h, --help  show this help message and exit\n")
+                            expected_usage + "/n" +
+                            "Options:/n"
+                            "  --version   show program's version number and exit/n"
+                            "  -h, --help  show this help message and exit/n")
         finally:
             sys.argv[:] = save_argv
 
@@ -537,26 +537,26 @@ class TestProgName(BaseTest):
                               usage="%prog arg arg")
         parser.remove_option("-h")
         parser.remove_option("--version")
-        expected_usage = "Usage: thingy arg arg\n"
+        expected_usage = "Usage: thingy arg arg/n"
         self.assertUsage(parser, expected_usage)
         self.assertVersion(parser, "thingy 0.1")
-        self.assertHelp(parser, expected_usage + "\n")
+        self.assertHelp(parser, expected_usage + "/n")
 
 
 class TestExpandDefaults(BaseTest):
     def setUp(self):
         self.parser = OptionParser(prog="test")
-        self.help_prefix = """\
+        self.help_prefix = """/
 Usage: test [options]
 
 Options:
   -h, --help            show this help message and exit
 """
         self.file_help = "read from FILE [default: %default]"
-        self.expected_help_file = self.help_prefix + \
-            "  -f FILE, --file=FILE  read from FILE [default: foo.txt]\n"
-        self.expected_help_none = self.help_prefix + \
-            "  -f FILE, --file=FILE  read from FILE [default: none]\n"
+        self.expected_help_file = self.help_prefix + /
+            "  -f FILE, --file=FILE  read from FILE [default: foo.txt]/n"
+        self.expected_help_none = self.help_prefix + /
+            "  -f FILE, --file=FILE  read from FILE [default: none]/n"
 
     def test_option_default(self):
         self.parser.add_option("-f", "--file",
@@ -598,8 +598,8 @@ Options:
             "-p", "--prob",
             help="blow up with probability PROB [default: %default]")
         self.parser.set_defaults(prob=0.43)
-        expected_help = self.help_prefix + \
-            "  -p PROB, --prob=PROB  blow up with probability PROB [default: 0.43]\n"
+        expected_help = self.help_prefix + /
+            "  -p PROB, --prob=PROB  blow up with probability PROB [default: 0.43]/n"
         self.assertHelp(self.parser, expected_help)
 
     def test_alt_expand(self):
@@ -614,8 +614,8 @@ Options:
                                default="foo.txt",
                                help="read from %default file")
         self.parser.formatter.default_tag = None
-        expected_help = self.help_prefix + \
-            "  -f FILE, --file=FILE  read from %default file\n"
+        expected_help = self.help_prefix + /
+            "  -f FILE, --file=FILE  read from %default file/n"
         self.assertHelp(self.parser, expected_help)
 
 
@@ -936,7 +936,7 @@ class TestVersion(BaseTest):
         save_argv = sys.argv[:]
         try:
             sys.argv[0] = os.path.join(os.curdir, "foo", "bar")
-            self.assertOutput(["--version"], "bar 0.1\n")
+            self.assertOutput(["--version"], "bar 0.1/n")
         finally:
             sys.argv[:] = save_argv
 
@@ -1120,8 +1120,8 @@ class TestCallback(BaseTest):
                           callback=lambda: None, type="string",
                           help="foo")
 
-        expected_help = ("Options:\n"
-                         "  -t TEST, --test=TEST  foo\n")
+        expected_help = ("Options:/n"
+                         "  -t TEST, --test=TEST  foo/n")
         self.assertHelp(parser, expected_help)
 
 
@@ -1326,7 +1326,7 @@ class TestConflictResolve(ConflictBase):
         self.assertEqual(verbose_opt._long_opts, ["--verbose"])
 
     def test_conflict_resolve_help(self):
-        self.assertOutput(["-h"], """\
+        self.assertOutput(["-h"], """/
 Options:
   --verbose      increment verbosity
   -h, --help     show this help message and exit
@@ -1365,7 +1365,7 @@ class TestConflictOverride(BaseTest):
         self.assertEqual(opt._long_opts, ["--dry-run"])
 
     def test_conflict_override_help(self):
-        self.assertOutput(["-h"], """\
+        self.assertOutput(["-h"], """/
 Options:
   -h, --help     show this help message and exit
   -n, --dry-run  dry run mode
@@ -1378,7 +1378,7 @@ Options:
 
 # -- Other testing. ----------------------------------------------------
 
-_expected_help_basic = """\
+_expected_help_basic = """/
 Usage: bar.py [options]
 
 Options:
@@ -1389,7 +1389,7 @@ Options:
   -h, --help         show this help message and exit
 """
 
-_expected_help_long_opts_first = """\
+_expected_help_long_opts_first = """/
 Usage: bar.py [options]
 
 Options:
@@ -1400,7 +1400,7 @@ Options:
   --help, -h         show this help message and exit
 """
 
-_expected_help_title_formatter = """\
+_expected_help_title_formatter = """/
 Usage
 =====
   bar.py [options]
@@ -1414,7 +1414,7 @@ Options
 --help, -h         show this help message and exit
 """
 
-_expected_help_short_lines = """\
+_expected_help_short_lines = """/
 Usage: bar.py [options]
 
 Options:
@@ -1438,7 +1438,7 @@ class TestHelp(BaseTest):
             make_option("-b", "--boo", type="int", dest='boo',
                         metavar="NUM",
                         help=
-                        "shout \"boo!\" NUM times (in order to frighten away "
+                        "shout /"boo!/" NUM times (in order to frighten away "
                         "all the evil spirits that cause trouble and mayhem)"),
             make_option("--foo", action="append", type="string", dest='foo',
                         help="store FOO in the foo list for later fooing"),
@@ -1487,19 +1487,19 @@ class TestHelp(BaseTest):
 
     def test_help_unicode(self):
         self.parser = InterceptingOptionParser(usage=SUPPRESS_USAGE)
-        self.parser.add_option("-a", action="store_true", help="ol\u00E9!")
-        expect = """\
+        self.parser.add_option("-a", action="store_true", help="ol/u00E9!")
+        expect = """/
 Options:
   -h, --help  show this help message and exit
-  -a          ol\u00E9!
+  -a          ol/u00E9!
 """
         self.assertHelpEquals(expect)
 
     def test_help_unicode_description(self):
         self.parser = InterceptingOptionParser(usage=SUPPRESS_USAGE,
-                                               description="ol\u00E9!")
-        expect = """\
-ol\u00E9!
+                                               description="ol/u00E9!")
+        expect = """/
+ol/u00E9!
 
 Options:
   -h, --help  show this help message and exit
@@ -1518,7 +1518,7 @@ Options:
         group.add_option("-g", action="store_true", help="Group option.")
         self.parser.add_option_group(group)
 
-        expect = """\
+        expect = """/
 Usage: bar.py [options]
 
 This is the program description for bar.py.  bar.py has an option group as
@@ -1541,7 +1541,7 @@ Options:
         self.assertHelpEquals(expect)
 
         self.parser.epilog = "Please report bugs to /dev/null."
-        self.assertHelpEquals(expect + "\nPlease report bugs to /dev/null.\n")
+        self.assertHelpEquals(expect + "/nPlease report bugs to /dev/null./n")
 
 
 class TestMatchAbbrev(BaseTest):

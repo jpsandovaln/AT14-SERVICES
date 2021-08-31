@@ -25,12 +25,12 @@ def gone():
 oll = lambda m: m
 
 # line 27
-tll = lambda g: g and \
-g and \
+tll = lambda g: g and /
+g and /
 g
 
 # line 32
-tlli = lambda d: d and \
+tlli = lambda d: d and /
     d
 
 # line 36
@@ -41,7 +41,7 @@ def manyargs(arg1, arg2,
 arg3, arg4): pass
 
 # line 43
-def twolinefunc(m): return m and \
+def twolinefunc(m): return m and /
 m
 
 # line 47
@@ -60,7 +60,7 @@ def with_comment():  # hello
 
 # line 61
 multiline_sig = [
-    lambda x, \
+    lambda x, /
             y: x+y,
     None,
     ]

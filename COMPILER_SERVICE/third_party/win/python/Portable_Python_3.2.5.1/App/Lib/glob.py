@@ -37,7 +37,7 @@ def iglob(pathname):
         return
     # `os.path.split()` returns the argument itself as a dirname if it is a
     # drive or UNC path.  Prevent an infinite recursion if a drive or UNC path
-    # contains magic characters (i.e. r'\\?\C:').
+    # contains magic characters (i.e. r'//?/C:').
     if dirname != pathname and has_magic(dirname):
         dirs = iglob(dirname)
     else:

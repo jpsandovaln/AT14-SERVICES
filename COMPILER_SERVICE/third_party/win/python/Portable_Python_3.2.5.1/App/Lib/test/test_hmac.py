@@ -13,7 +13,7 @@ class TestVectorsTestCase(unittest.TestCase):
             h = hmac.HMAC(key, data)
             self.assertEqual(h.hexdigest().upper(), digest.upper())
 
-        md5test(b"\x0b" * 16,
+        md5test(b"/x0b" * 16,
                 b"Hi There",
                 "9294727A3638BB1C13F48EF8158BFC9D")
 
@@ -21,23 +21,23 @@ class TestVectorsTestCase(unittest.TestCase):
                 b"what do ya want for nothing?",
                 "750c783e6ab0b503eaa86e310a5db738")
 
-        md5test(b"\xaa" * 16,
-                b"\xdd" * 50,
+        md5test(b"/xaa" * 16,
+                b"/xdd" * 50,
                 "56be34521d144c88dbb8c733f0e8b3f6")
 
         md5test(bytes(range(1, 26)),
-                b"\xcd" * 50,
+                b"/xcd" * 50,
                 "697eaf0aca3a3aea3a75164746ffaa79")
 
-        md5test(b"\x0C" * 16,
+        md5test(b"/x0C" * 16,
                 b"Test With Truncation",
                 "56461ef2342edc00f9bab995690efd4c")
 
-        md5test(b"\xaa" * 80,
+        md5test(b"/xaa" * 80,
                 b"Test Using Larger Than Block-Size Key - Hash Key First",
                 "6b1ab7fe4bd7bf8f0b62e6ce61b9d0cd")
 
-        md5test(b"\xaa" * 80,
+        md5test(b"/xaa" * 80,
                 (b"Test Using Larger Than Block-Size Key "
                  b"and Larger Than One Block-Size Data"),
                 "6f630fad67cda0ee1fb1f562db3aa53e")
@@ -47,7 +47,7 @@ class TestVectorsTestCase(unittest.TestCase):
             h = hmac.HMAC(key, data, digestmod=hashlib.sha1)
             self.assertEqual(h.hexdigest().upper(), digest.upper())
 
-        shatest(b"\x0b" * 20,
+        shatest(b"/x0b" * 20,
                 b"Hi There",
                 "b617318655057264e28bc0b6fb378c8ef146be00")
 
@@ -55,23 +55,23 @@ class TestVectorsTestCase(unittest.TestCase):
                 b"what do ya want for nothing?",
                 "effcdf6ae5eb2fa2d27416d5f184df9c259a7c79")
 
-        shatest(b"\xAA" * 20,
-                b"\xDD" * 50,
+        shatest(b"/xAA" * 20,
+                b"/xDD" * 50,
                 "125d7342b9ac11cd91a39af48aa17b4f63f175d3")
 
         shatest(bytes(range(1, 26)),
-                b"\xCD" * 50,
+                b"/xCD" * 50,
                 "4c9007f4026250c6bc8414f9bf50c86c2d7235da")
 
-        shatest(b"\x0C" * 20,
+        shatest(b"/x0C" * 20,
                 b"Test With Truncation",
                 "4c1a03424b55e07fe7f27be1d58bb9324a9a5a04")
 
-        shatest(b"\xAA" * 80,
+        shatest(b"/xAA" * 80,
                 b"Test Using Larger Than Block-Size Key - Hash Key First",
                 "aa4ae5e15272d00e95705637ce8a3b55ed402112")
 
-        shatest(b"\xAA" * 80,
+        shatest(b"/xAA" * 80,
                 (b"Test Using Larger Than Block-Size Key "
                  b"and Larger Than One Block-Size Data"),
                 "e8e99d0f45237d786d6bbaa7965c7808bbff1a91")
@@ -82,7 +82,7 @@ class TestVectorsTestCase(unittest.TestCase):
             self.assertEqual(h.hexdigest().lower(), hexdigests[hashfunc])
 
         # 4.2.  Test Case 1
-        hmactest(key = b'\x0b'*20,
+        hmactest(key = b'/x0b'*20,
                  data = b'Hi There',
                  hexdigests = {
                    hashlib.sha224: '896fb1128abbdf196832107cd49df33f'
@@ -116,8 +116,8 @@ class TestVectorsTestCase(unittest.TestCase):
                  })
 
         # 4.4.  Test Case 3
-        hmactest(key = b'\xaa'*20,
-                 data = b'\xdd'*50,
+        hmactest(key = b'/xaa'*20,
+                 data = b'/xdd'*50,
                  hexdigests = {
                    hashlib.sha224: '7fb3cb3588c6c1f6ffa9694d7d6ad264'
                                    '9365b0c1f65d69d1ec8333ea',
@@ -134,7 +134,7 @@ class TestVectorsTestCase(unittest.TestCase):
 
         # 4.5.  Test Case 4
         hmactest(key = bytes(x for x in range(0x01, 0x19+1)),
-                 data = b'\xcd'*50,
+                 data = b'/xcd'*50,
                  hexdigests = {
                    hashlib.sha224: '6c11506874013cac6a2abc1bb382627c'
                                    'ec6a90d86efc012de7afec5a',
@@ -150,7 +150,7 @@ class TestVectorsTestCase(unittest.TestCase):
                  })
 
         # 4.7.  Test Case 6
-        hmactest(key = b'\xaa'*131,
+        hmactest(key = b'/xaa'*131,
                  data = b'Test Using Larger Than Block-Siz'
                         b'e Key - Hash Key First',
                  hexdigests = {
@@ -168,7 +168,7 @@ class TestVectorsTestCase(unittest.TestCase):
                  })
 
         # 4.8.  Test Case 7
-        hmactest(key = b'\xaa'*131,
+        hmactest(key = b'/xaa'*131,
                  data = b'This is a test using a larger th'
                         b'an block-size key and a larger t'
                         b'han block-size data. The key nee'

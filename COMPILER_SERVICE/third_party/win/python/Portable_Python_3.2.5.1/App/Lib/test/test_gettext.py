@@ -13,7 +13,7 @@ from test import support
 #    has no sense, it would have if we were testing a parser (i.e. pygettext)
 #  - Tests should have only one assert.
 
-GNU_MO_DATA = b'''\
+GNU_MO_DATA = b'''/
 3hIElQAAAAAGAAAAHAAAAEwAAAALAAAAfAAAAAAAAACoAAAAFQAAAKkAAAAjAAAAvwAAAKEAAADj
 AAAABwAAAIUBAAALAAAAjQEAAEUBAACZAQAAFgAAAN8CAAAeAAAA9gIAAKEAAAAVAwAABQAAALcD
 AAAJAAAAvQMAAAEAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABQAAAAYAAAACAAAAAFJh
@@ -33,7 +33,7 @@ IHNiZSBsYmhlIENsZ3ViYSBjZWJ0ZW56ZiBvbCBjZWJpdnF2YXQgbmEgdmFncmVzbnByIGdiIGd1
 ciBUQUgKdHJnZ3JrZyB6cmZmbnRyIHBuZ255YnQgeXZvZW5lbC4AYmFjb24Ad2luayB3aW5rAA==
 '''
 
-UMO_DATA = b'''\
+UMO_DATA = b'''/
 3hIElQAAAAACAAAAHAAAACwAAAAFAAAAPAAAAAAAAABQAAAABAAAAFEAAAAPAQAAVgAAAAQAAABm
 AQAAAQAAAAIAAAAAAAAAAAAAAAAAAAAAYWLDngBQcm9qZWN0LUlkLVZlcnNpb246IDIuMApQTy1S
 ZXZpc2lvbi1EYXRlOiAyMDAzLTA0LTExIDEyOjQyLTA0MDAKTGFzdC1UcmFuc2xhdG9yOiBCYXJy
@@ -43,7 +43,7 @@ bjsgY2hhcnNldD11dGYtOApDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA3Yml0CkdlbmVyYXRl
 ZC1CeTogbWFudWFsbHkKAMKkeXoA
 '''
 
-MMO_DATA = b'''\
+MMO_DATA = b'''/
 3hIElQAAAAABAAAAHAAAACQAAAADAAAALAAAAAAAAAA4AAAAeAEAADkAAAABAAAAAAAAAAAAAAAA
 UHJvamVjdC1JZC1WZXJzaW9uOiBObyBQcm9qZWN0IDAuMApQT1QtQ3JlYXRpb24tRGF0ZTogV2Vk
 IERlYyAxMSAwNzo0NDoxNSAyMDAyClBPLVJldmlzaW9uLURhdGU6IDIwMDItMDgtMTQgMDE6MTg6
@@ -305,7 +305,7 @@ class UnicodeTranslationsTest(GettextBaseTest):
 
     def test_unicode_msgstr(self):
         eq = self.assertEqual
-        eq(self._('ab\xde'), '\xa4yz')
+        eq(self._('ab/xde'), '/xa4yz')
 
 
 class WeirdMetadataTest(GettextBaseTest):
@@ -322,7 +322,7 @@ class WeirdMetadataTest(GettextBaseTest):
         info = self.t.info()
         self.assertEqual(len(info), 9)
         self.assertEqual(info['last-translator'],
-           'John Doe <jdoe@example.com>\nJane Foobar <jfoobar@example.com>')
+           'John Doe <jdoe@example.com>/nJane Foobar <jfoobar@example.com>')
 
 
 class DummyGNUTranslations(gettext.GNUTranslations):
@@ -375,15 +375,15 @@ if __name__ == '__main__':
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.0\n"
-"PO-Revision-Date: 2003-04-11 14:32-0400\n"
-"Last-Translator: J. David Ibanez <j-david@noos.fr>\n"
-"Language-Team: XX <python-dev@python.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: pygettext.py 1.1\n"
-"Plural-Forms: nplurals=2; plural=n!=1;\n"
+"Project-Id-Version: 2.0/n"
+"PO-Revision-Date: 2003-04-11 14:32-0400/n"
+"Last-Translator: J. David Ibanez <j-david@noos.fr>/n"
+"Language-Team: XX <python-dev@python.org>/n"
+"MIME-Version: 1.0/n"
+"Content-Type: text/plain; charset=iso-8859-1/n"
+"Content-Transfer-Encoding: 8bit/n"
+"Generated-By: pygettext.py 1.1/n"
+"Plural-Forms: nplurals=2; plural=n!=1;/n"
 
 #: test_gettext.py:19 test_gettext.py:25 test_gettext.py:31 test_gettext.py:37
 #: test_gettext.py:51 test_gettext.py:80 test_gettext.py:86 test_gettext.py:92
@@ -409,12 +409,12 @@ msgstr "bacon"
 
 #: test_gettext.py:40 test_gettext.py:101
 msgid ""
-"This module provides internationalization and localization\n"
-"support for your Python programs by providing an interface to the GNU\n"
+"This module provides internationalization and localization/n"
+"support for your Python programs by providing an interface to the GNU/n"
 "gettext message catalog library."
 msgstr ""
-"Guvf zbqhyr cebivqrf vagreangvbanyvmngvba naq ybpnyvmngvba\n"
-"fhccbeg sbe lbhe Clguba cebtenzf ol cebivqvat na vagresnpr gb gur TAH\n"
+"Guvf zbqhyr cebivqrf vagreangvbanyvmngvba naq ybpnyvmngvba/n"
+"fhccbeg sbe lbhe Clguba cebtenzf ol cebivqvat na vagresnpr gb gur TAH/n"
 "trggrkg zrffntr pngnybt yvoenel."
 
 # Manually added, as neither pygettext nor xgettext support plural forms
@@ -435,18 +435,18 @@ msgstr[1] "Hay %s ficheros"
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.0\n"
-"PO-Revision-Date: 2003-04-11 12:42-0400\n"
-"Last-Translator: Barry A. WArsaw <barry@python.org>\n"
-"Language-Team: XX <python-dev@python.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 7bit\n"
-"Generated-By: manually\n"
+"Project-Id-Version: 2.0/n"
+"PO-Revision-Date: 2003-04-11 12:42-0400/n"
+"Last-Translator: Barry A. WArsaw <barry@python.org>/n"
+"Language-Team: XX <python-dev@python.org>/n"
+"MIME-Version: 1.0/n"
+"Content-Type: text/plain; charset=utf-8/n"
+"Content-Transfer-Encoding: 7bit/n"
+"Generated-By: manually/n"
 
 #: nofile:0
-msgid "ab\xc3\x9e"
-msgstr "\xc2\xa4yz"
+msgid "ab/xc3/x9e"
+msgstr "/xc2/xa4yz"
 '''
 
 # Here's the third example po file, used to generate MMO_DATA
@@ -454,14 +454,14 @@ msgstr "\xc2\xa4yz"
 '''
 msgid ""
 msgstr ""
-"Project-Id-Version: No Project 0.0\n"
-"POT-Creation-Date: Wed Dec 11 07:44:15 2002\n"
-"PO-Revision-Date: 2002-08-14 01:18:58+00:00\n"
-"Last-Translator: John Doe <jdoe@example.com>\n"
-"Jane Foobar <jfoobar@example.com>\n"
-"Language-Team: xx <xx@example.com>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-15\n"
-"Content-Transfer-Encoding: quoted-printable\n"
-"Generated-By: pygettext.py 1.3\n"
+"Project-Id-Version: No Project 0.0/n"
+"POT-Creation-Date: Wed Dec 11 07:44:15 2002/n"
+"PO-Revision-Date: 2002-08-14 01:18:58+00:00/n"
+"Last-Translator: John Doe <jdoe@example.com>/n"
+"Jane Foobar <jfoobar@example.com>/n"
+"Language-Team: xx <xx@example.com>/n"
+"MIME-Version: 1.0/n"
+"Content-Type: text/plain; charset=iso-8859-15/n"
+"Content-Transfer-Encoding: quoted-printable/n"
+"Generated-By: pygettext.py 1.3/n"
 '''

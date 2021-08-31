@@ -24,13 +24,13 @@ class SyntaxTracebackCases(unittest.TestCase):
             raise ValueError("call did not raise exception")
 
     def syntax_error_with_caret(self):
-        compile("def fact(x):\n\treturn x!\n", "?", "exec")
+        compile("def fact(x):/n/treturn x!/n", "?", "exec")
 
     def syntax_error_with_caret_2(self):
-        compile("1 +\n", "?", "exec")
+        compile("1 +/n", "?", "exec")
 
     def syntax_error_bad_indentation(self):
-        compile("def spam():\n  print(1)\n print(2)", "?", "exec")
+        compile("def spam():/n  print(1)/n print(2)", "?", "exec")
 
     def test_caret(self):
         err = self.get_exception_format(self.syntax_error_with_caret,
@@ -43,7 +43,7 @@ class SyntaxTracebackCases(unittest.TestCase):
         err = self.get_exception_format(self.syntax_error_with_caret_2,
                                         SyntaxError)
         self.assertIn("^", err[2]) # third line has caret
-        self.assertTrue(err[2].count('\n') == 1) # and no additional newline
+        self.assertTrue(err[2].count('/n') == 1) # and no additional newline
         self.assertTrue(err[1].find("+") == err[2].find("^")) # in the right place
 
     def test_nocaret(self):
@@ -64,7 +64,7 @@ class SyntaxTracebackCases(unittest.TestCase):
         # Test that exceptions derived from BaseException are formatted right
         e = KeyboardInterrupt()
         lst = traceback.format_exception_only(e.__class__, e)
-        self.assertEqual(lst, ['KeyboardInterrupt\n'])
+        self.assertEqual(lst, ['KeyboardInterrupt/n'])
 
     def test_format_exception_only_bad__str__(self):
         class X(Exception):
@@ -77,11 +77,11 @@ class SyntaxTracebackCases(unittest.TestCase):
             str_name = X.__name__
         else:
             str_name = '.'.join([X.__module__, X.__name__])
-        self.assertEqual(err[0], "%s: %s\n" % (str_name, str_value))
+        self.assertEqual(err[0], "%s: %s/n" % (str_name, str_value))
 
     def test_without_exception(self):
         err = traceback.format_exception_only(None, None)
-        self.assertEqual(err, ['None\n'])
+        self.assertEqual(err, ['None/n'])
 
     def test_encoded_file(self):
         # Test that tracebacks are correctly printed for encoded source files:
@@ -139,12 +139,12 @@ class SyntaxTracebackCases(unittest.TestCase):
             if charset == "ascii":
                 text = "foo"
             elif charset == "GBK":
-                text = "\u4E02\u5100"
+                text = "/u4E02/u5100"
             else:
-                text = "h\xe9 ho"
-            do_test("# coding: {0}\n".format(charset),
+                text = "h/xe9 ho"
+            do_test("# coding: {0}/n".format(charset),
                     text, charset, 4)
-            do_test("#!shebang\n# coding: {0}\n".format(charset),
+            do_test("#!shebang/n# coding: {0}/n".format(charset),
                     text, charset, 5)
 
 
@@ -155,7 +155,7 @@ class TracebackFormatTests(unittest.TestCase):
             raise KeyError('blah')
         except KeyError:
             type_, value, tb = sys.exc_info()
-            traceback_fmt = 'Traceback (most recent call last):\n' + \
+            traceback_fmt = 'Traceback (most recent call last):/n' + /
                             ''.join(traceback.format_tb(tb))
             file_ = StringIO()
             traceback_print(tb, file_)
@@ -176,12 +176,12 @@ class TracebackFormatTests(unittest.TestCase):
 
 
 cause_message = (
-    "\nThe above exception was the direct cause "
-    "of the following exception:\n\n")
+    "/nThe above exception was the direct cause "
+    "of the following exception:/n/n")
 
 context_message = (
-    "\nDuring handling of the above exception, "
-    "another exception occurred:\n\n")
+    "/nDuring handling of the above exception, "
+    "another exception occurred:/n/n")
 
 boundaries = re.compile(
     '(%s|%s)' % (re.escape(cause_message), re.escape(context_message)))

@@ -69,7 +69,7 @@ class PlatformTest(unittest.TestCase):
     def test_sys_version(self):
         # Old test.
         for input, output in (
-            ('2.4.3 (#1, Jun 21 2006, 13:54:21) \n[GCC 3.3.4 (pre 3.3.5 20040809)]',
+            ('2.4.3 (#1, Jun 21 2006, 13:54:21) /n[GCC 3.3.4 (pre 3.3.5 20040809)]',
              ('CPython', '2.4.3', '', '', '1', 'Jun 21 2006 13:54:21', 'GCC 3.3.4 (pre 3.3.5 20040809)')),
             ('IronPython 1.0.60816 on .NET 2.0.50727.42',
              ('IronPython', '1.0.60816', '', '', '', '', '.NET 2.0.50727.42')),
@@ -78,7 +78,7 @@ class PlatformTest(unittest.TestCase):
             ):
             # branch and revision are not "parsed", but fetched
             # from sys.subversion.  Ignore them
-            (name, version, branch, revision, buildno, builddate, compiler) \
+            (name, version, branch, revision, buildno, builddate, compiler) /
                    = platform._sys_version(input)
             self.assertEqual(
                 (name, version, '', '', buildno, builddate, compiler), output)
@@ -86,7 +86,7 @@ class PlatformTest(unittest.TestCase):
         # Tests for python_implementation(), python_version(), python_branch(),
         # python_revision(), python_build(), and python_compiler().
         sys_versions = {
-            ("2.6.1 (r261:67515, Dec  6 2008, 15:26:00) \n[GCC 4.0.1 (Apple Computer, Inc. build 5370)]",
+            ("2.6.1 (r261:67515, Dec  6 2008, 15:26:00) /n[GCC 4.0.1 (Apple Computer, Inc. build 5370)]",
              ('CPython', 'tags/r261', '67515'), self.save_platform)
             :
                 ("CPython", "2.6.1", "tags/r261", "67515",
@@ -96,18 +96,18 @@ class PlatformTest(unittest.TestCase):
             :
                 ("IronPython", "2.0.0", "", "", ("", ""),
                  ".NET 2.0.50727.3053"),
-            ("2.5 (trunk:6107, Mar 26 2009, 13:02:18) \n[Java HotSpot(TM) Client VM (\"Apple Computer, Inc.\")]",
+            ("2.5 (trunk:6107, Mar 26 2009, 13:02:18) /n[Java HotSpot(TM) Client VM (/"Apple Computer, Inc./")]",
             ('Jython', 'trunk', '6107'), "java1.5.0_16")
             :
                 ("Jython", "2.5.0", "trunk", "6107",
                  ('trunk:6107', 'Mar 26 2009'), "java1.5.0_16"),
-            ("2.5.2 (63378, Mar 26 2009, 18:03:29)\n[PyPy 1.0.0]",
+            ("2.5.2 (63378, Mar 26 2009, 18:03:29)/n[PyPy 1.0.0]",
              ('PyPy', 'trunk', '63378'), self.save_platform)
             :
                 ("PyPy", "2.5.2", "trunk", "63378", ('63378', 'Mar 26 2009'),
                  "")
             }
-        for (version_tag, subversion, sys_platform), info in \
+        for (version_tag, subversion, sys_platform), info in /
                 sys_versions.items():
             sys.version = version_tag
             if subversion is None:
@@ -222,7 +222,7 @@ class PlatformTest(unittest.TestCase):
 
     def test_libc_ver(self):
         import os
-        if os.path.isdir(sys.executable) and \
+        if os.path.isdir(sys.executable) and /
            os.path.exists(sys.executable+'.exe'):
             # Cygwin horror
             executable = sys.executable + '.exe'

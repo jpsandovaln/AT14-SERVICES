@@ -17,7 +17,7 @@ import sys
 from sre_constants import *
 from _sre import MAXREPEAT
 
-SPECIAL_CHARS = ".\\[{()*+?^$|"
+SPECIAL_CHARS = ".//[{()*+?^$|"
 REPEAT_CHARS = "*+?{"
 
 DIGITS = set("0123456789")
@@ -25,30 +25,30 @@ DIGITS = set("0123456789")
 OCTDIGITS = set("01234567")
 HEXDIGITS = set("0123456789abcdefABCDEF")
 
-WHITESPACE = set(" \t\n\r\v\f")
+WHITESPACE = set(" /t/n/r/v/f")
 
 ESCAPES = {
-    r"\a": (LITERAL, ord("\a")),
-    r"\b": (LITERAL, ord("\b")),
-    r"\f": (LITERAL, ord("\f")),
-    r"\n": (LITERAL, ord("\n")),
-    r"\r": (LITERAL, ord("\r")),
-    r"\t": (LITERAL, ord("\t")),
-    r"\v": (LITERAL, ord("\v")),
-    r"\\": (LITERAL, ord("\\"))
+    r"/a": (LITERAL, ord("/a")),
+    r"/b": (LITERAL, ord("/b")),
+    r"/f": (LITERAL, ord("/f")),
+    r"/n": (LITERAL, ord("/n")),
+    r"/r": (LITERAL, ord("/r")),
+    r"/t": (LITERAL, ord("/t")),
+    r"/v": (LITERAL, ord("/v")),
+    r"//": (LITERAL, ord("//"))
 }
 
 CATEGORIES = {
-    r"\A": (AT, AT_BEGINNING_STRING), # start of string
-    r"\b": (AT, AT_BOUNDARY),
-    r"\B": (AT, AT_NON_BOUNDARY),
-    r"\d": (IN, [(CATEGORY, CATEGORY_DIGIT)]),
-    r"\D": (IN, [(CATEGORY, CATEGORY_NOT_DIGIT)]),
-    r"\s": (IN, [(CATEGORY, CATEGORY_SPACE)]),
-    r"\S": (IN, [(CATEGORY, CATEGORY_NOT_SPACE)]),
-    r"\w": (IN, [(CATEGORY, CATEGORY_WORD)]),
-    r"\W": (IN, [(CATEGORY, CATEGORY_NOT_WORD)]),
-    r"\Z": (AT, AT_END_STRING), # end of string
+    r"/A": (AT, AT_BEGINNING_STRING), # start of string
+    r"/b": (AT, AT_BOUNDARY),
+    r"/B": (AT, AT_NON_BOUNDARY),
+    r"/d": (IN, [(CATEGORY, CATEGORY_DIGIT)]),
+    r"/D": (IN, [(CATEGORY, CATEGORY_NOT_DIGIT)]),
+    r"/s": (IN, [(CATEGORY, CATEGORY_SPACE)]),
+    r"/S": (IN, [(CATEGORY, CATEGORY_NOT_SPACE)]),
+    r"/w": (IN, [(CATEGORY, CATEGORY_WORD)]),
+    r"/W": (IN, [(CATEGORY, CATEGORY_NOT_WORD)]),
+    r"/Z": (AT, AT_END_STRING), # end of string
 }
 
 FLAGS = {
@@ -190,7 +190,7 @@ class Tokenizer:
         # XXX This is only needed for test_bug_926075 in test_re.py
         if char and isinstance(char, bytes):
             char = chr(char[0])
-        if char == "\\":
+        if char == "//":
             try:
                 c = self.string[self.index + 1]
             except IndexError:
@@ -246,7 +246,7 @@ def _class_escape(source, escape):
                 escape = escape + source.get()
             escape = escape[2:]
             if len(escape) != 2:
-                raise error("bogus escape: %s" % repr("\\" + escape))
+                raise error("bogus escape: %s" % repr("//" + escape))
             return LITERAL, int(escape, 16) & 0xff
         elif c in OCTDIGITS:
             # octal escape (up to three digits)
@@ -413,7 +413,7 @@ def _parse(source, state):
             if this == "#":
                 while 1:
                     this = sourceget()
-                    if this in (None, "\n"):
+                    if this in (None, "/n"):
                         break
                 continue
 
@@ -434,7 +434,7 @@ def _parse(source, state):
                 this = sourceget()
                 if this == "]" and set != start:
                     break
-                elif this and this[0] == "\\":
+                elif this and this[0] == "//":
                     code1 = _class_escape(source, this)
                 elif this:
                     code1 = LITERAL, ord(this)
@@ -450,7 +450,7 @@ def _parse(source, state):
                         setappend((LITERAL, ord("-")))
                         break
                     elif this:
-                        if this[0] == "\\":
+                        if this[0] == "//":
                             code2 = _class_escape(source, this)
                         else:
                             code2 = LITERAL, ord(this)
@@ -669,7 +669,7 @@ def _parse(source, state):
         elif this == "$":
             subpattern.append((AT, AT_END))
 
-        elif this and this[0] == "\\":
+        elif this and this[0] == "//":
             code = _escape(source, this, state)
             subpatternappend(code)
 
@@ -740,7 +740,7 @@ def parse_template(source, pattern):
         this = sget()
         if this is None:
             break # end of replacement string
-        if this and this[0] == "\\":
+        if this and this[0] == "//":
             # group
             c = this[1:2]
             if c == "g":

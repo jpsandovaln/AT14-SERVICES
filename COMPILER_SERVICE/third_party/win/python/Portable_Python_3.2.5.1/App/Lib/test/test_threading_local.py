@@ -143,7 +143,7 @@ class BaseLocalTest:
                 # This is expected -- we haven't set obj.x in this thread yet!
                 self._failed = ""  # passed
             else:
-                self._failed = ('Incorrectly got value %r from class %r\n' %
+                self._failed = ('Incorrectly got value %r from class %r/n' %
                                 (foo, c))
                 sys.stderr.write(self._failed)
 

@@ -60,8 +60,8 @@ __all__ = ["SMTPException", "SMTPServerDisconnected", "SMTPResponseException",
 
 SMTP_PORT = 25
 SMTP_SSL_PORT = 465
-CRLF = "\r\n"
-bCRLF = b"\r\n"
+CRLF = "/r/n"
+bCRLF = b"/r/n"
 
 OLDSTYLE_AUTH = re.compile(r"auth=(.*)", re.I)
 
@@ -163,17 +163,17 @@ def _addr_only(addrstring):
 def quotedata(data):
     """Quote data for email.
 
-    Double leading '.', and change Unix newline '\\n', or Mac '\\r' into
+    Double leading '.', and change Unix newline '//n', or Mac '//r' into
     Internet CRLF end-of-line.
     """
-    return re.sub(r'(?m)^\.', '..',
-        re.sub(r'(?:\r\n|\n|\r(?!\n))', CRLF, data))
+    return re.sub(r'(?m)^/.', '..',
+        re.sub(r'(?:/r/n|/n|/r(?!/n))', CRLF, data))
 
 def _quote_periods(bindata):
-    return re.sub(br'(?m)^\.', b'..', bindata)
+    return re.sub(br'(?m)^/.', b'..', bindata)
 
 def _fix_eols(data):
-    return  re.sub(r'(?:\r\n|\n|\r(?!\n))', CRLF, data)
+    return  re.sub(r'(?:/r/n|/n|/r(?!/n))', CRLF, data)
 
 try:
     import ssl
@@ -191,7 +191,7 @@ else:
         def readline(self):
             str = b""
             chr = None
-            while chr != b"\n":
+            while chr != b"/n":
                 chr = self.sslobj.read(1)
                 if not chr:
                     break
@@ -373,7 +373,7 @@ class SMTP:
                 raise SMTPServerDisconnected("Connection unexpectedly closed")
             if self.debuglevel > 0:
                 print('reply:', repr(line), file=stderr)
-            resp.append(line[4:].strip(b' \t\r\n'))
+            resp.append(line[4:].strip(b' /t/r/n'))
             code = line[:3]
             # Check that the error code is syntactically correct.
             # Don't attempt to read a continuation line if it is broken.
@@ -386,7 +386,7 @@ class SMTP:
             if line[3:4] != b"-":
                 break
 
-        errmsg = b"\n".join(resp)
+        errmsg = b"/n".join(resp)
         if self.debuglevel > 0:
             print('reply: retcode (%s); Msg: %s' % (errcode, errmsg), file=stderr)
         return errcode, errmsg
@@ -427,7 +427,7 @@ class SMTP:
         self.does_esmtp = 1
         #parse the ehlo response -ddm
         assert isinstance(self.ehlo_resp, bytes), repr(self.ehlo_resp)
-        resp = self.ehlo_resp.decode("latin-1").split('\n')
+        resp = self.ehlo_resp.decode("latin-1").split('/n')
         del resp[0]
         for each in resp:
             # To be able to communicate with as many SMTP servers as possible,
@@ -439,7 +439,7 @@ class SMTP:
             auth_match = OLDSTYLE_AUTH.match(each)
             if auth_match:
                 # This doesn't remove duplicates, but that's no problem
-                self.esmtp_features["auth"] = self.esmtp_features.get("auth", "") \
+                self.esmtp_features["auth"] = self.esmtp_features.get("auth", "") /
                         + " " + auth_match.groups(0)[0]
                 continue
 
@@ -447,12 +447,12 @@ class SMTP:
             # It's actually stricter, in that only spaces are allowed between
             # parameters, but were not going to check for that here.  Note
             # that the space isn't present if there are no parameters.
-            m = re.match(r'(?P<feature>[A-Za-z0-9][A-Za-z0-9\-]*) ?', each)
+            m = re.match(r'(?P<feature>[A-Za-z0-9][A-Za-z0-9/-]*) ?', each)
             if m:
                 feature = m.group("feature").lower()
                 params = m.string[m.end("feature"):].strip()
                 if feature == "auth":
-                    self.esmtp_features[feature] = self.esmtp_features.get(feature, "") \
+                    self.esmtp_features[feature] = self.esmtp_features.get(feature, "") /
                             + " " + params
                 else:
                     self.esmtp_features[feature] = params
@@ -499,8 +499,8 @@ class SMTP:
         Raises SMTPDataError if there is an unexpected reply to the
         DATA command; the return value from this method is the final
         response code received when the all data is sent.  If msg
-        is a string, lone '\r' and '\n' characters are converted to
-        '\r\n' characters.  If msg is bytes, it is transmitted as is.
+        is a string, lone '/r' and '/n' characters are converted to
+        '/r/n' characters.  If msg is bytes, it is transmitted as is.
         """
         self.putcmd("data")
         (code, repl) = self.getreply()
@@ -581,7 +581,7 @@ class SMTP:
             return encode_base64(response.encode('ascii'), eol='')
 
         def encode_plain(user, password):
-            s = "\0%s\0%s" % (user, password)
+            s = "/0%s/0%s" % (user, password)
             return encode_base64(s.encode('ascii'), eol='')
 
         AUTH_PLAIN = "PLAIN"
@@ -684,7 +684,7 @@ class SMTP:
 
         msg may be a string containing characters in the ASCII range, or a byte
         string.  A string is encoded to bytes using the ascii codec, and lone
-        \\r and \\n characters are converted to \\r\\n characters.
+        //r and //n characters are converted to //r//n characters.
 
         If there has been no previous EHLO or HELO command this session, this
         method tries ESMTP EHLO first.  If the server does ESMTP, message size
@@ -714,7 +714,7 @@ class SMTP:
          >>> import smtplib
          >>> s=smtplib.SMTP("localhost")
          >>> tolist=["one@one.org","two@two.org","three@three.org","four@four.org"]
-         >>> msg = '''\\
+         >>> msg = '''//
          ... From: Me@my.org
          ... Subject: testin'...
          ...
@@ -818,7 +818,7 @@ class SMTP:
         del msg_copy['Resent-Bcc']
         with io.BytesIO() as bytesmsg:
             g = email.generator.BytesGenerator(bytesmsg)
-            g.flatten(msg_copy, linesep='\r\n')
+            g.flatten(msg_copy, linesep='/r/n')
             flatmsg = bytesmsg.getvalue()
         return self.sendmail(from_addr, to_addrs, flatmsg, mail_options,
                              rcpt_options)

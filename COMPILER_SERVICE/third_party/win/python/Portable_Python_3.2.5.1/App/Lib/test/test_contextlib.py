@@ -142,13 +142,13 @@ class FileContextTestCase(unittest.TestCase):
             f = None
             with open(tfn, "w") as f:
                 self.assertFalse(f.closed)
-                f.write("Booh\n")
+                f.write("Booh/n")
             self.assertTrue(f.closed)
             f = None
             with self.assertRaises(ZeroDivisionError):
                 with open(tfn, "r") as f:
                     self.assertFalse(f.closed)
-                    self.assertEqual(f.read(), "Booh\n")
+                    self.assertEqual(f.read(), "Booh/n")
                     1 / 0
             self.assertTrue(f.closed)
         finally:

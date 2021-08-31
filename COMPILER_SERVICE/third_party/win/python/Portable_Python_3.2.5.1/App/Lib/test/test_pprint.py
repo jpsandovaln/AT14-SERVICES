@@ -141,7 +141,7 @@ class QueryTestCase(unittest.TestCase):
              'main_code_runtime_us': 0,
              'read_io_runtime_us': 0,
              'write_io_runtime_us': 43690}
-        exp = """\
+        exp = """/
 {'RPM_cal': 0,
  'RPM_cal2': 48059,
  'Speed_cal': 0,
@@ -153,18 +153,18 @@ class QueryTestCase(unittest.TestCase):
             self.assertEqual(pprint.pformat(type(o)), exp)
 
         o = range(100)
-        exp = '[%s]' % ',\n '.join(map(str, o))
+        exp = '[%s]' % ',/n '.join(map(str, o))
         for type in [list, list2]:
             self.assertEqual(pprint.pformat(type(o)), exp)
 
         o = tuple(range(100))
-        exp = '(%s)' % ',\n '.join(map(str, o))
+        exp = '(%s)' % ',/n '.join(map(str, o))
         for type in [tuple, tuple2]:
             self.assertEqual(pprint.pformat(type(o)), exp)
 
         # indent parameter
         o = range(100)
-        exp = '[   %s]' % ',\n    '.join(map(str, o))
+        exp = '[   %s]' % ',/n    '.join(map(str, o))
         for type in [list, list2]:
             self.assertEqual(pprint.pformat(type(o), indent=4), exp)
 
@@ -172,7 +172,7 @@ class QueryTestCase(unittest.TestCase):
         o1 = list(range(10))
         o2 = dict(first=1, second=2, third=3)
         o = [o1, o2]
-        expected = """\
+        expected = """/
 [   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
     {   'first': 1,
         'second': 2,
@@ -194,14 +194,14 @@ class QueryTestCase(unittest.TestCase):
         # Python 2.5, this was in the test_same_as_repr() test.  It's worth
         # keeping around for now because it's one of few tests of pprint
         # against a crazy mix of types.
-        self.assertEqual(pprint.pformat({"xy\tab\n": (3,), 5: [[]], (): {}}),
-            r"{5: [[]], 'xy\tab\n': (3,), (): {}}")
+        self.assertEqual(pprint.pformat({"xy/tab/n": (3,), 5: [[]], (): {}}),
+            r"{5: [[]], 'xy/tab/n': (3,), (): {}}")
 
     def test_ordered_dict(self):
         words = 'the quick brown fox jumped over a lazy dog'.split()
         d = collections.OrderedDict(zip(words, itertools.count()))
         self.assertEqual(pprint.pformat(d),
-"""\
+"""/
 {'the': 0,
  'quick': 1,
  'brown': 2,
@@ -214,7 +214,7 @@ class QueryTestCase(unittest.TestCase):
     def test_subclassing(self):
         o = {'names with spaces': 'should be presented using repr()',
              'others.should.not.be': 'like.this'}
-        exp = """\
+        exp = """/
 {'names with spaces': 'should be presented using repr()',
  others.should.not.be: like.this}"""
         self.assertEqual(DottedPrettyPrinter().pformat(o), exp)
@@ -246,7 +246,7 @@ class QueryTestCase(unittest.TestCase):
         self.assertEqual(pprint.pformat(set(range(3))), '{0, 1, 2}')
         self.assertEqual(pprint.pformat(frozenset()), 'frozenset()')
         self.assertEqual(pprint.pformat(frozenset(range(3))), 'frozenset({0, 1, 2})')
-        cube_repr_tgt = """\
+        cube_repr_tgt = """/
 {frozenset(): frozenset({frozenset({2}), frozenset({0}), frozenset({1})}),
  frozenset({0}): frozenset({frozenset(),
                             frozenset({0, 2}),
@@ -271,7 +271,7 @@ class QueryTestCase(unittest.TestCase):
                                   frozenset({0, 1})})}"""
         cube = test.test_set.cube(3)
         self.assertEqual(pprint.pformat(cube), cube_repr_tgt)
-        cubo_repr_tgt = """\
+        cubo_repr_tgt = """/
 {frozenset({frozenset({0, 2}), frozenset({0})}): frozenset({frozenset({frozenset({0,
                                                                                   2}),
                                                                        frozenset({0,
@@ -453,7 +453,7 @@ class QueryTestCase(unittest.TestCase):
         keys = [Unorderable() for i in range(n)]
         random.shuffle(keys)
         skeys = sorted(keys, key=id)
-        clean = lambda s: s.replace(' ', '').replace('\n','')
+        clean = lambda s: s.replace(' ', '').replace('/n','')
 
         self.assertEqual(clean(pprint.pformat(set(keys))),
             '{' + ','.join(map(repr, skeys)) + '}')

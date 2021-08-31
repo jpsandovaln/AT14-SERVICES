@@ -28,7 +28,7 @@ class DateTimeTests(unittest.TestCase):
         az = time2isoz()
         bz = time2isoz(500000)
         for text in (az, bz):
-            self.assertTrue(re.search(r"^\d{4}-\d\d-\d\d \d\d:\d\d:\d\dZ$", text),
+            self.assertTrue(re.search(r"^/d{4}-/d/d-/d/d /d/d:/d/d:/d/dZ$", text),
                             "bad time2isoz format: %s %s" % (az, bz))
 
     def test_http2time(self):
@@ -94,7 +94,7 @@ class DateTimeTests(unittest.TestCase):
             '01-01-1980 00:00:62',
             ]:
             self.assertTrue(http2time(test) is None,
-                         "http2time(%s) is not None\n"
+                         "http2time(%s) is not None/n"
                          "http2time(test) %s" % (test, http2time(test))
                          )
 
@@ -149,7 +149,7 @@ class HeaderTests(unittest.TestCase):
             ("foo=bar;bar=baz", [[("foo", "bar"), ("bar", "baz")]]),
             ('foo bar baz', [[("foo", None), ("bar", None), ("baz", None)]]),
             ("a, b, c", [[("a", None)], [("b", None)], [("c", None)]]),
-            (r'foo; bar=baz, spam=, foo="\,\;\"", bar= ',
+            (r'foo; bar=baz, spam=, foo="/,/;/"", bar= ',
              [[("foo", None), ("bar", "baz")],
               [("spam", "")], [("foo", ',;"')], [("bar", "")]]),
             ]
@@ -161,7 +161,7 @@ class HeaderTests(unittest.TestCase):
                 import traceback, io
                 f = io.StringIO()
                 traceback.print_exc(None, f)
-                result = "(error -- traceback follows)\n\n%s" % f.getvalue()
+                result = "(error -- traceback follows)/n/n%s" % f.getvalue()
             self.assertEqual(result,  expect, """
 When parsing: '%s'
 Expected:     '%s'
@@ -177,7 +177,7 @@ Got:          '%s'
             ("foo=bar bar=baz", "foo=bar; bar=baz"),
             ("foo=bar;bar=baz", "foo=bar; bar=baz"),
             ('foo bar baz', "foo; bar; baz"),
-            (r'foo="\"" bar="\\"', r'foo="\""; bar="\\"'),
+            (r'foo="/"" bar="//"', r'foo="/""; bar="//"'),
             ('foo,,,bar', 'foo, bar'),
             ('foo=bar,bar=baz', 'foo=bar, bar=baz'),
 
@@ -187,8 +187,8 @@ Got:          '%s'
             ('foo="bar"; port="80,81"; discard, bar=baz',
              'foo=bar; port="80,81"; discard, bar=baz'),
 
-            (r'Basic realm="\"foo\\\\bar\""',
-             r'Basic; realm="\"foo\\\\bar\""')
+            (r'Basic realm="/"foo////bar/""',
+             r'Basic; realm="/"foo////bar/""')
             ]
 
         for arg, expect in tests:
@@ -208,7 +208,7 @@ class FakeResponse:
         headers: list of RFC822-style 'Key: value' strings
         """
         import email
-        self._headers = email.message_from_string("\n".join(headers))
+        self._headers = email.message_from_string("/n".join(headers))
         self._url = url
     def info(self): return self._headers
 
@@ -264,7 +264,7 @@ class FileCookieJarTests(unittest.TestCase):
         # causes a LoadError.
         try:
             with open(filename, "w") as f:
-                f.write("oops\n")
+                f.write("oops/n")
                 for cookiejar_class in LWPCookieJar, MozillaCookieJar:
                     c = cookiejar_class()
                     self.assertRaises(LoadError, c.load, filename)
@@ -560,14 +560,14 @@ class CookieTests(unittest.TestCase):
             # unquoted safe
             ("/foo/bar&", "/foo/bar&"),
             ("/foo//bar", "/foo//bar"),
-            ("\176/foo/bar", "\176/foo/bar"),
+            ("/176/foo/bar", "/176/foo/bar"),
             # unquoted unsafe
-            ("/foo\031/bar", "/foo%19/bar"),
-            ("/\175foo/bar", "/%7Dfoo/bar"),
+            ("/foo/031/bar", "/foo%19/bar"),
+            ("//175foo/bar", "/%7Dfoo/bar"),
             # unicode, latin-1 range
-            ("/foo/bar\u00fc", "/foo/bar%C3%BC"),     # UTF-8 encoded
+            ("/foo/bar/u00fc", "/foo/bar%C3%BC"),     # UTF-8 encoded
             # unicode
-            ("/foo/bar\uabcd", "/foo/bar%EA%AF%8D"),  # UTF-8 encoded
+            ("/foo/bar/uabcd", "/foo/bar%EA%AF%8D"),  # UTF-8 encoded
             ]
         for arg, result in cases:
             self.assertEqual(escape_path(arg), result)
@@ -880,9 +880,9 @@ class CookieTests(unittest.TestCase):
 
     def test_quote_cookie_value(self):
         c = CookieJar(policy=DefaultCookiePolicy(rfc2965=True))
-        interact_2965(c, "http://www.acme.com/", r'foo=\b"a"r; Version=1')
+        interact_2965(c, "http://www.acme.com/", r'foo=/b"a"r; Version=1')
         h = interact_2965(c, "http://www.acme.com/")
-        self.assertEqual(h, r'$Version=1; foo=\\b\"a\"r')
+        self.assertEqual(h, r'$Version=1; foo=//b/"a/"r')
 
     def test_missing_final_slash(self):
         # Missing slash from request URL's abs_path should be assumed present.
@@ -945,7 +945,7 @@ class CookieTests(unittest.TestCase):
         url = "http://foo.bar.com/"
         interact_2965(c, url, "spam=eggs; Version=1; Port")
         h = interact_2965(c, url)
-        self.assertTrue(re.search("\$Port([^=]|$)", h),
+        self.assertTrue(re.search("/$Port([^=]|$)", h),
                      "port with no value not returned with no value")
 
         c = CookieJar(pol)
@@ -988,7 +988,7 @@ class CookieTests(unittest.TestCase):
         interact_2965(cs, "http://www.sol.no",
                       r'bang=wallop; version=1; domain=".sol.no"; '
                       r'port="90,100, 80,8080"; '
-                      r'max-age=100; Comment = "Just kidding! (\"|\\\\) "')
+                      r'max-age=100; Comment = "Just kidding! (/"|////) "')
 
         versions = [1, 1, 1, 0, 1]
         names = ["bang", "foo", "foo", "spam", "foo"]
@@ -1198,7 +1198,7 @@ class LWPCookieTests(unittest.TestCase):
         req = urllib.request.Request("http://www.acme.com/ammo")
         c.add_cookie_header(req)
 
-        self.assertTrue(re.search(r"PART_NUMBER=RIDING_ROCKET_0023;\s*"
+        self.assertTrue(re.search(r"PART_NUMBER=RIDING_ROCKET_0023;/s*"
                                "PART_NUMBER=ROCKET_LAUNCHER_0001",
                                req.get_header("Cookie")))
 
@@ -1256,7 +1256,7 @@ class LWPCookieTests(unittest.TestCase):
                                'Part_Number="Rocket_Launcher_0001"; '
                                'Version="1"; Path="/acme"');
         self.assertTrue(re.search(
-            r'^\$Version="?1"?; Customer="?WILE_E_COYOTE"?; \$Path="/acme"$',
+            r'^/$Version="?1"?; Customer="?WILE_E_COYOTE"?; /$Path="/acme"$',
             cookie))
 
         #
@@ -1280,10 +1280,10 @@ class LWPCookieTests(unittest.TestCase):
         cookie = interact_2965(c, "http://www.acme.com/acme/shipping",
                                'Shipping="FedEx"; Version="1"; Path="/acme"')
 
-        self.assertTrue(re.search(r'^\$Version="?1"?;', cookie))
+        self.assertTrue(re.search(r'^/$Version="?1"?;', cookie))
         self.assertTrue(re.search(r'Part_Number="?Rocket_Launcher_0001"?;'
-                               '\s*\$Path="\/acme"', cookie))
-        self.assertTrue(re.search(r'Customer="?WILE_E_COYOTE"?;\s*\$Path="\/acme"',
+                               '/s*/$Path="//acme"', cookie))
+        self.assertTrue(re.search(r'Customer="?WILE_E_COYOTE"?;/s*/$Path="//acme"',
                                cookie))
 
         #
@@ -1306,7 +1306,7 @@ class LWPCookieTests(unittest.TestCase):
 
         cookie = interact_2965(c, "http://www.acme.com/acme/process")
         self.assertTrue(
-            re.search(r'Shipping="?FedEx"?;\s*\$Path="\/acme"', cookie) and
+            re.search(r'Shipping="?FedEx"?;/s*/$Path="//acme"', cookie) and
             "WILE_E_COYOTE" in cookie)
 
         #
@@ -1426,7 +1426,7 @@ class LWPCookieTests(unittest.TestCase):
             c, "http://www.sol.no",
             r'bang=wallop; version=1; domain=".sol.no"; '
             r'port="90,100, 80,8080"; '
-            r'max-age=100; Comment = "Just kidding! (\"|\\\\) "')
+            r'max-age=100; Comment = "Just kidding! (/"|////) "')
         self.assertEqual(len(c), 4)
 
         # port attribute without any value (current port)
@@ -1470,18 +1470,18 @@ class LWPCookieTests(unittest.TestCase):
                       "foo  =   bar; version    =   1")
 
         cookie = interact_2965(
-            c, "http://www.acme.com/foo%2f%25/<<%0anew\345/\346\370\345",
+            c, "http://www.acme.com/foo%2f%25/<<%0anew/345//346/370/345",
             'bar=baz; path="/foo/"; version=1');
-        version_re = re.compile(r'^\$version=\"?1\"?', re.I)
+        version_re = re.compile(r'^/$version=/"?1/"?', re.I)
         self.assertIn("foo=bar", cookie)
         self.assertTrue(version_re.search(cookie))
 
         cookie = interact_2965(
-            c, "http://www.acme.com/foo/%25/<<%0anew\345/\346\370\345")
+            c, "http://www.acme.com/foo/%25/<<%0anew/345//346/370/345")
         self.assertTrue(not cookie)
 
         # unicode URL doesn't raise exception
-        cookie = interact_2965(c, "http://www.acme.com/\xfc")
+        cookie = interact_2965(c, "http://www.acme.com//xfc")
 
     def test_mozilla(self):
         # Save / load Mozilla/Netscape cookie file format.

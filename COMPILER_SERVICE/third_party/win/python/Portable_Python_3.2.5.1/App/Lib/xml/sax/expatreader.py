@@ -224,7 +224,7 @@ class ExpatParser(xmlreader.IncrementalParser, xmlreader.Locator):
             bs.close()
 
     def _reset_cont_handler(self):
-        self._parser.ProcessingInstructionHandler = \
+        self._parser.ProcessingInstructionHandler = /
                                     self._cont_handler.processingInstruction
         self._parser.CharacterDataHandler = self._cont_handler.characters
 

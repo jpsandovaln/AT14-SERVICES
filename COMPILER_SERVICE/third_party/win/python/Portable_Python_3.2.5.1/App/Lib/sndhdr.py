@@ -79,7 +79,7 @@ tests.append(test_aifc)
 def test_au(h, f):
     if h.startswith(b'.snd'):
         func = get_long_be
-    elif h[:4] in (b'\0ds.', b'dns.'):
+    elif h[:4] in (b'/0ds.', b'dns.'):
         func = get_long_le
     else:
         return None
@@ -123,7 +123,7 @@ tests.append(test_hcom)
 
 
 def test_voc(h, f):
-    if not h.startswith(b'Creative Voice File\032'):
+    if not h.startswith(b'Creative Voice File/032'):
         return None
     sbseek = get_short_le(h[20:22])
     rate = 0
@@ -168,7 +168,7 @@ tests.append(test_sndt)
 
 
 def test_sndr(h, f):
-    if h.startswith(b'\0\0'):
+    if h.startswith(b'/0/0'):
         rate = get_short_le(h[2:4])
         if 4000 <= rate <= 25000:
             return 'sndr', rate, 1, -1, 8
@@ -209,7 +209,7 @@ def test():
         else:
             testall(['.'], recursive, 1)
     except KeyboardInterrupt:
-        sys.stderr.write('\n[Interrupted]\n')
+        sys.stderr.write('/n[Interrupted]/n')
         sys.exit(1)
 
 def testall(list, recursive, toplevel):

@@ -200,7 +200,7 @@ class Au_read:
         if self._hdr_size > 24:
             self._info = file.read(self._hdr_size - 24)
             for i in range(len(self._info)):
-                if self._info[i] == b'\0':
+                if self._info[i] == b'/0':
                     self._info = self._info[:i]
                     break
         else:
@@ -242,8 +242,8 @@ class Au_read:
             return 'not compressed'
 
     def getparams(self):
-        return self.getnchannels(), self.getsampwidth(), \
-                  self.getframerate(), self.getnframes(), \
+        return self.getnchannels(), self.getsampwidth(), /
+                  self.getframerate(), self.getnframes(), /
                   self.getcomptype(), self.getcompname()
 
     def getmarkers(self):
@@ -381,8 +381,8 @@ class Au_write:
         self.setcomptype(comptype, compname)
 
     def getparams(self):
-        return self.getnchannels(), self.getsampwidth(), \
-                  self.getframerate(), self.getnframes(), \
+        return self.getnchannels(), self.getsampwidth(), /
+                  self.getframerate(), self.getnframes(), /
                   self.getcomptype(), self.getcompname()
 
     def tell(self):
@@ -400,13 +400,13 @@ class Au_write:
 
     def writeframes(self, data):
         self.writeframesraw(data)
-        if self._nframeswritten != self._nframes or \
+        if self._nframeswritten != self._nframes or /
                   self._datalength != self._datawritten:
             self._patchheader()
 
     def close(self):
         self._ensure_header_written()
-        if self._nframeswritten != self._nframes or \
+        if self._nframeswritten != self._nframes or /
                   self._datalength != self._datawritten:
             self._patchheader()
         self._file.flush()
@@ -461,7 +461,7 @@ class Au_write:
         _write_u32(self._file, self._framerate)
         _write_u32(self._file, self._nchannels)
         self._file.write(self._info)
-        self._file.write(b'\0'*(header_size - len(self._info) - 24))
+        self._file.write(b'/0'*(header_size - len(self._info) - 24))
 
     def _patchheader(self):
         self._file.seek(8)

@@ -47,7 +47,7 @@ class CharmapCodecTest(unittest.TestCase):
         self.assertEqual(str(b'dyfy', codecname), 'df')
 
     def test_maptoundefined(self):
-        self.assertRaises(UnicodeError, str, b'abc\001', codecname)
+        self.assertRaises(UnicodeError, str, b'abc/001', codecname)
 
 def test_main():
     test.support.run_unittest(CharmapCodecTest)
