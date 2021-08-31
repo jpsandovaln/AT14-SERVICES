@@ -61,8 +61,6 @@ class AnalizeZip {
             const fileName = path.basename(file === null || file === void 0 ? void 0 : file.originalname, extension);
             const pathImage = "http://localhost:8085/unZipFiles/" +
                 path.parse(zipNameFile).name +
-                "/" +
-                fileName +
                 "/";
             const obtainDirectory = new obtainDirectory_1.default();
             const buildArrayImages = new buildArrayImages_1.default();

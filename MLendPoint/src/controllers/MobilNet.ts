@@ -33,7 +33,7 @@ class MobilNet extends MachineLearing {
         this.predictions = await this.loadmodel();
         const arr: any = [];
         this.predictions.forEach((element: any) => {
-            const searchWord = new RegExp(this.searchWord, "i");
+            const searchWord = new RegExp(this.searchWord.trim(), "i");
             if (
                 element.className.search(searchWord) != -1 &&
                 element.probability >= this.percentage
