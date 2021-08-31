@@ -9,7 +9,7 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8085;
 
 app.use(express.static(path.join(__dirname, "../public")));
 
