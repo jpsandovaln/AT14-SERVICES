@@ -72,6 +72,7 @@ const SideBar = (props) => {
 		<div className={classes.root}>
 			<CssBaseline />
 			<NavBar onClick={handleDrawerToggle} />
+			
 			<nav className={classes.drawer} aria-label="mailbox folders">
 				<Hidden smUp implementation="css">
 					<Drawer {...parametersUp}>

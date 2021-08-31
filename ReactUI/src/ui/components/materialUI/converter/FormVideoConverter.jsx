@@ -2,11 +2,14 @@ import React from "react";
 import axios from "axios";
 import VideoForm from "./VideoForm";
 import TableVideoForm from "./TableVideoForm";
+import Md5File from "../../../../utilities/checksum";
 
 const FormVideoConveter = () => {
-	const urlML = "http://localhost:8080/imageFinder";
+	const urlML = "http://localhost:8080/videoConverter";
+	const md5File = new Md5File();
 
 	const [data, setResponse] = React.useState([]);
+	const [uploadFile, setUploadFile] = React.useState(null);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [ratio, setRatio] = React.useState("");
 	const [scale, setScale] = React.useState("");
@@ -18,14 +21,31 @@ const FormVideoConveter = () => {
 	const [frameScale, setFrameScale] = React.useState("");
 	const [obtainFrames, setObtainFrames] = React.useState(false);
 	const [extractAudioFormat, setExtractAudioFormat] = React.useState("");
+	const [nameVideo, setNameVideo] = React.useState("Select a video file");
 	const [obtainAudio, setObtainAudio] = React.useState("");
 	const [open, setOpen] = React.useState(false);
 
+	let [hashVideo, setHashVideo] = React.useState();
+
+	const setFileVideo = async (e) => {
+		let videoFile = document.getElementById("contained-button-video");
+		if (videoFile.files.length > 0) {
+			let file = e.target.files[0];
+			hashVideo = await md5File.readFile(file);
+			console.warn(hashVideo);
+			setNameVideo(videoFile.files.item(0).name);
+			setHashVideo(hashVideo);
+			setUploadFile(e.target.files[0]);
+		} else {
+			setNameVideo("Select a video file");
+			setUploadFile(null);
+		}
+	};
+
 	const submitFormVideo = (event) => {
-		event.preventDefault();
+		event.preventDefault([]);
 		setOpen(true);
 		const dataArray = new FormData();
-
 		dataArray.append("ratio", ratio);
 		dataArray.append("scale", scale);
 		dataArray.append("quality", quality);
@@ -37,10 +57,12 @@ const FormVideoConveter = () => {
 		dataArray.append("obtainFrames", obtainFrames);
 		dataArray.append("frameScale", frameScale);
 		dataArray.append("obtainAudio", obtainAudio);
-
+		dataArray.append("checksum", hashVideo);
+		dataArray.append("file", uploadFile);
 		dataArray.append("extractAudioFormat", extractAudioFormat);
 
 		const fetchData = () => {
+			setResponse();
 			axios
 				.post(urlML, dataArray, {
 					headers: {
@@ -75,6 +97,7 @@ const FormVideoConveter = () => {
 					frameScale={frameScale}
 					obtainAudio={obtainAudio}
 					extractAudioFormat={extractAudioFormat}
+					nameVideo={nameVideo}
 					setOutputFormat={setOutputFormat}
 					setRatio={setRatio}
 					setScale={setScale}
@@ -87,8 +110,15 @@ const FormVideoConveter = () => {
 					setObtainFrames={setObtainFrames}
 					setExtractAudioFormat={setExtractAudioFormat}
 					setObtainAudio={setObtainAudio}
+					setFileVideo={setFileVideo}
+					setNameVideo={setNameVideo}
 				/>
-				<TableVideoForm />
+				<TableVideoForm
+					open={open}
+					setOpen={setOpen}
+					data={data}
+					setResponse={setResponse}
+				/>
 			</form>
 		</div>
 	);

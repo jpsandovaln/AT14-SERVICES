@@ -4,6 +4,12 @@ const OperationFacade = require('./facade/operation_facade');
 const Employee = require('./facade/Person/employee');
 const Computer = require('./memento/computer');
 const CareTaker = require('./memento/caretaker');
+const Document = require('./state/document');
+const ImportantDocument = require('./state/important_document');
+const ReviewState = require('./state/review_state');
+const ProgressState = require('./state/progress_state');
+const CompleteState = require('./state/complete_state');
+const RejectState = require('./state/reject_state');
 
 class Main {
     constructor(value) {
@@ -64,7 +70,7 @@ computer1.toString();
 const computer2 = new Computer('win', '128MB', '128MB');
 computer2.toString();*/
 
-const computer1 = new Computer('unix', '16GB', '1TB');
+/*const computer1 = new Computer('unix', '16GB', '1TB');
 computer1.toString();
 console.info('*************************');
 const caretaker = new CareTaker();
@@ -85,4 +91,25 @@ console.info('*************************');
 
 computer1.restore(caretaker.getComputer(2));
 computer1.toString();
-console.info('*************************');
+console.info('*************************');*/
+
+/*const document = new Document("doc1", "d:/docs/doc1.pdf");
+document.displayState();
+
+document.state = "review";
+document.displayState();*/
+
+const document = new ImportantDocument("doc1", "d:/doc1,pdf");
+document.displayState();
+
+document.state = new ReviewState();
+document.displayState();
+
+document.state = new ProgressState();
+document.displayState();
+
+document.state = new CompleteState();
+document.displayState();
+
+document.state = new RejectState();
+document.displayState();

@@ -60,7 +60,7 @@ const ImgForm = (promp) => {
 				<Card className={classes.card}>
 					<CardHeader
 						className={classes.title}
-						title="Image Format"
+						title="Format"
 						titleTypographyProps={{ variant: "h6" }}
 					/>
 					<CardContent>
@@ -72,7 +72,7 @@ const ImgForm = (promp) => {
 									fullWidth
 								>
 									<InputLabel id="demo-simple-select-outlined-label">
-										Output Formart
+										Output Format
 									</InputLabel>
 									<Select
 										labelId="demo-simple-select-outlined-label"
@@ -90,16 +90,39 @@ const ImgForm = (promp) => {
 											<em>-</em>
 										</MenuItem>
 										<MenuItem value={"Output1"}>
-											Output1
+											.png
 										</MenuItem>
 										<MenuItem value={"Output2"}>
-											Output2
+											.jpeg
+										</MenuItem>
+                                        <MenuItem value={"Output3"}>
+											.jpg
+										</MenuItem>
+                                        <MenuItem value={"Output4"}>
+											.bmp
+										</MenuItem>
+                                        <MenuItem value={"Output5"}>
+											.raw
+										</MenuItem>
+                                        <MenuItem value={"Output6"}>
+											.tiff
 										</MenuItem>
 									</Select>
 								</FormControl>
 							</Grid>
 						</Grid>
-						<Grid container spacing={6}>
+					</CardContent>
+				</Card>
+			</Grid>
+			<Grid item xs={4}>
+				<Card className={classes.card}>
+					<CardHeader
+						className={classes.title}
+						title="Resize"
+						titleTypographyProps={{ variant: "h6" }}
+					/>
+					<CardContent>
+					<Grid container spacing={6}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -111,7 +134,7 @@ const ImgForm = (promp) => {
 											id="discrete-slider-small-steps"
 											gutterBottom
 										>
-											Image Size
+											Output Size
 										</Typography>
 										<Slider
 											value={promp.imageSize}
@@ -122,17 +145,27 @@ const ImgForm = (promp) => {
 											track={promp.imageSize}
 											aria-labelledby="discrete-slider"
 											valueLabelDisplay="auto"
-											step={10}
+											step={20}
 											marks
-											min={10}
-											max={110}
+											min={-100}
+											max={100}
 										/>
 									</div>
 								</FormControl>
 							</Grid>
 						</Grid>
-
-						<Grid container spacing={6}>
+					</CardContent>
+				</Card>
+			</Grid>
+			<Grid item xs={4}>
+				<Card className={classes.card}>
+					<CardHeader
+						className={classes.title}
+						title="Rotate"
+						titleTypographyProps={{ variant: "h6" }}
+					/>
+					<CardContent>
+					<Grid container spacing={6}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -140,28 +173,69 @@ const ImgForm = (promp) => {
 									fullWidth
 								>
 									<InputLabel id="demo-simple-select-outlined-label">
-										Audio format
-									</InputLabel>
-									<Select
-										labelId="demo-simple-select-outlined-label"
-										id="demo-simple-select-outlined"
-										label="Audio format"
-										value={promp.audioFormat}
-										onChange={(e) =>
-											promp.setAudioFormat(e.target.value)
-										}
-										required
-									>
-										<MenuItem value="">
-											<em>-</em>
-										</MenuItem>
-										<MenuItem value={"Audio1"}>
-											Audio1
-										</MenuItem>
-										<MenuItem value={"Audio2"}>
-											Audio2
-										</MenuItem>
-									</Select>
+											Angle
+										</InputLabel>
+										<Select
+											labelId="demo-simple-select-outlined-label"
+											id="demo-simple-select-outlined"
+											value={promp.angle}
+											onChange={(e) =>
+												promp.setAngle(e.target.value)
+											}
+											label="Scale"
+											required
+										>
+											<MenuItem value={"90"}>90</MenuItem>
+											<MenuItem value={"180"}>
+												180
+											</MenuItem>
+											<MenuItem value={"270"}>
+												270
+											</MenuItem>
+										</Select>
+								</FormControl>
+							</Grid>
+						</Grid>
+					</CardContent>
+				</Card>
+			</Grid>
+			<Grid item xs={4}>
+				<Card className={classes.card}>
+					<CardHeader
+						className={classes.title}
+						title="Quality"
+						titleTypographyProps={{ variant: "h6" }}
+					/>
+					<CardContent>
+					<Grid container spacing={6}>
+							<Grid item xs>
+							<FormControl
+									variant="outlined"
+									className={classes.formControl}
+									fullWidth
+								>
+									<div className={classes.root}>
+										<Typography
+											id="discrete-slider-small-steps"
+											gutterBottom
+										>
+											Output Quality
+										</Typography>
+										<Slider
+											value={promp.quality}
+											onChange={(e, newValue) => {
+												promp.setQuality(newValue);
+											}}
+											defaultValue={0}
+											track={promp.quality}
+											aria-labelledby="discrete-slider"
+											valueLabelDisplay="auto"
+											step={1}
+											marks
+											min={0}
+											max={10}
+										/>
+									</div>
 								</FormControl>
 							</Grid>
 						</Grid>
@@ -201,8 +275,8 @@ const ImgForm = (promp) => {
 											valueLabelDisplay="auto"
 											step={10}
 											marks
-											min={10}
-											max={110}
+											min={0}
+											max={100}
 										/>
 									</div>
 								</FormControl>
@@ -233,8 +307,8 @@ const ImgForm = (promp) => {
 											valueLabelDisplay="auto"
 											step={10}
 											marks
-											min={10}
-											max={110}
+											min={0}
+											max={100}
 										/>
 									</div>
 								</FormControl>

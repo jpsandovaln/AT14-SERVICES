@@ -11,6 +11,7 @@ import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import { TextField } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -38,26 +39,40 @@ const VideoForm = (promps) => {
 				<Grid item xs={12}>
 					<Card className={classes.card}>
 						<CardContent>
-							<input
-								accept="video/"
-								className={classes.input}
-								id="contained-button-file"
-								multiple
-								type="file"
-								required
-							/>
-							<label htmlFor="contained-button-file">
-								<Button
-									variant="contained"
-									color="primary"
-									component="span"
-								>
-									Upload
-								</Button>
-							</label>
+							<Grid item md={2}>
+								<input
+									accept="video/*"
+									className={classes.input}
+									id="contained-button-video"
+									name="contained-button-video"
+									multiple
+									type="file"
+									required
+									onChange={promps.setFileVideo}
+								/>
+								<label htmlFor="contained-button-video">
+									<Button
+										variant="contained"
+										color="primary"
+										component="span"
+									>
+										Upload
+									</Button>
+								</label>
+							</Grid>
+							<Grid item md={4} >
+								<TextField
+									fullWidth
+									id="outlined-basic"
+									variant="outlined"
+									value={promps.nameVideo}
+									disabled
+								/>
+							</Grid>
 						</CardContent>
 					</Card>
 				</Grid>
+
 				<Grid item xs={7}>
 					<Card className={classes.card}>
 						<CardHeader
@@ -132,7 +147,6 @@ const VideoForm = (promps) => {
 												promps.setRatio(e.target.value)
 											}
 											label="Fps"
-											required
 										>
 											<MenuItem value="">
 												<em>-</em>
@@ -162,7 +176,6 @@ const VideoForm = (promps) => {
 												promps.setScale(e.target.value)
 											}
 											label="Scale"
-											required
 										>
 											<MenuItem value="">
 												<em>-</em>
@@ -206,7 +219,6 @@ const VideoForm = (promps) => {
 												)
 											}
 											label="Audio format"
-											required
 										>
 											<MenuItem value="">
 												<em>-</em>
@@ -242,7 +254,6 @@ const VideoForm = (promps) => {
 												)
 											}
 											label="Quality"
-											required
 										>
 											{[...Array(31)].map((x, i) => (
 												<MenuItem value={i + 1}>
@@ -282,7 +293,6 @@ const VideoForm = (promps) => {
 												promps.setAngle(e.target.value)
 											}
 											label="Scale"
-											required
 										>
 											<MenuItem value={"90"}>90</MenuItem>
 											<MenuItem value={"180"}>
@@ -366,7 +376,6 @@ const VideoForm = (promps) => {
 													e.target.value
 												)
 											}
-											required
 										>
 											<MenuItem value={"854"}>
 												854
@@ -438,7 +447,6 @@ const VideoForm = (promps) => {
 												)
 											}
 											label="Audio format"
-											required
 										>
 											<MenuItem value={".mp3"}>
 												.mp3

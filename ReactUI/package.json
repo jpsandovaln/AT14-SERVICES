@@ -13,12 +13,21 @@
         "bootstrap": "^4.5.3",
         "bootstrap-icons": "^1.5.0",
         "graphql": "^15.5.1",
+<<<<<<< HEAD
         "graphql-tag": "^2.12.5",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-dropzone": "^11.3.4",
+=======
+        "hash-wasm": "^4.9.0",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1",
+        "react-facebook-login": "^4.1.1",
+        "react-google-login": "^5.2.2",
+>>>>>>> develop
         "react-router-dom": "^5.2.0",
         "react-scripts": "4.0.1",
+        "react-social-login-buttons": "^3.5.0",
         "react-swipeable-views": "^0.14.0",
         "web-vitals": "^0.2.4"
     },

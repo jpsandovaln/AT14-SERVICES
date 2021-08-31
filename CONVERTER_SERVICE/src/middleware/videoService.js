@@ -23,22 +23,22 @@ class VideoServices {
 
     paramObtainFrames() {
         var paramFrames = {
-            frameScale:(this.body.frameScale != undefined ? this.body.frameScale : "320"),
-            grayScale: (this.body.grayScale != undefined ? this.body.grayScale : "false"),
-            timeBetweenFrames: (this.body.timeBetweenFrames != undefined ? this.body.timeBetweenFrames : "1"),
-            framesFormat: (this.body.framesFormat != undefined ? this.body.framesFormat : ".jpg")
+            frameScale:(this.body.frameScale != undefined && this.body.frameScale != ""? this.body.frameScale : "320"),
+            grayScale: (this.body.grayScale != undefined && this.body.grayScale != ""? this.body.grayScale : "false"),
+            timeBetweenFrames: (this.body.timeBetweenFrames != undefined && this.body.timeBetweenFrames != ""? this.body.timeBetweenFrames : "1"),
+            framesFormat: (this.body.framesFormat != undefined && this.body.framesFormat != ""? this.body.framesFormat : ".jpg")
         };       
         return paramFrames;
     }
 
     paramVideoFormat() {
         var paramVideoFormat = {
-            ratio: (this.body.ratio != undefined ? this.body.ratio : undefined),
-            scale: (this.body.scale != undefined ? this.body.scale : undefined),
-            quality: (this.body.quality != undefined ? this.body.quality : '0'),
-            angle: (this.body.angle != undefined ? this.body.angle : undefined),
-            vflip: (this.body.vflip != undefined ? this.body.vflip : undefined),
-            hflip: (this.body.hflip != undefined ? this.body.hflip : undefined),
+            ratio: (this.body.ratio != undefined && this.body.ratio != "" ? this.body.ratio : undefined),
+            scale: (this.body.scale != undefined && this.body.scale != ""? this.body.scale : undefined),
+            quality: (this.body.quality != undefined && this.body.quality != ""? this.body.quality : '0'),
+            angle: (this.body.angle != undefined && this.body.angle != ""? this.body.angle : undefined),
+            vflip: (this.body.vflip != undefined && this.body.vflip != ""? this.body.vflip : undefined),
+            hflip: (this.body.hflip != undefined && this.body.hflip != ""? this.body.hflip : undefined),
         };
         return paramVideoFormat;
     }

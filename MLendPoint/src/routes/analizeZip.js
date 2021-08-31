@@ -40,9 +40,8 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     unzip.extractZip(pathFile, unzipOutput);
 
     const zipPath = obtainDirectory.filesList(unzipOutput);
-    const imagePaths = obtainDirectory.filesList(unzipOutput + "/" + zipPath);
-
-    const files = buildArrayImages.buildArrayImages(imagePaths, unzipOutput, fileName);
+    
+    const files = buildArrayImages.buildArrayImages(zipPath, unzipOutput);
 
     if (algorithm == "CocoSSD") {
         const learning = new analizeCocoSSD(

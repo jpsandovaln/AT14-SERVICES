@@ -5,7 +5,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 const TableML = (classes) => {
@@ -27,7 +26,6 @@ const TableML = (classes) => {
 							<TableCell align="center">Options</TableCell>
 						</TableRow>
 					</TableHead>
-
 					<TableBody>
 						{classes.data &&
 							classes.data.map((row) => (

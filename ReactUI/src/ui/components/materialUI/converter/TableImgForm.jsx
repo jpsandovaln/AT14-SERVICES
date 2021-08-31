@@ -69,16 +69,6 @@ const TableImgForm = (promp) => {
                                                                                         </TableCell>
                                                                                 </TableRow>
                                                                         </TableHead>
-                                                                        <TableBody>
-                                                                                <TableRow>
-                                                                                        <TableCell align="center">
-                                                                                                Name
-                                                                                        </TableCell>
-                                                                                        <TableCell align="center">
-                                                                                                Link
-                                                                                        </TableCell>
-                                                                                </TableRow>
-                                                                        </TableBody>
                                                                 </Table>
                                                         </TableContainer>
                                                 </Grid>

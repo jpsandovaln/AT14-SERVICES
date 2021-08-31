@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-import axios from "axios";
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Card from "@material-ui/core/Card";
@@ -12,6 +10,8 @@ import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import TableML from "../../components/materialUI/machine-learning/TableML";
 import FormML from "../../components/materialUI/machine-learning/FormML";
+import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
 
 export const UploadMutation = gql`
   mutation uploadFileML($searchWord: String, $algorithm: String, $percentage: String, $file: Upload!) {
@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 const MachineLearing = () => {
 
 	const [data, setResponse] = useState([]);
-	//const [uploadFile, setUploadFile] = useState(null);
 	const [searchWord, setSearchWord] = useState("");
 	const [algorithm, setAlgorithm] = useState("");
 	const [percentage, setPercentage] = useState("");
@@ -63,13 +62,6 @@ const MachineLearing = () => {
 	const submitForm = async (event) => {
 		event.preventDefault();
 		setOpen(true);
-		/*
-		const dataArray = new FormData();
-		dataArray.append("searchWord", searchWord);
-		dataArray.append("algorithm", algorithm);
-		dataArray.append("percentage", percentage);
-		dataArray.append("zipFile", uploadFile);
-		*/
 
 		const data = await uploadFileML({
 			variables: {
@@ -87,28 +79,6 @@ const MachineLearing = () => {
 			setResponse(data.data.uploadFileML);
 			setOpen(false);		  
 		  }
-
-
-		/*	
-		const fetchData = () => {
-			setResponse([]);
-			axios
-				.post(urlML, dataArray, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					setResponse(res.data);
-					setOpen(false);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
-
-		fetchData();
-		*/
 	};
 
 	const classes = useStyles();
@@ -121,7 +91,7 @@ const MachineLearing = () => {
 				</Link>
 				<Typography color="textPrimary">Machine Learning</Typography>
 			</Breadcrumbs>
-			<form onSubmit={submitForm}>
+			<form name="videoForm" onSubmit={submitForm}>
 				<FormML
 					classes={classes}
 					setSearchWord={setSearchWord}
@@ -130,10 +100,18 @@ const MachineLearing = () => {
 					algorithm={algorithm}
 					setAlgorithm={setAlgorithm}
 					setUploadFile={setUploadFile}
+					nameFromVideo={nameFromVideo}
+					setNameVideo={setNameVideo}
+					nameVideo={nameVideo}
 				/>
 			</form>
 			<br />
 			<Card>
+				<CardActions>
+					<Button type="submit" variant="contained" color="primary">
+						Analyze
+					</Button>
+				</CardActions>
 				<CardHeader
 					title="Results"
 					className={classes.title}
