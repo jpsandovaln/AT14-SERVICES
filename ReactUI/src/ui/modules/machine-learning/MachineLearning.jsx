@@ -145,14 +145,14 @@ const MachineLearing = () => {
 			<br />
 			<Card>
 				<CardActions>
-					<Button type="submit" variant="contained" color="primary">
+					<Button type="submit" variant="contained" color="default">
 						Analyze
 					</Button>
 				</CardActions>
 				<CardHeader
 					title="Results"
 					className={classes.title}
-					titleTypographyProps={{ variant: "h6" }}
+					titleTypographyProps={{ variant: "h7" }}
 				></CardHeader>
 				<CardContent>
 					<TableML

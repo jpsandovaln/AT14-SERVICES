@@ -7,24 +7,25 @@ import {
 	TextField,
 	Button,
 	Divider,
-	Grid,
+	Grid
 } from "@material-ui/core";
 import GoogleLogin from "react-google-login";
 import "./loginPage.css";
 import Link from '@material-ui/core/Link';
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import { useState } from "react";
 
 const Login = (props) => {
-	const logginSuccess = (res) => {
-		console.log("Success:", res.profileObj);
-		props.setIsLogin(true);
-		props.history.push("/home");
-	};
 
-	const logginFailure = (res) => {
-		console.log("Failed loggin:", res);
-		props.setIsLogin(false);
-	};
+	const handleChange = e =>{
+		console.log(e.target.value)
+		setBody({
+			...body,
+			[e.target.name]: e.target.value
+		})
+	}
+
+	const  [body,  setBody]  = useState({email: ' ', password: ' '})
 
 	const classStyles = makeStyles((theme) => ({
 		paper: {
@@ -98,6 +99,8 @@ const Login = (props) => {
 										name="email"
 										autoComplete="email"
 										autoFocus
+										value={body.email}
+										onChange={handleChange}
 									/>
 									<TextField
 										variant="outlined"
@@ -109,15 +112,18 @@ const Login = (props) => {
 										type="password"
 										id="password"
 										autoComplete="current-password"
+										value={body.password}
+										onChange={handleChange}
 									/>
 									<Button
 										type="submit"
 										fullWidth
 										variant="contained"
 										color="primary"
-										className={classes.submit}
+										className={classes.button}
+										onClick={()=>props.history.push("/home")}
 									>
-										Login
+												Login
 									</Button>
 									<br></br>
 									<br></br>
@@ -128,12 +134,10 @@ const Login = (props) => {
 									<br></br>
 									<Grid align="center">
 										<GoogleLogin
-											clientId="726629848709-g7mmqrelcc0fauka4vfimnbl16tvp2q5.apps.googleusercontent.com"
+											clientId="265656764137-b4s3ee6244euu9frheq7p64osht9o9uf.apps.googleusercontent.com"
 											buttonText="Login"
-											onSuccess={logginSuccess}
-											onFailure={logginFailure}
 											cookiePolicy={"single_host_origin"}
-										/>
+											/>
 										<br></br>
 									</Grid>
 								</div>

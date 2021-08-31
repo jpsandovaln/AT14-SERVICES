@@ -155,7 +155,7 @@ const ImgForm = (promp) => {
 									fullWidth
 								>
 									<InputLabel id="demo-simple-select-outlined-label">
-											Angle
+											Angle of rotation
 										</InputLabel>
 										<Select
 											labelId="demo-simple-select-outlined-label"
