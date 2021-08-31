@@ -18,31 +18,32 @@ const TableML = (classes) => {
 				>
 					<TableHead>
 						<TableRow>
-							<TableCell align="center">Algorithm</TableCell>
-							<TableCell align="center">Word</TableCell>
-							<TableCell align="center">Percentage</TableCell>
-							<TableCell align="center">Second</TableCell>
-							<TableCell align="center">Image</TableCell>
-							<TableCell align="center">Options</TableCell>
+							<TableCell>Algorithm</TableCell>
+							<TableCell align="right">Word</TableCell>
+							<TableCell align="right">Percentage</TableCell>
+							<TableCell align="right">Second</TableCell>
+							<TableCell align="right">Image</TableCell>
+							<TableCell align="right">Options</TableCell>
 						</TableRow>
 					</TableHead>
+
 					<TableBody>
 						{classes.data &&
 							classes.data.map((row) => (
 								<TableRow key={row.name}>
-									<TableCell align="center">
+									<TableCell align="right">
 										{row.Algorithm}
 									</TableCell>
-									<TableCell align="center">
+									<TableCell align="right">
 										{row.Word}
 									</TableCell>
-									<TableCell align="center">
-										{(row.Percentage * 100).toFixed(0)} %
+									<TableCell align="right">
+										{(row.Percentage + 100).toFixed(0)} %
 									</TableCell>
-									<TableCell align="center">
+									<TableCell align="right">
 										{row.Second}
 									</TableCell>
-									<TableCell align="center">
+									<TableCell align="right">
 										<img
 											src={row.PathImage}
 											width="60"
@@ -50,7 +51,7 @@ const TableML = (classes) => {
 											alt="prueba"
 										/>
 									</TableCell>
-									<TableCell align="center">
+									<TableCell align="right">
 										<a
 											href={row.PathImage}
 											without
