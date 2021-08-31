@@ -5,6 +5,8 @@ const path = require("path");
 const executePathExiftool = process.env.CONVERTER_PATH_EXIFTOOL;
 const uploadPath = process.env.UPLOAD_PATH;
 const outputPath = process.env.OUTPUT_PATH;
+const baseURL = process.env.BASE_URL_CONVERTER;
+const port = process.env.PORT_CONVERTER;
 
 const obtainMetadata = async (req, res) => {
     await uploadFileMiddleware(req, res);
@@ -14,7 +16,7 @@ const obtainMetadata = async (req, res) => {
     res.status(200).send({
         name: nameFile,
         filePath:
-            "http://localhost:4000/filesMetadata/" + path.basename(resultPath),
+            baseURL + ":" + port + "/filesMetadata/" + path.basename(resultPath),
         params: req.body,
     });
 };

@@ -1,5 +1,7 @@
 require("dotenv").config();
 const outputPath = process.env.OUTPUT_PATH;
+const baseURL = process.env.BASE_URL_CONVERTER;
+const port = process.env.PORT_CONVERTER;
 const path = require("path");
 const Zip = require("../middleware/zipping");
 const VideoServices = require("../middleware/videoService");
@@ -25,7 +27,7 @@ const changeVideoFormat = async (req, res) => {
     res.status(200).send([
         {
             name: nameFile,
-            filePath: "http://localhost:4000/files/" + nameZipFile,
+            filePath: baseURL + ":" + port + "/files/" + nameZipFile,
         },
     ]);
 };

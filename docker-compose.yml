@@ -33,7 +33,7 @@ services:
       - ./.env
     container_name: converter_container
     ports:
-      - 4000:4000
+      - 4028:4028
     links: 
       - mongo_db
     networks:

@@ -4,7 +4,7 @@ RUN apk add --upgrade ffmpeg
 
 RUN apk add --upgrade imagemagick
 
-RUN apk add --upgrade perl-image-exiftool
+RUN apk add exiftool perl-image-exiftool
 
 WORKDIR /app
 
