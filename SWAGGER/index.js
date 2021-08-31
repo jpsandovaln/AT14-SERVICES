@@ -1,10 +1,14 @@
+require("dotenv").config(".env");
 const express = require("express");
 const cors = require("cors");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
 const dbRouter = require("./swaggerDocs/videoConverter/dataBase");
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.SERVICE_PORT || 4000;
+const CONVERTER_PORT = process.env.CONVERTER_PORT;
+const ML_PORT = process.env.ML_PORT;
+const HOSTNAME = process.env.HOSTNAME;
 
 const app = express();
 const swaggerOptions = {
@@ -16,16 +20,15 @@ const swaggerOptions = {
             description: "Api to convert videos into imagenes",
             contact: {
                 name: "AT14",
-                url: "http://localhost:8080/api-docs/swagger.json",
             },
         },
         servers: [
             {
-                url: "http://localhost:8080",
+                url: "http://" + HOSTNAME + ":" + CONVERTER_PORT,
                 description: "Port where the converter service works",
             },
             {
-                url: "http://localhost:8085",
+                url: "http://" + HOSTNAME + ":" + ML_PORT,
                 description: "Port where the machine learning service works",
             },
         ],
@@ -45,12 +48,11 @@ const videoConverterOptions = {
             description: "Api to convert videos into imagenes",
             contact: {
                 name: "AT14",
-                url: "http://localhost:8080/videoConverter",
             },
         },
         servers: [
             {
-                url: "http://localhost:8080",
+                url: "http://" + HOSTNAME + ":" + ML_PORT,
                 description: "Port where the converter service works",
             },
         ],
