@@ -1,5 +1,5 @@
 import * as mobilenet from "@tensorflow-models/mobilenet";
-import * as tfnode from "@tensorflow/tfjs-node";
+import { node } from "@tensorflow/tfjs-node";
 import MachineLearing from "./MachineLearing";
 import * as fs from "fs";
 
@@ -22,7 +22,7 @@ class MobilNet extends MachineLearing {
 
     async loadmodel(): Promise<any> {
         const image = fs.readFileSync(this.image);
-        const tfimage: any = tfnode.node.decodeImage(image);
+        const tfimage: any = node.decodeImage(image);
         const model = await mobilenet.load();
         const predictions = await model.classify(tfimage);
         return predictions;

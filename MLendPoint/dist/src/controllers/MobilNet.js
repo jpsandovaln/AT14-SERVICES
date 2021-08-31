@@ -31,17 +31,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//import cocoSsd from "@tensorflow-models/coco-ssd";
-const cocoSsd = __importStar(require("@tensorflow-models/coco-ssd"));
-const tfjs_node_1 = require("@tensorflow/tfjs-node");
+const mobilenet = __importStar(require("@tensorflow-models/mobilenet"));
+const tfnode = __importStar(require("@tensorflow/tfjs-node"));
 const MachineLearing_1 = __importDefault(require("./MachineLearing"));
-const fs_1 = __importDefault(require("fs"));
+const fs = __importStar(require("fs"));
 /**
  * @Class
  * Build an instance from Machine Learning
  *
  */
-class CocoSSD extends MachineLearing_1.default {
+class MobilNet extends MachineLearing_1.default {
     /**
      * @param {string} imagePath The path where image is.
      * @param {string} searchWord The word to search.
@@ -50,25 +49,24 @@ class CocoSSD extends MachineLearing_1.default {
     constructor(image, searchWord, percentage) {
         super(image, searchWord, percentage);
     }
-    loadModel() {
+    loadmodel() {
         return __awaiter(this, void 0, void 0, function* () {
-            const image = fs_1.default.readFileSync(this.image);
-            const processInput = tfjs_node_1.node.decodeImage(image);
-            console.log("CocoSSD", cocoSsd);
-            const model = yield cocoSsd.load();
-            const predictions = yield model.detect(processInput);
+            const image = fs.readFileSync(this.image);
+            const tfimage = tfnode.node.decodeImage(image);
+            const model = yield mobilenet.load();
+            const predictions = yield model.classify(tfimage);
             return predictions;
         });
     }
     getJSON() {
         return __awaiter(this, void 0, void 0, function* () {
             let quantity = 0;
-            this.predictions = yield this.loadModel();
+            this.predictions = yield this.loadmodel();
             const arr = [];
             this.predictions.forEach((element) => {
                 const searchWord = new RegExp(this.searchWord, "i");
-                if (element.class.search(searchWord) != -1 &&
-                    element.score >= this.percentage) {
+                if (element.className.search(searchWord) != -1 &&
+                    element.probability >= this.percentage) {
                     quantity = quantity + 1;
                     arr.push(element);
                 }
@@ -79,13 +77,9 @@ class CocoSSD extends MachineLearing_1.default {
     parse(arr) {
         const arrParse = [];
         arr.forEach((element) => {
-            const arrAux = {
-                className: element.class,
-                probability: element.score
-            };
-            arrParse.push(arrAux);
+            arrParse.push(element);
         });
         return arrParse;
     }
 }
-exports.default = CocoSSD;
+exports.default = MobilNet;
