@@ -24,11 +24,11 @@ const {
  *     format: binary
  *    ratio:
  *     type: string
- *     description: ask
+ *     description: Ratio that will be obtained from the video converted
  *     example: '20'
  *    scale:
  *     type: string
- *     description: ask
+ *     description: Size of the video that converted
  *     example: '340x300'
  *    quality:
  *     type: string
@@ -40,11 +40,11 @@ const {
  *     example: '270'
  *    vflip:
  *     type: string
- *     description: ask
+ *     description: The video converted will flip vertically
  *     example: 'true'
  *    hflip:
  *     type: string
- *     description: ask
+ *     description: The video converter will flip vertically
  *     example: 'false'
  *    outputFormat:
  *     type: string
@@ -52,11 +52,11 @@ const {
  *     example: '.flv'
  *    obtainFrames:
  *     type: string
- *     description: ask
+ *     description: Option to agree if the converter will obtain the frames from the video
  *     example: 'false'
  *    frameScale:
  *     type: string
- *     description: ask
+ *     description: Size of the frames that will be obtained from the video
  *     example: '400'
  *    grayScale:
  *     type: string
