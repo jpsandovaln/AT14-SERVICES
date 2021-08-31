@@ -34,7 +34,7 @@ class CocoSSD extends MachineLearing {
         this.predictions = await this.loadModel();
         const arr: any = [];
         this.predictions.forEach((element: any) => {
-            const searchWord = new RegExp(this.searchWord, "i");
+            const searchWord = new RegExp(this.searchWord.trim(), "i");
             if (
                 element.class.search(searchWord) != -1 &&
                 element.score >= this.percentage
