@@ -15,7 +15,7 @@ global.__basedir = __dirname;
 
 class Index {
     constructor(
-        corsOptions = { origin: "http://localhost:8081" },
+        corsOptions = { origin: ["http://localhost:8080","http://localhost:4000","http://localhost:8081"] },
         port = process.env.PORT_CONVERTER
     ) {
         app.use(cors(corsOptions));

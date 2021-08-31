@@ -1,0 +1,24 @@
+{
+  "books": [
+    {
+      "id": "iEuOBYkU",
+      "title": "The Little Book of Semaphores",
+      "author": "Allen B. Downey "
+    },
+    {
+      "id": "0kFaJHB2",
+      "title": "Programming Pearls",
+      "author": "Jon Bentley"
+    },
+    {
+      "id": "BDUDxb6F",
+      "title": "The New Turing Omnibus",
+      "author": "Alexander K. Dewdney"
+    },
+    {
+      "id": "d5fE_asz",
+      "title": "The New Turing Omnibus",
+      "author": "Alexander K. Dewdney"
+    }
+  ]
+}
