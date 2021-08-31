@@ -1,4 +1,3 @@
-require("dotenv").config("../../.env");
 const express = require("express");
 const path = require("path");
 const upload = require("../middleware/imageFilter");
@@ -9,15 +8,12 @@ const SecondsToString = require("../middleware/secondToString");
 const analizeCocoSSD = require("../middleware/analizeCocoSSD");
 const analizeMobilNet = require("../middleware/analizeMobilNet");
 const BuildArrayImages = require("../middleware/buildArrayImages");
-
-const port = process.env.PORT || 8085;
-const hostname = process.env.HOSTNAME || 'localhost';
-
+ 
 router.get("/", (req, res) => {
     const json = {};
     res.json(json);
 });
-
+ 
 router.post("/", upload.single("zipFile"), async (req, res) => {
     const file = req.file;
     const searchWord = req.body.searchWord;
@@ -27,26 +23,23 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
     const algorithm = req.body.algorithm;
     const extension = path.extname(file.originalname);
     const fileName = path.basename(file.originalname, extension);
-
+ 
     const pathImage =
-        `http://${hostname}:${port}/unZipFiles/` +
+        "http://localhost:8085/unZipFiles/" +
         path.parse(zipNameFile).name +
-        "/" +
-        fileName +
         "/";
     const obtainDirectory = new ObtainDirectory();
     const buildArrayImages = new BuildArrayImages();
     const unzip = new UnZip();
     const secondsToString = new SecondsToString();
-
-    const unzipOutput =
-        __dirname + "/../../public/unZipFiles/" + path.parse(zipNameFile).name;
+    const unzipOutput = path.join(
+        __dirname ,
+        "/../../public/unZipFiles/" + path.parse(zipNameFile).name
+    );
     unzip.extractZip(pathFile, unzipOutput);
-
     const zipPath = obtainDirectory.filesList(unzipOutput);
-    
     const files = buildArrayImages.buildArrayImages(zipPath, unzipOutput);
-
+  
     if (algorithm == "CocoSSD") {
         const learning = new analizeCocoSSD(
             files,
@@ -59,7 +52,7 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
         let response = await learning.recognition();
         res.send(response);
     }
-
+ 
     if (algorithm == "MobilNet") {
         const learning = new analizeMobilNet(
             files,
@@ -73,5 +66,5 @@ router.post("/", upload.single("zipFile"), async (req, res) => {
         res.send(response);
     }
 });
-
+ 
 module.exports = router;

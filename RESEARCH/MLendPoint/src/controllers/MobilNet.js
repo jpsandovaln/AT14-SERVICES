@@ -1,5 +1,5 @@
-const cocoSsd = require('@tensorflow-models/coco-ssd');
-const tf = require('@tensorflow/tfjs-node');
+const mobilenet = require('@tensorflow-models/mobilenet');
+const tfnode = require('@tensorflow/tfjs-node');
 const MachineLearing = require('./MachineLearing');
 const fs = require('fs');
 
@@ -9,7 +9,7 @@ const fs = require('fs');
  * 
  */
 
-class CocoSSD extends MachineLearing {
+class MobilNet extends MachineLearing {
 
     /**
      * @param {string} imagePath The path where image is.
@@ -21,21 +21,21 @@ class CocoSSD extends MachineLearing {
         super(image, searchWord, percentage);
     }
 
-    async loadModel() {
+    async loadmodel() {
         const image = fs.readFileSync(this.image);
-        const processInput = tf.node.decodeImage(image);
-        const model = await cocoSsd.load();
-        const predictions = await model.detect(processInput);
+        const tfimage = tfnode.node.decodeImage(image);
+        const model = await mobilenet.load();
+        const predictions = await model.classify(tfimage);
         return predictions;
     }
 
     async getJSON() {
         let quantity = 0;
-        this.predictions = await this.loadModel();
+        this.predictions = await this.loadmodel();
         let arr = new Array();
         this.predictions.forEach((element) => {
-            let searchWord = new RegExp(this.searchWord, 'i');
-            if (element.class.search(searchWord) != -1 && element.score >= this.percentage) {
+            let searchWord = new RegExp(this.searchWord.trim(), 'i');
+            if (element.className.search(searchWord) != -1 && element.probability >= this.percentage) {
                 quantity = quantity + 1;
                 arr.push(element);
             }
@@ -46,11 +46,10 @@ class CocoSSD extends MachineLearing {
     parse(arr) {
         let arrParse = new Array();
         arr.forEach((element) => {
-            let arrAux = { className: element.class, probability: element.score };
-            arrParse.push(arrAux);
+            arrParse.push(element);
         });
         return arrParse;
     }
 }
 
-module.exports = CocoSSD;
+module.exports = MobilNet;
