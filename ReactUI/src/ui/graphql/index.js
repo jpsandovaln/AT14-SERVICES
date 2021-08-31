@@ -1,46 +1,26 @@
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider,
   HttpLink,
   from
 } from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
-import Form from "./components/form";
-import React, { useState } from 'react';
-import Link from "@material-ui/core/Link";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import { Typography } from "@material-ui/core";
+import FileUpload from "./components/upload";
+import React from 'react';
+import { createUploadLink } from "apollo-upload-client";
+import { ApolloProvider } from '@apollo/react-hooks';
 
-const errorLink = onError(({ graphqlErrors, networkError }) => {
-  if (graphqlErrors) {
-    graphqlErrors.map(({ message, location, path }) => {
-      alert(`Graphql error ${message}`);
-    });
-  }
-});
-
-const link = from([errorLink, new HttpLink({ uri: "http://localhost:4000/" })]);
+const link = createUploadLink({ uri: "http://localhost:4000/graphql" });
 
 const client = new ApolloClient({
+  link,
   cache: new InMemoryCache(),
-  link: link
 });
-
-
 
 function Index() {
 
   return (
     <ApolloProvider client={client}>
-
-      <Breadcrumbs aria-label="breadcrumb">
-				<Link color="inherit" href="/" onClick={""}>
-					Home
-				</Link>
-				<Typography color="textPrimary">Report Convert</Typography>
-			</Breadcrumbs>
-      <Form />
+      <FileUpload />
     </ApolloProvider>
   );
 }
