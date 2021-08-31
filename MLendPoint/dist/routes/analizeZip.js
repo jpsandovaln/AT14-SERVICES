@@ -59,7 +59,7 @@ class AnalizeZip {
             const algorithm = req.body.algorithm;
             const extension = path.extname(file === null || file === void 0 ? void 0 : file.originalname);
             const fileName = path.basename(file === null || file === void 0 ? void 0 : file.originalname, extension);
-            const pathImage = "http://localhost:8080/unZipFiles/" +
+            const pathImage = "http://localhost:8085/unZipFiles/" +
                 path.parse(zipNameFile).name +
                 "/" +
                 fileName +

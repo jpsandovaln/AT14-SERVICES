@@ -23,7 +23,7 @@ router.post("/", imageFilter_1.default.array("Images"), (req, res) => __awaiter(
     const searchWord = req.body.searchWord;
     const percentage = req.body.percentage;
     const algorithm = req.body.algorithm;
-    const pathImage = "http://localhost:8080/images/";
+    const pathImage = "http://localhost:8085/images/";
     const secondsToString = new secondToString_1.default();
     if (algorithm == "CocoSSD") {
         const learning = new analizeCocoSSD_1.default(files, searchWord, percentage, secondsToString, algorithm, pathImage);
