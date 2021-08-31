@@ -1,35 +1,49 @@
 {
-  "name": "prog101routers",
-  "version": "1.0.0",
-  "description": "Example Node JS with Routes",
-  "main": "app.js",
-  "scripts": {
-    "test": "jest --collect-coverage"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jchoque87/Prog101Routers.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jchoque87/Prog101Routers/issues"
-  },
-  "homepage": "https://github.com/jchoque87/Prog101Routers#readme",
-  "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.15.0",
-    "@tensorflow-models/coco-ssd": "^2.2.2",
-    "@tensorflow-models/mobilenet": "^2.1.0",
-    "@tensorflow/tfjs": "^3.8.0",
-    "@tensorflow/tfjs-node": "^3.8.0",
-    "adm-zip": "^0.4.16",
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "jest": "^27.0.6",
-    "multer": "^1.4.2"
-  },
-  "dependencies": {
-    "cors": "^2.8.5"
-  }
+    "name": "prog101routers",
+    "version": "1.0.0",
+    "description": "Example Node JS with Routes",
+    "main": "app.js",
+    "scripts": {
+        "test": "jest --collect-coverage",
+        "lint": "eslint . --ext .ts",
+        "start": "tsc && node ./dist/app.js",
+        "ts": "tsc -w",
+        "dev": "nodemon ./dist/app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jchoque87/Prog101Routers.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jchoque87/Prog101Routers/issues"
+    },
+    "homepage": "https://github.com/jchoque87/Prog101Routers#readme",
+    "devDependencies": {
+        "@babel/plugin-transform-modules-commonjs": "^7.15.0",
+        "@types/adm-zip": "^0.4.34",
+        "@types/cors": "^2.8.12",
+        "@types/express": "^4.17.13",
+        "@types/multer": "^1.4.7",
+        "@types/node": "^16.7.4",
+        "@typescript-eslint/eslint-plugin": "^4.29.3",
+        "@typescript-eslint/parser": "^4.29.3",
+        "body-parser": "^1.19.0",
+        "eslint": "^7.32.0",
+        "jest": "^27.0.6",
+        "nodemon": "^2.0.12",
+        "typescript": "^4.4.2"
+    },
+    "dependencies": {
+        "@tensorflow-models/coco-ssd": "^2.2.2",
+        "@tensorflow-models/mobilenet": "^2.1.0",
+        "@tensorflow/tfjs": "^3.8.0",
+        "@tensorflow/tfjs-node": "^3.8.0",
+        "adm-zip": "^0.5.5",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "multer": "^1.4.3"
+    }
 }
