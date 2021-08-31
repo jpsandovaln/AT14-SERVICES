@@ -32,7 +32,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mobilenet = __importStar(require("@tensorflow-models/mobilenet"));
-const tfnode = __importStar(require("@tensorflow/tfjs-node"));
+const tfjs_node_1 = require("@tensorflow/tfjs-node");
 const MachineLearing_1 = __importDefault(require("./MachineLearing"));
 const fs = __importStar(require("fs"));
 /**
@@ -52,7 +52,7 @@ class MobilNet extends MachineLearing_1.default {
     loadmodel() {
         return __awaiter(this, void 0, void 0, function* () {
             const image = fs.readFileSync(this.image);
-            const tfimage = tfnode.node.decodeImage(image);
+            const tfimage = tfjs_node_1.node.decodeImage(image);
             const model = yield mobilenet.load();
             const predictions = yield model.classify(tfimage);
             return predictions;

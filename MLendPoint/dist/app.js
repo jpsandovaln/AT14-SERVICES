@@ -31,7 +31,7 @@ const about_1 = __importDefault(require("./routes/about"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8085;
 app.use(express_1.default.static(path.join(__dirname, "../public")));
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());

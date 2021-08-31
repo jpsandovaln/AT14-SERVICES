@@ -31,7 +31,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//import cocoSsd from "@tensorflow-models/coco-ssd";
 const cocoSsd = __importStar(require("@tensorflow-models/coco-ssd"));
 const tfjs_node_1 = require("@tensorflow/tfjs-node");
 const MachineLearing_1 = __importDefault(require("./MachineLearing"));
