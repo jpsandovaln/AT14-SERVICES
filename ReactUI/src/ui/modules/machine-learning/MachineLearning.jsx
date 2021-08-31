@@ -10,8 +10,6 @@ import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import TableML from "../../components/materialUI/machine-learning/TableML";
 import FormML from "../../components/materialUI/machine-learning/FormML";
-import CardActions from "@material-ui/core/CardActions";
-import Button from "@material-ui/core/Button";
 
 export const UploadMutation = gql`
   mutation uploadFileML($searchWord: String, $algorithm: String, $percentage: String, $file: Upload!) {
@@ -62,7 +60,7 @@ const MachineLearing = () => {
 	const submitForm = async (event) => {
 		event.preventDefault();
 		setOpen(true);
-
+		setResponse([]);
 		const data = await uploadFileML({
 			variables: {
 			  searchWord: searchWord+"",
@@ -91,7 +89,7 @@ const MachineLearing = () => {
 				</Link>
 				<Typography color="textPrimary">Machine Learning</Typography>
 			</Breadcrumbs>
-			<form name="videoForm" onSubmit={submitForm}>
+			<form onSubmit={submitForm}>
 				<FormML
 					classes={classes}
 					setSearchWord={setSearchWord}
@@ -100,23 +98,11 @@ const MachineLearing = () => {
 					algorithm={algorithm}
 					setAlgorithm={setAlgorithm}
 					setUploadFile={setUploadFile}
-					nameFromVideo={nameFromVideo}
-					setNameVideo={setNameVideo}
-					nameVideo={nameVideo}
 				/>
 			</form>
 			<br />
 			<Card>
-				<CardActions>
-					<Button type="submit" variant="contained" color="primary">
-						Analyze
-					</Button>
-				</CardActions>
-				<CardHeader
-					title="Results"
-					className={classes.title}
-					titleTypographyProps={{ variant: "h6" }}
-				></CardHeader>
+				<CardHeader title="Results"></CardHeader>
 				<CardContent>
 					<TableML
 						classes={classes}

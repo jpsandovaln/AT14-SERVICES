@@ -68,11 +68,7 @@ const App = () => {
 					path="/graphql" 
 					component={ReportConvertPage} 
 				/>
-<<<<<<< HEAD
-				<Route exact path="/graphql" component={ReportConvertPage} />
 				<Route exact path="/graphqlForm" component={FormGraphqlPage} />
-=======
->>>>>>> develop
 			</Switch>
 		</Router>
 	

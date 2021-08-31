@@ -1,8 +1,6 @@
 import {
   ApolloClient,
   InMemoryCache,
-  HttpLink,
-  from
 } from "@apollo/client";
 import FileUpload from "./components/upload";
 import React from 'react';

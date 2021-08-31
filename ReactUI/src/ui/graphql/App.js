@@ -7,11 +7,8 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import GetFiles from "./components/getFiles";
-<<<<<<< HEAD
 import Form from "./components/form";
 import React, { useState } from 'react';
-=======
->>>>>>> develop
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import { Typography } from "@material-ui/core";
