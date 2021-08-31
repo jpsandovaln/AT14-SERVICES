@@ -1,13 +1,6 @@
 const cors = require("cors");
-const {
-    changeVideoFormat,
-    download,
-} = require("../../../CONVERTER_SERVICE/src/controller/VideoController");
-const uploadFilesMiddleware = require("../../../CONVERTER_SERVICE/src/middleware/uploadFiles");
-const { framesZipML, downloadMLZip } = require("../../../CONVERTER_SERVICE/src/controller/MLController");
-const { obtainMetadata, downloadMetadata } = require("../../../CONVERTER_SERVICE/src/controller/metadataController");
-const analizeZip = require("../../../MLendPoint/src/routes/analizeZip");
-const analizeImages = require("../../../MLendPoint/src/routes/analizeImages");
+const analizeZip = require("../../../MLendPoint/dist/routes/analizeZip");
+const analizeImages = require("../../../MLendPoint/dist/routes/analizeImages");
 
 /**
  * @swagger
@@ -35,9 +28,11 @@ const analizeImages = require("../../../MLendPoint/src/routes/analizeImages");
  *   type: object
  *   properties:
  *    file:
- *     type: string
+ *     type: array
+ *     items:
+ *      type: string
+ *      format: binary
  *     description: The video file that will be converted
- *     format: binary
  *    searchWord:
  *     type: string
  *     description: The keyword that will be looked in the images by the machine learning
