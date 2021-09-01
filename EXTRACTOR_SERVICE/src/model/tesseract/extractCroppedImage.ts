@@ -22,7 +22,7 @@ export class ExtractCroppedImage extends Extractor {
 		} catch (error) {
 			throw new CroppedImageException(
 				error,
-				"500-Internal Server Error",
+				"500",
 				"EXTRACTOR-ERROR-04"
 			);
 		}

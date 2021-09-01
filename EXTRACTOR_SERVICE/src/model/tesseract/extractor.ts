@@ -28,7 +28,7 @@ export abstract class Extractor {
 		} catch (error) {
 			throw new LoadWorkerException(
 				error,
-				"503-Service Unavailable",
+				"503",
 				"EXTRACTOR-00"
 			);
 		}
