@@ -10,6 +10,7 @@ const ReviewState = require('./state/review_state');
 const ProgressState = require('./state/progress_state');
 const CompleteState = require('./state/complete_state');
 const RejectState = require('./state/reject_state');
+const ATM = require('./chain/atm');
 
 class Main {
     constructor(value) {
@@ -99,7 +100,7 @@ document.displayState();
 document.state = "review";
 document.displayState();*/
 
-const document = new ImportantDocument("doc1", "d:/doc1,pdf");
+/*const document = new ImportantDocument("doc1", "d:/doc1,pdf");
 document.displayState();
 
 document.state = new ReviewState();
@@ -112,4 +113,7 @@ document.state = new CompleteState();
 document.displayState();
 
 document.state = new RejectState();
-document.displayState();
+document.displayState();*/
+
+const atm = new ATM(6754);
+atm.getMoney();
