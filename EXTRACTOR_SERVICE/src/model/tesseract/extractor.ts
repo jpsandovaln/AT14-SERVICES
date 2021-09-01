@@ -21,6 +21,7 @@ export abstract class Extractor {
 	 */
 	public async loadWorker(): Promise<void> {
 		try {
+			this.validateParameter();
 			await this.worker.load();
 			await this.worker.loadLanguage(this.language);
 			await this.worker.initialize(this.language);
