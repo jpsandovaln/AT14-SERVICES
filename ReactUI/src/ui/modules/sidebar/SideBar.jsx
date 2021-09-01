@@ -8,13 +8,12 @@ import MenuOptions from "../../components/menu-options/MenuOptions";
 import NavBar from "../../components/navbar/NavBar";
 
 const drawerWidth = 240;
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: "flex",
 	},
 	drawer: {
-		backgroundColor: "#3a4651",
+		backgroundColor: "#2b9bfbf",
 		[theme.breakpoints.up("sm")]: {
 			width: drawerWidth,
 			flexShrink: 0,

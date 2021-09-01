@@ -35,7 +35,7 @@ const VideoForm = (promps) => {
 
 	return (
 		<div>
-			<Grid container spacing={3} xs={12}>
+			<Grid container spacing={2} xs={12}>
 				<Grid item xs={12}>
 					<Card className={classes.card}>
 						<CardContent>
@@ -53,7 +53,7 @@ const VideoForm = (promps) => {
 								<label htmlFor="contained-button-video">
 									<Button
 										variant="contained"
-										color="primary"
+										color="#83bbeb"
 										component="span"
 									>
 										Upload
@@ -72,13 +72,12 @@ const VideoForm = (promps) => {
 						</CardContent>
 					</Card>
 				</Grid>
-
-				<Grid item xs={7}>
+				<Grid item xs={12}>
 					<Card className={classes.card}>
 						<CardHeader
 							className={classes.title}
-							title="Video Format"
-							titleTypographyProps={{ variant: "h6" }}
+							title="Video Processor"
+							titleTypographyProps={{ variant: "h7" }}
 						/>
 						<CardContent>
 							<Grid container spacing={3}>
@@ -130,6 +129,10 @@ const VideoForm = (promps) => {
 										</Select>
 									</FormControl>
 								</Grid>
+							</Grid>
+						</CardContent>
+						<CardContent>
+							<Grid container spacing={3}>
 								<Grid item xs>
 									<FormControl
 										variant="outlined"
@@ -159,6 +162,10 @@ const VideoForm = (promps) => {
 										</Select>
 									</FormControl>
 								</Grid>
+							</Grid>
+						</CardContent>
+						<CardContent>
+							<Grid container spacing={3}>
 								<Grid item xs>
 									<FormControl
 										variant="outlined"
@@ -199,7 +206,9 @@ const VideoForm = (promps) => {
 									</FormControl>
 								</Grid>
 							</Grid>
-							<Grid container spacing={6}>
+						</CardContent>
+						<CardContent>
+							<Grid container spacing={3}>
 								<Grid item xs>
 									<FormControl
 										variant="outlined"
@@ -235,6 +244,10 @@ const VideoForm = (promps) => {
 										</Select>
 									</FormControl>
 								</Grid>
+							</Grid>
+						</CardContent>
+						<CardContent>
+							<Grid container spacing={3}>
 								<Grid item xs>
 									<FormControl
 										variant="outlined"
@@ -265,15 +278,6 @@ const VideoForm = (promps) => {
 								</Grid>
 							</Grid>
 						</CardContent>
-					</Card>
-				</Grid>
-				<Grid item xs={5}>
-					<Card className={classes.card}>
-						<CardHeader
-							className={classes.title}
-							title="Flip and rotate"
-							titleTypographyProps={{ variant: "h6" }}
-						/>
 						<CardContent>
 							<Grid container spacing={3}>
 								<Grid item xs>
@@ -305,7 +309,7 @@ const VideoForm = (promps) => {
 									</FormControl>
 								</Grid>
 							</Grid>
-							<Grid container spacing={6}>
+							<Grid container spacing={3}>
 								<Grid item xs>
 									<FormControlLabel
 										control={
@@ -323,7 +327,6 @@ const VideoForm = (promps) => {
 										label="Flip Horizon"
 									/>
 								</Grid>
-
 								<Grid item xs>
 									<FormControlLabel
 										control={
@@ -343,20 +346,8 @@ const VideoForm = (promps) => {
 								</Grid>
 							</Grid>
 						</CardContent>
-					</Card>
-				</Grid>
-			</Grid>
-
-			<Grid container spacing={3}>
-				<Grid item xs={6}>
-					<Card className={classes.card}>
-						<CardHeader
-							className={classes.title}
-							title="Frames"
-							titleTypographyProps={{ variant: "h6" }}
-						/>
 						<CardContent>
-							<Grid container spacing={6}>
+							<Grid container spacing={3}>
 								<Grid item xs>
 									<FormControl
 										variant="outlined"
@@ -417,17 +408,8 @@ const VideoForm = (promps) => {
 								</Grid>
 							</Grid>
 						</CardContent>
-					</Card>
-				</Grid>
-				<Grid item xs={6}>
-					<Card className={classes.card}>
-						<CardHeader
-							className={classes.title}
-							title="Obtain Audio"
-							titleTypographyProps={{ variant: "h6" }}
-						/>
 						<CardContent>
-							<Grid container spacing={6}>
+							<Grid container spacing={3}>
 								<Grid item xs>
 									<FormControl
 										variant="outlined"
@@ -487,3 +469,4 @@ const VideoForm = (promps) => {
 };
 
 export default VideoForm;
+

@@ -14,14 +14,13 @@ import { Typography } from "@material-ui/core";
 
 const errorLink = onError(({ graphqlErrors, networkError }) => {
   if (graphqlErrors) {
-    graphqlErrors.map(({ message, location, path }) => {
+    graphqlErrors.map(({ message}) => {
       alert(`Graphql error ${message}`);
     });
   }
 });
 
 const link = from([errorLink, new HttpLink({ uri: "http://localhost:4000/" })]);
-
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: link
@@ -30,7 +29,6 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-
       <Breadcrumbs aria-label="breadcrumb">
 				<Link color="inherit" href="/" onClick={""}>
 					Home

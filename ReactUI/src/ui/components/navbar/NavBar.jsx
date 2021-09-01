@@ -6,20 +6,25 @@ import {
 	makeStyles,
 	IconButton,
 	MenuItem,
-	FormControlLabel,
 	FormGroup,
 	Switch,
-	Menu
+	Menu,
+	MenuList,
+	Avatar
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+import Brightness2Icon from '@material-ui/icons/Brightness2';
 
 const drawerWidth = 240;
-
 const useStyle = makeStyles((theme) => ({
+	offset: theme.mixins.toolbar,
 	appBar: {
-		backgroundColor: "#9da2a3",
+		backgroundColor: "#6c79eb",
 		[theme.breakpoints.up("sm")]: {
 			width: "100%",
 			marginLeft: drawerWidth,
@@ -32,34 +37,67 @@ const useStyle = makeStyles((theme) => ({
 			display: "none",
 		},
 	},
+	title: {
+		flexGrow: 1
+	}
 }));
 
 const NavBar = (onClick) => {
 	const classes = useStyle();
-	const [auth, setAuth] = React.useState(true);
 	const [anchorEl, setAnchorEl] = React.useState(null);
-	const open = Boolean(anchorEl);
+	const [state, setState] = React.useState({
+		checkedA: true,
+		checkedB: true,
+	  });
+
+	const handleOpenMenu = e => {
+		setAnchorEl(e.currentTarget);
+	  };
   
-	const handleChange = (event) => {
-	  setAuth(event.target.checked);
-	};
-  
-	const handleMenu = (event) => {
-	  setAnchorEl(event.currentTarget);
-	};
-  
-	const handleClose = () => {
+	const handleMenuClose = () => {
 	  setAnchorEl(null);
 	};
 
+	const handleChange = (event) => {
+		setState({ ...state, [event.target.name]: event.target.checked });
+	  };
+
+	  const AntSwitch = withStyles((theme) => ({
+		root: {
+		  width: 28,
+		  height: 16,
+		  padding: 0,
+		  display: 'flex',
+		},
+		switchBase: {
+		  padding: 2,
+		  color: theme.palette.grey[500],
+		  '&$checked': {
+			transform: 'translateX(12px)',
+			color: theme.palette.common.white,
+			'& + $track': {
+			  opacity: 1,
+			  backgroundColor: theme.palette.primary.main,
+			  borderColor: theme.palette.primary.main,
+			},
+		  },
+		},
+		thumb: {
+		  width: 12,
+		  height: 12,
+		  boxShadow: 'none',
+		},
+		track: {
+		  border: `1px solid ${theme.palette.grey[500]}`,
+		  borderRadius: 16 / 2,
+		  opacity: 1,
+		  backgroundColor: theme.palette.common.white,
+		},
+		checked: {},
+	  }))(Switch);
+
 	return (
 		<div className={classes.root}>
-			<FormGroup>
-				<FormControlLabel
-					control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
-					label={auth ? 'Logout' : 'Login'}
-				/>
-			</FormGroup>
 			<AppBar position="fixed" className={classes.appBar}>
 				<Toolbar>
 					<IconButton
@@ -71,45 +109,62 @@ const NavBar = (onClick) => {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap>
+				
+					<Typography variant="h3" className={classes.title} noWrap>
 						SNIFFER DOG
+						
 					</Typography> 
-					{auth && (
-						<div>
-							<IconButton
-								aria-label="account of current user"
-								aria-controls="menu-appbar"
-								aria-haspopup="true"
-								onClick={handleMenu}
-								color="inherit"
+					<div>
+						<Avatar 
+							className = {classes.AccountCircle}
+							edge="end" 
+							color="inherit" 
+						>
+							<AccountCircle />
+						</Avatar>
+					</div>
+					<div>
+						<IconButton 
+							onClick={handleOpenMenu}
+								aria-controls="menu"
+								disableRippl
+								className = {classes.MoreIcon}
+								edge="end" 
+								color="inherit" 
+							
 							>
-								<AccountCircle />
-							</IconButton>
+            					<MoreIcon />
+          					</IconButton>
 							<Menu
-								id="menu-appbar"
+								id="menu"
 								anchorEl={anchorEl}
-								anchorOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
-								}}
-								keepMounted
-								transformOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
-								}}
-								open={open}
-								onClose={handleClose}
+								open={Boolean(anchorEl)}
+								onClose={handleMenuClose}
 							>
-								<MenuItem onClick={handleClose}>Profile</MenuItem>
-								<MenuItem onClick={handleClose}>My account</MenuItem>
+                				<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+								<MenuItem onClick={handleMenuClose}>Language</MenuItem>
+								<MenuItem
+								onClick={handleMenuClose}>Mode
+									<FormGroup>
+										<Typography component="div">
+											<Grid component="label" 
+											container alignItems="center" spacing={1}
+											>
+											<Grid item><WbSunnyIcon/></Grid>
+											<Grid item>
+												<AntSwitch checked={state.checkedC} onChange={handleChange} name="checkedC"  />
+											</Grid>
+											<Grid item><Brightness2Icon/></Grid>
+											</Grid>
+										</Typography>
+										</FormGroup>
+									</MenuItem>
+								<MenuItem onClick={handleMenuClose}>About us</MenuItem>
 							</Menu>
 						</div>
-					)}
-					<IconButton aria-label="display more actions" edge="end" color="inherit">
-            			<MoreIcon />
-          			</IconButton>
 				</Toolbar>
 			</AppBar>
+
 		</div>
 	);
 };

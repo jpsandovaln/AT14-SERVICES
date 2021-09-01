@@ -22,7 +22,7 @@ const FormDocumentConveter = () => {
 	const urlML = "http://localhost:8080/imageFinder";
 
 	const classes = useStyles();
-	const [data, setResponse] = React.useState([]);
+	const [setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [outputSize, setOutputSize] = React.useState("");
 	const [audioFormat, setAudioFormat] = React.useState("");
@@ -31,13 +31,12 @@ const FormDocumentConveter = () => {
 	const [greyScale, setGreyScale] = React.useState("");
 	const [monochrome, setMonochrome] = React.useState("");
 	const [quality, setQuality] = React.useState("");
-	const [open, setOpen] = React.useState(false);
+	const [setOpen] = React.useState(false);
 
 	const submitFormVideo = (event) => {
 		event.preventDefault();
 		setOpen(true);
 		const dataArray = new FormData();
-
 		dataArray.append("outputFormat", outputFormat);
 		dataArray.append("outputSize", outputSize);
 		dataArray.append("audioFormat", audioFormat);
@@ -79,6 +78,7 @@ const FormDocumentConveter = () => {
 					greyScale={greyScale}
 					monochrome={monochrome}
 					quality={quality}
+					setAudioFormat={setAudioFormat}
 					setOutputFormat={setOutputFormat}
 					setOutputSize={setOutputSize}
 					setDubling={setDubling}

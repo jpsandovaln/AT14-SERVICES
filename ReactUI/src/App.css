@@ -20,7 +20,7 @@
 
 /* Set black background color, white text and some padding */
 footer {
-	background-color: #555;
+	background-color: #b2b9bf;
 	color: white;
 	padding: 15px;
 }
@@ -94,7 +94,7 @@ a:focus {
 #sidebar {
 	/* don't forget to add all the previously mentioned styles here too */
 	background: #f8f8f8;
-	color: #777;
+	color: #b2b9bf;
 	transition: all 0.3s;
 }
 

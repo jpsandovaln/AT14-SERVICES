@@ -13,6 +13,9 @@ import { CardHeader } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 
 const useStyles = makeStyles((theme) => ({
+	input: {
+		display: "none",
+	},		
 	title: {
 		color: "white",
 		fontSize: 12,
@@ -115,14 +118,28 @@ const FormML = (classes) => {
 							<div className={classes.root}>
 								<input
 									accept="zip/*"
-									className={classes.input}
+									className={clase.input}
 									id="contained-button-file"
+									name="contained-button-file"
 									type="file"
+									required
 									onChange={(e) =>
 										classes.setUploadFile(e.target.files[0])
 									}
 									required
 								/>
+								<label htmlFor="contained-button-file">
+									<Button
+										variant="contained"
+										color="#83bbeb"
+										component="span"
+									>
+										Upload
+									</Button>
+									<InputLabel>
+										
+									</InputLabel>
+								</label>								
 							</div>
 						</Grid>
 					</Grid>

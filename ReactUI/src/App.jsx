@@ -6,6 +6,7 @@ import MachineLearningPage from "./ui/pages/MachineLearning/MachineLearningPage"
 import ExtractorServicePage from "./ui/pages/ExtractorService/ExtractorPage";
 import LoginPage from "./ui/pages/login/LoginPage";
 import ReportConvertPage from "./ui/pages/ReportConvert/ReportConvertPage";
+import LoginCreate from   "./ui/pages/login/LoginCreate"
 
 const App = () => {
 	const [isLogin, setIsLogin] = useState(false);
@@ -22,7 +23,16 @@ const App = () => {
 						/>
 					)}
 				/>
-
+				<Route
+					exact
+					path="/Create"
+					component={(props) => (
+						<LoginCreate
+							setIsLogin={setIsLogin}
+							history={props.history}
+						/>
+					)}
+				/>
 				<Route
 					exact
 					path="/Home"
@@ -69,7 +79,6 @@ const App = () => {
 				/>
 			</Switch>
 		</Router>
-	
 	)};
 
 export default App;

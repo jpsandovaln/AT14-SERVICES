@@ -39,11 +39,6 @@ const useStyles = makeStyles((theme) => ({
 	input: {
 		display: "",
 	},
-	title: {
-		color: "white",
-		fontSize: 12,
-		backgroundColor: "#3a4651",
-	},
 }));
 
 const MachineLearing = () => {
@@ -118,3 +113,4 @@ const MachineLearing = () => {
 };
 
 export default MachineLearing;
+
