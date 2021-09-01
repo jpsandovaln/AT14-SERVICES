@@ -1,16 +1,15 @@
-import { Config } from "./src/config";
+import { AppConfig } from "./src/config/app.config";
 import { Routes } from "./src/routes";
 import { Connection } from "./src/model/db/connection";
-
-class App extends Config {
+class App extends AppConfig {
     constructor() {
         super();
-        this.init();
+        this.initApp();
         new Connection();
         new Routes(this.app);
     }
 
-    init(): void {
+    private initApp() {
         this.app.listen(this.port, (): void => {
             console.log("Running at: " + this.root + this.port);
         });
