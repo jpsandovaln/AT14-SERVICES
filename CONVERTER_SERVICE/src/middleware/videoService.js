@@ -4,7 +4,7 @@ const BuildCmdObtainAudio = require('../model/converter/video/buildCmdObtainAudi
 const Compiler = require('../model/compiler');
 const path = require("path");
 var fs = require('fs');
-require("dotenv").config("../../.env");
+require("dotenv").config();
 const codecPath = process.env.CONVERTER_PATH;
 const uploadPath = process.env.UPLOAD_PATH;
 const videoPath = process.env.VIDEO_PATH;
