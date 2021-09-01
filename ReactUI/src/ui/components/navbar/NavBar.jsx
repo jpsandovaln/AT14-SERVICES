@@ -8,7 +8,9 @@ import {
 	MenuItem,
 	FormGroup,
 	Switch,
-	Menu
+	Menu,
+	MenuList,
+	Avatar
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -48,11 +50,11 @@ const NavBar = (onClick) => {
 		checkedB: true,
 	  });
 
-	const handleClick = (event) => {
-		setAnchorEl(event.currentTarget);
+	const handleOpenMenu = e => {
+		setAnchorEl(e.currentTarget);
 	  };
   
-	const handleClose = () => {
+	const handleMenuClose = () => {
 	  setAnchorEl(null);
 	};
 
@@ -112,62 +114,52 @@ const NavBar = (onClick) => {
 						SNIFFER DOG
 						
 					</Typography> 
-						<div>
-							<IconButton 
-								aria-label="display more actions" 
-								aria-controls="long-menu"
-								aria-haspopup="true"
-								edge="end" 
-								color="inherit" 
-								onClick={handleClick}
-							>
-								<AccountCircle />
-								</IconButton>
-							<Menu
-								id="long-menu"
-								anchorEl={anchorEl}
-								open={Boolean(anchorEl)}
-								onClose={handleClose}
-							>
-								<MenuItem onClick={handleClose}>Profile</MenuItem>
-                				<MenuItem onClick={handleClose}>My account</MenuItem>
-								
-							</Menu>
-						</div>
-						<div>
-							<IconButton 
-							aria-label="display more actions" 
-							aria-controls="long-menu"
-       						aria-haspopup="false"
+					<div>
+						<Avatar 
+							className = {classes.AccountCircle}
 							edge="end" 
 							color="inherit" 
-							onClick={handleClick}
+						>
+							<AccountCircle />
+						</Avatar>
+					</div>
+					<div>
+						<IconButton 
+							onClick={handleOpenMenu}
+								aria-controls="menu"
+								disableRippl
+								className = {classes.MoreIcon}
+								edge="end" 
+								color="inherit" 
+							
 							>
             					<MoreIcon />
           					</IconButton>
 							<Menu
-								id="long-menu"
+								id="menu"
 								anchorEl={anchorEl}
 								open={Boolean(anchorEl)}
-								onClose={handleClose}
+								onClose={handleMenuClose}
 							>
-							<IconButton
-							>
-							<FormGroup>
-									<Typography component="div">
-										<Grid component="label" 
-										container alignItems="center" spacing={1}
-										>
-										<Grid item><WbSunnyIcon/></Grid>
-										<Grid item>
-											<AntSwitch checked={state.checkedC} onChange={handleChange} name="checkedC"  />
-										</Grid>
-										<Grid item><Brightness2Icon/></Grid>
-										</Grid>
-									</Typography>
-									</FormGroup>
-							</IconButton>
-                				<MenuItem onClick={handleClose}>Language</MenuItem>
+                				<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+								<MenuItem onClick={handleMenuClose}>Language</MenuItem>
+								<MenuItem
+								onClick={handleMenuClose}>Mode
+									<FormGroup>
+										<Typography component="div">
+											<Grid component="label" 
+											container alignItems="center" spacing={1}
+											>
+											<Grid item><WbSunnyIcon/></Grid>
+											<Grid item>
+												<AntSwitch checked={state.checkedC} onChange={handleChange} name="checkedC"  />
+											</Grid>
+											<Grid item><Brightness2Icon/></Grid>
+											</Grid>
+										</Typography>
+										</FormGroup>
+									</MenuItem>
+								<MenuItem onClick={handleMenuClose}>About us</MenuItem>
 							</Menu>
 						</div>
 				</Toolbar>

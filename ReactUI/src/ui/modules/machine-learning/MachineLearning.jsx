@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-import axios from "axios";
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Card from "@material-ui/core/Card";
@@ -9,6 +10,18 @@ import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import TableML from "../../components/materialUI/machine-learning/TableML";
 import FormML from "../../components/materialUI/machine-learning/FormML";
+
+export const UploadMutation = gql`
+  mutation uploadFileML($searchWord: String, $algorithm: String, $percentage: String, $file: Upload!) {
+    uploadFileML(searchWord: $searchWord, algorithm: $algorithm, percentage: $percentage, file: $file) {
+      Algorithm
+	  Word
+      Percentage
+	  Second
+	  PathImage
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,42 +42,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MachineLearing = () => {
-	const urlML = "http://localhost:8080/analizeZip";
 
-	const [data, setResponse] = React.useState([]);
-	const [uploadFile, setUploadFile] = React.useState(null);
-	const [searchWord, setSearchWord] = React.useState("");
-	const [algorithm, setAlgorithm] = React.useState("");
-	const [percentage, setPercentage] = React.useState("");
-	const [open, setOpen] = React.useState(false);
+	const [data, setResponse] = useState([]);
+	const [searchWord, setSearchWord] = useState("");
+	const [algorithm, setAlgorithm] = useState("");
+	const [percentage, setPercentage] = useState("");
+	const [FileData, setUploadFile] = useState(null);
+	const [open, setOpen] = useState(false);
 
-	const submitForm = (event) => {
+	const [uploadFileML, { error }] = useMutation(UploadMutation);
+
+	const submitForm = async (event) => {
 		event.preventDefault();
 		setOpen(true);
-		const dataArray = new FormData();
-		dataArray.append("searchWord", searchWord);
-		dataArray.append("algorithm", algorithm);
-		dataArray.append("percentage", percentage);
-		dataArray.append("zipFile", uploadFile);
-
-		const fetchData = () => {
-			setResponse([]);
-			axios
-				.post(urlML, dataArray, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					setResponse(res.data);
-					setOpen(false);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
-
-		fetchData();
+		setResponse([]);
+		const data = await uploadFileML({
+			variables: {
+			  searchWord: searchWord+"",
+			  algorithm: algorithm+"",
+			  percentage: percentage+"",
+			  file: FileData  
+			}
+		  });
+		  if (error) {
+			console.log(error);
+		  }
+		  else{
+			console.log(data.data.uploadFileML);  
+			setResponse(data.data.uploadFileML);
+			setOpen(false);		  
+		  }
 	};
 
 	const classes = useStyles();
