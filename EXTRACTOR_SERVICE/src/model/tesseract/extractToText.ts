@@ -17,7 +17,7 @@ export class ExtractToText extends Extractor {
 		} catch (error) {
 			throw new TextToImageException(
 				error,
-				"500-Internal Server Error",
+				"500",
 				"EXTRACTOR-ERROR-06"
 			);
 		}
