@@ -1,6 +1,4 @@
 const cors = require("cors");
-const analizeZip = require("../../../MLendPoint/dist/routes/analizeZip");
-const analizeImages = require("../../../MLendPoint/dist/routes/analizeImages");
 
 /**
  * @swagger
@@ -73,7 +71,7 @@ const analizeImages = require("../../../MLendPoint/dist/routes/analizeImages");
  *    500:
  *     description: failure in converting video
  */
-app.post("/analizeZip",cors() ,analizeZip);
+app.post("/analizeZip", cors());
 
 /**
  * @swagger
@@ -94,4 +92,4 @@ app.post("/analizeZip",cors() ,analizeZip);
  *    500:
  *     description: failure in converting video
  */
-app.post("/analizeImages", analizeImages);
+app.post("/analizeImages");
