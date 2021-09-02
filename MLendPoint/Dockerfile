@@ -16,4 +16,4 @@ ARG APP_PORT=8080
 
 EXPOSE ${APP_PORT}
 
-CMD ["node", "./src/app.js"]
+CMD ["node", "./dist/app.js"]
