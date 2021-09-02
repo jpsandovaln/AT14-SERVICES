@@ -6,8 +6,8 @@ import express from "express";
 
 export abstract class AppConfig extends Config implements IAppConfig {
     corsOptions = { origin: "http://localhost:8080" };
-    port = process.env.PORT;
-    root = process.env.ROOT;
+    port = process.env.PORT_CONVERTER;
+    root = process.env.BASE_URL_CONVERTER;
     app = express();
 
     constructor() {
