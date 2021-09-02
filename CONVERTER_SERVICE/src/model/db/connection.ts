@@ -1,7 +1,5 @@
 import { Config } from "../../config";
-//import mongoose from "mongoose";
-const mongoose = require("mongoose");
-
+import mongoose from "mongoose";
 export class Connection extends Config {
     constructor() {
         super();
