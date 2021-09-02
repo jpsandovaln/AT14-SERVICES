@@ -11,7 +11,7 @@ class App extends AppConfig {
 
     private initApp() {
         this.app.listen(this.port, (): void => {
-            console.log("Running at: " + this.root + this.port);
+            console.log("Running at: " + this.root + ":" + this.port);
         });
     }
 }

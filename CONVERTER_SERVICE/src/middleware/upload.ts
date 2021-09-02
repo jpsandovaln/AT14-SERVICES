@@ -1,12 +1,8 @@
 import { IUpload } from "./upload.interface";
-import { Config } from "../config";
+import { UploadConfig } from "../config/upload.config";
 import multer from "multer";
 import util from "util";
-
-export class Upload extends Config implements IUpload {
-    mainPath = process.env.MAINPATH;
-    maxSize = 2 * 1024 * 1024;
-
+export class Upload extends UploadConfig implements IUpload {
     storage = multer.diskStorage({
         destination: (
             req: Express.Request,
