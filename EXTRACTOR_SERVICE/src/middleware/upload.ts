@@ -1,6 +1,7 @@
 import multer from "multer";
 import util from "util";
 import dotenv from "dotenv";
+import { FileUploadException } from "../common/exception/fileUploadException";
 
 dotenv.config();
 
@@ -42,7 +43,7 @@ export class Upload {
                 cb(null, true);
             } else {
                 cb(null, false);
-                return cb(new Error("File types allowed .jpeg, .jpg and .png"));
+                return cb(new FileUploadException("File types allowed .jpeg, .jpg and .png", "400", "EXTRACTOR-ERROR-01"));
             }
         },
     }).single("file");
