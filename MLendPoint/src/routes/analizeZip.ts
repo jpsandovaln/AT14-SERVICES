@@ -15,12 +15,8 @@ class AnalizeZip {
         this.router = Router();
         this.routes();
     }
-    routes() {
-        this.router.get("/", (req: Request, res: Response) => {
-            const json = {};
-            res.json(json);
-        });
 
+    routes() {
         this.router.post(
             "/",
             upload.single("zipFile"),

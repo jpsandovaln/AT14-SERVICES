@@ -46,7 +46,7 @@ class AnalizeZip {
         this.routes();
     }
     routes() {
-        this.router.get("/", (req, res) => {
+        this.router.get("/", (res) => {
             const json = {};
             res.json(json);
         });

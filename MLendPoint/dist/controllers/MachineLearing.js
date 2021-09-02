@@ -7,8 +7,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 class MachineLearing {
     constructor(imagePath, searchWord, percentage) {
-        if (new.target === MachineLearing)
-            throw new Error("MachineLearing abstract class cannot be instantiated");
         this.image = imagePath;
         this.searchWord = searchWord;
         this.percentage = percentage;

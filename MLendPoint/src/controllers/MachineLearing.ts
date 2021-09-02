@@ -20,6 +20,10 @@ abstract class MachineLearing {
         this.percentage = percentage;
         this.predictions = [];
     }
+
+    // public validateParameter(): void {
+        
+    // }
 }
 
 export default MachineLearing;
