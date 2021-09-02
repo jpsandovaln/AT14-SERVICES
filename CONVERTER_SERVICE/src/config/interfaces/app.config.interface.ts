@@ -3,5 +3,5 @@ export interface IAppConfig {
     port: string | undefined;
     root: string | undefined;
     app: Express.Application;
-    initApp(): void;
+    initAppConfigs(): void;
 }

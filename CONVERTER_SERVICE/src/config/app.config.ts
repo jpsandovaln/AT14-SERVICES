@@ -15,7 +15,7 @@ export abstract class AppConfig extends Config implements IAppConfig {
         this.initAppConfigs();
     }
 
-    public initAppConfigs(): void {
+    public initAppConfigs() {
         this.app.use(cors(this.corsOptions));
         this.app.use(express.urlencoded({ extended: true }));
     }
