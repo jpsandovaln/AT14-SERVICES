@@ -25,6 +25,14 @@ ZIP_PATH
 
 ```
 
+also this lines below needs to be added:
+
+```
+DB_CONNECTION="mongodb://localhost:27017/converterDB"
+MAIN_PATH=/home/<user>/Workspace/Prog101/AT14-SERVICES/CONVERTER_SERVICE/
+
+```
+
 ### checksum
 
 ```
