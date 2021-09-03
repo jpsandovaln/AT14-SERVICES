@@ -1,5 +1,7 @@
+import { Code } from "../code";
 import { ExtractorException } from "../exception/extractorException";
 import { languages } from "../langCode";
+import { StatusCode } from "../statusCode";
 import { ValidateStrategy } from "./validateStrategy";
 
 export class LanguageValidation extends ValidateStrategy {
@@ -14,8 +16,8 @@ export class LanguageValidation extends ValidateStrategy {
 		if (!codeLanguage.find(language => language === this._language)) {
 			throw new ExtractorException(
 				"Invalid Language code: " + this._language,
-				"400 - Bad Request",
-				"EXTRACTOR-ERROR-02"
+				StatusCode.BadRequest,
+				Code.EXTRACTOR_ERROR_02
 			);
 		}
 	}

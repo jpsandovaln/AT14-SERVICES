@@ -1,4 +1,6 @@
+import { Code } from "../../common/code";
 import { LoadWorkerException } from "../../common/exception/loadWorkerException";
+import { StatusCode } from "../../common/statusCode";
 import { EmptyValidation } from "../../common/validation/emptyValidation";
 import { LanguageValidation } from "../../common/validation/languageValidation";
 import { IBase } from "./interfaces/iBase";
@@ -28,8 +30,8 @@ export abstract class Extractor {
 		} catch (error) {
 			throw new LoadWorkerException(
 				error,
-				"503",
-				"EXTRACTOR-00"
+				StatusCode.ServerUnavailable,
+				Code.EXTRACTOR_ERROR_01
 			);
 		}
 	}

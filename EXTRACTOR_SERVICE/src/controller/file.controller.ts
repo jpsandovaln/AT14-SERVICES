@@ -8,7 +8,9 @@ import { ExtractToPDF } from "../model/tesseract/extractToPDF";
 import { ExtractCroppedImage } from "../model/tesseract/extractCroppedImage";
 import { ICropped } from "../model/tesseract/interfaces/iCropped";
 import { FileUploadException } from "../common/exception/fileUploadException";
-import { ParameterInvalidException } from "../common/exception/parameterException";
+import { Cropped } from "../model/tesseract/interfaces/Cropped";
+import { StatusCode } from "../common/statusCode";
+import { Code } from "../common/code";
 
 const worker = createWorker({});
 const upload = new Upload();
@@ -19,7 +21,7 @@ export class FileController {
             await upload.fileUploadMiddleware(req, res);
 
             if (req.file == undefined) {
-                throw new FileUploadException("Please upload a file!", "400", "EXTRACTOR-ERROR-01");
+                throw new FileUploadException("Please upload a file!", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
                 const imageBasic: IBase = {
@@ -44,7 +46,7 @@ export class FileController {
             await upload.fileUploadMiddleware(req, res);
 
             if (req.file == undefined) {
-                throw new FileUploadException("Please upload a file!", "400", "EXTRACTOR-ERROR-01");
+                throw new FileUploadException("Please upload a file!", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
                 const imageBasic: IBase = {
@@ -69,15 +71,16 @@ export class FileController {
             await upload.fileUploadMiddleware(req, res);
 
             if (req.file == undefined) {
-                throw new FileUploadException("Please upload a file!", "400", "EXTRACTOR-ERROR-01");
+                throw new FileUploadException("Please upload a file!", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
-                const rectanglePart = {
-                    left: req.body.left,
-                    top: req.body.top,
-                    width: req.body.width,
-                    height: req.body.height,
-                };
+                const rectanglePart: Cropped = new Cropped(
+                    req.body.left,
+                    req.body.top,
+                    req.body.width,
+                    req.body.height,
+                );
+                rectanglePart.validate();
                 const imageToCropped: ICropped = {
                     worker: worker,
                     language: req.body.language,

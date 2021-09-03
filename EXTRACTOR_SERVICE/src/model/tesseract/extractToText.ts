@@ -1,6 +1,8 @@
 import { IBase } from "./interfaces/iBase";
 import { Extractor } from "./extractor";
 import { TextToImageException } from "../../common/exception/textToImageException";
+import { StatusCode } from "../../common/statusCode";
+import { Code } from "../../common/code";
 
 export class ExtractToText extends Extractor {
 	constructor(properties: IBase) {
@@ -17,8 +19,8 @@ export class ExtractToText extends Extractor {
 		} catch (error) {
 			throw new TextToImageException(
 				error,
-				"500",
-				"EXTRACTOR-ERROR-06"
+				StatusCode.InternalServerError,
+				Code.EXTRACTOR_ERROR_06
 			);
 		}
 	}

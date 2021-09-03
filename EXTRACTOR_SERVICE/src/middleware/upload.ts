@@ -2,6 +2,8 @@ import multer from "multer";
 import util from "util";
 import dotenv from "dotenv";
 import { FileUploadException } from "../common/exception/fileUploadException";
+import { StatusCode } from "../common/statusCode";
+import { Code } from "../common/code";
 
 dotenv.config();
 
@@ -43,7 +45,7 @@ export class Upload {
                 cb(null, true);
             } else {
                 cb(null, false);
-                return cb(new FileUploadException("File types allowed .jpeg, .jpg and .png", "400", "EXTRACTOR-ERROR-01"));
+                return cb(new FileUploadException("File types allowed .jpeg, .jpg and .png", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01));
             }
         },
     }).single("file");

@@ -1,9 +1,12 @@
 import { ICropped } from "./interfaces/iCropped";
 import { Extractor } from "./extractor";
 import { CroppedImageException } from "../../common/exception/croppedImageException";
+import { Cropped } from "./interfaces/Cropped";
+import { StatusCode } from "../../common/statusCode";
+import { Code } from "../../common/code";
 
 export class ExtractCroppedImage extends Extractor {
-	private rectangle: object;
+	private rectangle: Cropped;
 
 	constructor(properties: ICropped) {
 		super(properties);
@@ -13,6 +16,7 @@ export class ExtractCroppedImage extends Extractor {
 	public async extract(): Promise<string> {
 		this.validateParameter();
 		try {
+			//this.rectangle.validate();
 			const rectangle = this.rectangle;
 			await this.loadWorker();
 			const {
@@ -22,8 +26,8 @@ export class ExtractCroppedImage extends Extractor {
 		} catch (error) {
 			throw new CroppedImageException(
 				error,
-				"500",
-				"EXTRACTOR-ERROR-04"
+				StatusCode.InternalServerError,
+				Code.EXTRACTOR_ERROR_04
 			);
 		}
 	}

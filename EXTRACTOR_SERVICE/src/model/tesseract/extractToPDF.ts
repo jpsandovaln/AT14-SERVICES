@@ -2,6 +2,8 @@ import { IBase } from "./interfaces/iBase";
 import { Extractor } from "./extractor";
 import * as fs from "fs";
 import { PDFToImageException } from "../../common/exception/pdfToImageException";
+import { StatusCode } from "../../common/statusCode";
+import { Code } from "../../common/code";
 export class ExtractToPDF extends Extractor {
 	constructor(properties: IBase) {
 		super(properties);
@@ -17,8 +19,8 @@ export class ExtractToPDF extends Extractor {
 		} catch (error) {
 			throw new PDFToImageException(
 				error,
-				"500",
-				"EXTRACTOR-ERROR-05"
+				StatusCode.InternalServerError,
+				Code.EXTRACTOR_ERROR_05
 			);
 		}
 	}

@@ -1,18 +1,21 @@
-export class ExtractorException extends Error {
-	private _status: string;
-	private _code: string;
+import { Code } from "../code";
+import { StatusCode } from "../statusCode";
 
-	constructor(message: any, status: string, code: string) {
+export class ExtractorException extends Error {
+	private _status: StatusCode;
+	private _code: Code;
+
+	constructor(message: any, status: StatusCode, code: Code) {
 		super(message);
 		this._status = status;
 		this._code = code;
 	}
 
-	get status(): string  {
+	get status(): StatusCode  {
 		return this._status;
 	}
 
-	get code(): string  {
+	get code(): Code  {
 		return this._code;
 	}
 }

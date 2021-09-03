@@ -1,4 +1,6 @@
+import { Code } from "../code";
 import { ExtractorException } from "../exception/extractorException";
+import { StatusCode } from "../statusCode";
 import { ValidateStrategy } from "./validateStrategy";
 
 export class EmptyValidation extends ValidateStrategy {
@@ -14,8 +16,8 @@ export class EmptyValidation extends ValidateStrategy {
 		if (!this._value || this._value.trim().length === 0) {
 			throw new ExtractorException(
 				"Invalid data parameter: " + this._parameter,
-				"400 - Bad Request",
-				"EXTRACTOR-ERROR-01"
+				StatusCode.BadRequest,
+				Code.EXTRACTOR_ERROR_01
 			);
 		}
 	}
