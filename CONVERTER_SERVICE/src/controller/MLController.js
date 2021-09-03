@@ -7,6 +7,7 @@ const uploadFileMiddleware = require("../middleware/uploadFilesWithoutHush");
 
 const framesZipML = async (req, res) => {
     await uploadFileMiddleware(req, res);
+    console.log(req)
     const nameFile = req.file.filename;
     const resultName = Date.now();
     const videoServices = new VideoServices(req.body, nameFile, resultName);
