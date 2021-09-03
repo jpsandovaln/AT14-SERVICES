@@ -12,8 +12,8 @@ import TableML from "../../components/materialUI/machine-learning/TableML";
 import FormML from "../../components/materialUI/machine-learning/FormML";
 
 export const UploadMutation = gql`
-  mutation uploadFileML($searchWord: String, $algorithm: String, $percentage: String, $file: Upload!) {
-    uploadFileML(searchWord: $searchWord, algorithm: $algorithm, percentage: $percentage, file: $file) {
+  mutation uiToVideoConverter($searchWord: String, $algorithm: String, $percentage: String, $file: Upload!) {
+    uiToVideoConverter(searchWord: $searchWord, algorithm: $algorithm, percentage: $percentage, file: $file) {
       Algorithm
 	  Word
       Percentage
@@ -55,13 +55,13 @@ const MachineLearing = () => {
 	const [FileData, setUploadFile] = useState(null);
 	const [open, setOpen] = useState(false);
 
-	const [uploadFileML, { error }] = useMutation(UploadMutation);
+	const [uiToVideoConverter, { error }] = useMutation(UploadMutation);
 
 	const submitForm = async (event) => {
 		event.preventDefault();
 		setOpen(true);
 		setResponse([]);
-		const data = await uploadFileML({
+		const data = await uiToVideoConverter({
 			variables: {
 			  searchWord: searchWord+"",
 			  algorithm: algorithm+"",
@@ -73,8 +73,8 @@ const MachineLearing = () => {
 			console.log(error);
 		  }
 		  else{
-			console.log(data.data.uploadFileML);  
-			setResponse(data.data.uploadFileML);
+			console.log(data.data.uiToVideoConverter);  
+			setResponse(data.data.uiToVideoConverter);
 			setOpen(false);		  
 		  }
 	};
