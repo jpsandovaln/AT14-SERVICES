@@ -1,50 +1,74 @@
-version: '3.8'
+version: "3.8"
 services:
-  ReactUI:
-    build:
-      context: ./ReactUI
-      dockerfile: Dockerfile
-    image: image_ui  
-    env_file: 
-      - ./ReactUI/.env
-    container_name: container_ui
-    ports:
-      - 3000:8081
-    networks:
-      - my-network-name
-  MLendPoint:
-    build:
-      context: ./MLendPoint
-      dockerfile: Dockerfile
-    image: image_ml  
-    env_file: 
-      - ./MLendPoint/src/.env
-    container_name: container_ml
-    ports:
-      - 8080:8080
-    networks:
-      - my-network-name      
-  CONVERTER_SERVICE:
-    build:
-      context: ./CONVERTER_SERVICE
-      dockerfile: Dockerfile
-    image: converter_image
-    env_file: 
-      - ./.env
-    container_name: converter_container
-    ports:
-      - 4028:4028
-    links: 
-      - mongo_db
-    networks:
-      - my-network-name 
-  mongo_db:
-    image: mongo:latest
-    volumes:
-      - ./db:/data
-    ports:
-      - "27018:27017"
-    networks: 
-      - my-network-name
+    ReactUI:
+        build:
+            context: ./ReactUI
+            dockerfile: Dockerfile
+        image: image_ui
+        env_file:
+            - ./ReactUI/.env
+        container_name: container_ui
+        ports:
+            - 3000:8081
+        networks:
+            - my-network-name
+    MLendPoint:
+        build:
+            context: ./MLendPoint
+            dockerfile: Dockerfile
+        image: image_ml
+        env_file:
+            - ./MLendPoint/src/.env
+        container_name: container_ml
+        ports:
+            - 8085:8085
+        links:
+            - APOLLO
+        networks:
+            - my-network-name
+    CONVERTER_SERVICE:
+        build:
+            context: ./CONVERTER_SERVICE
+            dockerfile: Dockerfile
+        image: converter_image
+        env_file:
+            - ./.env
+        container_name: converter_container
+        ports:
+            - 4028:4028
+        links:
+            - mongo_db
+        networks:
+            - my-network-name
+    mongo_db:
+        image: mongo:latest
+        volumes:
+            - ./db:/data
+        ports:
+            - "27018:27017"
+        networks:
+            - my-network-name
+    SWAGGER:
+        build:
+            context: ./SWAGGER
+            dockerfile: Dockerfile
+        image: image_swagger
+        env_file:
+            - ./SWAGGER/.env
+        container_name: container_swagger
+        ports:
+            - 5000:5000
+        networks:
+            - my-network-name
+    APOLLO:
+        build:
+            context: ./APOLLO_SERVER2
+            dockerfile: Dockerfile
+        image: image_apollo
+        container_name: container_apollo
+        ports:
+            - 4000:4000
+        networks:
+            - my-network-name
 networks:
-  my-network-name:
+    my-network-name:
