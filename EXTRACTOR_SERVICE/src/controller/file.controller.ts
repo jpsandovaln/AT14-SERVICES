@@ -11,6 +11,7 @@ import { FileUploadException } from "../common/exception/fileUploadException";
 import { Cropped } from "../model/tesseract/interfaces/Cropped";
 import { StatusCode } from "../common/statusCode";
 import { Code } from "../common/code";
+import * as fs from "fs";
 
 const worker = createWorker({});
 const upload = new Upload();
@@ -44,6 +45,7 @@ export class FileController {
     extractToPDF = async (req: express.Request, res: express.Response) => {
         try {
             await upload.fileUploadMiddleware(req, res);
+            
 
             if (req.file == undefined) {
                 throw new FileUploadException("Please upload a file!", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01);
@@ -55,9 +57,9 @@ export class FileController {
                     path: req.file.path,
                 };
                 const pdf: Extractor = new ExtractToPDF(imageBasic);
-                const result: Extractor = await pdf.extract();     
-
-                return res.status(200).send(result);
+                const result = await pdf.extract(); 
+                console.log(result);
+                return res.status(200).send("http://localhost:3000/extractToPDF/"+result);
             }
             await worker.terminate();
 
@@ -74,13 +76,13 @@ export class FileController {
                 throw new FileUploadException("Please upload a file!", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
-                const rectanglePart: Cropped = new Cropped(
-                    req.body.left,
-                    req.body.top,
-                    req.body.width,
-                    req.body.height,
-                );
-                rectanglePart.validate();
+                const rectanglePart = {
+                   left: req.body.left,
+                    top: req.body.top,
+                    width: req.body.width,
+                    height: req.body.height,
+                };
+               // rectanglePart.validate();
                 const imageToCropped: ICropped = {
                     worker: worker,
                     language: req.body.language,
@@ -98,4 +100,5 @@ export class FileController {
             res.status(err.status).send({message: `${err.message}`});
         }
     };
+    
 }

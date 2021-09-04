@@ -9,13 +9,15 @@ export class ExtractToPDF extends Extractor {
 		super(properties);
 	}
 
-	public async extract(): Promise<object> {
+	public async extract(): Promise<string> {
+		let date = new Date();
+		let nameResultFile = date.getTime()+".pdf";
 		try {
 			await this.loadWorker();
 			await this.worker.recognize(this.path);
 			const { data } = await this.worker.getPDF("Tesseract OCR Result");
-			fs.writeFileSync("public/uploads/tesseract-ocr-result.pdf", Buffer.from(data));
-			return data;
+			fs.writeFileSync(process.env.UPLOADPATH + nameResultFile, Buffer.from(data));
+			return nameResultFile;
 		} catch (error) {
 			throw new PDFToImageException(
 				error,
