@@ -72,3 +72,7 @@ services:
             - my-network-name
 networks:
     my-network-name:
+        driver: macvlan
+        driver_opts:
+            parent: eth0
+        ipam:
