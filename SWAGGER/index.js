@@ -5,12 +5,15 @@ const cors = require("cors");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
 const dbRouter = require("./swaggerDocs/videoConverter/dataBase");
+const MachineLearning = require('./routes/MachineLearning');
+const VideoConverter = require('./routes/VideoConverter');
+
 
 const HOSTNAME = process.env.HOSTNAME;
 const PORT = process.env.SERVICE_PORT || 4000;
 
-const CONVERTER_PORT = process.env.CONVERTER_PORT;
 const ML_PORT = process.env.ML_PORT;
+const CONVERTER_PORT = process.env.CONVERTER_PORT;
 
 
 const app = express();
@@ -71,71 +74,16 @@ const swaggerOptions = {
     ],
 };
 
-const videoConverterOptions = {
-    customCss: `
-    .swagger-ui .topbar { display: none; padding: 0px 0; }
-    .topbar-wrapper img { display: none }
-    .swagger-ui .info { margin: 10px 0 }`,
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "Video Converter",
-            version: "1.0.0",
-            description: "Api to convert videos into imagenes",
-            contact: {
-                name: "AT14",
-            },
-        },
-        servers: [
-            {
-                url: "http://" + HOSTNAME + ":" + ML_PORT,
-                description: "Port where the converter service works",
-            },
-        ],
-    },
-    apis: ["./swaggerDocs/videoConverter/*.js"],
-};
 
-const machineLearningOptions = {
-    customCss: `
-    .topbar-wrapper img { content:url(http://${HOSTNAME}:${PORT}/img/Icon.ico); height:0px;}
-    .swagger-ui .topbar { border-bottom: 0px solid #5dc6d1; padding: 0px 0; }
-    .swagger-ui .info { margin: 10px 0 }`,
-    customSiteTitle: "API Documentation AT14",    
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "Machine Learning",
-            version: "1.0.0",
-            description: "Api to search into images specific objects",
-            contact: {
-                name: "SNIFFER DOG",
-            },
-        },
-        servers: [
-            {
-                url: "http://localhost:8085",
-                description: "Port where the machine learning service works",
-            },
-        ],
-    },
-    apis: ["./swaggerDocs/machineLearning/*.js"],
-};
+
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
-const machineLearningDocs = swaggerJSDoc(machineLearningOptions);
-const videoConverterDocs = swaggerJSDoc(videoConverterOptions);
+
+
 app.use(cors());
 
 var swaggerHtmlV1 = swaggerUI.generateHTML(swaggerDocs, swaggerOptions);
-var swaggerHtmlV2 = swaggerUI.generateHTML(
-    machineLearningDocs,
-    machineLearningOptions
-);
-var swaggerHtmlV3 = swaggerUI.generateHTML(
-    videoConverterDocs,
-    videoConverterOptions
-);
+
 
 app.get('/', function(req, res) {
     res.render('pages/home');
@@ -146,21 +94,8 @@ app.get("/api-docs", (req, res) => {
     res.send(swaggerHtmlV1);
 });
 
-app.use(
-    "/MachineLearning",
-    swaggerUI.serveFiles(machineLearningDocs, machineLearningOptions)
-);
-app.get("/MachineLearning", (req, res) => {
-    res.send(swaggerHtmlV2);
-});
-
-app.use(
-    "/VideoConverter",
-    swaggerUI.serveFiles(videoConverterDocs, videoConverterOptions)
-);
-app.get("/VideoConverter", (req, res) => {
-    res.send(swaggerHtmlV3);
-});
+app.use("/MachineLearning", MachineLearning);
+app.use("/VideoConverter", VideoConverter);
 
 app.use(express.json());
 app.use(dbRouter);
