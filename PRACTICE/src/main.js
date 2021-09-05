@@ -10,6 +10,11 @@ const ReviewState = require('./state/review_state');
 const ProgressState = require('./state/progress_state');
 const CompleteState = require('./state/complete_state');
 const RejectState = require('./state/reject_state');
+const ATM = require('./chain/atm');
+const Hardware = require('./composite/hardware');
+const Software = require('./composite/software');
+const Sales = require('./composite/sales');
+const CompositeProduct = require('./composite/composite_product');
 
 class Main {
     constructor(value) {
@@ -99,7 +104,7 @@ document.displayState();
 document.state = "review";
 document.displayState();*/
 
-const document = new ImportantDocument("doc1", "d:/doc1,pdf");
+/*const document = new ImportantDocument("doc1", "d:/doc1,pdf");
 document.displayState();
 
 document.state = new ReviewState();
@@ -112,4 +117,56 @@ document.state = new CompleteState();
 document.displayState();
 
 document.state = new RejectState();
-document.displayState();
+document.displayState();*/
+
+/*const atm = new ATM(6754);
+atm.getMoney();*/
+
+const memory = new Hardware("memory", 100, "abc");
+const hdd = new Hardware("hdd", 200, "xyz");
+const motherboard = new Hardware("motherboard", 300, "asus");
+
+const cd = new Software("windows", 30, "os");
+
+const comProduct1 = new CompositeProduct("PC Gamer");
+comProduct1.addProduct(memory);
+comProduct1.addProduct(hdd);
+comProduct1.addProduct(motherboard);
+
+const comProduct2 = new CompositeProduct("PC1");
+comProduct2.addProduct(memory);
+comProduct2.addProduct(hdd);
+
+const comProduct3 = new CompositeProduct("PC2");
+comProduct3.addProduct(memory);
+comProduct3.addProduct(hdd);
+comProduct3.addProduct(motherboard);
+comProduct3.addProduct(cd);
+
+const combo = new CompositeProduct("combo pc");
+combo.addProduct(comProduct2);
+combo.addProduct(comProduct3);
+
+const sales1 = new Sales(1);
+sales1.addProduct(memory);
+sales1.addProduct(hdd);
+sales1.addProduct(cd);
+
+sales1.display();
+
+
+const sales2 = new Sales(2);
+sales2.addProduct(comProduct3);
+sales2.display();
+
+const sales3 = new Sales(3);
+sales3.addProduct(memory);
+sales3.addProduct(comProduct1);
+sales3.addProduct(combo);
+sales3.display();
+
+
+
+
+
+

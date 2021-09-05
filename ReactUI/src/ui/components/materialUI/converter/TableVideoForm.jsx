@@ -40,7 +40,7 @@ const TableVideoForm = (classes) => {
 					<CardHeader
 						className={clas.title}
 						title="Results"
-						titleTypographyProps={{ variant: "h6" }}
+						titleTypographyProps={{ variant: "h7" }}
 					/>
 					<CardContent>
 						<Grid container spacing={3}>
@@ -48,13 +48,13 @@ const TableVideoForm = (classes) => {
 								<Button
 									type="submit"
 									variant="contained"
-									color="primary"
+									color="#83bbeb"
 								>
 									Convert
 								</Button>
 							</Grid>
 						</Grid>
-						<Grid container spacing={6}>
+						<Grid container spacing={12}>
 							<Grid item xs>
 								<TableContainer>
 									<Table

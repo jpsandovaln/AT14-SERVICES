@@ -1,11 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const app = express.Router();
-const {
-    getData,
-    deleteDataById,
-    findDataById,
-} = require("../../../CONVERTER_SERVICE/src/controller/fileController");
 
 /**
  * @swagger
@@ -63,7 +58,7 @@ const {
  *    500:
  *     description: failure in converting video
  */
-app.get("/file", getData);
+app.get("/file");
 
 /**
  * @swagger
@@ -88,7 +83,7 @@ app.get("/file", getData);
  *     description: failure in converting video
  */
 app.options("/file/:id", cors());
-app.delete("/file/:id", deleteDataById);
+app.delete("/file/:id");
 
 /**
  * @swagger
@@ -112,6 +107,6 @@ app.delete("/file/:id", deleteDataById);
  *    500:
  *     description: Failure in converting video
  */
-app.get("/file/:id", findDataById);
+app.get("/file/:id");
 
 module.exports = app;

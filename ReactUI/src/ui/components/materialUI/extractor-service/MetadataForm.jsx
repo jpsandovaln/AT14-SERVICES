@@ -42,7 +42,7 @@ const MetadataForm = (promps) => {
 							<label htmlFor="contained-button-file">
 								<Button
 									variant="contained"
-									color="primary"
+									color="#83bbeb"
 									component="span"
 								>
 									Upload

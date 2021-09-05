@@ -47,7 +47,7 @@ const DocumentForm = (promp) => {
 						<label htmlFor="contained-button-file">
 							<Button
 								variant="contained"
-								color="primary"
+								color="#83bbeb"
 								component="span"
 							>
 								Upload
@@ -61,19 +61,19 @@ const DocumentForm = (promp) => {
 						<CardHeader
 							className={classes.title}
 							title="Ppt to Image"
-							titleTypographyProps={{ variant: "h6" }}
+							titleTypographyProps={{ variant: "h7" }}
 						/>
 						<CardContent>
-							<Grid container spacing={3}>
-								<Grid item xs>
-									<FormControl
-										variant="outlined"
-										className={classes.formControl}
-										fullWidth
-									>
-										<InputLabel id="demo-simple-select-outlined-label">
-											Output Format
-										</InputLabel>
+						<Grid container spacing={6}>
+							<Grid item xs>
+								<FormControl
+									variant="outlined"
+									className={classes.formControl}
+									fullWidth
+								>
+									<InputLabel id="demo-simple-select-outlined-label">
+										Output Format
+									</InputLabel>
 										<Select
 										labelId="demo-simple-select-outlined-label"
 										id="demo-simple-select-outlined"
@@ -108,9 +108,13 @@ const DocumentForm = (promp) => {
 											.tiff
 										</MenuItem>
 									</Select>
-									</FormControl>
-								</Grid>
-								<Grid item xs>
+								</FormControl>
+							</Grid>
+						</Grid>
+					</CardContent>
+					<CardContent>
+					<Grid container spacing={6}>
+							<Grid item xs>
 								<FormControl
 									variant="outlined"
 									className={classes.formControl}
@@ -139,16 +143,20 @@ const DocumentForm = (promp) => {
 										/>
 									</div>
 								</FormControl>
-								</Grid>
-								<Grid item xs>
+							</Grid>
+						</Grid>
+					</CardContent>
+					<CardContent>
+						<Grid container spacing={12}>
+							<Grid item xs>
 								<FormControl
 									variant="outlined"
 									className={classes.formControl}
 									fullWidth
 								>
 									<InputLabel id="demo-simple-select-outlined-label">
-										Rotation Angle
-									</InputLabel>
+											Angle of rotation
+										</InputLabel>
 									<Select
 									labelId="demo-simple-select-outlined-label"
 									id="demo-simple-select-outlined"
@@ -169,12 +177,14 @@ const DocumentForm = (promp) => {
 												270
 											</MenuItem>
 										</Select>
-								</FormControl>
+									</FormControl>
 								</Grid>
 							</Grid>
-							<Grid container spacing={6}>
-								<Grid item xs>
-								<FormControl
+						</CardContent>
+					<CardContent>
+					<Grid container spacing={12}>
+							<Grid item xs>
+							<FormControl
 									variant="outlined"
 									className={classes.formControl}
 									fullWidth
@@ -203,6 +213,10 @@ const DocumentForm = (promp) => {
 									</div>
 								</FormControl>
 							</Grid>
+						</Grid>
+					</CardContent>
+					<CardContent>
+						<Grid container spacing={3}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -233,6 +247,8 @@ const DocumentForm = (promp) => {
 									</div>
 								</FormControl>
 							</Grid>
+							</Grid>
+						<Grid container spacing={6}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -263,8 +279,12 @@ const DocumentForm = (promp) => {
 									</div>
 								</FormControl>
 							</Grid>
+							</Grid>
+					</CardContent>
+					<CardContent>
+						<Grid container spacing={6}>
 							<Grid item xs>
-							<FormControl component="fieldset">
+								<FormControl component="fieldset">
 									<FormControlLabel
 										control={
 											<Checkbox
@@ -306,10 +326,10 @@ const DocumentForm = (promp) => {
 						<CardHeader
 							className={classes.title}
 							title="Ppt to Pdf"
-							titleTypographyProps={{ variant: "h6" }}
+							titleTypographyProps={{ variant: "h7" }}
 						/>
 					<CardContent>
-						<Grid container spacing={6}>
+						<Grid container spacing={12}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -342,19 +362,18 @@ const DocumentForm = (promp) => {
 					<CardHeader
 						className={classes.title}
 						title="Pdf to Image"
-						titleTypographyProps={{ variant: "h6" }}
+						titleTypographyProps={{ variant: "h7" }}
 					/>
-					<CardContent>
-							<Grid container spacing={3}>
-								<Grid item xs>
-									<FormControl
-										variant="outlined"
-										className={classes.formControl}
-										fullWidth
-									>
-										<InputLabel id="demo-simple-select-outlined-label">
-											Output Format
-										</InputLabel>
+					<Grid container spacing={6}>
+							<Grid item xs>
+								<FormControl
+									variant="outlined"
+									className={classes.formControl}
+									fullWidth
+								>
+									<InputLabel id="demo-simple-select-outlined-label">
+										Output Format
+									</InputLabel>
 										<Select
 										labelId="demo-simple-select-outlined-label"
 										id="demo-simple-select-outlined"
@@ -389,9 +408,12 @@ const DocumentForm = (promp) => {
 											.tiff
 										</MenuItem>
 									</Select>
-									</FormControl>
-								</Grid>
-								<Grid item xs>
+								</FormControl>
+							</Grid>
+						</Grid>
+					<CardContent>
+					<Grid container spacing={6}>
+							<Grid item xs>
 								<FormControl
 									variant="outlined"
 									className={classes.formControl}
@@ -420,16 +442,20 @@ const DocumentForm = (promp) => {
 										/>
 									</div>
 								</FormControl>
-								</Grid>
-								<Grid item xs>
+							</Grid>
+						</Grid>
+					</CardContent>
+					<CardContent>
+						<Grid container spacing={12}>
+							<Grid item xs>
 								<FormControl
 									variant="outlined"
 									className={classes.formControl}
 									fullWidth
 								>
 									<InputLabel id="demo-simple-select-outlined-label">
-										Rotation Angle
-									</InputLabel>
+											Angle of rotation
+										</InputLabel>
 									<Select
 									labelId="demo-simple-select-outlined-label"
 									id="demo-simple-select-outlined"
@@ -450,12 +476,14 @@ const DocumentForm = (promp) => {
 												270
 											</MenuItem>
 										</Select>
-								</FormControl>
+									</FormControl>
 								</Grid>
 							</Grid>
-							<Grid container spacing={6}>
-								<Grid item xs>
-								<FormControl
+						</CardContent>
+					<CardContent>
+					<Grid container spacing={12}>
+							<Grid item xs>
+							<FormControl
 									variant="outlined"
 									className={classes.formControl}
 									fullWidth
@@ -484,6 +512,10 @@ const DocumentForm = (promp) => {
 									</div>
 								</FormControl>
 							</Grid>
+						</Grid>
+					</CardContent>
+					<CardContent>
+						<Grid container spacing={3}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -514,6 +546,8 @@ const DocumentForm = (promp) => {
 									</div>
 								</FormControl>
 							</Grid>
+							</Grid>
+						<Grid container spacing={6}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -544,8 +578,12 @@ const DocumentForm = (promp) => {
 									</div>
 								</FormControl>
 							</Grid>
+							</Grid>
+					</CardContent>
+					<CardContent>
+						<Grid container spacing={6}>
 							<Grid item xs>
-							<FormControl component="fieldset">
+								<FormControl component="fieldset">
 									<FormControlLabel
 										control={
 											<Checkbox
@@ -579,7 +617,7 @@ const DocumentForm = (promp) => {
 								</FormControl>
 							</Grid>
 						</Grid>
-						</CardContent>			
+					</CardContent>
 				</Card>
 			</Grid>
 		</Grid>

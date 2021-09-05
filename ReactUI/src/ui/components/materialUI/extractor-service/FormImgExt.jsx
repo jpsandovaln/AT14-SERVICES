@@ -6,7 +6,7 @@ import TableImgExtForm from "./TableImgExtForm";
 const FormImgExt = () => {
 	const urlML = "http://localhost:8080/imageFinder";
 
-	const [data, setResponse] = React.useState([]);
+	const [setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [ratio, setRatio] = React.useState("");
 	const [scale, setScale] = React.useState("");
@@ -19,7 +19,7 @@ const FormImgExt = () => {
 	const [obtainFrames, setObtainFrames] = React.useState(false);
 	const [extractAudioFormat, setExtractAudioFormat] = React.useState("");
 	const [obtainAudio, setObtainAudio] = React.useState("");
-	const [open, setOpen] = React.useState(false);
+	const [setOpen] = React.useState(false);
 
 	const submitFormVideo = (event) => {
 		event.preventDefault();

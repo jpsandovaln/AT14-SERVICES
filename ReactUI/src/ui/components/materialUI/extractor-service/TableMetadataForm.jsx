@@ -47,7 +47,7 @@ const TableMetadataForm = () => {
 								<Button
 									type="submit"
 									variant="contained"
-									color="primary"
+									color="#83bbeb"
 								>
 									Extract
 								</Button>

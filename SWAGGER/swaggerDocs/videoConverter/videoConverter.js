@@ -1,17 +1,3 @@
-const {
-    changeVideoFormat,
-    download,
-} = require("../../../CONVERTER_SERVICE/src/controller/VideoController");
-const uploadFilesMiddleware = require("../../../CONVERTER_SERVICE/src/middleware/uploadFiles");
-const {
-    framesZipML,
-    downloadMLZip,
-} = require("../../../CONVERTER_SERVICE/src/controller/MLController");
-const {
-    obtainMetadata,
-    downloadMetadata,
-} = require("../../../CONVERTER_SERVICE/src/controller/metadataController");
-
 /**
  * @swagger
  * definitions:
@@ -214,7 +200,7 @@ const {
  *    500:
  *     description: failure in converting video
  */
-app.post("/videoConverter", cors(), [uploadFilesMiddleware], changeVideoFormat);
+app.post("/videoConverter", cors());
 
 /**
  * @swagger
@@ -237,7 +223,7 @@ app.post("/videoConverter", cors(), [uploadFilesMiddleware], changeVideoFormat);
  *    500:
  *     description: Failure in converting video
  */
-app.get("/files/:name", download);
+app.get("/files/:name");
 
 /**
  * @swagger
@@ -259,7 +245,7 @@ app.get("/files/:name", download);
  *    500:
  *     description: failure in converting video
  */
-app.post("/frames", framesZipML);
+app.post("/frames");
 
 /**
  * @swagger
@@ -282,7 +268,7 @@ app.post("/frames", framesZipML);
  *    500:
  *     description: Failure in converting video
  */
-app.get("/framesZipML/:name", downloadMLZip);
+app.get("/framesZipML/:name");
 
 /**
  * @swagger
@@ -303,7 +289,7 @@ app.get("/framesZipML/:name", downloadMLZip);
  *    500:
  *     description: failure in converting video
  */
-app.post("/filesMetadata", obtainMetadata);
+app.post("/filesMetadata");
 
 /**
  * @swagger
@@ -327,4 +313,4 @@ app.post("/filesMetadata", obtainMetadata);
  *     description: Failure in converting video
  */
 
-app.get("/filesMetadata/:name", downloadMetadata);
+app.get("/filesMetadata/:name");

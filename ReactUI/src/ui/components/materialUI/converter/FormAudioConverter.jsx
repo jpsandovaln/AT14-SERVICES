@@ -5,15 +5,14 @@ import TableAudioForm from "./TableAudioForm";
 
 const FormAudioConveter = () => {
 	const urlML = "http://localhost:8080/imageFinder";
-
-	const [data, setResponse] = React.useState([]);
+	const [setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [samplingRate, setsamplingRate] = React.useState("");
-	const [invertAudio, setinvertAudio] = React.useState(false);
+	const [invertAudio, setinvertAudio] = React.useState("");
 	const [channels, setchannels] = React.useState("");
-	const [audioFade, setaudioFade] = React.useState("");
-	const [bitRate, setbitRate] = React.useState("");
-	const [open, setOpen] = React.useState(false);
+	const [fadeIn, setFadeIn] = React.useState("");
+	const [fadeOut, setFadeOut] = React.useState("");
+	const [setOpen] = React.useState(false);
 
 	const submitFormVideo = (event) => {
 		event.preventDefault();
@@ -21,10 +20,10 @@ const FormAudioConveter = () => {
 		const dataArray = new FormData();
 
 		dataArray.append("outputFormat", outputFormat);
-		dataArray.append("bitRate", bitRate);
 		dataArray.append("samplingRate", samplingRate);
 		dataArray.append("channels", channels);
-		dataArray.append("audioFade", audioFade);
+		dataArray.append("fadeIn", fadeIn);
+		dataArray.append("fadeOut", fadeOut);
 		dataArray.append("invertAudio", invertAudio);
 
 		const fetchData = () => {
@@ -51,16 +50,16 @@ const FormAudioConveter = () => {
 			<form onSubmit={submitFormVideo}>
 				<AudioForm
 					outputFormat={outputFormat}
-					bitRate={bitRate}
 					samplingRate={samplingRate}
 					channels={channels}
-					audioFade={audioFade}
+					fadeIn={fadeIn}
+					fadeOut={fadeOut}
 					invertAudio={invertAudio}
 					setOutputFormat={setOutputFormat}
-					setbitRate={setbitRate}
+					setFadeIn = {setFadeIn}
+					setFadeOut = {setFadeOut}
 					setsamplingRatet={setsamplingRate}
 					setchannels={setchannels}
-					setaudioFade={setaudioFade}
 					setinvertAudio={setinvertAudio}
 				/>
 				<TableAudioForm />

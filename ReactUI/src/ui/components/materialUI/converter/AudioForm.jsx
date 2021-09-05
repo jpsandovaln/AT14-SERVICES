@@ -45,7 +45,7 @@ const AudioForm = (promp) => {
 						<label htmlFor="contained-button-file">
 							<Button
 								variant="contained"
-								color="primary"
+								color="default"
 								component="span"
 							>
 								Upload
@@ -54,12 +54,12 @@ const AudioForm = (promp) => {
 					</CardContent>
 				</Card>
 			</Grid>
-			<Grid item xs={4}>
+			<Grid item xs={12}>
 				<Card className={classes.card}>
 					<CardHeader
 						className={classes.title}
-						title="Format"
-						titleTypographyProps={{ variant: "h6" }}
+						title="Audio Processor"
+						titleTypographyProps={{ variant: "h7" }}
 					/>
 					<CardContent>
 						<Grid container spacing={6}>
@@ -116,148 +116,8 @@ const AudioForm = (promp) => {
 							</Grid>
 						</Grid>
 					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Bit Rate"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
 					<CardContent>
-					<Grid container spacing={6}>
-							<Grid item xs>
-								<FormControl component="fieldset">
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={promp.constant}
-												onChange={(e) => {
-													promp.setConstant(
-														e.target.checked
-													);
-												}}
-												name="Constant"
-												color="primary"
-											/>
-										}
-										label="Constant"
-									/>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											value={promp.BitRate}
-											onChange={(e) =>
-												promp.setBitrate(e.target.value)
-											}
-											label="constant"
-											required
-										>
-											<MenuItem value={"32"}>32</MenuItem>
-											<MenuItem value={"40"}>40</MenuItem>
-											<MenuItem value={"48"}>48</MenuItem>
-											<MenuItem value={"56"}>56</MenuItem>
-											<MenuItem value={"64"}>64</MenuItem>
-											<MenuItem value={"80"}>80</MenuItem>
-											<MenuItem value={"96"}>96</MenuItem>
-											<MenuItem value={"112"}>112</MenuItem>
-											<MenuItem value={"128"}>128</MenuItem>
-											<MenuItem value={"160"}>160</MenuItem>
-											<MenuItem value={"192"}>192</MenuItem>
-										</Select>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={promp.variable}
-												onChange={(e) => {
-													promp.setVariable(
-														e.target.checked
-													);
-												}}
-												name="Variable"
-												color="primary"
-											/>
-										}
-										label="Variable"
-									/>
-									<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											value={promp.BitRate}
-											onChange={(e) =>
-												promp.setBitrate(e.target.value)
-											}
-											label="constant"
-											required
-										>
-											<MenuItem value={"0"}>0</MenuItem>
-											<MenuItem value={"1"}>1</MenuItem>
-											<MenuItem value={"2"}>2</MenuItem>
-											<MenuItem value={"3"}>3</MenuItem>
-											<MenuItem value={"4"}>4</MenuItem>
-											<MenuItem value={"5"}>5</MenuItem>
-											<MenuItem value={"6"}>6</MenuItem>
-											<MenuItem value={"7"}>7</MenuItem>
-											<MenuItem value={"8"}>8</MenuItem>
-											<MenuItem value={"9"}>9</MenuItem>
-										</Select>
-								</FormControl>
-							</Grid>
-						</Grid>
-					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Sampling rate"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
-					<CardContent>
-					<Grid container spacing={6}>
-							<Grid item xs>
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<InputLabel id="demo-simple-select-outlined-label">
-										Rate
-									</InputLabel>
-									<Select
-										labelId="demo-simple-select-outlined-label"
-										id="demo-simple-select-outlined"
-										label="Sampling"
-										value={promp.samplingRate}
-										onChange={(e) =>
-											promp.setSamplingRate(
-												e.target.value
-											)
-										}
-										required
-									>
-										
-										<MenuItem value={"32000"}>32000 Khz</MenuItem>
-										<MenuItem value={"44100"}>44100 Khz</MenuItem>
-										<MenuItem value={"48000"}>48000 Khz</MenuItem>
-										</Select>
-								</FormControl>
-							</Grid>
-						</Grid>
-					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Channels"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
-					<CardContent>
-					<Grid container spacing={6}>
+					<Grid container spacing={12}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -284,17 +144,8 @@ const AudioForm = (promp) => {
 							</Grid>
 						</Grid>
 					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Audio fade"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
 					<CardContent>
-						<Grid container spacing={6}>
+						<Grid container spacing={12}>
 							<Grid item xs>
 								<FormControl component="fieldset">
 									<FormControlLabel
@@ -330,18 +181,7 @@ const AudioForm = (promp) => {
 								</FormControl>
 							</Grid>
 						</Grid>
-					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={4}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Invert Audio"
-						titleTypographyProps={{ variant: "h6" }}
-					/>
-					<CardContent>
-						<Grid container spacing={6}>
+						<Grid container spacing={12}>
 							<Grid item xs>
 								<FormControl component="fieldset">
 									<FormControlLabel

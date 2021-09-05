@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { LOAD_FILES } from "../queries/fileQuery";
-
-
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -19,7 +17,7 @@ const useStyles = makeStyles({
 });
 
 function GetFiles() {
-  const { error, loading, data } = useQuery(LOAD_FILES);
+  const { data } = useQuery(LOAD_FILES);
   const [files, setFiles] = useState([]);
   useEffect(() => {
     if (data) {

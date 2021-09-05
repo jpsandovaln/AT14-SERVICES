@@ -1,6 +1,6 @@
 const util = require("util");
 const multer = require("multer");
-require("dotenv").config("../../.env");
+require("dotenv").config();
 const uploadPath = process.env.UPLOAD_PATH;
 
 let storage = multer.diskStorage({

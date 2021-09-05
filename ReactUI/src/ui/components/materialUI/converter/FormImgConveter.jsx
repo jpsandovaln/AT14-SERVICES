@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
 
 const FormImgConverter = () => {
 	const classes = useStyles();
-	const [data, setResponse] = React.useState([]);
+	const [setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [imageSize, setImageSize] = React.useState("");
 	const [audioFormat, setAudioFormat] = React.useState("");
@@ -29,7 +29,7 @@ const FormImgConverter = () => {
 	const [greyScale, setGreyScale] = React.useState("");
 	const [monochrome, setMonochrome] = React.useState("");
 	const [quality, setQuality] = React.useState("");
-	const [open, setOpen] = React.useState(false);
+	const [setOpen] = React.useState(false);
 
 	const submitFormVideo = (event) => {
 		const urlML = "http://localhost:8080/imageFinder";
