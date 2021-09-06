@@ -4,9 +4,10 @@ const Routes = require("./src/routes");
 const app = express();
 const mongoose = require("mongoose");
 require("dotenv").config();
-const createFolders = require("./createFolder");
+const CreateFolders = require("./utils/createFolder");
 
-createFolders();
+const createFolders = new CreateFolders();
+createFolders.createFolders();
 
 conexionString = "mongodb://" + process.env.IP_MONGO + ":27018/converterDB";
 
