@@ -8,13 +8,10 @@ const dbRouter = require("./swaggerDocs/videoConverter/dataBase");
 const MachineLearning = require('./routes/MachineLearning');
 const VideoConverter = require('./routes/VideoConverter');
 
-
 const HOSTNAME = process.env.HOSTNAME;
 const PORT = process.env.SERVICE_PORT || 4000;
-
 const ML_PORT = process.env.ML_PORT;
 const CONVERTER_PORT = process.env.CONVERTER_PORT;
-
 
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -74,16 +71,11 @@ const swaggerOptions = {
     ],
 };
 
-
-
-
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
-
 
 app.use(cors());
 
 var swaggerHtmlV1 = swaggerUI.generateHTML(swaggerDocs, swaggerOptions);
-
 
 app.get('/', function(req, res) {
     res.render('pages/home');
