@@ -4,8 +4,8 @@ import axios from "axios";
 import * as fs from "fs";
 import {GraphQLUpload} from "graphql-upload";
 import wget from "node-wget-promise";
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from "dotenv";
+dotenv.config();
 
 let FileData = [];
 let FileData1 = [];
@@ -54,7 +54,6 @@ const resolvers = {
             dataArray.append("zipFile", fs.createReadStream(uploadFile.path));
 
             const urlML = "" + process.env.CONVERTER_ANALIZEZIP;
-            console.log(urlML);
             const res = await axios.post(urlML, dataArray, {
                 headers: dataArray.getHeaders(),
             });
@@ -80,15 +79,22 @@ const resolvers = {
                 headers: dataArray1.getHeaders(),
             });
 
-            await wget(res.data[0].filePath,{
-                output: ""+process.env.OUTPUT_FOLDER+res.data[0].name+".zip"
-              });
+            await wget(res.data[0].filePath, {
+                output:
+                    "" + process.env.OUTPUT_FOLDER + res.data[0].name + ".zip",
+            });
 
             const dataArray = new FormData();
             dataArray.append("searchWord", args.searchWord);
             dataArray.append("algorithm", args.algorithm);
             dataArray.append("percentage", args.percentage);
-            dataArray.append("zipFile", fs.readFileSync(""+process.env.OUTPUT_FOLDER+res.data[0].name+".zip"), res.data[0].name+".zip");
+            dataArray.append(
+                "zipFile",
+                fs.readFileSync(
+                    "" + process.env.OUTPUT_FOLDER + res.data[0].name + ".zip"
+                ),
+                res.data[0].name + ".zip"
+            );
 
             const urlML = "" + process.env.CONVERTER_ANALIZEZIP;
             const res1 = await axios.post(urlML, dataArray, {
@@ -96,9 +102,41 @@ const resolvers = {
             });
 
             Array.prototype.push.apply(FileData1, res1.data);
-            console.log(FileData1);
 
             return FileData1;
+        },
+
+        videoConverter: async (_, args) => {
+            fs.mkdir("images", {recursive: true}, (err) => {
+                if (err) throw err;
+            });
+            FileData = [];
+            const uploadFile = await processUpload(args.file);
+
+            const dataArray = new FormData();
+            dataArray.append("ratio", args.ratio);
+            dataArray.append("scale", args.scale);
+            dataArray.append("quality", args.quality);
+            dataArray.append("angle", args.angle);
+            dataArray.append("vflip", args.vflip);
+            dataArray.append("hflip", args.hflip);
+            dataArray.append("outputFormat", args.outputFormat);
+            dataArray.append("audioFormat", args.audioFormat);
+            dataArray.append("obtainFrames", args.obtainFrames);
+            dataArray.append("frameScale", args.frameScale);
+            dataArray.append("obtainAudio", args.obtainAudio);
+            dataArray.append("checksum", args.checksum);
+            dataArray.append("file", fs.createReadStream(uploadFile.path));
+            dataArray.append("extractAudioFormat", args.extractAudioFormat);
+
+            const urlML = "" + process.env.CONVERTER_VIDEO_CONVERTER;
+            const res = await axios.post(urlML, dataArray, {
+                headers: dataArray.getHeaders(),
+            });
+
+            Array.prototype.push.apply(FileData, res.data);
+
+            return FileData;
         },
     },
 };
