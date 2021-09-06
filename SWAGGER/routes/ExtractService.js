@@ -6,8 +6,9 @@ const swaggerUI = require("swagger-ui-express");
 
 const HOSTNAME = process.env.HOSTNAME;
 const PORT = process.env.SERVICE_PORT || 4000;
+const EXTRACTOR_PORT = process.env.EXTRACTOR_PORT || 8001;
 
-const machineLearningOptions = {
+const extractorServiceOptions = {
     customCss: `
     .topbar-wrapper img { content:url(http://${HOSTNAME}:${PORT}/img/Icon.ico); height:0px;}
     .swagger-ui .topbar { border-bottom: 0px solid #5dc6d1; padding: 0px 0; }
@@ -25,22 +26,22 @@ const machineLearningOptions = {
         },
         servers: [
             {
-                url: "http://localhost:8085",
-                description: "Port where the machine learning service works",
+                url: `http://localhost:${EXTRACTOR_PORT}`,
+                description: "Port where the extractor service works",
             },
         ],
     },
-    apis: ["./swaggerDocs/machineLearning/*.js"],
+    apis: ["./swaggerDocs/extractorService/*.js"],
 };
 
-const machineLearningDocs = swaggerJSDoc(machineLearningOptions);
+const extractorServiceDocs = swaggerJSDoc(extractorServiceOptions);
 
 const swaggerHtml = swaggerUI.generateHTML(
-    machineLearningDocs,
-    machineLearningOptions
+    extractorServiceDocs,
+    extractorServiceOptions
 );
 
-router.use("/", swaggerUI.serveFiles(machineLearningDocs, machineLearningOptions));
+router.use("/", swaggerUI.serveFiles(extractorServiceDocs, extractorServiceOptions));
 router.get("/", (req, res) => {
     res.send(swaggerHtml);
 });

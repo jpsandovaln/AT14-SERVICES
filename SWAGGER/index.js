@@ -7,6 +7,7 @@ const swaggerUI = require("swagger-ui-express");
 const dbRouter = require("./swaggerDocs/videoConverter/dataBase");
 const MachineLearning = require('./routes/MachineLearning');
 const VideoConverter = require('./routes/VideoConverter');
+const ExtractorService = require('./routes/ExtractService');
 
 const HOSTNAME = process.env.HOSTNAME;
 const PORT = process.env.SERVICE_PORT || 4000;
@@ -88,6 +89,7 @@ app.get("/api-docs", (req, res) => {
 
 app.use("/MachineLearning", MachineLearning);
 app.use("/VideoConverter", VideoConverter);
+app.use("/ExtractorService", ExtractorService);
 
 app.use(express.json());
 app.use(dbRouter);
