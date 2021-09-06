@@ -6,7 +6,7 @@
     "scripts": {
         "test": "jest --collect-coverage",
         "lint": "eslint . --ext .ts",
-        "start": "tsc && node ./dist/app.js",
+        "start": "node ./dist/createFolders.js && tsc && node ./dist/app.js",
         "ts": "tsc -w",
         "dev": "nodemon ./dist/app.js"
     },
