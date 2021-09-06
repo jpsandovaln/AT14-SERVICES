@@ -28,15 +28,11 @@
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0);" onClick="urlChange('http://localhost:8000/MachineLearning')">Machine Learning</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0);" onClick="urlChange('http://localhost:8000/VideoConverter')">Convert Service</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0);" onClick="urlChange('http://localhost:8000/ExtractorService')">Extractor Service</a>
-      </li>    
+      <% data.forEach(function(item) { %>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" onClick="urlChange('<%= item.url %>')"><%= item.text %></a>
+        </li>
+      <% }); %>      
     </ul>
   </div>  
 </nav>
@@ -45,7 +41,7 @@
             title="Inline Frame Example"
             width="100%"
             height="91%"
-            src="http://localhost:8000/MachineLearning">
+            src='<%= row.url %>'>
     </iframe>
 </div>
 <footer>

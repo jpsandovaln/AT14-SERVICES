@@ -79,7 +79,13 @@ app.use(cors());
 var swaggerHtmlV1 = swaggerUI.generateHTML(swaggerDocs, swaggerOptions);
 
 app.get('/', function(req, res) {
-    res.render('pages/home');
+    const urlPaths = [
+        { hostname: HOSTNAME, port: PORT, endpoint: "MachineLearning", text: "Machine Learning", url: `http://${HOSTNAME}:${PORT}/MachineLearning`},
+        { hostname: HOSTNAME, port: PORT, endpoint: "VideoConverter", text: "Convert Service", url: `http://${HOSTNAME}:${PORT}/VideoConverter`},
+        { hostname: HOSTNAME, port: PORT, endpoint: "ExtractorService", text: "Extractor Service", url: `http://${HOSTNAME}:${PORT}/ExtractorService`},
+    ];        
+    const defaultPath = { hostname: HOSTNAME, port: PORT, endpoint: "MachineLearning", text: "Machine Learning", url: `http://${HOSTNAME}:${PORT}/MachineLearning`};
+    res.render('pages/home',{data: urlPaths, row: defaultPath});
 });
 
 app.use("/api-docs", swaggerUI.serveFiles(swaggerDocs, swaggerOptions));
