@@ -3,6 +3,7 @@ import { Config } from "./config";
 
 import cors from "cors";
 import express from "express";
+import morganMiddleware from "../middleware/morgan";
 
 export abstract class AppConfig extends Config implements IAppConfig {
     corsOptions = { origin: "http://localhost:8080" };
@@ -18,5 +19,6 @@ export abstract class AppConfig extends Config implements IAppConfig {
     public initAppConfigs() {
         this.app.use(cors(this.corsOptions));
         this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(morganMiddleware);
     }
 }
