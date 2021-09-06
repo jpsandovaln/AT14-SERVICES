@@ -5,9 +5,10 @@ import analizeZip from "./routes/analizeZip";
 import analizeImages from "./routes/analizeImages";
 import aboutRouter from "./routes/about";
 import cors from "cors";
-import createFolders from "./createFolders";
+import CreateFolders from "../utils/createFolders";
 
-createFolders();
+const createfolders = new CreateFolders();
+createfolders.createFolders();
 
 const app = express();
 app.use(cors());
