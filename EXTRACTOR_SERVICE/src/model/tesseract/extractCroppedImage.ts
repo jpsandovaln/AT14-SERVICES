@@ -6,7 +6,7 @@ import { StatusCode } from "../../common/statusCode";
 import { Code } from "../../common/code";
 
 export class ExtractCroppedImage extends Extractor {
-	private rectangle: Cropped;
+	private rectangle: object;
 
 	constructor(properties: ICropped) {
 		super(properties);

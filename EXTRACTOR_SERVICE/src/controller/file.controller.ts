@@ -12,6 +12,7 @@ import { Cropped } from "../model/tesseract/interfaces/Cropped";
 import { StatusCode } from "../common/statusCode";
 import { Code } from "../common/code";
 import * as fs from "fs";
+import { paramsCropped } from "../middleware/paramsCropped";
 
 const worker = createWorker({});
 const upload = new Upload();
@@ -71,17 +72,18 @@ export class FileController {
     extractCroppedImage = async (req: express.Request, res: express.Response) => {
         try {
             await upload.fileUploadMiddleware(req, res);
+            await paramsCropped(req, res);
 
             if (req.file == undefined) {
                 throw new FileUploadException("Please upload a file!", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
-                const rectanglePart = {
-                   left: req.body.left,
+                const rectanglePart: Object ={
+                    left: req.body.left,
                     top: req.body.top,
                     width: req.body.width,
                     height: req.body.height,
-                };
+                }
                // rectanglePart.validate();
                 const imageToCropped: ICropped = {
                     worker: worker,
