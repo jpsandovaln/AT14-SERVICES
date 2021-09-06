@@ -1,1 +1,3 @@
-export interface IConfig {}
+export interface IConfig {
+    logger: any;
+}

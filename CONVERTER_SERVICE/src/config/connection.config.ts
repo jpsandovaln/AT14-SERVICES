@@ -20,8 +20,8 @@ export abstract class ConnectionConfig
                 useUnifiedTopology: true,
             })
             .then((db: any) =>
-                console.log("Db is connected to", db.connection.host)
+                this.logger.debug("Db is connected to", db.connection.host)
             )
-            .catch((err: Error) => console.error(err));
+            .catch((err: Error) => this.logger.error(err));
     }
 }
