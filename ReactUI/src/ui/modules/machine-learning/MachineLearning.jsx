@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+
 const MachineLearing = () => {
 
 	const [data, setResponse] = useState([]);
@@ -49,13 +50,26 @@ const MachineLearing = () => {
 	const [percentage, setPercentage] = useState("");
 	const [FileData, setUploadFile] = useState(null);
 	const [open, setOpen] = useState(false);
+	const [nameVideo, setNameVideo] = React.useState("Select a video file");
 
 	const [uiToVideoConverter, { error }] = useMutation(UploadMutation);
+
+	const setFileVideo = async (e) => {
+		let videoFile = document.getElementById("contained-button-video");
+		if (videoFile.files.length > 0) {
+
+			setNameVideo(videoFile.files.item(0).name);
+			setUploadFile(e.target.files[0]);
+		} else {
+			setNameVideo("Select a video file");
+			setUploadFile(null);
+		}
+	};
 
 	const submitForm = async (event) => {
 		event.preventDefault();
 		setOpen(true);
-		setResponse([]);
+		setResponse(null);
 		const data = await uiToVideoConverter({
 			variables: {
 			  searchWord: searchWord+"",
@@ -93,6 +107,10 @@ const MachineLearing = () => {
 					algorithm={algorithm}
 					setAlgorithm={setAlgorithm}
 					setUploadFile={setUploadFile}
+					nameVideo={nameVideo}
+					setNameVideo={setNameVideo}
+					setFileVideo={setFileVideo}
+					nameVideo={nameVideo}
 				/>
 			</form>
 			<br />
