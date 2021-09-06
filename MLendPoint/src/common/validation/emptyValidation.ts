@@ -1,4 +1,5 @@
 import { MachineLearningException } from "../exception/machineLearningException";
+import { StatusCode } from "../StatusCode";
 import { ValidateStrategy } from "./validateStrategy";
 
 export class EmptyValidation extends ValidateStrategy {
@@ -13,8 +14,8 @@ export class EmptyValidation extends ValidateStrategy {
 	validate() {
 		if (!this._value || this._value.trim().length === 0) {
 			throw new MachineLearningException(
-				"Invalid data parameter: " + this._parameter,
-				400,
+				"Empty data parameter: " + this._parameter,
+				StatusCode.BadRequest,
 				"ML-ERROR-01"
 			);
 		}

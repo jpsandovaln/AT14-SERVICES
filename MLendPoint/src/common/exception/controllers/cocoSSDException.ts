@@ -1,7 +1,8 @@
+import { StatusCode } from "../../StatusCode";
 import { MachineLearningException } from "../machineLearningException";
 
 export class CocoSSDException extends MachineLearningException {
-	constructor(message: any, status: number, code: string) {
+	constructor(message: any, status: StatusCode, code: string) {
 		super(message, status, code);
 	}
 }

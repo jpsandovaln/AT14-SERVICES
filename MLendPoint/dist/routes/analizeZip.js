@@ -46,10 +46,6 @@ class AnalizeZip {
         this.routes();
     }
     routes() {
-        this.router.get("/", (res) => {
-            const json = {};
-            res.json(json);
-        });
         this.router.post("/", imageFilter_1.default.single("zipFile"), (req, res) => __awaiter(this, void 0, void 0, function* () {
             const file = req.file;
             const searchWord = req.body.searchWord;

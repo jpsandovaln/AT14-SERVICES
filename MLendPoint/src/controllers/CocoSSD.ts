@@ -21,6 +21,7 @@ class CocoSSD extends MachineLearing {
     }
 
     async loadModel(): Promise<cocoSsd.DetectedObject[]> {
+        this.validateParameter();
         const image = fs.readFileSync(this.image);
         const processInput: any = node.decodeImage(image);
         console.log("CocoSSD", cocoSsd);

@@ -51,6 +51,7 @@ class CocoSSD extends MachineLearing_1.default {
     }
     loadModel() {
         return __awaiter(this, void 0, void 0, function* () {
+            this.validateParameter();
             const image = fs_1.default.readFileSync(this.image);
             const processInput = tfjs_node_1.node.decodeImage(image);
             console.log("CocoSSD", cocoSsd);
