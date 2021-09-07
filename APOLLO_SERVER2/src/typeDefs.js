@@ -2,6 +2,15 @@ import { gql } from 'apollo-server';
 
 const typeDefs =  gql`
   scalar Upload
+  type ImageToText {
+    id: ID!
+    text: String!
+    path: String!
+    left: String!
+    top: String!
+    width: String!
+    height: String!
+  }
   type File {
     id: ID!
     filename: String!
@@ -50,6 +59,7 @@ const typeDefs =  gql`
     uploadFileML(searchWord: String, algorithm: String, percentage: String, file: Upload!): [FileML!]
     uiToVideoConverter(searchWord: String, algorithm: String, percentage: String, file: Upload!): [VideoConverterToMachineLearning!]
     videoConverter(ratio: String, scale: String, quality: String, angle: String, vflip: String, hflip: String, outputFormat: String, audioFormat: String, obtainFrames: String, frameScale: String, obtainAudio: String, checksum: String, file: Upload!, extractAudioFormat: String): [VideoConverter!]
+    uiToImageText(language: String, file: Upload!): ImageToText
   }
 `;
 
