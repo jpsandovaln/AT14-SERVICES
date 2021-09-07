@@ -6,11 +6,14 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import typeDefs from './typeDefs.js';
 import resolvers from './resolvers.js';
+import connectMongoDB from './db.js';
 
 const app = express();
 
 export default (async function () {
   try {
+    const connectionPath = 'mongodb://' + process.env.IP_MONGO + ':27018/converterDB';
+    connectMongoDB(connectionPath);
     const server = new ApolloServer({
       uploads: false,
       typeDefs,

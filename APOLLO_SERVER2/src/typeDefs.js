@@ -3,10 +3,10 @@ import { gql } from 'apollo-server';
 const typeDefs =  gql`
   scalar Upload
   type File {
-    id: ID!
-    filename: String!
-    mimetype: String!
+    _id: String!
+    name: String!
     path: String!
+    checksum: String!
   }
   type FileML {
     id: ID!
@@ -43,7 +43,7 @@ const typeDefs =  gql`
     hello: String
     machines: [FileML]
     VideoConverter: [VideoConverter]
-    files: [File!]
+    files: [File]
   }
   type Mutation {
     uploadFile(file: Upload!, name: String): File!
