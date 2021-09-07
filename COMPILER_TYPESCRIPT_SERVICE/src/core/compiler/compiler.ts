@@ -1,14 +1,14 @@
-import { Execute } from "../execute/execute";
+import { Executer } from "../execute/executer";
 
 export abstract class Compiler {
-    private execute: Execute;
+    private _execute: Executer;
 
-    constructor() {
-        this.execute = new Execute();
+    constructor(executer: Executer) {
+        this._execute = executer;
     }
 
     protected executeCommand(cmd: string): Promise<object> {
-        return this.execute.run(cmd);
+        return this._execute.run(cmd);
     }
 
     abstract compiler(): Promise<object>;

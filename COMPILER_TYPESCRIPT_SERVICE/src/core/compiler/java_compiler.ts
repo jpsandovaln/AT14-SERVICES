@@ -1,14 +1,14 @@
 import { JavaCommand } from "../command/java_command";
 import { JavaParameter } from "../parameter/java_parameter";
-import { Execute } from "../execute/execute";
 import { Compiler } from "./compiler";
+import { Executer } from "../execute/executer";
 
 export class JavaCompiler extends Compiler {
     private _path: string;
     private _binary: string;
 
-    constructor(path: string, binary: string) {
-        super();
+    constructor(execute:Executer, path: string, binary: string) {
+        super(execute);
         this._path = path;
         this._binary = binary;
     }

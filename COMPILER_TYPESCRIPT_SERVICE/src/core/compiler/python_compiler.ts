@@ -1,14 +1,14 @@
 import { PythonCommand } from "../command/python_command";
 import { PythonParameter } from "../parameter/python_parameter";
-import { Execute } from "../execute/execute";
+import { Executer } from "../execute/executer";
 import { Compiler } from "./compiler";
 
 export class PythonCompiler extends Compiler {
     private _path: string;
     private _binary: string;
 
-    constructor(path: string, binary: string) {
-        super();
+    constructor(execute:Executer, path: string, binary: string) {
+        super(execute);
         this._path = path;
         this._binary = binary;
     }
