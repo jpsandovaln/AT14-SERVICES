@@ -1,17 +1,18 @@
 import { Compiler } from "./compiler";
 import { CompilerException } from "../../common/exception/compiler_exception";
 import { JavaCompiler } from "./java_compiler";
+import { Executer } from "../execute/executer";
 
 export class JavaCompilerProxy extends Compiler {
     private _path: string;
     private _binary: string;
     private _javaCompiler: JavaCompiler;
 
-    constructor(path: string, binary: string) {
-        super();
+    constructor(execute:Executer, path: string, binary: string) {
+        super(execute);
         this._path = path;
         this._binary = binary;
-        this._javaCompiler = new JavaCompiler(this._path, this._binary);
+        this._javaCompiler = new JavaCompiler(execute, this._path, this._binary);
     }
     
     public async compiler(): Promise<object> {
