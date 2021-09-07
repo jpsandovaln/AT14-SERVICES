@@ -45,7 +45,10 @@ export class Upload {
                 cb(null, true);
             } else {
                 cb(null, false);
-                return cb(new FileUploadException("File types allowed .jpeg, .jpg and .png", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01));
+                return cb(new FileUploadException(
+                    "File types allowed .jpeg, .jpg and .png",
+                    StatusCode.BadRequest,
+                    Code.EXTRACTOR_ERROR_01));
             }
         },
     }).single("file");

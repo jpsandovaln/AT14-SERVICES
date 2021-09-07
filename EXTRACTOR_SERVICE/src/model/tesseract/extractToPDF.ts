@@ -4,6 +4,7 @@ import * as fs from "fs";
 import { PDFToImageException } from "../../common/exception/pdfToImageException";
 import { StatusCode } from "../../common/statusCode";
 import { Code } from "../../common/code";
+
 export class ExtractToPDF extends Extractor {
 	constructor(properties: IBase) {
 		super(properties);

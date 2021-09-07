@@ -1,7 +1,6 @@
 import { ICropped } from "./interfaces/iCropped";
 import { Extractor } from "./extractor";
 import { CroppedImageException } from "../../common/exception/croppedImageException";
-import { Cropped } from "./interfaces/Cropped";
 import { StatusCode } from "../../common/statusCode";
 import { Code } from "../../common/code";
 
@@ -16,7 +15,6 @@ export class ExtractCroppedImage extends Extractor {
 	public async extract(): Promise<string> {
 		this.validateParameter();
 		try {
-			//this.rectangle.validate();
 			const rectangle = this.rectangle;
 			await this.loadWorker();
 			const {

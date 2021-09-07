@@ -8,11 +8,9 @@ import { ExtractToPDF } from "../model/tesseract/extractToPDF";
 import { ExtractCroppedImage } from "../model/tesseract/extractCroppedImage";
 import { ICropped } from "../model/tesseract/interfaces/iCropped";
 import { FileUploadException } from "../common/exception/fileUploadException";
-import { Cropped } from "../model/tesseract/interfaces/Cropped";
 import { StatusCode } from "../common/statusCode";
 import { Code } from "../common/code";
-import * as fs from "fs";
-import { paramsCropped } from "../middleware/paramsCropped";
+import { ParamsCropped } from "../middleware/paramsCropped";
 
 const worker = createWorker({});
 const upload = new Upload();
@@ -23,7 +21,10 @@ export class FileController {
             await upload.fileUploadMiddleware(req, res);
 
             if (req.file == undefined) {
-                throw new FileUploadException("Please upload a file!", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01);
+                throw new FileUploadException(
+                    "Please upload a file!",
+                    StatusCode.BadRequest,
+                    Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
                 const imageBasic: IBase = {
@@ -33,7 +34,6 @@ export class FileController {
                 };
                 const text: Extractor = new ExtractToText(imageBasic);
                 const result: Extractor = await text.extract();   
-
                 return res.status(200).send(result);
             }
             await worker.terminate();     
@@ -46,10 +46,11 @@ export class FileController {
     extractToPDF = async (req: express.Request, res: express.Response) => {
         try {
             await upload.fileUploadMiddleware(req, res);
-            
-
             if (req.file == undefined) {
-                throw new FileUploadException("Please upload a file!", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01);
+                throw new FileUploadException(
+                    "Please upload a file!",
+                    StatusCode.BadRequest,
+                    Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
                 const imageBasic: IBase = {
@@ -72,19 +73,21 @@ export class FileController {
     extractCroppedImage = async (req: express.Request, res: express.Response) => {
         try {
             await upload.fileUploadMiddleware(req, res);
-            await paramsCropped(req, res);
+            await new ParamsCropped().paramatersCropped(req, res);
 
             if (req.file == undefined) {
-                throw new FileUploadException("Please upload a file!", StatusCode.BadRequest, Code.EXTRACTOR_ERROR_01);
+                throw new FileUploadException(
+                    "Please upload a file!",
+                    StatusCode.BadRequest,
+                    Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
-                const rectanglePart: Object ={
+                const rectanglePart: Object = {
                     left: req.body.left,
                     top: req.body.top,
                     width: req.body.width,
                     height: req.body.height,
                 }
-               // rectanglePart.validate();
                 const imageToCropped: ICropped = {
                     worker: worker,
                     language: req.body.language,
@@ -93,7 +96,6 @@ export class FileController {
                 };
                 const cropped: Extractor = new ExtractCroppedImage(imageToCropped);
                 const result: Extractor = await cropped.extract();
-                      
                 return res.status(200).send(result);
             }
             await worker.terminate();
@@ -102,5 +104,4 @@ export class FileController {
             res.status(err.status).send({message: `${err.message}`});
         }
     };
-    
 }
