@@ -61,18 +61,15 @@ export class ParamsCropped {
         }
     }
 
-    checkString(params: string): void {
-        const abc: string = "abcdefghijklmnopqrstuvwxyzABCDEFGIJKLMNOPQRSTUVWXYZ°|!'#$%&/()=?\¡¿´+{}[]_-*,.:";
-        for (let i = 0; i < params.length; i++) {
-            for (let j = 0; j < abc.length; j++) {
-                if(params[i]===abc[j]){
-                    throw new CroppedImageException(
-                        "Invalid data parameter: " + params,
-                        StatusCode.BadRequest,
-                        Code.EXTRACTOR_ERROR_01
-                    )
-                }
-            }
-        }  
+    checkString(params: any): void{
+        var pattern = (/([^0-9])/);
+        if(params.match(pattern)) {
+            throw new CroppedImageException(
+                "Invalid data parameter: " + params,
+                StatusCode.BadRequest,
+                Code.EXTRACTOR_ERROR_01
+            )
+        }
+
     }
 }
