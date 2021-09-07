@@ -1,7 +1,7 @@
 import { Parameters } from "../../video/parameter/parameters";
 import { Command } from "./cmd";
 //ffmpeg -i music.mp3 -af "afade=t=out:st=5:d=5" out.mp3
-const FFMPEG_FADE_OUT = "afade=t=out:st=5:d=5";
+const FFMPEG_FADE_OUT = '"afade=t=out:st=5:d=5"';
 const SPACE = " ";
 const FFMPEG_AF = "-af";
 
@@ -16,7 +16,7 @@ export class CmdFadeOut extends Command {
     };
 
     returnCommand(command: string): string {  
-        if(this.getParameter('fadeOut')) 
+        if(this.getParameter('fadeOut') == 'true') 
             command = command + FFMPEG_AF + SPACE + FFMPEG_FADE_OUT + SPACE;      
         return this.cmd.returnCommand(command); 
     };    
