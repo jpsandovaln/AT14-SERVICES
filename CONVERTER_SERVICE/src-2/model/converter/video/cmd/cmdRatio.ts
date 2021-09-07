@@ -7,7 +7,7 @@ const MIN_RATIO = 1;
 const MAX_RATIO = 24;
 
 export class CmdRatio extends Command {   
-    private cmd: Command;
+    private cmd!: Command;
     constructor(parameters: Parameters) { 
         super(parameters);        
     }

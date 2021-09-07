@@ -10,7 +10,7 @@ export class Parameters {
         return this.JSonBody;
     }
 
-    public getParameter(key: any): string {
+    public getParameter(key: string): string {
         return this.getJSon()[key];
     } 
 }    

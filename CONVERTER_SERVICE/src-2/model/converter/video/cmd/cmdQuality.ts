@@ -7,7 +7,7 @@ const MAX_QUALITY = 31;
 const MIN_QUALITY = 0;
 
 export class CmdQuality extends Command {   
-    private cmd: Command;
+    private cmd!: Command;
     constructor(parameters: Parameters) { 
         super(parameters);        
     }

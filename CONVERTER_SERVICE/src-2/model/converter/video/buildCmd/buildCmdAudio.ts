@@ -26,7 +26,7 @@ export class BuildCmdAudio extends BuildCmd{
         return header.returnCommand(""); 
     }
 }
-/*
+
 let params = new Parameters({ audioFormat: '.mp3', angle: '180', grayScale: 'false', vflip: 'true', hflip: 'true', outputFormat: '.flv', frameScale: '400', timeBetweenFrames: '5', outputFormatFrames: '.png'});
 let cmd = new BuildCmdAudio(params, 'codec--->', 'video--->', 'output--->', 'resulName');
-console.log(cmd.returnCmd());*/
+console.log(cmd.returnCmd());
