@@ -1,0 +1,39 @@
+{
+    "name": "converter_service_typescript",
+    "version": "1.0.0",
+    "description": "Video Converter, Image Converter & Audio Converter",
+    "main": "app.js",
+    "scripts": {
+        "start": "npx tsc-watch --project . --outDir ./build --onSuccess \"nodemon ./build/app.js\"",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jpsandovaln/AT14-SERVICES.git"
+    },
+    "author": "AT-14",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jpsandovaln/AT14-SERVICES/issues"
+    },
+    "homepage": "https://github.com/jpsandovaln/AT14-SERVICES#readme",
+    "dependencies": {
+        "adm-zip": "^0.5.5",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "md5-file": "^5.0.0",
+        "mongoose": "^5.13.5",
+        "multer": "^1.4.2",
+        "formidable": "^1.2.2",
+        "nodemon": "^2.0.12",
+        "ts-node": "^10.2.0",
+        "typescript": "^4.3.5"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.12",
+        "@types/express": "^4.17.13",
+        "@types/multer": "^1.4.7",
+        "@types/node": "^16.7.1"
+    }
+}
