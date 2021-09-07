@@ -11,7 +11,7 @@ export class LanguageValidation extends ValidateStrategy {
 		this._language = language;
 	}
 
-	validate() {
+	validate(): void {
 		const codeLanguage = Object.keys(languages);
 		if (!codeLanguage.find(language => language === this._language)) {
 			throw new ExtractorException(

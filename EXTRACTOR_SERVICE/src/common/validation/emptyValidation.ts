@@ -12,7 +12,7 @@ export class EmptyValidation extends ValidateStrategy {
 		this._value = value;
 	}
 
-	validate() {
+	validate(): void{
 		if (!this._value || this._value.trim().length === 0) {
 			throw new ExtractorException(
 				"Invalid data parameter: " + this._parameter,
