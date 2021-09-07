@@ -1,3 +1,8 @@
+import { Code } from "../../common/code";
+import { LoadWorkerException } from "../../common/exception/loadWorkerException";
+import { StatusCode } from "../../common/statusCode";
+import { EmptyValidation } from "../../common/validation/emptyValidation";
+import { LanguageValidation } from "../../common/validation/languageValidation";
 import { IBase } from "./interfaces/iBase";
 
 export abstract class Extractor {
@@ -16,10 +21,36 @@ export abstract class Extractor {
 	 * @protected method
 	 *
 	 */
-	protected async loadWorker(): Promise<void> {
-		await this.worker.load();
-		await this.worker.loadLanguage(this.language);
-		await this.worker.initialize(this.language);
+	public async loadWorker(): Promise<void> {
+		try {
+			this.validateParameter();
+			await this.worker.load();
+			await this.worker.loadLanguage(this.language);
+			await this.worker.initialize(this.language);
+		} catch (error) {
+			throw new LoadWorkerException(
+				error,
+				StatusCode.ServerUnavailable,
+				Code.EXTRACTOR_ERROR_01
+			);
+		}
+	}
+
+	/**
+	 * Validates the parameters and if they aren't correct it
+	 * will throw an custom error.
+	 * @protected method
+	 *
+	 */
+	public validateParameter(): void {
+		const emptyParameter = [
+			new EmptyValidation("Path", this.path),
+			new EmptyValidation("Language", this.language),
+			new LanguageValidation(this.language),
+		];
+		emptyParameter.forEach((validation) => {
+			validation.validate();
+		});
 	}
 
 	/**

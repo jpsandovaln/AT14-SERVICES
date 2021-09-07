@@ -7,19 +7,24 @@ import { Extractor } from "../model/tesseract/extractor";
 import { ExtractToPDF } from "../model/tesseract/extractToPDF";
 import { ExtractCroppedImage } from "../model/tesseract/extractCroppedImage";
 import { ICropped } from "../model/tesseract/interfaces/iCropped";
+import { FileUploadException } from "../common/exception/fileUploadException";
+import { StatusCode } from "../common/statusCode";
+import { Code } from "../common/code";
+import { ParamsCropped } from "../middleware/paramsCropped";
 
 const worker = createWorker({});
 const upload = new Upload();
 
-class FileController {
+export class FileController {
     extractText = async (req: express.Request, res: express.Response) => {
         try {
             await upload.fileUploadMiddleware(req, res);
 
             if (req.file == undefined) {
-                return res
-                    .status(400)
-                    .send({ message: "Please upload a file!" });
+                throw new FileUploadException(
+                    "Please upload a file!",
+                    StatusCode.BadRequest,
+                    Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
                 const imageBasic: IBase = {
@@ -29,32 +34,23 @@ class FileController {
                 };
                 const text: Extractor = new ExtractToText(imageBasic);
                 const result: Extractor = await text.extract();   
-
                 return res.status(200).send(result);
             }
             await worker.terminate();     
 
         } catch (err: any) {
-            if (err.code == "LIMIT_FILE_SIZE") {
-                return res.status(500).send({
-                    message: "File size cannot be larger than 2MB!",
-                });
-            }
-
-            res.status(500).send({
-                message: `Could not upload the file ${err}`,
-            });
+            res.status(err.status).send({message: `${err.message}`});
         }
     };
 
     extractToPDF = async (req: express.Request, res: express.Response) => {
         try {
             await upload.fileUploadMiddleware(req, res);
-
             if (req.file == undefined) {
-                return res
-                    .status(400)
-                    .send({ message: "Please upload a file!" });
+                throw new FileUploadException(
+                    "Please upload a file!",
+                    StatusCode.BadRequest,
+                    Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
                 const imageBasic: IBase = {
@@ -63,41 +59,35 @@ class FileController {
                     path: req.file.path,
                 };
                 const pdf: Extractor = new ExtractToPDF(imageBasic);
-                const result: Extractor = await pdf.extract();     
-
-                return res.status(200).send(result);
+                const result = await pdf.extract(); 
+                console.log(result);
+                return res.status(200).send(process.env.EXTRACTOR_APP + ":"+ process.env.EXTRACTOR_PORT + "/extractToPDF/" + result);
             }
             await worker.terminate();
 
         } catch (err: any) {
-            if (err.code == "LIMIT_FILE_SIZE") {
-                return res.status(500).send({
-                    message: "File size cannot be larger than 2MB!",
-                });
-            }
-            
-            res.status(500).send({
-                message: `Could not upload the file ${err}`,
-            });
+            res.status(err.status).send({message: `${err.message}`});
         }
     };
 
     extractCroppedImage = async (req: express.Request, res: express.Response) => {
         try {
             await upload.fileUploadMiddleware(req, res);
+            await new ParamsCropped().paramatersCropped(req, res);
 
             if (req.file == undefined) {
-                return res
-                    .status(400)
-                    .send({ message: "Please upload a file!" });
+                throw new FileUploadException(
+                    "Please upload a file!",
+                    StatusCode.BadRequest,
+                    Code.EXTRACTOR_ERROR_01);
             }
             if (req.file) {
-                const rectanglePart = {
+                const rectanglePart: Object = {
                     left: req.body.left,
                     top: req.body.top,
                     width: req.body.width,
                     height: req.body.height,
-                };
+                }
                 const imageToCropped: ICropped = {
                     worker: worker,
                     language: req.body.language,
@@ -106,23 +96,12 @@ class FileController {
                 };
                 const cropped: Extractor = new ExtractCroppedImage(imageToCropped);
                 const result: Extractor = await cropped.extract();
-                      
                 return res.status(200).send(result);
             }
             await worker.terminate();
 
         } catch (err: any) {
-            if (err.code == "LIMIT_FILE_SIZE") {
-                return res.status(500).send({
-                    message: "File size cannot be larger than 2MB!",
-                });
-            }
-
-            res.status(500).send({
-                message: `Could not upload the file ${err}`,
-            });
+            res.status(err.status).send({message: `${err.message}`});
         }
     };
 }
-
-export { FileController };
