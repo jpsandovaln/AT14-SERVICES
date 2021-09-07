@@ -1,7 +1,6 @@
 import { Parameters } from "../../video/parameter/parameters"
 import { Command } from "./cmd";
 
-//ffmpeg -i filename.mp3 newfilename.wav
 const FFMPEG_I = "-i";
 const SPACE = " ";
 

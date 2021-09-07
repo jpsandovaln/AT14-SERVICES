@@ -12,9 +12,8 @@ export class AudioServices{
     private uploadPath: string;
     private outputPath: string;
     private audioPath: string;
-    private zipPath: string;
     
-    constructor(json: object, nameFile: string, resultName: string, codecPath: string, uploadPath: string, outputPath: string, audioPath: string, zipPath: string) {
+    constructor(json: object, nameFile: string, resultName: string, codecPath: string, uploadPath: string, outputPath: string, audioPath: string) {
         this.params = new Parameters(json); 
         this.compiler = new Compiler();
         this.nameFile = nameFile;
@@ -24,21 +23,13 @@ export class AudioServices{
         this.uploadPath = uploadPath;
         this.outputPath = outputPath;
         this.audioPath = audioPath;
-        this.zipPath = zipPath;
     } 
 
     async ChangeAudioFormat() {
-        if(this.params.getParameter('obtainAudio') == 'true') {
-            let cmdObtainAudio = new BuildCmdAudio (this.params, this.codecPath, this.filePath, this.outputPath, this.resultName);
-            await this.compiler.execute(cmdObtainAudio.returnCmd());    
-            const resultPathAudio = this.audioPath + this.resultName + this.params.getParameter('audioFormat');
-            return resultPathAudio;
-        }        
-        else 
-            return "";
+        let cmdChangeAudioFormat = new BuildCmdAudio (this.params, this.codecPath, this.filePath, this.outputPath, this.resultName);
+        await this.compiler.execute(cmdChangeAudioFormat.returnCmd());    
+        const resultPathAudio = this.audioPath + this.resultName + this.params.getParameter('audioFormat');
+        return resultPathAudio;
+
     } 
 }
-
-/*let p = { ratio: '15', scale: '426x240', quality: '0', angle: '90', grayScale: 'false', vflip: 'false', hflip: 'false', obtainFrames: 'true', obtainAudio: 'true', audioFormat: '.mp3', outputFormat: '.flv', frameScale: '400', timeBetweenFrames: '5', outputFormatFrames: '.png'};
-let services = new AudioServices(p, 'Video.mp4', 'EDWIN', 'E:/SALIDAS/ffmpeg.exe', 'C:/Users/Usuario/Desktop/', 'E:/SALIDAS/', 'E:/SALIDAS/', 'E:/SALIDAS/', 'E:/SALIDAS/');
-console.log(services.ChangeAudioFormat());*/
