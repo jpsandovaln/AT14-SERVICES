@@ -24,7 +24,6 @@ export class Upload {
             file: Express.Multer.File,
             cb: (error: Error | null, filename: string) => void
         ) => {
-            console.log(file.originalname);
             cb(null, file.originalname);
         },
     });
