@@ -21,6 +21,7 @@ function GetFiles() {
   const [files, setFiles] = useState([]);
   useEffect(() => {
     if (data) {
+		console.log(data+"here");
       setFiles(data.files);
     }
   }, [data]);
