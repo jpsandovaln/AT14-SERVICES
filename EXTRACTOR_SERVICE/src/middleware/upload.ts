@@ -8,7 +8,7 @@ import { Code } from "../common/code";
 dotenv.config();
 
 export class Upload {
-    root: string | undefined = process.env.ROOT;
+    root: string | undefined = process.env.EXTRACTOR_ROOT;
     maxSize: number = 2 * 1024 * 1024;
 
     storage = multer.diskStorage({

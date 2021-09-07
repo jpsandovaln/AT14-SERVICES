@@ -61,7 +61,7 @@ export class FileController {
                 const pdf: Extractor = new ExtractToPDF(imageBasic);
                 const result = await pdf.extract(); 
                 console.log(result);
-                return res.status(200).send("http://localhost:"+ process.env.PORT +"/extractToPDF/"+ result);
+                return res.status(200).send(process.env.EXTRACTOR_APP + ":"+ process.env.EXTRACTOR_PORT + "/extractToPDF/" + result);
             }
             await worker.terminate();
 

@@ -5,7 +5,7 @@ export class DownloadFile{
     downloadPDF = (req: express.Request, res: express.Response) => {
         try {
             const filename = req.params.name;
-            const directoryPath = process.env.UPLOADPATH + filename;
+            const directoryPath = process.env.UPLOAD_PATH + filename;
             const stream = this.loadFile(directoryPath);
             res.writeHead(200, {
                 "Content-Type": filename,
