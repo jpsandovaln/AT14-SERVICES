@@ -14,4 +14,4 @@ class ApolloException extends Error{
     }
 }
 
-module.exports = ApolloException;
+export default ApolloException;

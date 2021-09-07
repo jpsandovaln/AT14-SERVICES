@@ -6,7 +6,10 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import typeDefs from './typeDefs.js';
 import resolvers from './resolvers.js';
-import connectMongoDB from './db.js';
+import connectMongoDB from './mongoConnection.js';
+import ApolloException from './common/apolloException.js';
+import statusCode from './common/statusCode.js';
+import apolloCode from './common/codeApolloError.js';
 
 const app = express();
 
@@ -45,6 +48,6 @@ export default (async function () {
     );
 
   } catch (err) {
-    console.error(err);
+    throw new ApolloException(err.message, statusCode.InternalServerError, apolloCode.APOLLO_ERROR_01);
   }
 })();

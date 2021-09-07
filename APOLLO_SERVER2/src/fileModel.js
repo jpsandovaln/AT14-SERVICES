@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+// const mongoose = require("mongoose");
 
 const FileSchema = new mongoose.Schema({
   _id: {
@@ -15,6 +16,6 @@ const FileSchema = new mongoose.Schema({
   },
 });
 
-const File = mongoose.model("File", FileSchema);
+const File = mongoose.model("files", FileSchema);
 
-module.exports = File;
+export default File;

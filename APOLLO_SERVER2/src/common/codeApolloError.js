@@ -1,4 +1,4 @@
-const ApolloCode = {
+const apolloCode = {
     APOLLO_ERROR_01: "APOLLO_ERROR_01",
     APOLLO_ERROR_02: "APOLLO_ERROR_02",
     APOLLO_ERROR_03: "APOLLO_ERROR_03",
@@ -11,4 +11,4 @@ const ApolloCode = {
     APOLLO_ERROR_10: "APOLLO_ERROR_10"
 };
 
-module.exports = ApolloCode;
+export default apolloCode;
