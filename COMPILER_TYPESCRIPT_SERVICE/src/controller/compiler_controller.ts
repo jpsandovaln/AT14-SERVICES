@@ -3,7 +3,10 @@ import * as dotenv from "dotenv";
 import { Compiler } from "../core/compiler/compiler";
 import { CompilerFactory } from "../core/compiler/compiler_factory";
 import { CompilerException } from "../common/exception/compiler_exception";
+<<<<<<< Updated upstream
 import { ExecuteWin } from '../core/execute/execute_win';
+=======
+>>>>>>> Stashed changes
 
 dotenv.config({ path:  './.env' });
 
@@ -21,7 +24,10 @@ export default class CompilerController {
         }
         try {
             const langCompiler: Compiler = CompilerFactory.getInstance(
+<<<<<<< Updated upstream
                 new ExecuteWin(),
+=======
+>>>>>>> Stashed changes
                 language,
                 filePath,
                 binary

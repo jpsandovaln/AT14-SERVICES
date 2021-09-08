@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import { Executer } from "../execute/executer";
 
 export abstract class Compiler {
@@ -12,4 +13,8 @@ export abstract class Compiler {
     }
 
     abstract compiler(): Promise<object>;
+=======
+export interface Compiler {
+    compiler(): Promise<object>;
+>>>>>>> Stashed changes
 }
