@@ -2,8 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import { TextField } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -24,35 +23,44 @@ const useStyles = makeStyles(() => ({
 
 const ImageExtForm = (promps) => {
 	const classes = useStyles();
-
 	return (
-		<div>
 			<Grid container spacing={3} xs={12}>
-				<Grid item xs={12}>
-					<Card className={classes.card}>
-						<CardContent>
-							<input
-								accept="file/"
-								className={classes.input}
-								id="contained-button-file"
-								multiple
-								type="file"
-								required
-							/>
-							<label htmlFor="contained-button-file">
-								<Button
-									variant="contained"
-									color="#83bbeb"
-									component="span"
-								>
-									Upload
-								</Button>
-							</label>
-						</CardContent>
-					</Card>
+				<Grid item md={6} xs={12}>
+					<TextField
+						fullWidth
+						id="outlined-basic"
+						label="Language"
+						variant="outlined"
+						placeholder={"Language"}
+						onChange={(e) =>
+							promps.setLanguage(e.target.value)
+						}
+						required
+					/>
+				</Grid>	
+				<Grid item md={6} xs={12}>					
+					<input
+						accept="image/*"
+						className={classes.input}
+						id="contained-button-file"
+						name="contained-button-file"						
+						type="file"
+						onChange={(e) => 
+							promps.setUploadFile(e.target.files[0])
+						}
+						required
+					/>
+					<label htmlFor="contained-button-file">
+						<Button
+							variant="contained"
+							color="#83bbeb"
+							component="span"
+						>
+						Upload
+						</Button>
+					</label>
 				</Grid>
 			</Grid>
-		</div>
 	);
 };
 

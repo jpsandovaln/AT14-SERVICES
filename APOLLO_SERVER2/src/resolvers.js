@@ -5,6 +5,7 @@ import * as fs from "fs";
 import {GraphQLUpload} from "graphql-upload";
 import wget from "node-wget-promise";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 let FileData = [];
@@ -38,8 +39,28 @@ const resolvers = {
         VideoConverter: async () => {
             return await FileData1;
         },
+        files: async () => {
+            const urlCVT = "" + process.env.CONVERTER_GET_DATA;
+            const {data} = await axios.get(urlCVT);
+            console.log({...data}+"here1")
+            return data;
+        },
     },
     Mutation: {
+        uiToImageText: async (_, args) => {
+            const uri = "" + process.env.EXTRACTOR_SERVICE;
+
+            const uploadFile = await processUpload(args.file);
+            const dataArray = new FormData();
+            dataArray.append("language", args.language);
+            dataArray.append("file", fs.createReadStream(uploadFile.path));            
+            
+            const res = await axios.post(uri, dataArray, {
+                headers: dataArray.getHeaders(),
+            });            
+            const result = {text: res.data};
+            return result;            
+        },
         uploadFileML: async (_, args) => {
             fs.mkdir("images", {recursive: true}, (err) => {
                 if (err) throw err;

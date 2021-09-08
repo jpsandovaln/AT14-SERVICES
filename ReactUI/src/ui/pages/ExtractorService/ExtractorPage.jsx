@@ -16,11 +16,25 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 });
 
+import ApolloClient from 'apollo-client';
+import { createUploadLink } from 'apollo-upload-client';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
+const httpLink = createUploadLink({
+	uri: 'http://localhost:4000/graphql',
+});
+  
+const client = new ApolloClient({
+	link: httpLink,
+	cache: new InMemoryCache(),
+});
+
 const ExtractorServicePage = () => {
 	return (
 		<ApolloProvider client={client}>
 			<SideBar page={ExtractService} />
-		</ApolloProvider>
+		</ApolloProvider>	
 	);
 };
 
