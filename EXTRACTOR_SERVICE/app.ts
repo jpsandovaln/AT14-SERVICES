@@ -5,8 +5,9 @@ import { Routes } from "./src/routes";
 
 dotenv.config();
 
-const corsOptions: Object = { origin: "http://localhost:8080" };
-const port: string | undefined = process.env.PORT;
+const corsOptions: Object = {
+    origin: process.env.EXTRACTOR_APP + ":" + process.env.EXTRACTOR_PORT};
+const port: string | undefined = process.env.EXTRACTOR_PORT;
 const app = express();
 
 class App {

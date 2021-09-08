@@ -1,11 +1,14 @@
 import multer from "multer";
 import util from "util";
 import dotenv from "dotenv";
+import { FileUploadException } from "../common/exception/fileUploadException";
+import { StatusCode } from "../common/statusCode";
+import { Code } from "../common/code";
 
 dotenv.config();
 
 export class Upload {
-    root: string | undefined = process.env.ROOT;
+    root: string | undefined = process.env.EXTRACTOR_ROOT;
     maxSize: number = 2 * 1024 * 1024;
 
     storage = multer.diskStorage({
@@ -21,7 +24,6 @@ export class Upload {
             file: Express.Multer.File,
             cb: (error: Error | null, filename: string) => void
         ) => {
-            console.log(file.originalname);
             cb(null, file.originalname);
         },
     });
@@ -42,7 +44,10 @@ export class Upload {
                 cb(null, true);
             } else {
                 cb(null, false);
-                return cb(new Error("File types allowed .jpeg, .jpg and .png"));
+                return cb(new FileUploadException(
+                    "File types allowed .jpeg, .jpg and .png",
+                    StatusCode.BadRequest,
+                    Code.EXTRACTOR_ERROR_01));
             }
         },
     }).single("file");
