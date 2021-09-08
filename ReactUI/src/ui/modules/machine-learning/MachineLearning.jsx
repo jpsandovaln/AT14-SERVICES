@@ -110,7 +110,6 @@ const MachineLearing = () => {
 					nameVideo={nameVideo}
 					setNameVideo={setNameVideo}
 					setFileVideo={setFileVideo}
-					nameVideo={nameVideo}
 				/>
 			</form>
 			<br />

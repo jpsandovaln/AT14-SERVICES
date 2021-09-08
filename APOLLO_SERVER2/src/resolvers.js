@@ -68,6 +68,7 @@ const resolvers = {
                 if (err) throw err;
             });
             FileData1 = [];
+
             const uploadFile = await processUpload(args.file);
             const dataArray1 = new FormData();
             dataArray1.append("file", fs.createReadStream(uploadFile.path));
@@ -76,6 +77,8 @@ const resolvers = {
             dataArray1.append("grayScale", "true");
             const urlML1 = "" + process.env.CONVERTER_FRAMES;
             const res = await axios.post(urlML1, dataArray1, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
                 headers: dataArray1.getHeaders(),
             });
 
@@ -83,7 +86,6 @@ const resolvers = {
                 output:
                     "" + process.env.OUTPUT_FOLDER + res.data[0].name + ".zip",
             });
-
             const dataArray = new FormData();
             dataArray.append("searchWord", args.searchWord);
             dataArray.append("algorithm", args.algorithm);
@@ -98,6 +100,8 @@ const resolvers = {
 
             const urlML = "" + process.env.CONVERTER_ANALIZEZIP;
             const res1 = await axios.post(urlML, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
                 headers: dataArray.getHeaders(),
             });
 
@@ -110,6 +114,7 @@ const resolvers = {
             fs.mkdir("images", {recursive: true}, (err) => {
                 if (err) throw err;
             });
+
             FileData = [];
             const uploadFile = await processUpload(args.file);
 
@@ -130,7 +135,35 @@ const resolvers = {
             dataArray.append("extractAudioFormat", args.extractAudioFormat);
 
             const urlML = "" + process.env.CONVERTER_VIDEO_CONVERTER;
+
             const res = await axios.post(urlML, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
+                headers: dataArray.getHeaders(),
+            });
+
+            Array.prototype.push.apply(FileData, res.data);
+
+            return FileData;
+        },
+
+        metaData: async (_, args) => {
+            fs.mkdir("images", {recursive: true}, (err) => {
+                if (err) throw err;
+            });
+
+            FileData = [];
+            const uploadFile = await processUpload(args.file);
+
+            const dataArray = new FormData();
+            dataArray.append("file", fs.createReadStream(uploadFile.path));
+
+
+            const urlML = "" + process.env.CONVERTER_VIDEO_CONVERTER;
+
+            const res = await axios.post(urlML, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
                 headers: dataArray.getHeaders(),
             });
 

@@ -33,12 +33,18 @@ const typeDefs =  gql`
     filePath: String!
   }
 
+  type filesMetadata
+  {
+    name: String
+    filePath: String
+    params: String
+  }
+
   type VideoConverter
   {
     name: String
     filePath: String
   }
-
   type Query {
     hello: String
     machines: [FileML]
@@ -50,6 +56,7 @@ const typeDefs =  gql`
     uploadFileML(searchWord: String, algorithm: String, percentage: String, file: Upload!): [FileML!]
     uiToVideoConverter(searchWord: String, algorithm: String, percentage: String, file: Upload!): [VideoConverterToMachineLearning!]
     videoConverter(ratio: String, scale: String, quality: String, angle: String, vflip: String, hflip: String, outputFormat: String, audioFormat: String, obtainFrames: String, frameScale: String, obtainAudio: String, checksum: String, file: Upload!, extractAudioFormat: String): [VideoConverter!]
+    metaData(file: Upload!): filesMetadata
   }
 `;
 
