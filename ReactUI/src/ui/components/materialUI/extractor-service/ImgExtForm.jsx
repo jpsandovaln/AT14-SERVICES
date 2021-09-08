@@ -33,7 +33,7 @@ const ImageExtForm = (promps) => {
 						variant="outlined"
 						placeholder={"Language"}
 						onChange={(e) =>
-							classes.setLanguage(e.target.value)
+							promps.setLanguage(e.target.value)
 						}
 						required
 					/>
@@ -43,8 +43,11 @@ const ImageExtForm = (promps) => {
 						accept="image/*"
 						className={classes.input}
 						id="contained-button-file"
+						name="contained-button-file"						
 						type="file"
-						onChange={classes.setUploadFile}
+						onChange={(e) => 
+							promps.setUploadFile(e.target.files[0])
+						}
 						required
 					/>
 					<label htmlFor="contained-button-file">

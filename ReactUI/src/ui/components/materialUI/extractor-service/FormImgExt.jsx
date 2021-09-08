@@ -18,14 +18,14 @@ export const UploadMutation = gql`
 
 const FormImgExt = () => {
 
-	const [data, setResponse] = React.useState([]);
+	const [data, setResponse] = React.useState(Object);
 	const [FileData, setUploadFile] = React.useState(null);
 	const [language, setLanguage] = React.useState("");
 	const [uiToImageText, { error }] = useMutation(UploadMutation);
 
 	const submitImage = async (event) => {
 		event.preventDefault();
-		const data = await uiToImageText({
+		const response = await uiToImageText({
 			variables: {
 			  language: language+"",
 			  file: FileData  
@@ -35,7 +35,7 @@ const FormImgExt = () => {
 			console.log(error);
 		  }
 		  else{
-			setResponse(data.data.uiToImageText);
+			setResponse(response.data.uiToImageText);
 		  }
 	};
 

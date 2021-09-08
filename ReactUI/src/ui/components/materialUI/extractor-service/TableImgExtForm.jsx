@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles(() => ({
 
 const TableImgExtForm = (props) => {
 	const classes = useStyles();
-
+	const text = props.data.text ? props.data.text : ".";
 	return (
 		<Grid container spacing={3}>
 			<Grid item xs={12}>
@@ -40,7 +41,13 @@ const TableImgExtForm = (props) => {
 					<CardContent>
 						<Grid container spacing={6}>
 							<Grid item xs>
-								<textarea className={classes.textarea}>{props.data}</textarea>	
+								<TextareaAutosize
+									className={classes.textarea}
+									maxRows={4}
+									aria-label="maximum height"
+									placeholder="Maximum 4 rows"
+									value={text}
+								/>
 							</Grid>
 						</Grid>
 					</CardContent>
