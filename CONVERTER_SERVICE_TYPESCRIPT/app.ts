@@ -1,14 +1,15 @@
 import morganMiddleware from "./src/middleware/common/morgan";
 import logger from "./src/utilities/logger";
+import { IApp } from "./appInterface";
 //import { ImageRoutes } from "./src/routes/image/imageRoutes";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 
 const app = express();
-class Index {
-    port: string | undefined;
-    corsOptions: object;
+class Index implements IApp {
+    port;
+    corsOptions;
 
     constructor() {
         dotenv.config();
@@ -23,7 +24,7 @@ class Index {
         };
         this.initConfigs();
         //new ImageRoutes(app);
-        this.init();
+        this.initApp();
     }
 
     private initConfigs() {
@@ -33,7 +34,7 @@ class Index {
         app.use(morganMiddleware);
     }
 
-    private init() {
+    private initApp() {
         app.listen(this.port, () => {
             logger.debug("Running at http://localhost:" + this.port);
         });
