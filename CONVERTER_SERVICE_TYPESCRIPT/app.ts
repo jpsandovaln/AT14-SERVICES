@@ -1,8 +1,9 @@
-import cors from "cors";
-import express from "express";
-import dotenv from "dotenv";
 import morganMiddleware from "./src/middleware/common/morgan";
 import logger from "./src/utilities/logger";
+//import { ImageRoutes } from "./src/routes/image/imageRoutes";
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
 
 const app = express();
 class Index {
@@ -21,7 +22,7 @@ class Index {
             ],
         };
         this.initConfigs();
-        //new Routes(app);
+        //new ImageRoutes(app);
         this.init();
     }
 
