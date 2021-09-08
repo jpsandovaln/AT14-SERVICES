@@ -136,7 +136,6 @@ const resolvers = {
                 if (err) throw err;
             });
 
-            FileData = [];
             const uploadFile = await processUpload(args.file);
 
             const dataArray = new FormData();
@@ -179,18 +178,17 @@ const resolvers = {
             const dataArray = new FormData();
             dataArray.append("file", fs.createReadStream(uploadFile.path));
 
-
-            const urlML = "" + process.env.CONVERTER_VIDEO_CONVERTER;
+            console.log(uploadFile.path)
+            const urlML = "" + process.env.EXTRACTOR_METADATA_SERVICE;
 
             const res = await axios.post(urlML, dataArray, {
                 maxContentLength: Infinity,
                 maxBodyLength: Infinity,
                 headers: dataArray.getHeaders(),
             });
-
-            Array.prototype.push.apply(FileData, res.data);
-
-            return FileData;
+            let data =  res.data
+            console.log(data)
+            return data;
         },
     },
 };

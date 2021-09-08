@@ -11,6 +11,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import TableBody from "@material-ui/core/TableBody";
 
 const useStyles = makeStyles(() => ({
@@ -33,7 +34,7 @@ const useStyles = makeStyles(() => ({
 const TableMetadataForm = (promps) => {
 	const classes = useStyles();
 	const contentTab = () => {
-		if (promps.data.filePath) {
+		if (promps.data.name) {
 			return (
 				<TableRow>
 					<TableCell align="center">{promps.data.name}</TableCell>
@@ -50,8 +51,7 @@ const TableMetadataForm = (promps) => {
 					</TableCell>
 				</TableRow>
 			);
-		}
-		else{
+		} else {
 			return "";
 		}
 	};
@@ -97,6 +97,7 @@ const TableMetadataForm = (promps) => {
 										</TableHead>
 										<TableBody>{contentTab()}</TableBody>
 									</Table>
+									{promps.open ? <LinearProgress /> : ""}
 								</TableContainer>
 							</Grid>
 						</Grid>

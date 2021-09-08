@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import MetadataForm from "./MetadataForm";
 import TableMetadataForm from "./TableMetadataForm";
 
@@ -15,17 +14,15 @@ export const UploadMutation = gql`
 		) {
 			name
 			filePath
-			params
 		}
 	}
 `;
 
 const FormMetadata = () => {
-	const urlML = "http://localhost:4050/filesMetadata";
 	const [data, setResponse] = React.useState([]);
 	const [FileData, setUploadFile] = React.useState(null);
 	const [nameVideo, setNameVideo] = React.useState("Select a video file");
-	const [uiToVideoConverter, { error }] = useMutation(UploadMutation);
+	const [metaData, { error }] = useMutation(UploadMutation);
 
 	const [open, setOpen] = React.useState(false);
 
@@ -41,28 +38,24 @@ const FormMetadata = () => {
 		}
 	};
 
-	const submitFormMetadata = (event) => {
+	const submitFormMetadata = async (event) => {
+		
 		event.preventDefault();
 		setOpen(true);
-		const dataArray = new FormData();
-		dataArray.append("file", FileData);
-
-		const fetchData = () => {
-			axios
-				.post(urlML, dataArray, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					setResponse(res.data);
-					setOpen(false);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
-		fetchData();
+		const response = await metaData({
+			variables: {
+			  file: FileData  
+			}
+		  });
+		  if (error) {
+			console.log(error);
+		  }
+		  else{
+			setResponse(response.data.metaData);
+			setOpen(false);	
+			
+		  }
+		  
 	};
 
 	return (
