@@ -5,6 +5,7 @@ import * as fs from "fs";
 import {GraphQLUpload} from "graphql-upload";
 import wget from "node-wget-promise";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 let FileData = [];
@@ -37,6 +38,12 @@ const resolvers = {
         },
         VideoConverter: async () => {
             return await FileData1;
+        },
+        files: async () => {
+            const urlCVT = "" + process.env.CONVERTER_GET_DATA;
+            const {data} = await axios.get(urlCVT);
+            console.log({...data}+"here1")
+            return data;
         },
     },
     Mutation: {
