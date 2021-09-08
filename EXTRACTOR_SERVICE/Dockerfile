@@ -16,4 +16,4 @@ ARG APP_PORT=1000
 
 EXPOSE ${APP_PORT}
 
-CMD ["node", "./dist/app.js"]
+CMD ["node", "./build/app.js"]

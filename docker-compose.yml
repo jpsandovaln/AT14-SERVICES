@@ -26,20 +26,20 @@ services:
             - APOLLO
         networks:
             - my-network-name
-    CONVERTER_SERVICE:
-        build:
-            context: ./CONVERTER_SERVICE
-            dockerfile: Dockerfile
-        image: converter_image
-        env_file:
-            - ./.env
-        container_name: converter_container
-        ports:
-            - 4028:4028
-        links:
-            - mongo_db
-        networks:
-            - my-network-name
+    # CONVERTER_SERVICE:
+    #     build:
+    #         context: ./CONVERTER_SERVICE
+    #         dockerfile: Dockerfile
+    #     image: converter_image
+    #     env_file:
+    #         - ./.env
+    #     container_name: converter_container
+    #     ports:
+    #         - 4028:4028
+    #     links:
+    #         - mongo_db
+    #     networks:
+    #         - my-network-name
     mongo_db:
         image: mongo:latest
         volumes:
@@ -70,5 +70,16 @@ services:
             - 4000:4000
         networks:
             - my-network-name
+    EXTRACTOR:
+        build:
+            context: ./EXTRACTOR_SERVICE
+            dockerfile: Dockerfile
+        image: image_extractor
+        container_name: container_extractor
+        ports:
+            - 1000:1000
+        networks:
+            - my-network-name
+
 networks:
     my-network-name:
