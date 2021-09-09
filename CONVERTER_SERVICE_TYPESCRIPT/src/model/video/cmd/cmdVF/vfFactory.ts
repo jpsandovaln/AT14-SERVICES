@@ -1,4 +1,4 @@
-import { Parameters } from "../../parameter/parameters";
+import { Parameters } from "../../../common/parameter/parameters";
 import { Vf } from "./vf";
 import { CmdFrames } from "./vfFrames";
 import { CmdGrayScale } from "./vfGreyScale";

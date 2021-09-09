@@ -1,5 +1,4 @@
-import { unwatchFile } from "fs";
-import { Parameters } from "../parameter/parameters";
+import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
 
 const FFMPEG_QUALITY = "-qscale";
@@ -34,3 +33,4 @@ export class CmdQuality extends Command {
         return this.cmd.returnCommand(command); 
     };    
 }
+

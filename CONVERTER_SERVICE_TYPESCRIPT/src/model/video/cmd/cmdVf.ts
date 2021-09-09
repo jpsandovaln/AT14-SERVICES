@@ -1,4 +1,4 @@
-import { Parameters } from "../parameter/parameters";
+import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
 import { CmdRotate } from "./cmdVF/vfRotate";
 import { DeleteCommas } from "./cmdVF/deleteCommas";

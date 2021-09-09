@@ -1,10 +1,11 @@
 import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
 
-const FFMPEG_VN = "-vn";
+const FFMPEG_FADE_OUT = '"afade=t=out:st=5:d=5"';
 const SPACE = " ";
+const FFMPEG_AF = "-af";
 
-export class CmdAudio extends Command {   
+export class CmdFadeOut extends Command {   
     private cmd!: Command;
     constructor(parameters: Parameters) { 
         super(parameters);        
@@ -14,16 +15,9 @@ export class CmdAudio extends Command {
         this.cmd = command;
     };
 
-    isValid(format: string | undefined): boolean {
-        if(format == '.mp3' || '.mp2' || '.wma')
-            return true;
-        else
-            return false;         
-    }
-
     returnCommand(command: string): string {  
-        if(this.isValid(this.getParameter('audioFormat')))
-            command = command + FFMPEG_VN + SPACE;      
+        if(this.getParameter('fadeOut') == 'true') 
+            command = command + FFMPEG_AF + SPACE + FFMPEG_FADE_OUT + SPACE;      
         return this.cmd.returnCommand(command); 
     };    
 }

@@ -1,4 +1,4 @@
-import { Parameters } from "../parameter/parameters";
+import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
 
 const FFMPEG_SCALE = "-s";

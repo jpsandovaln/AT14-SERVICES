@@ -4,7 +4,7 @@ import { CmdQuality } from "../cmd/cmdQuality";
 import { CmdRatio } from "../cmd/cmdRatio";
 import { CmdScale } from "../cmd/cmdScale";
 import { CmdVF } from "../cmd/cmdVf";
-import { Parameters } from "../parameter/parameters";
+import { Parameters } from "../../common/parameter/parameters";
 import { BuildCmd } from "./buildCmd";
 
 export class BuildCmdChangeFormat extends BuildCmd{

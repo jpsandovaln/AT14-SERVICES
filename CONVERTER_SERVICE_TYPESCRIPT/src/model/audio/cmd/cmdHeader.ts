@@ -8,11 +8,11 @@ const SPACE = " ";
 export class CmdHeader extends Command {   
     private cmd!: Command;
     private codecPath: string;
-    private videoPath: string;
-    constructor(parameters: Parameters , codecPath: string, videoPath: string) { 
+    private audioPath: string;
+    constructor(parameters: Parameters , codecPath: string, audioPath: string) { 
         super(parameters);  
         this.codecPath = codecPath;
-        this.videoPath = videoPath;   
+        this.audioPath = audioPath;   
     }
     
     setNextCommand(command: Command):void {
@@ -20,7 +20,7 @@ export class CmdHeader extends Command {
     };
     
     returnCommand(command: string): string {  
-        command = command + this.codecPath + FFMPEG_I + QUOTES + this.videoPath + QUOTES + SPACE;
+        command = command + this.codecPath + FFMPEG_I + QUOTES + this.audioPath + QUOTES + SPACE;
         return this.cmd.returnCommand(command);       
     };    
 }

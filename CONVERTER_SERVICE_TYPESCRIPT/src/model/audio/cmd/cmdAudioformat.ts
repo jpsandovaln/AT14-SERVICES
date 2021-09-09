@@ -1,10 +1,10 @@
-import { Parameters } from "../../common/parameter/parameters";
+import { Parameters } from "../../common/parameter/parameters"
 import { Command } from "./cmd";
 
-const FFMPEG_VN = "-vn";
+const FFMPEG_I = "-i";
 const SPACE = " ";
 
-export class CmdAudio extends Command {   
+export class CmdAudioFormat extends Command {   
     private cmd!: Command;
     constructor(parameters: Parameters) { 
         super(parameters);        
@@ -14,16 +14,17 @@ export class CmdAudio extends Command {
         this.cmd = command;
     };
 
-    isValid(format: string | undefined): boolean {
-        if(format == '.mp3' || '.mp2' || '.wma')
+    isValid(format: string): boolean {
+        if(format = '.mp3' || '.mp2' || '.wma' || '.mp4' || '.wav')
             return true;
         else
             return false;         
     }
 
     returnCommand(command: string): string {  
-        if(this.isValid(this.getParameter('audioFormat')))
-            command = command + FFMPEG_VN + SPACE;      
+        if(this.isValid(this.getParameter('audioFormat') ))
+        
+            command = command + FFMPEG_I + SPACE;      
         return this.cmd.returnCommand(command); 
     };    
 }

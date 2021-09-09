@@ -1,4 +1,4 @@
-import { Parameters } from "../../parameter/parameters";
+import { Parameters } from "../../../common/parameter/parameters";
 import { Vf } from "./vf";
 
 const FFMPEG_VFLIP = ',vflip';
