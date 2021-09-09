@@ -13,13 +13,15 @@ Project in typescript that extract text from an image and get metadata of files.
 ### .env
 ```
 Create a .env file with direccions:
-ROOT
-PORT
+EXTRACTOR_ROOT
+EXTRACTOR_APP
+EXTRACTOR_PORT
+UPLOAD_PATH
 ```
 ### Requirements to correctly run the program
 ```
-Create / verify the following folder inside the public folder:
-uploads
+Create / verify the following folders inside EXTRACTOR_SERVICE:
+public/uploads
 ```
 
 ## Tesseract model

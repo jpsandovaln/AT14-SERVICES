@@ -1,0 +1,8 @@
+CONVERTER_PATH=C:/Users/mile_/OneDrive/Documentos/Develop/AT14-SERVICES/CONVERTER_SERVICE/thirdParty/ffmpeg.exe
+CONVERTER_PATH_EXIFTOOL=C:/Users/mile_/OneDrive/Documentos/Develop/AT14-SERVICES/CONVERTER_SERVICE/thirdParty/exiftool.exe
+OUTPUT_PATH=C:/Users/mile_/OneDrive/Documentos/Develop/AT14-SERVICES/CONVERTER_SERVICE/resources/outputPath/
+UPLOAD_PATH=C:/Users/mile_/OneDrive/Documentos/Develop/AT14-SERVICES/CONVERTER_SERVICE/resources/upload/
+VIDEO_PATH=C:/Users/mile_/OneDrive/Documentos/Develop/AT14-SERVICES/CONVERTER_SERVICE/resources/video/
+AUDIO_PATH=C:/Users/mile_/OneDrive/Documentos/Develop/AT14-SERVICES/CONVERTER_SERVICE/resources/audio/
+ZIP_PATH=C:/Users/mile_/OneDrive/Documentos/Develop/AT14-SERVICES/CONVERTER_SERVICE/resources/zip/
+BASE_URL="http://localhost:8080/files/"

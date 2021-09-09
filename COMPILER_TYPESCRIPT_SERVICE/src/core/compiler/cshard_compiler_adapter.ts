@@ -1,11 +1,13 @@
 import { Compiler } from "./compiler";
 import { CShardCode } from "./code/cshard_code";
+import { Executer } from "../execute/executer";
 
-export class CShardCompiler implements Compiler {
+export class CShardCompiler extends Compiler {
     private _path: string;
     private _binary: string;
 
-    constructor(path: string, binary: string) {
+    constructor(execute:Executer, path: string, binary: string) {
+        super(execute);
         this._path = path;
         this._binary = binary;
     }
