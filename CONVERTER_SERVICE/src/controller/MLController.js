@@ -20,7 +20,7 @@ const framesZipML = async (req, res) => {
     res.status(200).send([
         {
             name: nameFile,
-            filePath: "http://localhost:4000/framesZipML/" + nameZipFile,
+            filePath: "http://localhost:4050/framesZipML/" + nameZipFile,
         },
     ]);
 };
