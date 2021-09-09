@@ -35,10 +35,7 @@ function App() {
 				</Link>
 				<Typography color="textPrimary">Report Convert</Typography>
 			</Breadcrumbs>
-
-      {" "}
       <GetFiles />
-      {/*<Form />*/}
     </ApolloProvider>
   );
 }
