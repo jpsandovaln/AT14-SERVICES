@@ -14,7 +14,7 @@ export class CmdAudioFormat extends Command {
         this.cmd = command;
     };
 
-    isValid(format: string): boolean {
+    isValid(format : string | undefined): boolean {
         if(format = '.mp3' || '.mp2' || '.wma' || '.mp4' || '.wav')
             return true;
         else
@@ -23,7 +23,6 @@ export class CmdAudioFormat extends Command {
 
     returnCommand(command: string): string {  
         if(this.isValid(this.getParameter('audioFormat') ))
-        
             command = command + FFMPEG_I + SPACE;      
         return this.cmd.returnCommand(command); 
     };    

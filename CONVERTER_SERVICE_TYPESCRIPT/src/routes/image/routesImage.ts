@@ -10,7 +10,7 @@ export class RoutesImage extends Routes {
     }
 
     getRoutes():void {
-        router.get("/audio", (req: Request, res: Response) => {
+        router.get("/images", (req: Request, res: Response) => {
             res.send("I'm in image services now!");
         });
         this.app.use(router);
