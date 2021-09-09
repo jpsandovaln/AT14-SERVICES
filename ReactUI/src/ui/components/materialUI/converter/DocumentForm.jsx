@@ -76,57 +76,57 @@ const DocumentForm = (promp) => {
 										<MenuItem value="">
 											<em>-</em>
 										</MenuItem>
-										<MenuItem value={"Output1"}>
+										<MenuItem value={".png"}>
 											.png
 										</MenuItem>
-										<MenuItem value={"Output2"}>
+										<MenuItem value={".jpeg"}>
 											.jpeg
 										</MenuItem>
-                                        <MenuItem value={"Output3"}>
+                                        <MenuItem value={".jpg"}>
 											.jpg
-										</MenuItem>
-                                        <MenuItem value={"Output4"}>
-											.bmp
-										</MenuItem>
-                                        <MenuItem value={"Output5"}>
-											.raw
-										</MenuItem>
-                                        <MenuItem value={"Output6"}>
-											.tiff
 										</MenuItem>
 									</Select>
 								</FormControl>
 							</Grid>
 							<Grid item xs={6} md={6} sm={12} >
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<div className={classes.root}>
-										<Typography
-											id="discrete-slider-small-steps"
-											gutterBottom
-										>
+									<FormControl
+										variant="outlined"
+										className={classes.formControl}
+										fullWidth
+									>
+										<InputLabel id="demo-simple-select-outlined-label">
 											Output Size
-										</Typography>
-										<Slider
-											value={promp.outputSize}
-											onChange={(e, newValue) => {
-												promp.setOutputSize(newValue);
-											}}
-											defaultValue={0}
-											track={promp.quality}
-											aria-labelledby="discrete-slider"
-											valueLabelDisplay="auto"
-											step={1}
-											marks
-											min={0}
-											max={10}
-										/>
-									</div>
-								</FormControl>								
-							</Grid>
+										</InputLabel>
+										<Select
+											labelId="demo-simple-select-outlined-label"
+											id="demo-simple-select-outlined"
+											value={promp.scale}
+											onChange={(e) =>
+												promp.setOutputSize(e.target.value)
+											}
+											label="Scale"
+										>
+											<MenuItem value="">
+												<em>-</em>
+											</MenuItem>
+											<MenuItem value={"1280x720"}>
+												1280 x 720
+											</MenuItem>
+											<MenuItem value={"854x480"}>
+												854 x 480
+											</MenuItem>
+											<MenuItem value={"640x360"}>
+												640 x 360
+											</MenuItem>
+											<MenuItem value={"426x240"}>
+												426 x 240
+											</MenuItem>
+											<MenuItem value={"256x144"}>
+												256 x 144
+											</MenuItem>
+										</Select>
+									</FormControl>								
+								</Grid>
 							<Grid item xs={6} md={6} sm={12} >
 									<FormControl
 									variant="outlined"
@@ -199,36 +199,6 @@ const DocumentForm = (promp) => {
 											id="discrete-slider-small-steps"
 											gutterBottom
 										>
-											Dubling
-										</Typography>
-										<Slider
-											value={promp.dubling}
-											onChange={(e, newValue) => {
-												promp.setDubling(newValue);
-											}}
-											defaultValue={0}
-											track={promp.dubling}
-											aria-labelledby="discrete-slider"
-											valueLabelDisplay="auto"
-											step={10}
-											marks
-											min={0}
-											max={100}
-										/>
-									</div>
-								</FormControl>
-							</Grid>	
-							<Grid item xs={6} md={6} sm={12} >
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<div className={classes.root}>
-										<Typography
-											id="discrete-slider-small-steps"
-											gutterBottom
-										>
 											Paint Effect
 										</Typography>
 										<Slider
@@ -240,10 +210,10 @@ const DocumentForm = (promp) => {
 											track={promp.paintEffect}
 											aria-labelledby="discrete-slider"
 											valueLabelDisplay="auto"
-											step={10}
+											step={1}
 											marks
 											min={0}
-											max={100}
+											max={5}
 										/>
 									</div>
 								</FormControl>
@@ -269,10 +239,13 @@ const DocumentForm = (promp) => {
 									}
 									required
 										>
-											<MenuItem value={"monochrome"}>
+											<MenuItem value={" "}>
+												Full Color
+											</MenuItem>											
+											<MenuItem value={"-monochrome"}>
 												Monochrome
 											</MenuItem>
-											<MenuItem value={"greyScale"}>
+											<MenuItem value={"-colorspace grey"}>
 												Grey Scale
 											</MenuItem>
 										</Select>

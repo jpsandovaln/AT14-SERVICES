@@ -47,6 +47,31 @@ const resolvers = {
         },
     },
     Mutation: {
+        uiToPdfImage: async (_, args) => {
+            const uri = "" + process.env.DOCUMENT_SERVICE;
+
+            const uploadFile = await processUpload(args.file);
+            const dataArray = new FormData();
+
+            dataArray.append("outputFormat", args.outputFormat);
+            dataArray.append("outputSize", args.outputSize);
+            dataArray.append("rotation", args.rotation);
+            dataArray.append("quality", args.quality);
+            dataArray.append("paintEffect", args.paintEffect);
+            dataArray.append("type", args.type);
+            dataArray.append("file", fs.createReadStream(uploadFile.path));                        
+
+            console.log(dataArray);
+
+            /*
+            const res = await axios.post(uri, dataArray, {
+                headers: dataArray.getHeaders(),
+            });            
+            const result = {text: res.data};
+            return result;                        
+            */
+            return [{}];
+        },
         uiToImageText: async (_, args) => {
             const uri = "" + process.env.EXTRACTOR_SERVICE;
 
@@ -102,6 +127,8 @@ const resolvers = {
                 maxBodyLength: Infinity,
                 headers: dataArray1.getHeaders(),
             });
+
+            console.log(res);
 
             await wget(res.data[0].filePath, {
                 output:

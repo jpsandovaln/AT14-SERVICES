@@ -11,8 +11,8 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 export const UploadMutation = gql`
-  mutation uiToPdfImage($outputFormat: String, $outputSize: String, $rotation: String, $quality: String, $dubling: String, $paintEffect: String, $type: String, $file: Upload!) {
-    uiToPdfImage(outputFormat: $outputFormat, outputSize: $outputSize, rotation: $rotation, quality: $quality, dubling: $dubling, paintEffect: $paintEffect, type: $type, file: $file) {
+  mutation uiToPdfImage($outputFormat: String, $outputSize: String, $rotation: String, $quality: String, $paintEffect: String, $type: String, $file: Upload!) {
+    uiToPdfImage(outputFormat: $outputFormat, outputSize: $outputSize, rotation: $rotation, quality: $quality, paintEffect: $paintEffect, type: $type, file: $file) {
 		name
 		filePath
     }
@@ -43,26 +43,26 @@ const FormDocumentConveter = () => {
 	const [outputDegrees, setOutputDegrees] = React.useState("");
 	const [type, setType] = React.useState("");
 	const [outputSize, setOutputSize] = React.useState("");
-	const [dubling, setDubling] = React.useState("");
 	const [paintEffect, setPaintEffect] = React.useState("");
 	const [quality, setQuality] = React.useState("");
 
 	const [uiToPdfImage, { error }] = useMutation(UploadMutation);
 
-	const [setOpen] = React.useState(false);
+	const [isLoad, setOpen] = React.useState(false);
 
-	const submitFormVideo = async (event) => {
+	const submitForm = async (event) => {
 		event.preventDefault();
 		setOpen(true);
+		console.log(outputFormat, outputSize, outputDegrees, quality, paintEffect, type, FileData);		
+
 		const response = await uiToPdfImage({
 			variables: {
-				outputFormat: outputFormat, 
-				outputSize: outputSize, 
-				rotation: outputDegrees, 
-				quality: quality, 
-				dubling: dubling, 
-				paintEffect: paintEffect, 
-				type: type, 
+				outputFormat: outputFormat+"", 
+				outputSize: outputSize+"", 
+				rotation: outputDegrees+"", 
+				quality: quality+"", 
+				paintEffect: paintEffect+"", 
+				type: type+"", 
 				file: FileData  
 			}
 		});
@@ -70,7 +70,7 @@ const FormDocumentConveter = () => {
 			console.log(error);
 		}
 		else{
-			setResponse(response.data.uiToImageText);
+			setResponse(response.data.uiToPdfImage);
 		}
 
 		/*
@@ -104,7 +104,7 @@ const FormDocumentConveter = () => {
 
 	return (
 		<div>
-			<form onSubmit={submitFormVideo}>
+			<form onSubmit={submitForm}>
 				<Card className={classes.card}>
 					<CardHeader
 						className={classes.title}
@@ -122,9 +122,6 @@ const FormDocumentConveter = () => {
 
 					imageSize={outputSize}
 					setOutputSize={setOutputSize}
-
-					dubling={dubling}
-					setDubling={setDubling}
 
 					paintEffect={paintEffect}
 					setPaintEffect={setPaintEffect}
