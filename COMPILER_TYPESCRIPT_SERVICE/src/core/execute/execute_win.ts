@@ -1,8 +1,8 @@
 import { exec } from "child_process";
-import { throwable } from 'ts-throwable'
 import { ExecuteException } from '../../common/exception/execute_exception';
+import { Executer } from "./executer";
 
-export class Execute {
+export class ExecuteWin implements Executer {
     public run(command: string) : Promise<object> {
         return new Promise((resolve, reject) => {
             exec(command, (err, stdout, stderr) => {

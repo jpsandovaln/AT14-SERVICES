@@ -15,6 +15,7 @@ npm install
 Adapt the .env file.
 
 ```
+
 # Example, you need to redirect the ffmpeg to the .exe file:
 CONVERTER_PATH=E:/Marcan/AT14/PROG101/AT14-SERVICES/CONVERTER_SERVICE/thirdParty/ffmpeg.exe
 CONVERTER_PATH_EXIFTOOL=exiftool
@@ -30,7 +31,9 @@ BASE_URL_CONVERTER="http://localhost"
 PORT_CONVERTER=4050
 # Change the IP to localhost:
 IP_MONGO=localhost
-```
+
+npm start
+
 
 Now you need to up the MongoDB from docker.
 
@@ -40,6 +43,21 @@ Now you need to up the MongoDB from docker.
 3. Execute this command
    docker-compose up
 4. Now select "at14_services_mongo_db_1" and click on Play button.
+
+Have to change de direccions of:
+
+```
+CONVERTER_PATH
+OUTPUT_PATH
+ZIP_PATH
+
+```
+
+also this lines below needs to be added:
+
+DB_CONNECTION="mongodb://localhost:27017/converterDB"
+MAIN_PATH=/home/<user>/Workspace/Prog101/AT14-SERVICES/CONVERTER_SERVICE/
+
 ```
 
 ![alt text](https://res.cloudinary.com/marcandea/image/upload/v1631017883/readmes/mongoup_mfhlrf.png)
@@ -57,6 +75,7 @@ You will have the next window:
 ![alt text](https://res.cloudinary.com/marcandea/image/upload/v1631017883/readmes/compass_a3pmmo.png)
 
 ### Requirements to correctly run the program
+
 
 Create / verify the following folders inside the resources folder:
 
@@ -82,3 +101,4 @@ node server.js
 
 You should have the next view:
 ![alt text](https://res.cloudinary.com/marcandea/image/upload/v1631017883/readmes/consoleup_behxr4.png)
+

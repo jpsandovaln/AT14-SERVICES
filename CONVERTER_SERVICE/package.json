@@ -4,7 +4,8 @@
     "description": "Node.js Express Rest APIs to Upload/Download Files",
     "main": "server.js",
     "scripts": {
-        "start": "node server.js"
+        "start": "npx tsc-watch --project . --outDir ./build --onSuccess \"nodemon ./build/app.js\"",
+        "test": "jest"
     },
     "keywords": [
         "node js",
@@ -25,9 +26,16 @@
         "express": "^4.17.1",
         "md5-file": "^5.0.0",
         "mongoose": "^5.13.5",
-        "multer": "^1.4.2"
+        "multer": "^1.4.2",
+        "formidable": "^1.2.2",
+        "nodemon": "^2.0.12",
+        "ts-node": "^10.2.0",
+        "typescript": "^4.3.5"
     },
     "devDependencies": {
-        "formidable": "^1.2.2"
+        "@types/cors": "^2.8.12",
+        "@types/express": "^4.17.13",
+        "@types/multer": "^1.4.7",
+        "@types/node": "^16.7.1"
     }
 }

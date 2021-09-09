@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import { Compiler } from "../core/compiler/compiler";
 import { CompilerFactory } from "../core/compiler/compiler_factory";
 import { CompilerException } from "../common/exception/compiler_exception";
+import { ExecuteWin } from '../core/execute/execute_win';
 
 dotenv.config({ path:  './.env' });
 
@@ -20,6 +21,7 @@ export default class CompilerController {
         }
         try {
             const langCompiler: Compiler = CompilerFactory.getInstance(
+                new ExecuteWin(),
                 language,
                 filePath,
                 binary
