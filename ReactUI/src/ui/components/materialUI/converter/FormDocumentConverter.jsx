@@ -49,20 +49,22 @@ const FormDocumentConveter = () => {
 
 	const [uiToPdfImage, { error }] = useMutation(UploadMutation);
 
-	const [setOpen] = React.useState(false);
+	const [isLoad, setOpen] = React.useState(false);
 
-	const submitFormVideo = async (event) => {
+	const submitForm = async (event) => {
 		event.preventDefault();
 		setOpen(true);
+		console.log(outputFormat, outputSize, outputDegrees, quality, dubling, paintEffect, type, FileData);		
+
 		const response = await uiToPdfImage({
 			variables: {
-				outputFormat: outputFormat, 
-				outputSize: outputSize, 
-				rotation: outputDegrees, 
-				quality: quality, 
-				dubling: dubling, 
-				paintEffect: paintEffect, 
-				type: type, 
+				outputFormat: outputFormat+"", 
+				outputSize: outputSize+"", 
+				rotation: outputDegrees+"", 
+				quality: quality+"", 
+				dubling: dubling+"", 
+				paintEffect: paintEffect+"", 
+				type: type+"", 
 				file: FileData  
 			}
 		});
@@ -70,7 +72,7 @@ const FormDocumentConveter = () => {
 			console.log(error);
 		}
 		else{
-			setResponse(response.data.uiToImageText);
+			setResponse(response.data.uiToPdfImage);
 		}
 
 		/*
@@ -104,7 +106,7 @@ const FormDocumentConveter = () => {
 
 	return (
 		<div>
-			<form onSubmit={submitFormVideo}>
+			<form onSubmit={submitForm}>
 				<Card className={classes.card}>
 					<CardHeader
 						className={classes.title}
