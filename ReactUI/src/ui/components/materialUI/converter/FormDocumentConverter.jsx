@@ -11,8 +11,8 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 export const UploadMutation = gql`
-  mutation uiToPdfImage($outputFormat: String, $outputSize: String, $rotation: String, $quality: String, $dubling: String, $paintEffect: String, $type: String, $file: Upload!) {
-    uiToPdfImage(outputFormat: $outputFormat, outputSize: $outputSize, rotation: $rotation, quality: $quality, dubling: $dubling, paintEffect: $paintEffect, type: $type, file: $file) {
+  mutation uiToPdfImage($outputFormat: String, $outputSize: String, $rotation: String, $quality: String, $paintEffect: String, $type: String, $file: Upload!) {
+    uiToPdfImage(outputFormat: $outputFormat, outputSize: $outputSize, rotation: $rotation, quality: $quality, paintEffect: $paintEffect, type: $type, file: $file) {
 		name
 		filePath
     }
@@ -43,7 +43,6 @@ const FormDocumentConveter = () => {
 	const [outputDegrees, setOutputDegrees] = React.useState("");
 	const [type, setType] = React.useState("");
 	const [outputSize, setOutputSize] = React.useState("");
-	const [dubling, setDubling] = React.useState("");
 	const [paintEffect, setPaintEffect] = React.useState("");
 	const [quality, setQuality] = React.useState("");
 
@@ -54,7 +53,7 @@ const FormDocumentConveter = () => {
 	const submitForm = async (event) => {
 		event.preventDefault();
 		setOpen(true);
-		console.log(outputFormat, outputSize, outputDegrees, quality, dubling, paintEffect, type, FileData);		
+		console.log(outputFormat, outputSize, outputDegrees, quality, paintEffect, type, FileData);		
 
 		const response = await uiToPdfImage({
 			variables: {
@@ -62,7 +61,6 @@ const FormDocumentConveter = () => {
 				outputSize: outputSize+"", 
 				rotation: outputDegrees+"", 
 				quality: quality+"", 
-				dubling: dubling+"", 
 				paintEffect: paintEffect+"", 
 				type: type+"", 
 				file: FileData  
@@ -124,9 +122,6 @@ const FormDocumentConveter = () => {
 
 					imageSize={outputSize}
 					setOutputSize={setOutputSize}
-
-					dubling={dubling}
-					setDubling={setDubling}
 
 					paintEffect={paintEffect}
 					setPaintEffect={setPaintEffect}
