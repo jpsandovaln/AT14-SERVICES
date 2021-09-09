@@ -1,8 +1,23 @@
 import React from "react";
-import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import DocumentForm from "./DocumentForm";
 import TableDocumentForm from "./TableDocumentForm";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import { CardHeader } from "@material-ui/core";
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+export const UploadMutation = gql`
+  mutation uiToPdfImage($outputFormat: String, $outputSize: String, $rotation: String, $quality: String, $dubling: String, $paintEffect: String, $type: String, $file: Upload!) {
+    uiToPdfImage(outputFormat: $outputFormat, outputSize: $outputSize, rotation: $rotation, quality: $quality, dubling: $dubling, paintEffect: $paintEffect, type: $type, file: $file) {
+		name
+		filePath
+    }
+  }
+`;
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -19,31 +34,52 @@ const useStyles = makeStyles(() => ({
 }));
 
 const FormDocumentConveter = () => {
-	const urlML = "http://localhost:8080/imageFinder";
-
 	const classes = useStyles();
-	const [setResponse] = React.useState([]);
+
+	const [data, setResponse] = React.useState([]);
+	
+	const [FileData, setUploadFile] = React.useState(null);
 	const [outputFormat, setOutputFormat] = React.useState("");
+	const [outputDegrees, setOutputDegrees] = React.useState("");
+	const [type, setType] = React.useState("");
 	const [outputSize, setOutputSize] = React.useState("");
-	const [audioFormat, setAudioFormat] = React.useState("");
 	const [dubling, setDubling] = React.useState("");
 	const [paintEffect, setPaintEffect] = React.useState("");
-	const [greyScale, setGreyScale] = React.useState("");
-	const [monochrome, setMonochrome] = React.useState("");
 	const [quality, setQuality] = React.useState("");
+
+	const [uiToPdfImage, { error }] = useMutation(UploadMutation);
+
 	const [setOpen] = React.useState(false);
 
-	const submitFormVideo = (event) => {
+	const submitFormVideo = async (event) => {
 		event.preventDefault();
 		setOpen(true);
+		const response = await uiToPdfImage({
+			variables: {
+				outputFormat: outputFormat, 
+				outputSize: outputSize, 
+				rotation: outputDegrees, 
+				quality: quality, 
+				dubling: dubling, 
+				paintEffect: paintEffect, 
+				type: type, 
+				file: FileData  
+			}
+		});
+		if (error) {
+			console.log(error);
+		}
+		else{
+			setResponse(response.data.uiToImageText);
+		}
+
+		/*
+		const urlML = "http://localhost:8080/imageFinder";
 		const dataArray = new FormData();
 		dataArray.append("outputFormat", outputFormat);
 		dataArray.append("outputSize", outputSize);
-		dataArray.append("audioFormat", audioFormat);
 		dataArray.append("dubling", dubling);
 		dataArray.append("paintEffect", paintEffect);
-		dataArray.append("greyScale", greyScale);
-		dataArray.append("monochrome", monochrome);
 		dataArray.append("quality", quality);
 
 		const fetchData = () => {
@@ -63,32 +99,59 @@ const FormDocumentConveter = () => {
 		};
 
 		fetchData();
+		*/
 	};
 
 	return (
 		<div>
 			<form onSubmit={submitFormVideo}>
+				<Card className={classes.card}>
+					<CardHeader
+						className={classes.title}
+						title="Ppt to Image"
+						titleTypographyProps={{ variant: "h7" }}
+					/>
+					<CardContent>				
 				<DocumentForm
 					classes={classes}
+
+					setUploadFile={setUploadFile}
+
 					outputFormat={outputFormat}
-					imageSize={outputSize}
-					audioFormat={audioFormat}
-					dubling={dubling}
-					paintEffect={paintEffect}
-					greyScale={greyScale}
-					monochrome={monochrome}
-					quality={quality}
-					setAudioFormat={setAudioFormat}
 					setOutputFormat={setOutputFormat}
+
+					imageSize={outputSize}
 					setOutputSize={setOutputSize}
+
+					dubling={dubling}
 					setDubling={setDubling}
+
+					paintEffect={paintEffect}
 					setPaintEffect={setPaintEffect}
-					setGreyScale={setGreyScale}
-					setMonochrome={setMonochrome}
+
+					quality={quality}
 					setQuality={setQuality}
+
+					outputDegrees={outputDegrees}
+					setOutputDegrees={setOutputDegrees}
+					
+					type={type}
+					setType={setType}
 				/>
-				<TableDocumentForm />
+					</CardContent>
+					<CardActions>
+						<Button
+							type="submit"
+							variant="contained"
+							color="#83bbeb"
+							fullWidth="true"
+						>
+							Convert
+						</Button>
+					</CardActions>					
+					</Card>
 			</form>
+			<TableDocumentForm data={data} />
 		</div>
 	);
 };
