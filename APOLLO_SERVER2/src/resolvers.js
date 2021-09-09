@@ -57,7 +57,6 @@ const resolvers = {
             dataArray.append("outputSize", args.outputSize);
             dataArray.append("rotation", args.rotation);
             dataArray.append("quality", args.quality);
-            dataArray.append("dubling", args.dubling);
             dataArray.append("paintEffect", args.paintEffect);
             dataArray.append("type", args.type);
             dataArray.append("file", fs.createReadStream(uploadFile.path));                        
