@@ -1,10 +1,13 @@
 import morganMiddleware from "./src/middleware/common/morgan";
 import logger from "./src/utilities/logger";
 import { IApp } from "./appInterface";
-//import { ImageRoutes } from "./src/routes/image/imageRoutes";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import { RoutesVideo } from "./src/routes/video/routesVideo";
+import { RoutesImage } from "./src/routes/image/routesImage";
+import { RoutesAudio } from "./src/routes/audio/routesAudio";
+import { ConnectMongo } from "./src/database/connect";
 
 const app = express();
 class Index implements IApp {
@@ -23,7 +26,8 @@ class Index implements IApp {
             ],
         };
         this.initConfigs();
-        //new ImageRoutes(app);
+        this.initRoutes();
+        this.initMongoose();
         this.initApp();
     }
 
@@ -32,6 +36,16 @@ class Index implements IApp {
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
         app.use(morganMiddleware);
+    }   
+
+    public initRoutes() {
+        new RoutesImage(app).getRoutes();
+        new RoutesVideo(app).getRoutes();
+        new RoutesAudio(app).getRoutes();
+    }
+
+    public initMongoose() {
+        ConnectMongo.connect();
     }
 
     private initApp() {
