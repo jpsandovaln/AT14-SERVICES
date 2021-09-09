@@ -1,0 +1,13 @@
+{
+    "header": {
+        "hello-word":"Hello World"
+        
+    },
+    "sidebar":{
+        "home":"Home",
+        "converter":"Converter", 
+        "machine-learning":"Machine Learning",
+        "extractor-service":"Extractor Service",
+        "report-convert":"Report Convert"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "header": {
+        "hello-word":"Hola Mundo"
+        
+    },
+    "sidebar":{
+        "home":"Inicio",
+        "converter":"Convertidor", 
+        "machine-learning":"Aprendizaje Automatico",
+        "extractor-service":"Servicio Extractor",
+        "report-convert":"Informe de Conversion"
+    }
+}

@@ -19,6 +19,8 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
+import LanguageIcon from '@material-ui/icons/Language';
+import { useTranslation } from "react-i18next";
 
 const drawerWidth = 240;
 const useStyle = makeStyles((theme) => ({
@@ -44,11 +46,34 @@ const useStyle = makeStyles((theme) => ({
 
 const NavBar = (onClick) => {
 	const classes = useStyle();
+	const [t, i18n] = useTranslation("global")
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [state, setState] = React.useState({
 		checkedA: true,
 		checkedB: true,
 	  });
+
+	const [language, setLanguage] = React.useState("En");
+	const [anchorE2, setAnchorE2] = React.useState(null);
+	const open = Boolean(anchorE2);
+	
+	const handleMenuLanguage = (event) => {
+		setAnchorE2(event.currentTarget);
+	};
+	
+	const handleCloseLanguage = () => {
+		setAnchorE2(null);
+	};	
+	const handleCloseLanguageEs = () => {
+		setLanguage("Es");
+		i18n.changeLanguage("es");
+		setAnchorE2(null);
+	};	
+	const handleCloseLanguageEn = () => {
+		setLanguage("En");
+		i18n.changeLanguage("en");
+		setAnchorE2(null);
+	};	  
 
 	const handleOpenMenu = e => {
 		setAnchorEl(e.currentTarget);
@@ -115,6 +140,35 @@ const NavBar = (onClick) => {
 						
 					</Typography> 
 					<div>
+					<IconButton
+						aria-label="account of current user"
+						aria-controls="menu-appbar"
+						aria-haspopup="true"
+						onClick={handleMenuLanguage}
+						color="inherit"
+					>
+					<LanguageIcon /> {language}
+					</IconButton>
+					<Menu
+						id="menu-appbar"
+						anchorEl={anchorE2}
+						anchorOrigin={{
+						vertical: 'top',
+						horizontal: 'right',
+						}}
+						keepMounted
+						transformOrigin={{
+						vertical: 'top',
+						horizontal: 'right',
+						}}
+						open={open}
+						onClose={handleCloseLanguage}
+					>
+						<MenuItem onClick={handleCloseLanguageEn}>En</MenuItem>
+						<MenuItem onClick={handleCloseLanguageEs}>Es</MenuItem>
+					</Menu>						
+					</div>
+					<div>
 						<Avatar 
 							className = {classes.AccountCircle}
 							edge="end" 
@@ -124,6 +178,7 @@ const NavBar = (onClick) => {
 						</Avatar>
 					</div>
 					<div>
+
 						<IconButton 
 							onClick={handleOpenMenu}
 								aria-controls="menu"
@@ -141,8 +196,6 @@ const NavBar = (onClick) => {
 								open={Boolean(anchorEl)}
 								onClose={handleMenuClose}
 							>
-                				<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-								<MenuItem onClick={handleMenuClose}>Language</MenuItem>
 								<MenuItem
 								onClick={handleMenuClose}>Mode
 									<FormGroup>
