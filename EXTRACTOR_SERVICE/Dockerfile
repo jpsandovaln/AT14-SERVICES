@@ -16,4 +16,6 @@ ARG APP_PORT=1000
 
 EXPOSE ${APP_PORT}
 
+RUN mkdir -p /home/node/app/public/uploads
+
 CMD ["node", "./build/app.js"]
