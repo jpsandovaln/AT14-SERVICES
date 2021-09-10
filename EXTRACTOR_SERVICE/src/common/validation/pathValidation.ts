@@ -12,7 +12,6 @@ export class PathValidation extends ValidateStrategy {
 	}
 
 	validate(): void {
-		var result = '';
 		if(!path.isAbsolute(this._path) || !new URL(this._path)){
 			throw new ExtractorException(
 				"Invalid Path: " + this._path,
