@@ -15,7 +15,7 @@ export class EmptyValidation extends ValidateStrategy {
 	validate(): void{
 		if (!this._value || this._value.trim().length === 0) {
 			throw new ExtractorException(
-				"Invalid data parameter: " + this._parameter,
+				"Empty parameter: " + this._parameter,
 				StatusCode.BadRequest,
 				Code.EXTRACTOR_ERROR_01
 			);
