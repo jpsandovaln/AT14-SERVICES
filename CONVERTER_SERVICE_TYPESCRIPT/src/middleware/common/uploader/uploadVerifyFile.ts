@@ -4,8 +4,8 @@ import { Md5File } from '../../../utilities/checksum';
 import { FileUtil } from '../../../utilities/fileUtil';
 import { VerifyChecksum } from "../../../database/operation/verifyChecksum";
 import { InsertFile } from "../../../database/operation/insertFile";
-const uploadPath = process.env.UPLOAD_PATH;
-
+import { Property } from "../../../utilities/property";
+import path = require('path');
 export class UploadVerifyFile extends Upload {    
     async uploadFile(req: any, res: any, next: any): Promise<any>{
         const form = formidable({ multiples: true });
@@ -15,7 +15,6 @@ export class UploadVerifyFile extends Upload {
                 resolve({ ...fields, files });
             });
         });
-
         req.fields = result;
         const hash = Md5File.getMD5File(result.files.file.path);
         const resulthash = hash;
@@ -26,10 +25,11 @@ export class UploadVerifyFile extends Upload {
                 req.fields.filename = objectFile.name;
                 next();
             } else {
-                req.fields.uploadpath = uploadPath + result.files.file.name;
-                req.fields.filename = result.files.file.name;
-                await FileUtil.copyFile(result.files.file.path, uploadPath, result.files.file.name);
-                await InsertFile.insert(result.files.file.name, uploadPath + result.files.file.name, result.checksum);
+                const resultName = Date.now().toString() + path.extname(result.files.file.name);
+                req.fields.uploadpath = Property.getUploadPath() + resultName;
+                req.fields.filename = resultName;
+                await FileUtil.copyFile(result.files.file.path, Property.getUploadPath(), resultName);
+                await InsertFile.insert(resultName, Property.getUploadPath() + resultName, result.checksum);
                 next();
             }
         } else {

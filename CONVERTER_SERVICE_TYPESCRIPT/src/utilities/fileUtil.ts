@@ -1,5 +1,5 @@
 import fs from "fs";
-import path from "path";
+import path from 'path';
 
 export class FileUtil {
     static async copyFile(file: any, destFolder: any, newName: any) {

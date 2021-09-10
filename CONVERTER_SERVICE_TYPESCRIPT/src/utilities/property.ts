@@ -1,10 +1,9 @@
 export class Property {
     private static isValid(process_env: any): string {
-        if (process_env != undefined) return process_env;
-        else {
-            console.log("El punto env: " + process_env);
-            return "";
-        }
+        if (process_env != undefined) 
+            return process_env;
+        else            
+            return "";        
     }
 
     static getFFmpegPath(): string {
@@ -20,7 +19,7 @@ export class Property {
     }
 
     static getUploadPath(): string {
-        return this.isValid(process.env.UPLOAD_FILE);
+        return this.isValid(process.env.UPLOAD_PATH);
     }
 
     static getOutputPath(): string {
@@ -42,10 +41,16 @@ export class Property {
     static getZipPath(): string {
         return this.isValid(process.env.ZIP_PATH);
     }
+
     static getPort(): string {
         return this.isValid(process.env.PORT_CONVERTER);
     }
+    
     static getBaseUrl(): string {
         return this.isValid(process.env.BASE_URL_CONVERTER);
+    }
+
+    static getDBValidation(): string {
+        return this.isValid(process.env.DATA_BASE_VALIDATION);
     }
 }

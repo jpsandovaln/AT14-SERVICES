@@ -3,13 +3,8 @@ import { BuildCmdAudio } from "../../model/video/buildCmd/buildCmdAudio";
 import { BuildCmdChangeFormat } from "../../model/video/buildCmd/buildCmdChangeFormat";
 import { BuildCmdFrames } from "../../model/video/buildCmd/buildCmdFrames";
 import { Parameters } from "../../model/common/parameter/parameters";
+import { Property } from "../../utilities/property";
 var fs = require('fs');
-const uploadPath = "";
-const outputPath = "";
-const videoPath = "";
-const audioPath = ""
-const zipPath = "";
-const codecPath = "";
 export class VideoServices{
     public params: Parameters;
     private compiler: Compiler;
@@ -18,25 +13,27 @@ export class VideoServices{
     
     constructor(json: object, nameFile: string, resultName: string) {
         this.params = new Parameters(json); 
+        console.info(this.params);
         this.compiler = new Compiler();
         this.resultName = resultName;
-        this.filePath = uploadPath + nameFile;
+        this.filePath = Property.getUploadPath() + nameFile;        
     }
 
     async changeVideoFormat() {
-        let cmdVideoFormat = new BuildCmdChangeFormat(this.params, codecPath, this.filePath, outputPath, this.resultName);
+        let cmdVideoFormat = new BuildCmdChangeFormat(this.params, Property.getFFmpegPath(), this.filePath, Property.getVideoPath(), this.resultName);
         await this.compiler.execute(cmdVideoFormat.returnCmd());
-        const resultPathVideoFormat = outputPath + this.resultName + this.params.getParameter('outputFormat');
+        const resultPathVideoFormat = Property.getOutputPath() + this.resultName + this.params.getParameter('outputFormat');
         return resultPathVideoFormat;
     }       
 
     async obtainFrames() {
         if(this.params.getParameter('obtainFrames') == 'true') {
-            const dir = zipPath + this.resultName;
+            const dir = Property.getZipPath() + this.resultName;
             if (!fs.existsSync(dir)){
                 fs.mkdirSync(dir);
             }
-            let cmdObtainFrames = new BuildCmdFrames(this.params, audioPath, this.filePath, dir + "/");
+            let cmdObtainFrames = new BuildCmdFrames(this.params, Property.getFFmpegPath(), this.filePath, dir + "/");
+            console.log(cmdObtainFrames.returnCmd());
             await this.compiler.execute(cmdObtainFrames.returnCmd());
             return dir;
         }        
@@ -46,9 +43,9 @@ export class VideoServices{
 
     async obtainAudio() {
         if(this.params.getParameter('obtainAudio') == 'true') {
-            let cmdObtainAudio = new BuildCmdAudio (this.params, codecPath, this.filePath, outputPath, this.resultName);
+            let cmdObtainAudio = new BuildCmdAudio (this.params, Property.getFFmpegPath(), this.filePath, Property.getAudioPath(), this.resultName);
             await this.compiler.execute(cmdObtainAudio.returnCmd());    
-            const resultPathAudio = audioPath + this.resultName + this.params.getParameter('audioFormat');
+            const resultPathAudio = Property.getAudioPath() + this.resultName + this.params.getParameter('audioFormat');
             return resultPathAudio;
         }        
         else 
