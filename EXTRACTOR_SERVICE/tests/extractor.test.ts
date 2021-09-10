@@ -12,7 +12,7 @@ var properties: IBase = {
 	path: "https://res.cloudinary.com/marcandea/image/upload/v1629733958/samples/text-eng-chin_kxe165.png",
 };
 
-describe("Parameters Exception Extract to Text", () => {
+describe("Parameters Exception Extractor", () => {
 
 	it("Validation with invalid language", () => {
 		properties.language = "engaoeu";
