@@ -108,10 +108,10 @@
  *         description: ask
  *        ratio:
  *         type: string
- *         description: ask
+ *         description: The proportions of a video's frame between width and height
  *        scale:
  *         type: string
- *         description: ask
+ *         description: The proportions between the dimensions
  *        quality:
  *         type: string
  *         description: Output quality of the video
