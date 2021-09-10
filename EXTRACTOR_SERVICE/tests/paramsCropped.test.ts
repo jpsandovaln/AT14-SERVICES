@@ -1,5 +1,3 @@
-import express from "express";
-import { createWorker } from "tesseract.js";
 import { Code } from "../src/common/code";
 import { ExtractorException } from "../src/common/exception/extractorException";
 import { StatusCode } from "../src/common/statusCode";
