@@ -2,33 +2,56 @@ import shortid from "shortid";
 import FormData from "form-data";
 import axios from "axios";
 import * as fs from "fs";
-import {GraphQLUpload} from "graphql-upload";
-import wget from "node-wget-promise";
+import { GraphQLUpload } from "graphql-upload";
 import dotenv from "dotenv";
+import http from "http";
+import bl from "bl";
+
 
 dotenv.config();
 
 let FileData = [];
 let FileData1 = [];
 
-const storeUpload = async ({stream, filename, mimetype}) => {
+
+const storeUpload = async ({ stream, filename, mimetype }) => {
+
     const id = shortid.generate();
     const path = `images/${filename}`;
 
     return new Promise((resolve, reject) =>
         stream
             .pipe(fs.createWriteStream(path))
-            .on("finish", () => resolve({id, path, filename, mimetype}))
+
+            .on("finish", () => resolve({ id, path, filename, mimetype }))
             .on("error", reject)
     );
 };
 
 const processUpload = async (upload) => {
-    const {createReadStream, filename, mimetype} = await upload;
+
+    const { createReadStream, filename, mimetype } = await upload;
     const stream = createReadStream();
-    const file = await storeUpload({stream, filename, mimetype});
+    const file = await storeUpload({ stream, filename, mimetype });
+
     return file;
 };
+
+async function httpGet(url, file) {
+    return new Promise((resolve, reject) => {
+        http.get(url, (response) => {
+            response.pipe(file);
+            response.pipe(
+                bl((err, data) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve();
+                })
+            );
+        });
+    });
+}
 
 const resolvers = {
     Upload: GraphQLUpload,
@@ -41,10 +64,10 @@ const resolvers = {
         },
         files: async () => {
             const urlCVT = "" + process.env.CONVERTER_GET_DATA;
-            const {data} = await axios.get(urlCVT);
-            console.log({...data}+"here1")
+            const { data } = await axios.get(urlCVT);
+            console.log({ ...data } + "here1");
             return data;
-        },
+        }
     },
     Mutation: {
         uiToImageText: async (_, args) => {
@@ -53,21 +76,20 @@ const resolvers = {
             const uploadFile = await processUpload(args.file);
             const dataArray = new FormData();
             dataArray.append("language", args.language);
-            dataArray.append("file", fs.createReadStream(uploadFile.path));            
-            
+            dataArray.append("file", fs.createReadStream(uploadFile.path));
+
             const res = await axios.post(uri, dataArray, {
-                headers: dataArray.getHeaders(),
-            });            
-            const result = {text: res.data};
-            return result;            
+                headers: dataArray.getHeaders()
+            });
+            const result = { text: res.data };
+            return result;
         },
         uploadFileML: async (_, args) => {
-            fs.mkdir("images", {recursive: true}, (err) => {
+            fs.mkdir("images", { recursive: true }, (err) => {
                 if (err) throw err;
             });
 
             const uploadFile = await processUpload(args.file);
-
             const dataArray = new FormData();
             dataArray.append("searchWord", args.searchWord);
             dataArray.append("algorithm", args.algorithm);
@@ -76,7 +98,7 @@ const resolvers = {
 
             const urlML = "" + process.env.CONVERTER_ANALIZEZIP;
             const res = await axios.post(urlML, dataArray, {
-                headers: dataArray.getHeaders(),
+                headers: dataArray.getHeaders()
             });
 
             Array.prototype.push.apply(FileData, res.data);
@@ -85,11 +107,10 @@ const resolvers = {
         },
 
         uiToVideoConverter: async (_, args) => {
-            fs.mkdir("images", {recursive: true}, (err) => {
+            fs.mkdir("images", { recursive: true }, (err) => {
                 if (err) throw err;
             });
             FileData1 = [];
-
             const uploadFile = await processUpload(args.file);
             const dataArray1 = new FormData();
             dataArray1.append("file", fs.createReadStream(uploadFile.path));
@@ -100,13 +121,14 @@ const resolvers = {
             const res = await axios.post(urlML1, dataArray1, {
                 maxContentLength: Infinity,
                 maxBodyLength: Infinity,
-                headers: dataArray1.getHeaders(),
+                headers: dataArray1.getHeaders()
             });
+            const file = fs.createWriteStream(
+                process.env.OUTPUT_FOLDER + res.data[0].name + ".zip"
+            );
 
-            await wget(res.data[0].filePath, {
-                output:
-                    "" + process.env.OUTPUT_FOLDER + res.data[0].name + ".zip",
-            });
+            await httpGet(res.data[0].filePath, file);
+          
             const dataArray = new FormData();
             dataArray.append("searchWord", args.searchWord);
             dataArray.append("algorithm", args.algorithm);
@@ -123,7 +145,7 @@ const resolvers = {
             const res1 = await axios.post(urlML, dataArray, {
                 maxContentLength: Infinity,
                 maxBodyLength: Infinity,
-                headers: dataArray.getHeaders(),
+                headers: dataArray.getHeaders()
             });
 
             Array.prototype.push.apply(FileData1, res1.data);
@@ -132,7 +154,7 @@ const resolvers = {
         },
 
         videoConverter: async (_, args) => {
-            fs.mkdir("images", {recursive: true}, (err) => {
+            fs.mkdir("images", { recursive: true }, (err) => {
                 if (err) throw err;
             });
 
@@ -159,7 +181,7 @@ const resolvers = {
             const res = await axios.post(urlML, dataArray, {
                 maxContentLength: Infinity,
                 maxBodyLength: Infinity,
-                headers: dataArray.getHeaders(),
+                headers: dataArray.getHeaders()
             });
 
             Array.prototype.push.apply(FileData, res.data);
@@ -168,7 +190,7 @@ const resolvers = {
         },
 
         metaData: async (_, args) => {
-            fs.mkdir("images", {recursive: true}, (err) => {
+            fs.mkdir("images", { recursive: true }, (err) => {
                 if (err) throw err;
             });
 
@@ -178,19 +200,20 @@ const resolvers = {
             const dataArray = new FormData();
             dataArray.append("file", fs.createReadStream(uploadFile.path));
 
-            console.log(uploadFile.path)
+            console.log(uploadFile.path);
             const urlML = "" + process.env.EXTRACTOR_METADATA_SERVICE;
 
             const res = await axios.post(urlML, dataArray, {
                 maxContentLength: Infinity,
                 maxBodyLength: Infinity,
-                headers: dataArray.getHeaders(),
+                headers: dataArray.getHeaders()
             });
-            let data =  res.data
-            console.log(data)
+            let data = res.data;
+            console.log(data);
             return data;
-        },
-    },
+        }
+    }
+
 };
 
 export default resolvers;

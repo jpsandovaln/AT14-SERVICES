@@ -38,7 +38,7 @@ class AnalizeZip {
                 );
 
                 const pathImage =
-                    "http://localhost:8085/unZipFiles/" +
+                    "http://container_ml:8085/analizeZip" +
                     path.parse(zipNameFile as string).name +
                     "/";
                 const obtainDirectory = new ObtainDirectory();
