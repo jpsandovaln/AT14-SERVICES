@@ -89,7 +89,7 @@ const Login = (props) => {
 						<Avatar
 							className={classes.avatar}
 							alt="dog"
-							src="http://localhost:8081/at14.gif"
+							src="/at14.gif"
 						></Avatar>
 						<Typography
 							component="h1"
