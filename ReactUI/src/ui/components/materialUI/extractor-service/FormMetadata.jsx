@@ -1,92 +1,78 @@
 import React from "react";
-import axios from "axios";
 import MetadataForm from "./MetadataForm";
 import TableMetadataForm from "./TableMetadataForm";
 
-const FormMetadata = () => {
-	const urlML = "http://localhost:8080/imageFinder";
-	const [setResponse] = React.useState([]);
-	const [outputFormat, setOutputFormat] = React.useState("");
-	const [ratio, setRatio] = React.useState("");
-	const [scale, setScale] = React.useState("");
-	const [audioFormat, setAudioFormat] = React.useState("");
-	const [quality, setQuality] = React.useState("");
-	const [angle, setAngle] = React.useState("");
-	const [hflip, sethFlip] = React.useState(false);
-	const [vflip, setvFlip] = React.useState(false);
-	const [frameScale, setFrameScale] = React.useState("");
-	const [obtainFrames, setObtainFrames] = React.useState(false);
-	const [extractAudioFormat, setExtractAudioFormat] = React.useState("");
-	const [obtainAudio, setObtainAudio] = React.useState("");
-	const [setOpen] = React.useState(false);
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
-	const submitFormMetadata = (event) => {
+export const UploadMutation = gql`
+	mutation metaData(
+		$file: Upload!
+	) {
+		metaData(
+			file: $file
+		) {
+			name
+			filePath
+		}
+	}
+`;
+
+const FormMetadata = () => {
+	const [data, setResponse] = React.useState([]);
+	const [FileData, setUploadFile] = React.useState(null);
+	const [nameVideo, setNameVideo] = React.useState("Select a video file");
+	const [metaData, { error }] = useMutation(UploadMutation);
+
+	const [open, setOpen] = React.useState(false);
+
+	const setFileVideo = async (e) => {
+		let videoFile = document.getElementById("matadata-button-file");
+
+		if (videoFile.files.length > 0) {
+			setNameVideo(videoFile.files.item(0).name);
+			setUploadFile(e.target.files[0]);
+		} else {
+			setNameVideo("Select a video file");
+			setUploadFile(null);
+		}
+	};
+
+	const submitFormMetadata = async (event) => {
+		
 		event.preventDefault();
 		setOpen(true);
-		const dataArray = new FormData();
-
-		dataArray.append("ratio", ratio);
-		dataArray.append("scale", scale);
-		dataArray.append("quality", quality);
-		dataArray.append("angle", angle);
-		dataArray.append("vflip", vflip);
-		dataArray.append("hflip", hflip);
-		dataArray.append("outputFormat", outputFormat);
-		dataArray.append("audioFormat", audioFormat);
-		dataArray.append("obtainFrames", obtainFrames);
-		dataArray.append("frameScale", frameScale);
-		dataArray.append("obtainAudio", obtainAudio);
-		dataArray.append("extractAudioFormat", extractAudioFormat);
-
-		const fetchData = () => {
-			axios
-				.post(urlML, dataArray, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					setResponse(res.data);
-					setOpen(false);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
-
-		fetchData();
+		const response = await metaData({
+			variables: {
+			  file: FileData  
+			}
+		  });
+		  if (error) {
+			console.log(error);
+		  }
+		  else{
+			setResponse(response.data.metaData);
+			setOpen(false);	
+			
+		  }
+		  
 	};
 
 	return (
 		<div>
 			<form onSubmit={submitFormMetadata}>
 				<MetadataForm
-					ratio={ratio}
-					scale={scale}
-					quality={quality}
-					angle={angle}
-					vflip={vflip}
-					hflip={hflip}
-					outputFormat={outputFormat}
-					audioFormat={audioFormat}
-					obtainFrames={obtainFrames}
-					frameScale={frameScale}
-					obtainAudio={obtainAudio}
-					extractAudioFormat={extractAudioFormat}
-					setOutputFormat={setOutputFormat}
-					setRatio={setRatio}
-					setScale={setScale}
-					setAudioFormat={setAudioFormat}
-					setQuality={setQuality}
-					setAngle={setAngle}
-					sethFlip={sethFlip}
-					setvFlip={setvFlip}
-					setFrameScale={setFrameScale}
-					setObtainFrames={setObtainFrames}
-					setExtractAudioFormat={setExtractAudioFormat}
-					setObtainAudio={setObtainAudio}
+					setUploadFile={setUploadFile}
+					nameVideo={nameVideo}
+					setNameVideo={setNameVideo}
+					setFileVideo={setFileVideo}
 				/>
-				<TableMetadataForm />
+				<TableMetadataForm
+					open={open}
+					setOpen={setOpen}
+					data={data}
+					setResponse={setResponse}
+				/>
 			</form>
 		</div>
 	);

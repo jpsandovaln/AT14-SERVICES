@@ -11,6 +11,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import TableBody from "@material-ui/core/TableBody";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -29,8 +31,30 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const TableMetadataForm = () => {
+const TableMetadataForm = (promps) => {
 	const classes = useStyles();
+	const contentTab = () => {
+		if (promps.data.name) {
+			return (
+				<TableRow>
+					<TableCell align="center">{promps.data.name}</TableCell>
+					<TableCell align="center">
+						<a
+							href={promps.data.filePath}
+							without
+							rel="noreferrer"
+							target="_blank"
+							download
+						>
+							Descargar
+						</a>
+					</TableCell>
+				</TableRow>
+			);
+		} else {
+			return "";
+		}
+	};
 
 	return (
 		<Grid container spacing={3}>
@@ -71,7 +95,9 @@ const TableMetadataForm = () => {
 												</TableCell>
 											</TableRow>
 										</TableHead>
+										<TableBody>{contentTab()}</TableBody>
 									</Table>
+									{promps.open ? <LinearProgress /> : ""}
 								</TableContainer>
 							</Grid>
 						</Grid>
@@ -83,4 +109,3 @@ const TableMetadataForm = () => {
 };
 
 export default TableMetadataForm;
-
