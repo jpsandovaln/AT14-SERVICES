@@ -56,21 +56,20 @@ const resolvers = {
             dataArray.append("outputFormat", args.outputFormat);
             dataArray.append("outputSize", args.outputSize);
             dataArray.append("rotation", args.rotation);
-            dataArray.append("quality", args.quality);
+            //dataArray.append("quality", args.quality);
             dataArray.append("paintEffect", args.paintEffect);
-            dataArray.append("type", args.type);
-            dataArray.append("file", fs.createReadStream(uploadFile.path));                        
+            //dataArray.append("type", args.type);
+            dataArray.append("imageFile", fs.createReadStream(uploadFile.path));                        
 
-            console.log(dataArray);
-
-            /*
+            
             const res = await axios.post(uri, dataArray, {
                 headers: dataArray.getHeaders(),
             });            
-            const result = {text: res.data};
+
+            const result = res.data;
+            
             return result;                        
-            */
-            return [{}];
+
         },
         uiToImageText: async (_, args) => {
             const uri = "" + process.env.EXTRACTOR_SERVICE;
