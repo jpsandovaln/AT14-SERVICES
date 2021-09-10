@@ -26,20 +26,20 @@ services:
             - APOLLO
         networks:
             - my-network-name
-    # CONVERTER_SERVICE:
-    #     build:
-    #         context: ./CONVERTER_SERVICE
-    #         dockerfile: Dockerfile
-    #     image: converter_image
-    #     env_file:
-    #         - ./.env
-    #     container_name: converter_container
-    #     ports:
-    #         - 4028:4028
-    #     links:
-    #         - mongo_db
-    #     networks:
-    #         - my-network-name
+    CONVERTER_SERVICE:
+        build:
+            context: ./CONVERTER_SERVICE
+            dockerfile: Dockerfile
+        image: converter_image
+        env_file:
+            - ./.env
+        container_name: converter_container
+        ports:
+            - 4028:4028
+        links:
+            - mongo_db
+        networks:
+            - my-network-name
     mongo_db:
         image: mongo:latest
         volumes:

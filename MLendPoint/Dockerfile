@@ -12,10 +12,6 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-ARG APP_PORT=8080
-
-EXPOSE ${APP_PORT}
-
 RUN mkdir -p /home/node/app/public/images
 
 RUN mkdir -p /home/node/app/public/unZipFiles
