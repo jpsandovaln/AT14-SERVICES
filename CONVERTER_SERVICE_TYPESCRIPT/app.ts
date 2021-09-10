@@ -1,5 +1,5 @@
 import morganMiddleware from "./src/middleware/common/morgan";
-import Logger from "./src/utilities/logger";
+import logger from "./src/utilities/logger";
 import { IApp } from "./appInterface";
 import express from "express";
 import dotenv from "dotenv";
@@ -7,17 +7,15 @@ import cors from "cors";
 import { RoutesVideo } from "./src/routes/video/routesVideo";
 import { RoutesImage } from "./src/routes/image/routesImage";
 import { RoutesAudio } from "./src/routes/audio/routesAudio";
-import { ConnectMongo } from "./src/database/connect";
+import { ConnectMongo } from "./src/database/connection/connect";
 
 const app = express();
 class Index implements IApp {
-    logger;
     port;
     corsOptions;
 
     constructor() {
         dotenv.config();
-        this.logger = Logger;
 
         this.port = process.env.PORT_CONVERTER;
         this.corsOptions = {
@@ -52,7 +50,7 @@ class Index implements IApp {
 
     private initApp() {
         app.listen(this.port, () => {
-            this.logger.debug("Running at http://localhost:" + this.port);
+            logger.debug("Running at http://localhost:" + this.port);
         });
     }
 }
