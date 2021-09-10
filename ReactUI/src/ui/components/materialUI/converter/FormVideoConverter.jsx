@@ -1,11 +1,21 @@
 import React from "react";
-import axios from "axios";
 import VideoForm from "./VideoForm";
 import TableVideoForm from "./TableVideoForm";
 import Md5File from "../../../../utilities/checksum";
 
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+export const UploadMutation = gql`
+  mutation videoConverter($ratio: String, $scale: String, $quality: String, $angle: String, $vflip: String, $hflip: String, $outputFormat: String, $audioFormat: String, $obtainFrames: String, $frameScale: String, $obtainAudio: String, $checksum: String, $file: Upload!, $extractAudioFormat: String) {
+    videoConverter(ratio: $ratio, scale: $scale, quality: $quality, angle: $angle, vflip: $vflip, hflip: $hflip, outputFormat: $outputFormat, audioFormat: $audioFormat, obtainFrames: $obtainFrames, frameScale: $frameScale, obtainAudio: $obtainAudio, checksum: $checksum, file: $file, extractAudioFormat: $extractAudioFormat) {
+		name
+		filePath
+    }
+  }
+`;
+
 const FormVideoConveter = () => {
-	const urlML = "http://localhost:4028/videoConverter";
 	const md5File = new Md5File();
 
 	const [data, setResponse] = React.useState([]);
@@ -27,6 +37,8 @@ const FormVideoConveter = () => {
 
 	let [hashVideo, setHashVideo] = React.useState();
 
+	const [videoConverter, { error }] = useMutation(UploadMutation);
+
 	const setFileVideo = async (e) => {
 		let videoFile = document.getElementById("contained-button-video");
 		if (videoFile.files.length > 0) {
@@ -42,43 +54,37 @@ const FormVideoConveter = () => {
 		}
 	};
 
-	const submitFormVideo = (event) => {
-		event.preventDefault([]);
+	const submitFormVideo = async (event) => {
+
+		event.preventDefault();
 		setOpen(true);
-		const dataArray = new FormData();
-		dataArray.append("ratio", ratio);
-		dataArray.append("scale", scale);
-		dataArray.append("quality", quality);
-		dataArray.append("angle", angle);
-		dataArray.append("vflip", vflip);
-		dataArray.append("hflip", hflip);
-		dataArray.append("outputFormat", outputFormat);
-		dataArray.append("audioFormat", audioFormat);
-		dataArray.append("obtainFrames", obtainFrames);
-		dataArray.append("frameScale", frameScale);
-		dataArray.append("obtainAudio", obtainAudio);
-		dataArray.append("checksum", hashVideo);
-		dataArray.append("file", uploadFile);
-		dataArray.append("extractAudioFormat", extractAudioFormat);
-
-		const fetchData = () => {
-			setResponse();
-			axios
-				.post(urlML, dataArray, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					setResponse(res.data);
-					setOpen(false);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
-
-		fetchData();
+		setResponse(null);
+		const data = await videoConverter({
+			variables: {
+				ratio: ratio+"",
+				scale: scale+"",
+				quality: quality+"",
+				angle: angle+"",
+				vflip: vflip+"",
+				hflip: hflip+"",
+				outputFormat: outputFormat+"",
+				audioFormat: audioFormat+"",
+				obtainFrames: obtainFrames+"",
+				frameScale: frameScale+"",
+				obtainAudio: obtainAudio+"",
+				checksum: hashVideo+"",
+				file: uploadFile,
+				extractAudioFormat: extractAudioFormat+""
+			}
+		  });
+		  if (error) {
+			console.log(error);
+		  }
+		  else{
+			console.log(data.data.videoConverter);  
+			setResponse(data.data.videoConverter);
+			setOpen(false);		  
+		  }
 	};
 
 	return (

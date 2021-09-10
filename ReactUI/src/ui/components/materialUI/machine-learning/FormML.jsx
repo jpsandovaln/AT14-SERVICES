@@ -114,21 +114,19 @@ const FormML = (classes) => {
 								</Select>
 							</FormControl>
 						</Grid>
+
 						<Grid item md={12} xs={12}>
 							<div className={classes.root}>
 								<input
 									accept="zip/*"
 									className={clase.input}
-									id="contained-button-file"
-									name="contained-button-file"
+									id="contained-button-video"
+									name="contained-button-video"
 									type="file"
 									required
-									onChange={(e) =>
-										classes.setUploadFile(e.target.files[0])
-									}
-									required
+									onChange={classes.setFileVideo}
 								/>
-								<label htmlFor="contained-button-file">
+								<label htmlFor="contained-button-video">
 									<Button
 										variant="contained"
 										color="#83bbeb"
@@ -141,6 +139,16 @@ const FormML = (classes) => {
 									</InputLabel>
 								</label>								
 							</div>
+
+							<Grid item md={4} >
+								<TextField
+									fullWidth
+									id="outlined-basic"
+									variant="outlined"
+									value={classes.nameVideo}
+									disabled
+								/>
+							</Grid>
 						</Grid>
 					</Grid>
 				</CardContent>

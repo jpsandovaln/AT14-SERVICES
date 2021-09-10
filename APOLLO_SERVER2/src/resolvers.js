@@ -3,32 +3,37 @@ import FormData from "form-data";
 import axios from "axios";
 import * as fs from "fs";
 import { GraphQLUpload } from "graphql-upload";
-import wget from "node-wget-promise";
 import dotenv from "dotenv";
 import http from "http";
 import bl from "bl";
+
 
 dotenv.config();
 
 let FileData = [];
 let FileData1 = [];
 
+
 const storeUpload = async ({ stream, filename, mimetype }) => {
+
     const id = shortid.generate();
     const path = `images/${filename}`;
 
     return new Promise((resolve, reject) =>
         stream
             .pipe(fs.createWriteStream(path))
+
             .on("finish", () => resolve({ id, path, filename, mimetype }))
             .on("error", reject)
     );
 };
 
 const processUpload = async (upload) => {
+
     const { createReadStream, filename, mimetype } = await upload;
     const stream = createReadStream();
     const file = await storeUpload({ stream, filename, mimetype });
+
     return file;
 };
 
@@ -106,16 +111,13 @@ const resolvers = {
                 if (err) throw err;
             });
             FileData1 = [];
-            console.log("ACA estamos 1 ");
             const uploadFile = await processUpload(args.file);
             const dataArray1 = new FormData();
-            console.log("ACA estamos 2 ", uploadFile);
             dataArray1.append("file", fs.createReadStream(uploadFile.path));
             dataArray1.append("obtainFrames", "true");
             dataArray1.append("frameScale", "400");
             dataArray1.append("grayScale", "true");
             const urlML1 = "" + process.env.CONVERTER_FRAMES;
-            console.log("ACA estamos 1 ", urlML1);
             const res = await axios.post(urlML1, dataArray1, {
                 maxContentLength: Infinity,
                 maxBodyLength: Infinity,
@@ -126,18 +128,7 @@ const resolvers = {
             );
 
             await httpGet(res.data[0].filePath, file);
-            console.log("ACA estamos 1 ", res);
-            console.log("ACA ESTAMOS#", res.data[0].filePath);
-            // const result = res.data[0].name.substring(
-            //     0,
-            //     res.data[0].name.lastIndexOf(".")
-            // );
-            // console.log(
-            //     "Zip y ruta",
-            //     "" + process.env.OUTPUT_FOLDER + result + ".zip"
-            // );
-            //await wget(res.data[0].filePath);
-            console.log("ACA ESTAMOS 4");
+          
             const dataArray = new FormData();
             dataArray.append("searchWord", args.searchWord);
             dataArray.append("algorithm", args.algorithm);
@@ -222,6 +213,7 @@ const resolvers = {
             return data;
         }
     }
+
 };
 
 export default resolvers;
