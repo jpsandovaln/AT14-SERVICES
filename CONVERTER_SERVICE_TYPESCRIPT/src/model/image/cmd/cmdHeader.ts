@@ -1,7 +1,6 @@
 import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
 
-const FFMPEG_I = " -i ";
 const QUOTES = '"';
 const SPACE = " ";
 
@@ -21,13 +20,7 @@ export class CmdHeader extends Command {
 
     returnCommand(command: string): string {
         command =
-            command +
-            this.codecPath +
-            FFMPEG_I +
-            QUOTES +
-            this.imagePath +
-            QUOTES +
-            SPACE;
+            command + this.codecPath + QUOTES + this.imagePath + QUOTES + SPACE;
         return this.cmd.returnCommand(command);
     }
 }
