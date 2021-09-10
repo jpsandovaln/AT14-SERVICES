@@ -12,7 +12,7 @@ const cors = require("cors");
  *     format: binary
  *    language:
  *     type: string
- *     description: The keyword that will be converted to text
+ *     description: The language image that will be converted to text
  *     example: 'eng'
  *  FileAnalizerRectangle:
  *   type: object
@@ -23,7 +23,7 @@ const cors = require("cors");
  *     format: binary
  *    language:
  *     type: string
- *     description: The keyword that will be converted to text
+ *     description: The language image that will be converted to text
  *     example: 'eng'
  *    left:
  *     type: number
@@ -84,13 +84,37 @@ app.post("/upload", cors());
  *       $ref: '#/definitions/FileAnalizer'
  *   responses:
  *    200:
- *     description: Image converted succesfully
+ *     description: Returns link pdf file
  *    404:
  *     description: Non conection available
  *    500:
  *     description: Failure in Server
  */
 app.post("/extractToPDF");
+
+ /**
+ * @swagger
+ * /extractToPDF/{name}:
+ *  get:
+ *   tags: [Extractor Service]
+ *   summary: Endpoint used to download the pdf file
+ *   parameters:
+ *     - in: path
+ *       name: name
+ *       schema:
+ *         type: string
+ *       required: true
+ *       description: Name of the file that will be downloaded
+ *   responses:
+ *    200:
+ *     description: Pdf file download succesfully
+ *    404:
+ *     description: Non conection available
+ *    500:
+ *     description: Failure downloading file
+ */
+
+  app.get("/extractToPDF/:name");
 
 /**
  * @swagger
@@ -105,7 +129,7 @@ app.post("/extractToPDF");
  *       $ref: '#/definitions/FileAnalizerRectangle'
  *   responses:
  *    200:
- *     description: Image converted succesfully
+ *     description: Image extracted succesfully
  *    404:
  *     description: Non conection available
  *    500:

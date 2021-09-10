@@ -91,7 +91,7 @@ app.delete("/file/:id");
  *  get:
  *   tags: [Data Base]
  *   summary: Get data from the database by sending an specific id
- *   description: This end pont only need to send an URL to get a response
+ *   description: This endpoint only needs to send an URL to get a response
  *   parameters:
  *     - in: path
  *       name: id

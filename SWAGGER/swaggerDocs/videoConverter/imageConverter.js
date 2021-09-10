@@ -23,23 +23,23 @@
  *    monochromeImage:
  *     type: string
  *     description: Output monochrome of the Image
- *     example: '270'
+ *     example: '10'
  *    paintImage:
  *     type: string
  *     description: The Image converted will change paint
- *     example: 'true'
+ *     example: '10'
  *    qualityImage:
  *     type: string
  *     description: The Image converter will change quality
- *     example: 'false'
+ *     example: '10'
  *    resizeImage:
  *     type: string
  *     description: Output format of the Image
- *     example: '.flv'
+ *     example: '.10'
  *    grayScaleImage:
  *     type: string
  *     description: Option to agree if the converter will obtain the gray scale from the Image
- *     example: 'false'
+ *     example: '10'
  */
 
 /**
@@ -55,13 +55,13 @@
  *        file:
  *         type: string
  *         format: binary
- *         description: ask
+ *         description: The image file that will be converted to a different formats
  *        rotateImage:
  *         type: string
- *         description: ask
+ *         description: Ouput rotate image
  *        doublingImage:
  *         type: string
- *         description: ask
+ *         description: Doubling image
  *        formatImage:
  *         type: string
  *         description: Output format of the Image
@@ -70,23 +70,23 @@
  *         description: Output monochrome the Image
  *        paintImage:
  *         type: string
- *         description: ask
+ *         description: Paint image
  *        qualityImage:
  *         type: string
- *         description: ask
+ *         description: Quality image
  *        resizeImage:
  *         type: string
  *         description: Output format of the Image
  *        grayScaleImage:
  *         type: string
- *         description: ask
+ *         description: Gray scale image
  */
 
 /**
  * @swagger
  * tags:
  *  name: Image Converter
- *  description: The books managing API
+ *  description: To convert an image to different formats
  */
 
 /**

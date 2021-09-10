@@ -283,11 +283,11 @@ app.get("/framesZipML/:name");
  *       $ref: '#/definitions/FilesMetadata'
  *   responses:
  *    200:
- *     description: video converted succesfully
+ *     description: Video converted succesfully
  *    404:
- *     description: non conection available
+ *     description: Non conection available
  *    500:
- *     description: failure in converting video
+ *     description: Failure in converting video
  */
 app.post("/filesMetadata");
 
