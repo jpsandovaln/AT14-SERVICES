@@ -3,13 +3,8 @@ const FileSchema = require("../model/fileSchema");
 
 export class VerifyChecksum{
     
-    static async verifyChecksum(checksumI: string): Promise<boolean> {
+    static async verifyChecksum(checksumI: string): Promise<File> {
         const file: File = await FileSchema.findOne({checksum: checksumI});
-        if(file){
-            return true;
-        }            
-        else {
-            return false;
-        }            
+        return file;          
     }
 }

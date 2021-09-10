@@ -9,8 +9,8 @@ export class RoutesAudio extends Routes {
         super(app);
     }
 
-    getRoutes():void {
-        router.get("/audio", (req: Request, res: Response) => {
+    public getRoutes():void {
+        router.get("/image", (req: Request, res: Response) => {
             res.send("I'm in audio services now!");
         });
         this.app.use(router);

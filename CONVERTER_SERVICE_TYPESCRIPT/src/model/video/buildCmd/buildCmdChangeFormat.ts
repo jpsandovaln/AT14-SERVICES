@@ -8,7 +8,7 @@ import { Parameters } from "../../common/parameter/parameters";
 import { BuildCmd } from "./buildCmd";
 
 export class BuildCmdChangeFormat extends BuildCmd{
-    private codecPath: string;
+    private codecPath!: string;
     private filePath: string;
     private outputPath: string;
     private resultName: string; 
