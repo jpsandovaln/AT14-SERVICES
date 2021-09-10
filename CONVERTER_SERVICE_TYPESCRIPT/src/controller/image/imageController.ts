@@ -1,3 +1,9 @@
+import express from "express";
+export class ImageController {
+    test(req: express.Request, res: express.Response) {
+        res.json({ message: "testing purposes" });
+    }
+}
 /*import express from "express";
 import { Upload } from "../middleware/upload";
 import { Compiler } from "../model/compiler";

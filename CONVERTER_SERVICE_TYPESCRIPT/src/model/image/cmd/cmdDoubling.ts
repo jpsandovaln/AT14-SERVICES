@@ -1,11 +1,10 @@
 import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
-
-const MAGICK_DOUBLING = '"-liquid-rescale"';
-const SPACE = " ";
-
 export class CmdFadeOut extends Command {
+    private MAGICK_DOUBLING = '"-liquid-rescale"';
+    private SPACE = " ";
     private cmd!: Command;
+
     constructor(parameters: Parameters) {
         super(parameters);
     }
@@ -16,7 +15,7 @@ export class CmdFadeOut extends Command {
 
     returnCommand(command: string): string {
         if (this.getParameter("doubling") == "true")
-            command = command + SPACE + MAGICK_DOUBLING + SPACE;
+            command = command + this.SPACE + this.MAGICK_DOUBLING + this.SPACE;
         return this.cmd.returnCommand(command);
     }
 }

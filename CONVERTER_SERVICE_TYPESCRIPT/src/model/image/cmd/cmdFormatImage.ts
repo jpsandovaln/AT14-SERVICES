@@ -1,8 +1,11 @@
 import { Parameters } from "../../common/parameter/parameters";
+import { VCmdFormatImage } from "./validations/cmdFormatImageValidation";
+import Logger from "../../../utilities/logger";
 import { Command } from "./cmd";
 
 const FFMPEG_I = "-i";
 const SPACE = " ";
+const validations = new VCmdFormatImage();
 
 export class CmdFormatImage extends Command {
     private cmd!: Command;
@@ -14,15 +17,11 @@ export class CmdFormatImage extends Command {
         this.cmd = command;
     }
 
-    isValid(format: string | undefined): boolean {
-        if ((format = ".mp3" || ".mp2" || ".wma" || ".mp4" || ".wav"))
-            return true;
-        else return false;
-    }
-
     returnCommand(command: string): string {
-        if (this.isValid(this.getParameter("audioFormat")))
+        let errorMessage = "";
+        if (validations.validateFormat(this.getParameter("imageFormat")))
             command = command + FFMPEG_I + SPACE;
+        else Logger.error("");
         return this.cmd.returnCommand(command);
     }
 }
