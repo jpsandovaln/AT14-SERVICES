@@ -5,26 +5,24 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { RoutesVideo } from "./src/routes/video/routesVideo";
+import { Property } from "./src/utilities/property";
 import { RoutesImage } from "./src/routes/image/routesImage";
 import { RoutesAudio } from "./src/routes/audio/routesAudio";
 import { ConnectMongo } from "./src/database/connection/connect";
 
 const app = express();
 class Index implements IApp {
-    port;
-    corsOptions;
+    corsOptions = {
+        origin: [
+            "http://localhost:8080",
+            "http://localhost:4000",
+            "http://localhost:8081",
+        ],
+    };
 
     constructor() {
         dotenv.config();
 
-        this.port = process.env.PORT_CONVERTER;
-        this.corsOptions = {
-            origin: [
-                "http://localhost:8080",
-                "http://localhost:4000",
-                "http://localhost:8081",
-            ],
-        };
         this.initConfigs();
         this.initRoutes();
         this.initMongoose();
@@ -49,8 +47,8 @@ class Index implements IApp {
     }
 
     private initApp() {
-        app.listen(this.port, () => {
-            logger.debug("Running at http://localhost:" + this.port);
+        app.listen(Property.getPort(), () => {
+            logger.debug("Running at http://localhost:" + Property.getPort());
         });
     }
 }
