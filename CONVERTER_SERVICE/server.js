@@ -2,20 +2,26 @@ const cors = require("cors");
 const express = require("express");
 const Routes = require("./src/routes");
 const app = express();
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 require("dotenv").config();
 
-conexionString = 'mongodb://' + process.env.IP_MONGO + ':27018/converterDB';
+conexionString = "mongodb://" + process.env.IP_MONGO + ":27018/converterDB";
 
-mongoose.connect(conexionString,{ useNewUrlParser: true, useUnifiedTopology: true })
-    .then(db => console.log('Db is connected to', db.connection.host))
-    .catch(err=> console.error(err));
+mongoose
+    .connect(conexionString, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then((db) => console.log("Db is connected to", db.connection.host))
+    .catch((err) => console.error(err));
 
 global.__basedir = __dirname;
 
 class Index {
     constructor(
-        corsOptions = { origin: ["http://localhost:8080","http://localhost:4000","http://localhost:8081"] },
+        corsOptions = {
+            origin: "*"
+        },
         port = process.env.PORT_CONVERTER
     ) {
         app.use(cors(corsOptions));

@@ -7,20 +7,24 @@ const uploadFileMiddleware = require("../middleware/uploadFilesWithoutHush");
 
 const framesZipML = async (req, res) => {
     await uploadFileMiddleware(req, res);
+    console.log(req);
+
     const nameFile = req.file.filename;
     const resultName = Date.now();
     const videoServices = new VideoServices(req.body, nameFile, resultName);
 
     const resultPathFrames = await videoServices.obtainFrames();
     const zip = new Zip();
-    const pathFramesZip = resultPathFrames != "" ? await zip.zipImages(resultPathFrames) : "";
+    const pathFramesZip =
+        resultPathFrames != "" ? await zip.zipImages(resultPathFrames) : "";
     const nameZipFile = path.basename(pathFramesZip);
 
     res.status(200).send([
         {
             name: nameFile,
-            filePath: "http://localhost:4000/framesZipML/" + nameZipFile,
-        },
+            filePath:
+                "http://converter_container:4028/framesZipML/" + nameZipFile
+        }
     ]);
 };
 
@@ -36,5 +40,5 @@ const downloadMLZip = (req, res) => {
 
 module.exports = {
     framesZipML,
-    downloadMLZip,
+    downloadMLZip
 };

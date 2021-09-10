@@ -14,4 +14,16 @@ RUN npm install
 
 COPY . .
 
-CMD [ "npm", "start" ]
+RUN mkdir -p /app/resources/audio
+
+RUN mkdir -p /app/resources/image
+
+RUN mkdir -p /app/resources/outputPath
+
+RUN mkdir -p /app/resources/upload
+
+RUN mkdir -p /app/resources/video
+
+RUN mkdir -p /app/resources/zip
+
+CMD [ "node", "server.js" ]
