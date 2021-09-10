@@ -1,23 +1,22 @@
 import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
 
-const FFMPEG_FADE_IN = '"afade=t=in:st=0:d=5"';
+const MAGICK_ROTATE = '"-rotate"';
 const SPACE = " ";
-const FFMPEG_AF = "-af";
 
-export class CmdFadeIn extends Command {   
+export class CmdRotate extends Command {
     private cmd!: Command;
-    constructor(parameters: Parameters) { 
-        super(parameters);        
-    };
+    constructor(parameters: Parameters) {
+        super(parameters);
+    }
 
-    setNextCommand(command: Command):void {
+    setNextCommand(command: Command): void {
         this.cmd = command;
-    };
+    }
 
-    returnCommand(command: string): string {  
-        if(this.getParameter('fadeIn')== 'true') 
-            command = command + FFMPEG_AF + SPACE + FFMPEG_FADE_IN + SPACE;      
-        return this.cmd.returnCommand(command); 
-    };    
+    returnCommand(command: string): string {
+        if (this.getParameter("rotate") == "true")
+            command = command + SPACE + MAGICK_ROTATE + SPACE;
+        return this.cmd.returnCommand(command);
+    }
 }

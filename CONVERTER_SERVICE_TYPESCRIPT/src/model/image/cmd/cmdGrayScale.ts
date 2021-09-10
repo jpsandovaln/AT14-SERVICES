@@ -1,10 +1,9 @@
 import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
 
-const MAGICK_DOUBLING = '"-liquid-rescale"';
+const MAGICK_GRAYSCALE = '"-set colorspace Gray -separate"';
 const SPACE = " ";
-
-export class CmdFadeOut extends Command {
+export class CmdGrayScale extends Command {
     private cmd!: Command;
     constructor(parameters: Parameters) {
         super(parameters);
@@ -15,8 +14,8 @@ export class CmdFadeOut extends Command {
     }
 
     returnCommand(command: string): string {
-        if (this.getParameter("doubling") == "true")
-            command = command + SPACE + MAGICK_DOUBLING + SPACE;
+        if (this.getParameter("grayScale") == "true")
+            command = command + SPACE + MAGICK_GRAYSCALE + SPACE;
         return this.cmd.returnCommand(command);
     }
 }

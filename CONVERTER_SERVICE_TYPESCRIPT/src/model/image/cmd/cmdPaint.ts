@@ -1,23 +1,22 @@
 import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
 
-const FFMPEG_FADE_OUT = '"afade=t=out:st=5:d=5"';
+const MAGICK_PAINT = '"-paint"';
 const SPACE = " ";
-const FFMPEG_AF = "-af";
 
-export class CmdFadeOut extends Command {   
+export class CmdPaint extends Command {
     private cmd!: Command;
-    constructor(parameters: Parameters) { 
-        super(parameters);        
+    constructor(parameters: Parameters) {
+        super(parameters);
     }
 
-    setNextCommand(command: Command):void {
+    setNextCommand(command: Command): void {
         this.cmd = command;
-    };
+    }
 
-    returnCommand(command: string): string {  
-        if(this.getParameter('fadeOut') == 'true') 
-            command = command + FFMPEG_AF + SPACE + FFMPEG_FADE_OUT + SPACE;      
-        return this.cmd.returnCommand(command); 
-    };    
+    returnCommand(command: string): string {
+        if (this.getParameter("paint") == "true")
+            command = command + SPACE + MAGICK_PAINT + SPACE;
+        return this.cmd.returnCommand(command);
+    }
 }
