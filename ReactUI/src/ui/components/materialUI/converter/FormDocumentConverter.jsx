@@ -48,7 +48,7 @@ const FormDocumentConveter = () => {
 
 	const [uiToPdfImage, { error }] = useMutation(UploadMutation);
 
-	const [isLoad, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState(false);
 
 	const submitForm = async (event) => {
 		event.preventDefault();
@@ -71,35 +71,9 @@ const FormDocumentConveter = () => {
 		}
 		else{
 			setResponse(response.data.uiToPdfImage);
+			setOpen(false);			
 		}
 
-		/*
-		const urlML = "http://localhost:8080/imageFinder";
-		const dataArray = new FormData();
-		dataArray.append("outputFormat", outputFormat);
-		dataArray.append("outputSize", outputSize);
-		dataArray.append("dubling", dubling);
-		dataArray.append("paintEffect", paintEffect);
-		dataArray.append("quality", quality);
-
-		const fetchData = () => {
-			axios
-				.post(urlML, dataArray, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					setResponse(res.data);
-					setOpen(false);
-				})
-				.catch((error) => {
-					return(error);
-				});
-		};
-
-		fetchData();
-		*/
 	};
 
 	return (
@@ -148,7 +122,7 @@ const FormDocumentConveter = () => {
 					</CardActions>					
 					</Card>
 			</form>
-			<TableDocumentForm data={data} />
+			<TableDocumentForm data={data} open={open} />
 		</div>
 	);
 };

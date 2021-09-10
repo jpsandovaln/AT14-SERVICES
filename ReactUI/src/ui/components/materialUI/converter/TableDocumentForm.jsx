@@ -6,10 +6,12 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -28,7 +30,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const TablePptForm = () => {
+const TablePptForm = (props) => {
 
 	const classes = useStyles();
 
@@ -61,7 +63,29 @@ const TablePptForm = () => {
 												</TableCell>
 											</TableRow>
 										</TableHead>
+										<TableBody>
+											{props.data &&
+												props.data.map((row) => (
+													<TableRow>
+														<TableCell align="center">
+															{row.name}
+														</TableCell>
+														<TableCell align="center">
+															<a
+																href={row.filePath}
+																without
+																rel="noreferrer"
+																target="_blank"
+																download
+															>
+															{row.filePath}
+															</a>
+														</TableCell>
+													</TableRow>
+												))}
+										</TableBody>										
 									</Table>
+									{props.open ? <LinearProgress /> : ""}
 								</TableContainer>
 							</Grid>
 						</Grid>
