@@ -10,7 +10,7 @@ export class RoutesImage extends Routes {
     }
 
     getRoutes(): void {
-        router.get("/imageConverter", new ImageController().upload);
+        router.post("/imageConverter", new ImageController().upload);
         this.app.use(router);
     }
 }
