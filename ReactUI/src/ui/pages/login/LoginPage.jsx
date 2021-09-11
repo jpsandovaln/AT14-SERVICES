@@ -144,7 +144,7 @@ const Login = (props) => {
 							<br></br>
 							<Grid align="center">
 								<GoogleLogin
-									clientId="265656764137-b4s3ee6244euu9frheq7p64osht9o9uf.apps.googleusercontent.com"
+									clientId="726629848709-g7mmqrelcc0fauka4vfimnbl16tvp2q5.apps.googleusercontent.com"
 									buttonText="Login"
 									onSuccess={logginSuccess}
 									onFailure={logginFailure}
