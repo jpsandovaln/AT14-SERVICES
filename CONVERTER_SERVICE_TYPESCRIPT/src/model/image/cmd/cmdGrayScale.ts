@@ -1,7 +1,7 @@
 import { Parameters } from "../../common/parameter/parameters";
 import { Command } from "./cmd";
 
-const MAGICK_GRAYSCALE = '"-set colorspace Gray -separate"';
+const MAGICK_GRAYSCALE = "-set colorspace Gray -separate";
 const SPACE = " ";
 export class CmdGrayScale extends Command {
     private cmd!: Command;
@@ -19,3 +19,6 @@ export class CmdGrayScale extends Command {
         return this.cmd.returnCommand(command);
     }
 }
+let params = new Parameters({ audioFormat: ".jpg", grayScale: "true" });
+let cmd = new CmdGrayScale(params);
+console.log(cmd.returnCommand("anterior"));

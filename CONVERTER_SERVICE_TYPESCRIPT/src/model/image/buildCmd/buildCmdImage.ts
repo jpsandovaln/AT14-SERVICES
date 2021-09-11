@@ -1,5 +1,7 @@
 import { CmdHeader } from "../cmd/cmdHeader";
-import { CmdFormatImage } from "../cmd/cmdFormatImage";
+import { CmdResize } from "../cmd/cmdResize";
+import { CmdDoubling } from "../cmd/cmdDoubling";
+import { CmdRotate } from "../cmd/cmdRotate";
 import { CmdFooter } from "../cmd/cmdFooter";
 import { Parameters } from "../../common/parameter/parameters";
 import { BuildCmd } from "./buildCmd";
@@ -30,14 +32,17 @@ export class BuildCmdImage extends BuildCmd implements IBuildCmdImage {
             this.codecPath,
             this.imagePath
         );
-        let imageFormat = new CmdFormatImage(super.getParameters());
+        let imageResize = new CmdResize(super.getParameters());
+        let imageDoubling = new CmdDoubling(super.getParameters());
+        let imageRotate = new CmdDoubling(super.getParameters());
         let footer = new CmdFooter(
             super.getParameters(),
             this.outputPath,
             this.resultName
         );
-        header.setNextCommand(imageFormat);
-        imageFormat.setNextCommand(footer);
+        header.setNextCommand(imageResize);
+        imageResize.setNextCommand(imageDoubling);
+        imageDoubling.setNextCommand(footer);
         return header.returnCommand("");
     }
 
@@ -66,3 +71,23 @@ export class BuildCmdImage extends BuildCmd implements IBuildCmdImage {
         this.resultName = resultName;
     }
 }
+
+let params = new Parameters({
+    audioFormat: ".mp3",
+    resize: 180,
+    doubling: 10,
+    vflip: "true",
+    hflip: "true",
+    outputFormat: ".flv",
+    frameScale: "400",
+    timeBetweenFrames: "5",
+    outputFormatFrames: ".png",
+});
+let cmd = new BuildCmdImage(
+    params,
+    "codec---> ",
+    "image---> ",
+    "output--->",
+    "resulName"
+);
+console.log(cmd.returnCmd());
