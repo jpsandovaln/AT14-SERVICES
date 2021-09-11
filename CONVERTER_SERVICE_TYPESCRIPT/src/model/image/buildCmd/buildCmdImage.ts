@@ -84,10 +84,10 @@ export class BuildCmdImage extends BuildCmd implements IBuildCmdImage {
         this.resultName = resultName;
     }
 }
-
+/*
 let params = new Parameters({
-    rotate: 0,
-    resize: 0,
+    rotate: "10",
+    resize: 10,
     quality: 0,
     paint: 0,
     monochrome: false,
@@ -102,4 +102,4 @@ let cmd = new BuildCmdImage(
     "output--->",
     "resulName"
 );
-console.log(cmd.returnCmd());
+console.log(cmd.returnCmd());*/

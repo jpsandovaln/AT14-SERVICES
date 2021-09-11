@@ -1,21 +1,19 @@
+import { BuildCmdImage } from "../../model/image/buildCmd/buildCmdImage";
+import { Compiler } from "../../model/common/compiler/compiler";
+import { Upload } from "../../middleware/image/upload";
+import { Property } from "../../utilities/property";
+import { Parameters } from "../../model/common/parameter/parameters";
 import express from "express";
+/*
 export class ImageController {
     test(req: express.Request, res: express.Response) {
         res.json({ message: "testing purposes" });
     }
-}
-/*import express from "express";
-import { Upload } from "../middleware/upload";
-import { Compiler } from "../model/compiler";
-import { CommandBuilder } from "../model/images/CommandBuilder";
-
-const upload = new Upload();
-const compiler = new Compiler();
-
-class FileController {
+}*/
+export class ImageController {
     upload = async (req: express.Request, res: express.Response) => {
         try {
-            await upload.fileUploadMiddleware(req, res);
+            await new Upload().fileUploadMiddleware(req, res);
 
             if (req.file == undefined) {
                 return res
@@ -23,17 +21,17 @@ class FileController {
                     .send({ message: "Please upload a file!" });
             }
             if (req.file != undefined) {
-                const commandBuilder = new CommandBuilder(
-                    req.body
-                ).createCommand(req.body);
-                compiler.execute(
-                    "magick " +
-                        req.file.path +
-                        " " +
-                        commandBuilder +
-                        " " +
-                        req.file.path
+                let params = new Parameters(req.body);
+                const commandBuilder = new BuildCmdImage(
+                    params,
+                    Property.getMagickPath() + " ",
+                    req.file.path,
+                    Property.getOutputPath(),
+                    req.file.filename
                 );
+                console.log(params);
+                console.log(commandBuilder.returnCmd());
+                new Compiler().execute(commandBuilder.returnCmd());
                 res.status(200).send("Success");
             }
         } catch (err: any) {
@@ -49,6 +47,3 @@ class FileController {
         }
     };
 }
-
-export { FileController };
-*/
