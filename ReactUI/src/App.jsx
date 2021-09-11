@@ -6,10 +6,12 @@ import MachineLearningPage from "./ui/pages/MachineLearning/MachineLearningPage"
 import ExtractorServicePage from "./ui/pages/ExtractorService/ExtractorPage";
 import LoginPage from "./ui/pages/login/LoginPage";
 import ReportConvertPage from "./ui/pages/ReportConvert/ReportConvertPage";
-import LoginCreate from   "./ui/pages/login/LoginCreate"
+import LoginCreate from "./ui/pages/login/LoginCreate";
 
 const App = () => {
 	const [isLogin, setIsLogin] = useState(false);
+	const [userInfo, setUserInfo] = useState({});
+	console.log("userInfo", userInfo);
 	return (
 		<Router>
 			<Switch>
@@ -20,6 +22,7 @@ const App = () => {
 						<LoginPage
 							setIsLogin={setIsLogin}
 							history={props.history}
+							setUserInfo={setUserInfo}
 						/>
 					)}
 				/>
@@ -37,8 +40,7 @@ const App = () => {
 					exact
 					path="/Home"
 					component={(props) => (
-						<HomePage isLogin={isLogin} 
-						history={props.history} />
+						<HomePage imageURL={userInfo.imageUrl} />
 					)}
 				/>
 
@@ -62,9 +64,9 @@ const App = () => {
 						/>
 					)}
 				/>
-				<Route 
-					exact 
-					path="/ExtractorService" 
+				<Route
+					exact
+					path="/ExtractorService"
 					component={(props) => (
 						<ExtractorServicePage
 							isLogin={isLogin}
@@ -72,13 +74,10 @@ const App = () => {
 						/>
 					)}
 				/>
-				<Route 
-					exact 
-					path="/graphql" 
-					component={ReportConvertPage} 
-				/>
+				<Route exact path="/graphql" component={ReportConvertPage} />
 			</Switch>
 		</Router>
-	)};
+	);
+};
 
 export default App;

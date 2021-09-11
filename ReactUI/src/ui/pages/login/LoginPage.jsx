@@ -25,9 +25,9 @@ const Login = (props) => {
 	};
 
 	const logginSuccess = (res) => {
-		console.log("Success:", res.profileObj);
 		props.setIsLogin(true);
 		props.history.push("/home");
+		props.setUserInfo(res.profileObj);
 	};
 
 	const logginFailure = (res) => {
