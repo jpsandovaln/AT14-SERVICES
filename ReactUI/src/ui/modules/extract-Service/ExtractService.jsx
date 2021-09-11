@@ -13,6 +13,7 @@ import FormImgExt from "../../components/materialUI/extractor-service/FormImgExt
 import FormMetadata from "../../components/materialUI/extractor-service/FormMetadata"
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
 	paper: {},
@@ -28,6 +29,7 @@ const useStyles = makeStyles(() => ({
 
 const TabPanel = (props) => {
 	const { children, value, index, ...other } = props;
+	
 
 	return (
 		<div
@@ -60,6 +62,7 @@ const a11yProps = (index) => {
 };
 
 const ExtractService = () => {
+	const [t, i18n] = useTranslation("global");
 	const classes = useStyles();
 	const theme = useTheme();
 	const [value, setValue] = React.useState(0);
@@ -76,9 +79,9 @@ const ExtractService = () => {
 		<div className={classes.root}>
 			<Breadcrumbs aria-label="breadcrumb">
 				<Link color="inherit" href="/" onClick={""}>
-					Home
+					{t("extractor-service.home")}
 				</Link>
-				<Typography color="textPrimary">Extractor Service</Typography>
+				<Typography color="textPrimary">{t("extractor-service.title")}</Typography>
 			</Breadcrumbs>
 
 			<Card className={classes.root}>
@@ -95,12 +98,12 @@ const ExtractService = () => {
 							>
 								<Tab
 									className={classes.title}
-									label="Metadata"
+									label={t("extractor-service.metadata.metadata")}
 									{...a11yProps(0)}
 								/>
 								<Tab
 									className={classes.title}
-									label="Image Text"
+									label={t("extractor-service.image-text.label")}
 									{...a11yProps(1)}
 								/>
 							</Tabs>

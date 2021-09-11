@@ -9,6 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
   table: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles({
 });
 
 function GetFiles() {
+  const [t, i18n] = useTranslation("global");
   const { data } = useQuery(LOAD_FILES);
   const [files, setFiles] = useState([]);
   useEffect(() => {
@@ -34,8 +36,8 @@ function GetFiles() {
         <TableHead>
           <TableRow>
             <TableCell>#</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Checksum</TableCell>
+            <TableCell align="right">{t("report-convert.report.name")}</TableCell>
+            <TableCell align="right">{t("report-convert.report.checksum")}</TableCell>
             <TableCell align="right">_id</TableCell>
           </TableRow>
         </TableHead>

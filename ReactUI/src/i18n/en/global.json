@@ -9,5 +9,32 @@
         "machine-learning":"Machine Learning",
         "extractor-service":"Extractor Service",
         "report-convert":"Report Convert"
+    },
+    "extractor-service":{
+        "home": "Home",
+        "title": "Extractor Service",
+        "metadata":{
+            "table-result": "Results",
+            "upload": "Upload",
+            "download": "Download",
+            "extract": "Extract",
+            "name": "Name",
+            "metadata": "Metadata"
+        },
+        "image-text":{
+            "table-result": "Results",
+            "upload": "Upload",
+            "extract": "Extract",
+            "label": "Image Text",
+            "language": "Language"
+        }
+    },
+    "report-convert":{
+        "home": "Home",
+        "title": "Report Convert",
+        "report":{
+            "name": "Name",
+            "checksum": "Checksum"
+        }
     }
 }

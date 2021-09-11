@@ -5,6 +5,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TableImgExtForm = (props) => {
+	const [t, i18n] = useTranslation("global");
 	const classes = useStyles();
 	const text = props.data.text ? props.data.text : ".";
 	return (
@@ -35,7 +37,7 @@ const TableImgExtForm = (props) => {
 				<Card className={classes.card}>
 					<CardHeader
 						className={classes.title}
-						title="Results"
+						title={t("extractor-service.image-text.table-result")}
 						titleTypographyProps={{ variant: "h6" }}
 					/>
 					<CardContent>

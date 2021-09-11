@@ -9,5 +9,33 @@
         "machine-learning":"Aprendizaje Automatico",
         "extractor-service":"Servicio Extractor",
         "report-convert":"Informe de Conversion"
+    },
+    "extractor-service":{
+        "home":"Inicio",
+        "title":"Servicio Extractor",
+        "metadata":{
+            "table-result": "Resultados",
+            "upload": "Cargar",
+            "download": "Descargar",
+            "extract": "Extraer",
+            "name": "Nombre",
+            "metadata": "Metadatos"
+        },
+        "image-text":{
+            "table-result": "Resultados",
+            "upload": "Cargar",
+            "extract": "Extraer",
+            "label": "Texto de Imagen",
+            "language": "Idioma"
+        }
+    },
+    "report-convert":{
+        "home": "Inicio",
+        "title": "Informe de Conversión",
+        "report":{
+            "name": "Nombre",
+            "checksum": "Checksum"
+        }
     }
+    
 }

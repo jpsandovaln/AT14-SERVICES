@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ImageExtForm = (promps) => {
+	const [t, i18n] = useTranslation("global");
 	const classes = useStyles();
 	return (
 			<Grid container spacing={3} xs={12}>
@@ -29,7 +31,7 @@ const ImageExtForm = (promps) => {
 					<TextField
 						fullWidth
 						id="outlined-basic"
-						label="Language"
+						label={t("extractor-service.image-text.language")}
 						variant="outlined"
 						placeholder={"Language"}
 						onChange={(e) =>
@@ -56,7 +58,7 @@ const ImageExtForm = (promps) => {
 							color="#83bbeb"
 							component="span"
 						>
-						Upload
+						{t("extractor-service.image-text.upload")}
 						</Button>
 					</label>
 				</Grid>
