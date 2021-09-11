@@ -1,11 +1,12 @@
 import express from "express";
 import fs from 'fs';
+import { Property } from "../../utilities/property";
 
 export class DownloadFile{
-    downloadPDF = (req: express.Request, res: express.Response) => {
+    download = (req: express.Request, res: express.Response) => {
         try {
             const filename = req.params.name;
-            const directoryPath = process.env.UPLOAD_PATH + filename;
+            const directoryPath = Property.getOutputPath() + filename;
             const stream = this.loadFile(directoryPath);
             res.writeHead(200, {
                 "Content-Type": filename,

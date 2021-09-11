@@ -1,42 +1,27 @@
-import * as fs from 'fs';
 import path = require('path');
-import { VideoServices } from '../../middleware/video/videoServices';
-import { Zip } from '../../middleware/video/zipping';
+import { ZippingResultFiles } from '../../middleware/video/zips/zippingResultFiles';
 import { Property } from '../../utilities/property';
 
 export class VideoController{
-    constructor() { }
     videoProcess = async (req: any, res: any) => {          
-        //try {
+        try {
             const nameFile = req.fields.filename;
-            const resultName = Date.now().toString();
-            const videoServices = new VideoServices(req.fields, nameFile, resultName);
-
-            const resultPathVideoFormat = await videoServices.changeVideoFormat();
-            const resultPathFrames = "";//req.fields.obtainFrames == "true" ? await videoServices.obtainFrames() : "";
-            const resultPathAudio = req.fields.obtainAudio == "true" ? await videoServices.obtainAudio() : "";
-            const zip = new Zip();
-            const pathFramesZip = resultPathFrames != "" ? await zip.zipImages(resultPathFrames) : "";
-            const resultZipPath = await zip.zipFiles(
-                Property.getOutputPath() + resultName,
-                pathFramesZip,
-                resultPathAudio,
-                resultPathVideoFormat
-            );
+            const zipResults = new ZippingResultFiles();
+            const resultZipPath = await zipResults.obtainResultPaths(nameFile, req.fields, req.fields.obtainFrames, req.fields.obtainAudio);
             const nameZipFile = path.basename(resultZipPath); 
 
             res.status(200).send([
                 {
                     name: nameFile,
-                    filePath: Property.getBaseUrl() + ":" + Property.getPort() + "/files/" + nameZipFile,
+                    filePath: Property.getBaseUrl() + ":" + Property.getPort() + "/download/" + nameZipFile,
                 },
             ]);            
-    /*    } catch (error) {
+        } catch (error) {
             res.send([
                 {
-                    message: "HA HABIDO UN ERROR!!!"
+                    message: "Something has gone wrong!!!"
                 },
             ]);   
-        }*/
+        }
     };
 }
