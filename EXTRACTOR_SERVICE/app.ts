@@ -6,7 +6,8 @@ import { Routes } from "./src/routes";
 dotenv.config();
 
 const corsOptions: Object = {
-    origin: process.env.EXTRACTOR_APP + ":" + process.env.EXTRACTOR_PORT};
+    origin: "*"
+};
 const port: string | undefined = process.env.EXTRACTOR_PORT;
 const app = express();
 
