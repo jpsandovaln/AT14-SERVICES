@@ -39,6 +39,6 @@ export class CmdRotate extends Command {
         return this.cmd.returnCommand(command);
     }
 }
-let params = new Parameters({ audioFormat: ".jpg", rotate: false });
+/*let params = new Parameters({ audioFormat: ".jpg", rotate: false });
 let cmd = new CmdRotate(params);
-console.log(cmd.returnCommand("anterior"));
+console.log(cmd.returnCommand("anterior"));*/

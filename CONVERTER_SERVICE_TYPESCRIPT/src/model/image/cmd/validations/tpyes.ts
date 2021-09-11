@@ -3,6 +3,6 @@ export class Types {
         return typeof value == "number" ? true : false;
     }
     isBoolean(value: any): boolean {
-        return value == true || value == false ? true : false;
+        return typeof value == "boolean" ? true : false;
     }
 }

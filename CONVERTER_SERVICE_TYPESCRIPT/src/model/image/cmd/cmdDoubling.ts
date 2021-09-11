@@ -19,19 +19,23 @@ export class CmdDoubling extends Command {
         this.cmd = command;
     }
 
-    isValid(value: string) {
-        let parameter = this.getParameter(value);
-
-        if (this.type.isNumber(parameter)) {
-            if (this.limit.isValid(parameter) && this.type.isNumber(parameter))
-                return true;
+    isValid(value: string | undefined) {
+        if (this.type.isNumber(value)) {
+            if (this.limit.isValid(value)) return true;
             else return false;
         }
     }
 
     returnCommand(command: string): string {
-        if (this.isValid("doubling"))
-            command = command + this.SPACE + this.MAGICK_DOUBLING + this.SPACE;
+        let parameter = this.getParameter("doubling");
+        if (this.isValid(parameter))
+            command =
+                command +
+                this.SPACE +
+                this.MAGICK_DOUBLING +
+                this.SPACE +
+                parameter +
+                this.SPACE;
         return this.cmd.returnCommand(command);
     }
 }

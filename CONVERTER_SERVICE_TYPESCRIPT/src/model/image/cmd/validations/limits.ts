@@ -6,9 +6,14 @@ export class Limits {
         this.MIN_VALUE = min;
         this.MAX_VALUE = max;
     }
+
     isValid(value: any): boolean {
         return value >= this.MIN_VALUE && value <= this.MAX_VALUE
             ? true
             : false;
+    }
+
+    state(value: any): boolean {
+        return value == true ? true : false;
     }
 }

@@ -1,6 +1,10 @@
 import { CmdHeader } from "../cmd/cmdHeader";
-import { CmdResize } from "../cmd/cmdResize";
 import { CmdDoubling } from "../cmd/cmdDoubling";
+import { CmdGrayScale } from "../cmd/cmdGrayScale";
+import { CmdMonochrome } from "../cmd/cmdMonochrome";
+import { CmdPaint } from "../cmd/cmdPaint";
+import { CmdQuality } from "../cmd/cmdQuality";
+import { CmdResize } from "../cmd/cmdResize";
 import { CmdRotate } from "../cmd/cmdRotate";
 import { CmdFooter } from "../cmd/cmdFooter";
 import { Parameters } from "../../common/parameter/parameters";
@@ -32,17 +36,26 @@ export class BuildCmdImage extends BuildCmd implements IBuildCmdImage {
             this.codecPath,
             this.imagePath
         );
-        let imageResize = new CmdResize(super.getParameters());
         let imageDoubling = new CmdDoubling(super.getParameters());
-        let imageRotate = new CmdDoubling(super.getParameters());
+        let imageGrayScale = new CmdGrayScale(super.getParameters());
+        let imageMonochrome = new CmdMonochrome(super.getParameters());
+        let imagePaint = new CmdPaint(super.getParameters());
+        let imageQuality = new CmdQuality(super.getParameters());
+        let imageResize = new CmdResize(super.getParameters());
+        let imageRotate = new CmdRotate(super.getParameters());
         let footer = new CmdFooter(
             super.getParameters(),
             this.outputPath,
             this.resultName
         );
-        header.setNextCommand(imageResize);
-        imageResize.setNextCommand(imageDoubling);
-        imageDoubling.setNextCommand(footer);
+        header.setNextCommand(imageDoubling);
+        imageDoubling.setNextCommand(imageGrayScale);
+        imageGrayScale.setNextCommand(imageMonochrome);
+        imageMonochrome.setNextCommand(imagePaint);
+        imagePaint.setNextCommand(imageQuality);
+        imageQuality.setNextCommand(imageResize);
+        imageResize.setNextCommand(imageRotate);
+        imageRotate.setNextCommand(footer);
         return header.returnCommand("");
     }
 
@@ -73,15 +86,14 @@ export class BuildCmdImage extends BuildCmd implements IBuildCmdImage {
 }
 
 let params = new Parameters({
-    audioFormat: ".mp3",
-    resize: 180,
-    doubling: 10,
-    vflip: "true",
-    hflip: "true",
-    outputFormat: ".flv",
-    frameScale: "400",
-    timeBetweenFrames: "5",
-    outputFormatFrames: ".png",
+    rotate: 0,
+    resize: 0,
+    quality: 0,
+    paint: 0,
+    monochrome: false,
+    grayScale: false,
+    doubling: 0,
+    outputFormat: ".jpg",
 });
 let cmd = new BuildCmdImage(
     params,
