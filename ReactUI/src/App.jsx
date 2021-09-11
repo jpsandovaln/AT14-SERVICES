@@ -51,6 +51,7 @@ const App = () => {
 						<ConverterPage
 							isLogin={isLogin}
 							history={props.history}
+							imageURL={userInfo.imageUrl}
 						/>
 					)}
 				/>
@@ -61,6 +62,7 @@ const App = () => {
 						<MachineLearningPage
 							isLogin={isLogin}
 							history={props.history}
+							imageURL={userInfo.imageUrl}
 						/>
 					)}
 				/>
@@ -71,10 +73,17 @@ const App = () => {
 						<ExtractorServicePage
 							isLogin={isLogin}
 							history={props.history}
+							imageURL={userInfo.imageUrl}
 						/>
 					)}
 				/>
-				<Route exact path="/graphql" component={ReportConvertPage} />
+				<Route
+					exact
+					path="/graphql"
+					component={(props) => (
+						<ReportConvertPage imageURL={userInfo.imageUrl} />
+					)}
+				/>
 			</Switch>
 		</Router>
 	);
