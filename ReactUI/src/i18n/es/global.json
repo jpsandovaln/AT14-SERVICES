@@ -1,8 +1,4 @@
 {
-    "header": {
-        "hello-word":"Hola Mundo"
-        
-    },
     "sidebar":{
         "home":"Inicio",
         "converter":"Convertidor", 
@@ -10,10 +6,29 @@
         "extractor-service":"Servicio Extractor",
         "report-convert":"Informe de Conversion"
     },
+    "machine-learning":{
+        "home": "Inicio",
+        "title": "Aprendizaje Automatico",
+        "form-title":"Analizador de Aprendizaje Automático",
+        "form-search-word":"Buscar palabra",
+        "form-percentage": "Porcentaje",
+        "form-algorithm": "Algoritmo",
+        "form-upload": "Cargar",
+        "form-text-file":"Seleccionar archivo de video",
+        "form-analyze": "Analizar",
+        "table-result": "Resultados",
+        "table-algorithm": "Algoritmo",
+        "table-word": "Palabra",
+        "table-percentage": "Porcentaje",
+        "table-second": "Segundo",
+        "table-image": "Imagen",
+        "table-options": "Opciones"
+    },
     "extractor-service":{
         "home":"Inicio",
         "title":"Servicio Extractor",
         "metadata":{
+            "form-file":"Seleccionar archivo de video",            
             "table-result": "Resultados",
             "upload": "Cargar",
             "download": "Descargar",
