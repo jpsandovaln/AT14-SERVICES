@@ -20,10 +20,10 @@ export class BuildCmdChangeFadeIn extends BuildCmd{
     
     returnCmd() {
         let header = new CmdHeader(super.getParameters(), this.codecPath, this.videoPath);
-        let vf = new CmdFadeIn(super.getParameters());
+        let audio = new CmdFadeIn(super.getParameters());
         let footer = new CmdFooter(super.getParameters(), this.outputPath, this.resultName);
-        header.setNextCommand(vf);
-        vf.setNextCommand(footer);
+        header.setNextCommand(audio);
+        audio.setNextCommand(footer);
         return header.returnCommand(""); 
     }
 }
