@@ -78,7 +78,7 @@ export class BuildCmdImage extends BuildCmd implements IBuildCmdImage {
         this.outputPath = outputPath;
     }
     public getResultName() {
-        return this.codecPath;
+        return this.resultName;
     }
     public setResultName(resultName: string) {
         this.resultName = resultName;

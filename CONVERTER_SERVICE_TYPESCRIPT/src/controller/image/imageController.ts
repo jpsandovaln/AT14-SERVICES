@@ -4,6 +4,7 @@ import { Upload } from "../../middleware/image/upload";
 import { Property } from "../../utilities/property";
 import { Parameters } from "../../model/common/parameter/parameters";
 import express from "express";
+import fs from "fs";
 /*
 export class ImageController {
     test(req: express.Request, res: express.Response) {
@@ -22,17 +23,30 @@ export class ImageController {
             }
             if (req.file != undefined) {
                 let params = new Parameters(req.body);
+                let codec = Property.getMagickPath() + " ";
+                let filePath = req.file.path;
+                let outputPath = Property.getOutputPath();
+                let fileName = req.file.filename.replace(/\.[^/.]+$/, "");
+                let outputFormat = req.body.outputFormat;
+                let file = fileName + outputFormat;
+                let baseUrl =
+                    Property.getBaseUrl() +
+                    ":" +
+                    Property.getPort() +
+                    "/files/";
+
                 const commandBuilder = new BuildCmdImage(
                     params,
-                    Property.getMagickPath() + " ",
-                    req.file.path,
-                    Property.getOutputPath(),
-                    req.file.filename
+                    codec,
+                    filePath,
+                    outputPath,
+                    fileName
                 );
-                console.log(params);
-                console.log(commandBuilder.returnCmd());
                 new Compiler().execute(commandBuilder.returnCmd());
-                res.status(200).send("Success");
+                res.status(200).send({
+                    name: file,
+                    url: baseUrl + file,
+                });
             }
         } catch (err: any) {
             if (err.code == "LIMIT_FILE_SIZE") {
@@ -45,5 +59,43 @@ export class ImageController {
                 message: `Could not upload the file ${err}`,
             });
         }
+    };
+
+    getListFiles = async (req: express.Request, res: express.Response) => {
+        const directoryPath = Property.getOutputPath();
+        let baseUrl =
+            Property.getBaseUrl() + ":" + Property.getPort() + "/files/";
+
+        fs.readdir(directoryPath, function (err, files) {
+            if (err) {
+                res.status(500).send({
+                    message: "Unable to scan files!",
+                });
+            }
+
+            let fileInfos: any = [];
+
+            files.forEach((file) => {
+                fileInfos.push({
+                    name: file,
+                    url: baseUrl + file,
+                });
+            });
+
+            res.status(200).send(fileInfos);
+        });
+    };
+
+    download = async (req: express.Request, res: express.Response) => {
+        const fileName = req.params.name;
+        const directoryPath = Property.getOutputPath();
+
+        res.download(directoryPath + fileName, fileName, (err) => {
+            if (err) {
+                res.status(500).send({
+                    message: "Could not download the file. " + err,
+                });
+            }
+        });
     };
 }
