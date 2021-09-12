@@ -18,7 +18,6 @@ export class RoutesAudio extends Routes {
         router.get("/files/:name", new DownloadFile(Property.getOutputPath()).download);
         router.post("/filesMetadata", [new UploadFile().uploadFile], new MetadataController().MetadataProcess);
         router.get("/filesMetadata/:name", new DownloadFile(Property.getOutputPath()).download);
-        router.get("/framesZipML/:name", new DownloadFile(Property.getZipPath()).download);
         this.app.use(router);
     }
 }
