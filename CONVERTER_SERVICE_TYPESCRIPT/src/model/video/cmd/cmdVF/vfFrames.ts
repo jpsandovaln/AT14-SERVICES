@@ -3,6 +3,7 @@ import { Vf } from "./vf";
 
 const FFMPEG_FPS = ",fps=fps=";
 const MINIMUM_TIME = 1;
+const DEFAULT_VALUE = 1;
 
 export class CmdFrames extends Vf {   
     private vf!: Vf;
@@ -26,8 +27,14 @@ export class CmdFrames extends Vf {
     }
 
     returnCommand(command: string): string {  
-        if(this.isValid(this.getParameter('frameScale')))
-            command = command + FFMPEG_FPS + this.getParameter('timeBetweenFrames');        
+        if(this.getParameter('timeBetweenFrames') != undefined) {
+            if(this.isValid(this.getParameter('timeBetweenFrames'))) {
+                command = command + FFMPEG_FPS + this.getParameter('timeBetweenFrames');        
+            } 
+        }
+        else {
+            command = command + FFMPEG_FPS + DEFAULT_VALUE;
+        }                   
         return "" + this.vf.returnCommand(command);       
     };    
 }

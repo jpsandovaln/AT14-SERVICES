@@ -9,16 +9,13 @@ export class ServiceExtracFrames extends Service{
     }
 
     async resultPath(): Promise<string> {        
-        if(this.params.getParameter('obtainFrames') == 'true') {
-            const dir = Property.getZipPath() + this.resultName;
-            if (!fs.existsSync(dir)){
-                fs.mkdirSync(dir);
-            }
-            let cmdObtainFrames = new BuildCmdFrames (this.params, Property.getFFmpegPath(), this.filePath, dir + "/");
-            await this.compiler.execute(cmdObtainFrames.returnCmd());
-            return dir;
-        }        
-        else
-            return "";
+        const dir = Property.getZipPath() + this.resultName;
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+        }
+        let cmdObtainFrames = new BuildCmdFrames(this.params, Property.getFFmpegPath(), this.filePath, dir + "/");
+        console.log("----------" + cmdObtainFrames.returnCmd());
+        await this.compiler.execute(cmdObtainFrames.returnCmd());
+        return dir;        
     };
 }

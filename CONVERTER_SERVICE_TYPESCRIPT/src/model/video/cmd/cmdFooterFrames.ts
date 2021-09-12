@@ -3,7 +3,7 @@ import { Command } from "./cmd";
 
 const QUOTES = '"';
 const SPACE = " ";
-
+const DEFAULT_FORMAT = '.png'
 export class CmdFooterFrames extends Command {   
     private cmd!: Command;
     private outputPath: string;
@@ -17,7 +17,12 @@ export class CmdFooterFrames extends Command {
     setNextCommand():void { };
     
     returnCommand(command: string): string {  
-        command = command + QUOTES + this.outputPath + this.resultName + this.getParameter('outputFormatFrames') + QUOTES;
+        if(this.getParameter('outputFormatFrames') != undefined) {
+            command = command + QUOTES + this.outputPath + this.resultName + this.getParameter('outputFormatFrames') + QUOTES;
+        }
+        else {
+            command = command + QUOTES + this.outputPath + this.resultName + DEFAULT_FORMAT + QUOTES;
+        }        
         return command;       
     };    
 }

@@ -1,12 +1,17 @@
 import express from "express";
 import fs from 'fs';
-import { Property } from "../../utilities/property";
+import { Download } from "./download";
 
-export class DownloadFile{
+export class DownloadFile implements Download {
+    pathFromDownload: string;
+    constructor(pathFromDownload: string) {
+        this.pathFromDownload = pathFromDownload;
+    }
+
     download = (req: express.Request, res: express.Response) => {
         try {
             const filename = req.params.name;
-            const directoryPath = Property.getOutputPath() + filename;
+            const directoryPath = this.pathFromDownload + filename;
             const stream = this.loadFile(directoryPath);
             res.writeHead(200, {
                 "Content-Type": filename,

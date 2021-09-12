@@ -24,7 +24,3 @@ export class BuildCmdFrames extends BuildCmd{
         return header.returnCommand(""); 
     }
 }
-/*
-let params = new Parameters({ ratio: '15', scale: '340 x 120', quality: '0', angle: '180', grayScale: 'true', vflip: 'true', hflip: 'true', outputFormat: '.flv', frameScale: '400', timeBetweenFrames: '5', outputFormatFrames: '.png'});
-let cmd = new BuildCmdFrames(params, 'codec--->', 'video--->', 'output--->');
-console.log(cmd.returnCmd());*/
