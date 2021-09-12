@@ -1,15 +1,13 @@
 import { Parameters } from "../../common/parameter/parameters";
-
 export abstract class Command {
-    
     public parameters: Parameters;
-    
+
     constructor(parameters: Parameters) {
         this.parameters = parameters;
     }
 
     public getParameter(key: string): string | undefined {
-        if(key != undefined)
+        if (key != undefined)
             return this.parameters.getParameter(key);
         else
             return undefined;
@@ -19,7 +17,7 @@ export abstract class Command {
         return this.parameters;
     };
 
-    abstract setNextCommand(command: Command | undefined):void;
+    abstract setNextCommand(command: Command | undefined): void;
 
     abstract returnCommand(command: string): string;
 }

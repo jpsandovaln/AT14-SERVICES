@@ -4,7 +4,6 @@ import { Zip } from '../../../utilities/zipping';
 import { ServiceChangeVideo } from '../services/serviceChangeVideo';
 import { ServiceExtractAudio } from '../services/serviceExtractAudio';
 import { ServiceExtracFrames } from '../services/serviceExtractFrames';
-
 export class ZippingResultFiles {
     async obtainResultPath(fileName: string, body: any): Promise<string> {
         const resultName = Date.now().toString();

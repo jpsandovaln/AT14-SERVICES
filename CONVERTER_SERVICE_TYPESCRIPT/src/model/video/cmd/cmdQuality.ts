@@ -5,7 +5,6 @@ const FFMPEG_QUALITY = "-qscale";
 const SPACE = " ";
 const MAX_QUALITY = 31;
 const MIN_QUALITY = 0;
-
 export class CmdQuality extends Command {   
     private cmd!: Command;
     constructor(parameters: Parameters) { 
@@ -33,4 +32,3 @@ export class CmdQuality extends Command {
         return this.cmd.returnCommand(command); 
     };    
 }
-

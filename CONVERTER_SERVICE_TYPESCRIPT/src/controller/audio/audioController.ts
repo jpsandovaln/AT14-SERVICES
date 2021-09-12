@@ -1,4 +1,4 @@
-import express from "express";
+/*import express from "express";
 import { Upload } from "../../middleware/common/upload";
 import { Compiler } from "../../model/common/compiler/compiler"
 import { AudioServices } from "../../middleware/audio/audioServices";
@@ -36,4 +36,4 @@ class FileController {
     };
 }
 
-export { FileController };
+export { FileController };*/

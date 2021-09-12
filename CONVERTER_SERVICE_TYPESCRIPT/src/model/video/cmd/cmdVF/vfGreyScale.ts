@@ -2,7 +2,6 @@ import { Parameters } from "../../../common/parameter/parameters";
 import { Vf } from "./vf";
 
 const FFMPEG_GRAY_SCALE = ",hue=s=0";
-
 export class CmdGrayScale extends Vf {
     public vf!: Vf;
     constructor(parameters: Parameters) { 

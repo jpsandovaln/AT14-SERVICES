@@ -6,7 +6,6 @@ import { CmdHFlip } from "./vfHFlip";
 import { CmdRotate } from "./vfRotate";
 import { CmdScale } from "./vfScale";
 import { CmdVFlip } from "./vfVFlip";
-
 export class VfFactory {
     static getInstance(typeCommand: string, params: Parameters) : Vf {
         if (typeCommand === "buildChangeFormat") {
@@ -30,4 +29,3 @@ export class VfFactory {
         throw new Error("Invalid Operation");
     }
 }
-

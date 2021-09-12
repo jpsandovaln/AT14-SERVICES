@@ -6,12 +6,11 @@ import { CmdScale } from "../cmd/cmdScale";
 import { CmdVF } from "../cmd/cmdVf";
 import { Parameters } from "../../common/parameter/parameters";
 import { BuildCmd } from "./buildCmd";
-
-export class BuildCmdChangeFormat extends BuildCmd{
+export class BuildCmdChangeFormat extends BuildCmd {
     private codecPath!: string;
     private filePath: string;
     private outputPath: string;
-    private resultName: string; 
+    private resultName: string;
     constructor(params: Parameters, codecPath: string, filePath: string, outputPath: string, resultName: string) {
         super(params);
         this.codecPath = codecPath;
@@ -20,7 +19,7 @@ export class BuildCmdChangeFormat extends BuildCmd{
         this.resultName = resultName;
     }
 
-    returnCmd() {      
+    returnCmd() {
         let header = new CmdHeader(this.getParameters(), this.codecPath, this.filePath);
         let ratio = new CmdRatio(this.getParameters());
         let scale = new CmdScale(this.getParameters());
@@ -35,7 +34,3 @@ export class BuildCmdChangeFormat extends BuildCmd{
         return header.returnCommand("");
     }
 }
-/*
-let params = new Parameters({ ratio: '15', scale: '340x120', quality: '0', angle: '180', grayScale: 'true', vflip: 'true', hflip: 'true', outputFormat: '.flv'});
-let cmd = new BuildCmdChangeFormat(params, 'codec--->', 'video--->', 'output--->', 'resultName--->');
-console.log(cmd.returnCmd());*/

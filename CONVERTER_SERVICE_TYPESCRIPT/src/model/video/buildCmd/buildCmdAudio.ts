@@ -3,8 +3,7 @@ import { CmdAudio } from "../cmd/cmdAudio";
 import { Parameters } from "../../common/parameter/parameters";
 import { BuildCmd } from "./buildCmd";
 import { CmdFooterAudio } from "../cmd/cmdFooterAudio";
-
-export class BuildCmdAudio extends BuildCmd{
+export class BuildCmdAudio extends BuildCmd {
     private codecPath: string;
     private filePath: string;
     private outputPath: string;
@@ -23,11 +22,6 @@ export class BuildCmdAudio extends BuildCmd{
         let footer = new CmdFooterAudio(super.getParameters(), this.outputPath, this.resultName);
         header.setNextCommand(vf);
         vf.setNextCommand(footer);
-        return header.returnCommand(""); 
+        return header.returnCommand("");
     }
 }
-
-/*
-let params = new Parameters({ audioFormat: '.mp3', angle: '180', grayScale: 'false', vflip: 'true', hflip: 'true', outputFormat: '.flv', frameScale: '400', timeBetweenFrames: '5', outputFormatFrames: '.png'});
-let cmd = new BuildCmdAudio(params, 'codec--->', 'video--->', 'output--->', 'resulName');
-console.log(cmd.returnCmd());*/

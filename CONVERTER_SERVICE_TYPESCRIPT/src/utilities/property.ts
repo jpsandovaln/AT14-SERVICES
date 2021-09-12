@@ -1,9 +1,9 @@
 export class Property {
     private static isValid(process_env: any): string {
-        if (process_env != undefined) 
+        if (process_env != undefined)
             return process_env;
-        else            
-            return "";        
+        else
+            return "";
     }
 
     static getFFmpegPath(): string {
@@ -45,7 +45,7 @@ export class Property {
     static getPort(): string {
         return this.isValid(process.env.PORT_CONVERTER);
     }
-    
+
     static getBaseUrl(): string {
         return this.isValid(process.env.BASE_URL_CONVERTER);
     }

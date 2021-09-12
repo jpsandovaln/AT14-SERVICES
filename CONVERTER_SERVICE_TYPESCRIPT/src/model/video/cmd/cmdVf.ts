@@ -7,24 +7,23 @@ import { VfFactory } from "./cmdVF/vfFactory";
 const VF = '-vf';
 const QUOTES = '"';
 const SPACE = " ";
-
-export class CmdVF extends Command {   
+export class CmdVF extends Command {
     private cmd!: Command;
     private typeCommand: string;
-    constructor(parameters: Parameters, typeCommand: string) { 
-        super(parameters);        
+    constructor(parameters: Parameters, typeCommand: string) {
+        super(parameters);
         this.typeCommand = typeCommand;
     }
 
-    setNextCommand(command: Command):void {
+    setNextCommand(command: Command): void {
         this.cmd = command;
     };
 
-    returnCommand(command: string): string {  
+    returnCommand(command: string): string {
         let cmdVF = VfFactory.getInstance(this.typeCommand, this.getParameters());
         let commandVF = cmdVF.returnCommand("");
-        if(commandVF != "")
+        if (commandVF != "")
             command = command + VF + SPACE + QUOTES + DeleteCommas.delCommas(commandVF) + QUOTES + SPACE
-        return this.cmd.returnCommand(command);               
-    };    
+        return this.cmd.returnCommand(command);
+    };
 }

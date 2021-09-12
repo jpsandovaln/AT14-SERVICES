@@ -1,8 +1,6 @@
-import { Request, Response, Router } from "express";
 import express from "express";
 
 const router = express.Router();
-
 export abstract class Routes {
     app: any;
     constructor(app = express()) {
@@ -11,5 +9,3 @@ export abstract class Routes {
 
     abstract getRoutes():void;        
 }
-
-

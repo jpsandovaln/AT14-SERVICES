@@ -1,4 +1,3 @@
-import { Request, response, Response, Router } from "express";
 import express from "express";
 import { Routes } from "../routes";
 import { Property } from "../../utilities/property";
@@ -11,21 +10,18 @@ import { UploadFile } from "../../middleware/common/uploader/uploadFile.";
 import { FramesController } from "../../controller/video/videoFrames";
 
 const router = express.Router();
-
 export class RoutesVideo extends Routes {
     constructor(app = express()) {
         super(app);
     }
 
-    async getRoutes():Promise<void> {
+    async getRoutes(): Promise<void> {
         router.post("/videoConverter", [UploadFactory.getInstance(Property.getDBValidation()).uploadFile], new VideoController().videoProcess);
-        router.get("/files/:name", new DownloadFile(Property.getOutputPath()).download); 
+        router.get("/files/:name", new DownloadFile(Property.getOutputPath()).download);
         router.post("/filesMetadata", [new UploadFile().uploadFile], new MetadataController().MetadataProcess);
         router.get("/filesMetadata/:name", new DownloadFile(Property.getOutputPath()).download);
-        router.post("/frames", [new UploadFile().uploadFile], new FramesController().frameProcess); 
-        router.get("/framesZipML/:name",  new DownloadFile(Property.getZipPath()).download);
+        router.post("/frames", [new UploadFile().uploadFile], new FramesController().frameProcess);
+        router.get("/framesZipML/:name", new DownloadFile(Property.getZipPath()).download);
         this.app.use(router);
     }
 }
-
-

@@ -3,7 +3,8 @@ import { CmdVF } from "../cmd/cmdVf";
 import { Parameters } from "../../common/parameter/parameters"
 import { BuildCmd } from "./buildCmd";
 import { CmdFooterFrames } from "../cmd/cmdFooterFrames";
-export class BuildCmdFrames extends BuildCmd{
+import { CmdTemporaryStart } from "../cmd/cmdTemporaryStart";
+export class BuildCmdFrames extends BuildCmd {
     private codecPath: string;
     private filePath: string;
     private outputPath: string;
@@ -17,10 +18,12 @@ export class BuildCmdFrames extends BuildCmd{
 
     returnCmd() {
         let header = new CmdHeader(this.getParameters(), this.codecPath, this.filePath);
+        let temporaryStart = new CmdTemporaryStart(this.getParameters());
         let vf = new CmdVF(this.getParameters(), "buildObtainFrames");
         let footer = new CmdFooterFrames(this.getParameters(), this.outputPath, this.FRAME_NAME);
-        header.setNextCommand(vf);
+        header.setNextCommand(temporaryStart);
+        temporaryStart.setNextCommand(vf);
         vf.setNextCommand(footer);
-        return header.returnCommand(""); 
+        return header.returnCommand("");
     }
 }

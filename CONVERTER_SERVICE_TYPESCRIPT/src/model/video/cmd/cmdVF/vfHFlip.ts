@@ -2,7 +2,6 @@ import { Parameters } from "../../../common/parameter/parameters";
 import { Vf } from "./vf";
 
 const FFMPEG_HFLIP = ',hflip';
-
 export class CmdHFlip extends Vf {
     public vf!: Vf;
     constructor(parameters: Parameters) { 
