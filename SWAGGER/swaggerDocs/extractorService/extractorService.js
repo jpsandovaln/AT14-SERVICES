@@ -35,12 +35,63 @@ const cors = require("cors");
  *     example: 1
  *    width:
  *     type: number
- *     description: Width the image will be convert to text
+ *     description: Width the image will be convert to 
  *     example: 50
  *    height:
  *     type: number
  *     description: Height the image will be convert to text
  *     example: 50
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Extract Text:
+ *       type: object
+ *       required:
+ *         - title
+ *         - author
+ *       properties:
+ *        file:
+ *         type: string
+ *         format: binary
+ *         description: The image file to be extracted text. File types allowed .jpeg, .jpg and .png 
+ *        language:
+ *         type: string
+ *         description: The code language of the image file to be extracted. Example eng, spa, jpn, rus
+ *     Extract to PDF:
+ *      type: object
+ *      properties:
+ *       file:
+ *        type: string
+ *        description: The image file that to be converted into PFD file
+ *        format: binary
+ *       language:
+ *        type: string
+ *        description: The code language of the image file to be extracted. Example eng, spa, jpn, rus
+ *     Extract Cropped Image:
+ *      type: object
+ *      properties:
+ *       file:
+ *        type: string
+ *        description: The image file that to be extracted cropp image, specifying the parameters from the image
+ *        format: binary
+ *       language:
+ *        type: string
+ *        description: The code language of the image file to be extracted. Example eng, spa, jpn, rus
+ *       left:
+ *        type: string
+ *        description: Image position aligned by its left edge. It's maximum value for this is 100px
+ *       top:
+ *        type: string
+ *        description: Image position aligned by its top edge. It's maximum value for this is 100px
+ *       width:
+ *        type: string
+ *        description: The widht property sets the width of an element using a numeric value. It's maximun value for this is 1000px
+ *       height:
+ *        type: string
+ *        description: The widht property sets the width of an element using a numeric value. It's maximun value for this is 1000px
  */
 
 /**

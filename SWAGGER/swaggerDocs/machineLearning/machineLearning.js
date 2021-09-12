@@ -47,6 +47,47 @@ const cors = require("cors");
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Machine Learning:
+ *       type: object
+ *       required:
+ *         - title
+ *         - author
+ *       properties:
+ *        zipFile:
+ *         type: string
+ *         format: binary
+ *         description: ask
+ *        searchWord:
+ *         type: string
+ *         description: The proportions of a video's frame between width and height
+ *        percentage:
+ *         type: string
+ *         description: The proportions between the dimensions
+ *        algorithm:
+ *         type: string
+ *         description: Output quality of the video
+ *     ImagesAnalizer:
+ *      type: object
+ *      properties:
+ *       file:
+ *        type: array
+ *        description: The video file that will be converted into images
+ *        format: binary
+ *       searchWord:
+ *        type: string
+ *        description: Option to determine if the video frames will be obtained
+ *       percentage:
+ *        type: string
+ *        description: The size of the frames that will be obtained
+ *       algorithm:
+ *        type: string
+ *        description: Option to determinate if the images obtained will be in gray scale
+ */
+
+/**
+ * @swagger
  * tags:
  *  name: Machine Learning
  *  description: The books managing API
