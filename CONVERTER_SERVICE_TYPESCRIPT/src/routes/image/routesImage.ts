@@ -3,6 +3,7 @@ import { ImageController } from "../../controller/image/imageController";
 import { Routes } from "../routes";
 
 const router = express.Router();
+const imageController = new ImageController();
 
 export class RoutesImage extends Routes {
     constructor(app = express()) {
@@ -10,9 +11,9 @@ export class RoutesImage extends Routes {
     }
 
     getRoutes(): void {
-        router.post("/imageConverter", new ImageController().upload);
-        router.get("/files", new ImageController().getListFiles);
-        router.get("/files/:name", new ImageController().download);
+        router.post("/imageConverter", imageController.upload);
+        router.get("/files", imageController.getListFiles);
+        router.get("/files/:name", imageController.download);
         this.app.use(router);
     }
 }
