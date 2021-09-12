@@ -5,6 +5,7 @@ const FFMPEG_I = "-i";
 const SPACE = " ";
 
 export class CmdAudioFormat extends Command {   
+    
     private cmd!: Command;
     constructor(parameters: Parameters) { 
         super(parameters);        

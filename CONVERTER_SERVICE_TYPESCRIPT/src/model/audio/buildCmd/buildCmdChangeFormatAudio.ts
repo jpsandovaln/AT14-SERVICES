@@ -2,8 +2,9 @@ import { CmdHeader } from "../cmd/cmdHeader";
 import { CmdAudioFormat } from "../cmd/cmdAudioformat";
 import { CmdFooter } from "../cmd/cmdFooter";
 import { Parameters } from "../../common/parameter/parameters";
-import { BuildCmd } from "../buildCmd/buildCmd";
-export class BuildCmdAudio extends BuildCmd{ 
+import { BuildCmd } from "./buildCmd";
+
+export class BuildCmdChangeFormat extends BuildCmd{ 
     private codecPath: string;
     private videoPath: string;
     private outputPath: string;
@@ -16,6 +17,7 @@ export class BuildCmdAudio extends BuildCmd{
         this.outputPath = outputPath;
         this.resultName = resultName;
     }
+    
     returnCmd() {
         let header = new CmdHeader(super.getParameters(), this.codecPath, this.videoPath);
         let vf = new CmdAudioFormat(super.getParameters());
