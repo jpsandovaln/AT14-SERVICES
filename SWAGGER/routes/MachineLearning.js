@@ -6,6 +6,7 @@ const swaggerUI = require("swagger-ui-express");
 
 const HOSTNAME = process.env.HOSTNAME;
 const PORT = process.env.SERVICE_PORT || 4000;
+const ML_PORT = process.env.ML_PORT;
 
 const machineLearningOptions = {
     customCss: `
@@ -25,7 +26,7 @@ const machineLearningOptions = {
         },
         servers: [
             {
-                url: "http://localhost:8085",
+                url: "http://" + HOSTNAME + ":" + ML_PORT,
                 description: "Port where the machine learning service works",
             },
         ],
