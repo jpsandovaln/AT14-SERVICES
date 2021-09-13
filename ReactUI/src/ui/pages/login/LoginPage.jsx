@@ -68,7 +68,7 @@ const Login = (props) => {
 
 	return (
 		<div className="Login">
-			<Grid container>
+			<Grid container className={`loginContainer`}>
 				<Grid item xs={7}>
 					<Paper className={`${classes.paper} paperVideo`}>
 						<video

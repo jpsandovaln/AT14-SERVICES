@@ -7,18 +7,34 @@ video {
 .paperVideo {
 	margin: 0px !important;
 	padding: 0px !important;
-	padding-inline-start: 60px !important;
+	padding-inline-start: 100px !important;
 	background: black !important;
 }
 
 .paperLogin {
 	margin-inline: 70px;
 	margin-block-start: 0px !important;
+	background: rgba(212, 212, 212, 0.3) !important;
 }
 
-.MuiGrid-container {
+.loginContainer {
 	background-color: black;
 	align-items: center !important;
-	height: 100vh !important;
+	height: 100vh;
 	margin-block: auto !important;
+	background: linear-gradient(-45deg, #0A1931, #125D98, #F5A962, #3C8DAD);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
