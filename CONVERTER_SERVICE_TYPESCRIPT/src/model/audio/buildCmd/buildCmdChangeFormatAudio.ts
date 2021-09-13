@@ -20,10 +20,8 @@ export class BuildCmdChangeFormat extends BuildCmd{
     
     returnCmd() {
         let header = new CmdHeader(super.getParameters(), this.codecPath, this.videoPath);
-        let vf = new CmdAudioFormat(super.getParameters());
         let footer = new CmdFooter(super.getParameters(), this.outputPath, this.resultName);
-        header.setNextCommand(vf);
-        vf.setNextCommand(footer);
+        header.setNextCommand(footer);
         return header.returnCommand(""); 
     }
 }

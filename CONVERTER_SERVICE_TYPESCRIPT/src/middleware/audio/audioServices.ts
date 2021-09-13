@@ -21,7 +21,7 @@ export class AudioServices{
     async ChangeAudioFormat() {
         let cmdChangeAudioFormat = new BuildCmdChangeFormat (this.params, Property.getFFmpegPath(), this.filePath, Property.getOutputPath(), this.resultName);
         await this.compiler.execute(cmdChangeAudioFormat.returnCmd());    
-        const resultPathAudio = Property.getAudioPath + this.resultName + this.params.getParameter('audioFormat');
+        const resultPathAudio = Property.getOutputPath() + this.resultName + this.params.getParameter('outputFormat');
         return resultPathAudio;
     } 
 
