@@ -1,6 +1,7 @@
 import fs from "fs";
 import AdmZip from "adm-zip";
 export class Zip {
+    
     static async zipDirectory(Path: string): Promise<string> {
         return await new Promise((resolve, rejects) => {
             var listFiles = this.obtainDirectory(Path);
