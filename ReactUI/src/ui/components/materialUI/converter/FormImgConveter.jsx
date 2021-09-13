@@ -3,6 +3,36 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import ImgForm from "./ImgForm";
 import TableImgForm from "./TableImgForm";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+
+export const UploadMutation = gql`
+	mutation uiToImageConverter(
+		$outputFormat: String
+		$imageSize: String
+		$angle: String
+		$quality: String
+		$dubling: String
+		$paintEffect: String
+		$greyScale: String
+		$file: Upload
+	) {
+		uiToImageConverter(
+			outputFormat: $outputFormat
+			imageSize: $imageSize
+			angle: $angle
+			quality: $quality
+			dubling: $dubling
+			paintEffect: $paintEffect
+			paintEffect: $paintEffect
+			file: $file
+		) {
+			name
+			filePath
+		}
+	}
+`;
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -20,31 +50,53 @@ const useStyles = makeStyles(() => ({
 
 const FormImgConverter = () => {
 	const classes = useStyles();
+	const [t, i18n] = useTranslation("global");
 	const [setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [imageSize, setImageSize] = React.useState("");
-	const [audioFormat, setAudioFormat] = React.useState("");
+	const [angle, setAngle] = React.useState("");
+	const [quality, setQuality] = React.useState("");
 	const [dubling, setDubling] = React.useState("");
 	const [paintEffect, setPaintEffect] = React.useState("");
 	const [greyScale, setGreyScale] = React.useState("");
 	const [monochrome, setMonochrome] = React.useState("");
-	const [quality, setQuality] = React.useState("");
+	const [FileData, setUploadFile] = React.useState(null);
 	const [setOpen] = React.useState(false);
 
-	const submitFormVideo = (event) => {
-		const urlML = "http://localhost:8080/imageFinder";
+	const [nameImage, setNameImage] = React.useState(
+		t("machine-learning.form-text-file")
+	);
+
+	const [uiToImageConverter, { error }] = useMutation(UploadMutation);
+
+	const setFileVideo = async (e) => {
+		let videoFile = document.getElementById("contained-button-image");
+		if (videoFile.files.length > 0) {
+			setNameImage(videoFile.files.item(0).name);
+			setUploadFile(e.target.files[0]);
+		} else {
+			setNameImage(t("machine-learning.form-text-file"));
+			setUploadFile(null);
+		}
+	};
+
+	const submitFormVideo = async (event) => {
+		/*const urlML = "http://localhost:8080/imageFinder";
 		event.preventDefault();
 		setOpen(true);
 		const dataArray = new FormData();
 
 		dataArray.append("outputFormat", outputFormat);
 		dataArray.append("imageSize", imageSize);
-		dataArray.append("audioFormat", audioFormat);
+		dataArray.append("angle", angle);
+		dataArray.append("quality", quality);
 		dataArray.append("dubling", dubling);
 		dataArray.append("paintEffect", paintEffect);
 		dataArray.append("greyScale", greyScale);
 		dataArray.append("monochrome", monochrome);
-		dataArray.append("quality", quality);
+
+		
+		
 
 		const fetchData = () => {
 			axios
@@ -62,7 +114,31 @@ const FormImgConverter = () => {
 				});
 		};
 
-		fetchData();
+		fetchData();*/
+
+		event.preventDefault();
+		setOpen(true);
+		setResponse(null);
+		const data = await uiToImageConverter({
+			variables: {
+				outputFormat: outputFormat + "",
+				imageSize: imageSize + "",
+				angle: angle + "",
+				quality: quality + "",
+				dubling: dubling + "",
+				paintEffect: paintEffect + "",
+				greyScale: greyScale + "",
+				monochrome: angle + "",
+				file: FileData,
+			},
+		});
+		if (error) {
+			console.log(error);
+		} else {
+			console.log(data.data.uiToImageConverter);
+			setResponse(data.data.uiToImageConverter);
+			setOpen(false);
+		}
 	};
 
 	return (
@@ -72,20 +148,23 @@ const FormImgConverter = () => {
 					classes={classes}
 					outputFormat={outputFormat}
 					imageSize={imageSize}
-					audioFormat={audioFormat}
+					angle={angle}
+					quality={quality}
 					dubling={dubling}
 					paintEffect={paintEffect}
 					greyScale={greyScale}
 					monochrome={monochrome}
-					quality={quality}
 					setOutputFormat={setOutputFormat}
 					setImageSize={setImageSize}
-					setAudioFormat={setAudioFormat}
+					setAngle={setAngle}
 					setDubling={setDubling}
 					setPaintEffect={setPaintEffect}
 					setGreyScale={setGreyScale}
 					setMonochrome={setMonochrome}
 					setQuality={setQuality}
+					nameImage={nameImage}
+					setFileVideo={setFileVideo}
+					setNameImage={setNameImage}
 				/>
 				<TableImgForm />
 			</form>

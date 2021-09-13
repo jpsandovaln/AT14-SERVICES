@@ -239,13 +239,13 @@ const DocumentForm = (promp) => {
 									}
 									required
 										>
-											<MenuItem value={" "}>
+											<MenuItem value={""}>
 												Full Color
 											</MenuItem>											
 											<MenuItem value={"-monochrome"}>
 												Monochrome
 											</MenuItem>
-											<MenuItem value={"-colorspace grey"}>
+											<MenuItem value={"-colorspace gray"}>
 												Grey Scale
 											</MenuItem>
 										</Select>

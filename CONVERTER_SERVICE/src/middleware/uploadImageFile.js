@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 
 const uploadImages = multer({
     storage: storage,
-}).single("imageFile");
+}).single("file");
 
 let uploadImagesMiddleware = util.promisify(uploadImages);
 
