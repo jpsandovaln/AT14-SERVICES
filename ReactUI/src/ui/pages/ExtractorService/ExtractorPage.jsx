@@ -16,11 +16,11 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 });
 
-const ExtractorServicePage = () => {
+const ExtractorServicePage = (props) => {
 	return (
 		<ApolloProvider client={client}>
-			<SideBar page={ExtractService} />
-		</ApolloProvider>	
+			<SideBar page={ExtractService} imageURL={props.imageURL} />
+		</ApolloProvider>
 	);
 };
 
