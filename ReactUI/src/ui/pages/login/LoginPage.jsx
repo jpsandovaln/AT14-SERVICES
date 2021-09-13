@@ -62,19 +62,26 @@ const Login = (props) => {
 		},
 		button: {
 			margin: theme.spacing(1),
-		},
+		}
 	}));
 	const classes = classStyles();
 
 	return (
 		<div className="Login">
-			<video src="SnifferDogBlack.mp4" autoPlay loop muted></video>
 			<Grid container>
-				<Grid item xs={8}></Grid>
-				<Grid item xs={3}>
+				<Grid item xs={7}>
+					<Paper className={`${classes.paper} paperVideo`}>
+						<video
+							src="SnifferDogBlack.mp4"
+							autoPlay
+							loop
+							muted
+						></video>
+					</Paper>
+				</Grid>
+				<Grid item xs={5}>
 					<CssBaseline />
-					<br></br>
-					<Paper className={classes.paper}>
+					<Paper className={`${classes.paper} paperLogin`}>
 						<Breadcrumbs aria-label="breadcrumb">
 							<Link color="inherit" href="/">
 								Sign In
