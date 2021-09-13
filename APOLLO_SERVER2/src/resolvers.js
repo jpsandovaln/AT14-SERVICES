@@ -70,6 +70,33 @@ const resolvers = {
         }
     },
     Mutation: {
+
+        uiToImageConverter: async (_, args) => {
+            const uri = "" + process.env.DOCUMENT_SERVICE;
+
+            const uploadFile = await processUpload(args.file);
+            const dataArray = new FormData();
+
+            dataArray.append("outputFormat", outputFormat);
+            dataArray.append("imageSize", imageSize);
+            dataArray.append("angle", angle);
+            dataArray.append("quality", quality);
+            dataArray.append("dubling", dubling);
+            dataArray.append("paintEffect", paintEffect);
+            dataArray.append("greyScale", greyScale);
+            dataArray.append("monochrome", monochrome);
+            dataArray.append("file", fs.createReadStream(uploadFile.path));  
+            
+            const res = await axios.post(uri, dataArray, {
+                headers: dataArray.getHeaders(),
+            });            
+
+            const result = res.data;
+            
+            return result;                        
+
+        },
+
         uiToPdfImage: async (_, args) => {
             const uri = "" + process.env.DOCUMENT_SERVICE;
 
@@ -81,8 +108,8 @@ const resolvers = {
             dataArray.append("rotation", args.rotation);
             //dataArray.append("quality", args.quality);
             dataArray.append("paintEffect", args.paintEffect);
-            //dataArray.append("type", args.type);
-            dataArray.append("imageFile", fs.createReadStream(uploadFile.path));                        
+            dataArray.append("type", args.type);
+            dataArray.append("file", fs.createReadStream(uploadFile.path));                        
 
             
             const res = await axios.post(uri, dataArray, {
@@ -103,6 +130,8 @@ const resolvers = {
             dataArray.append("file", fs.createReadStream(uploadFile.path));
 
             const res = await axios.post(uri, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
                 headers: dataArray.getHeaders()
             });
             const result = { text: res.data };
@@ -122,6 +151,8 @@ const resolvers = {
 
             const urlML = "" + process.env.CONVERTER_ANALIZEZIP;
             const res = await axios.post(urlML, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
                 headers: dataArray.getHeaders()
             });
 

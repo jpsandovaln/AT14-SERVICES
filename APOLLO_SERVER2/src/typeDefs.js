@@ -2,6 +2,10 @@ import { gql } from 'apollo-server';
 
 const typeDefs =  gql`
   scalar Upload
+  type ImageConverter {.
+    name: String
+    filePath: String
+  }
   type ImageToText {
     id: ID!
     text: String!
@@ -74,6 +78,7 @@ const typeDefs =  gql`
     metaData(file: Upload!): filesMetadata
     uiToImageText(language: String, file: Upload!): ImageToText
     uiToPdfImage(outputFormat: String, outputSize: String, rotation: String, quality: String, paintEffect: String, type: String, file: Upload!): [PdfImage!]
+    uiToImageConverter(outputFormat: String, imageSize: String, angle: String, quality: String, dubling: String, paintEffect: String , greyScale: String, monochrome: String):ImageConverter
   }
 `;
 
