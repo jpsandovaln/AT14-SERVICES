@@ -6,13 +6,13 @@ export class AudioController {
     AudioProcess = async (req: any, res: any) => {
         try {
             const nameFile = req.fields.filename;
-            const resultName = Date.now().toString();
-            const obtainResult = new AudioServices(req.fields, nameFile, resultName, Property.getFFmpegPath());
-            const nameAudioFile = path.basename(await obtainResult.ChangeAudioFormat());
+            const zipResults = new ZippingResultFiles();
+            const resultZipPath = await zipResults.obtainResultPath(nameFile, req.fields);
+            const nameZipFile = path.basename(resultZipPath);
             res.status(200).send([
                 {
                     name: nameFile,
-                    filePath: Property.getBaseUrl() + ":" + Property.getPort() + "/files/" + nameAudioFile,
+                    filePath: Property.getBaseUrl() + ":" + Property.getPort() + "/files/" + nameZipFile,
                 },
             ]);
         } catch (error) {
