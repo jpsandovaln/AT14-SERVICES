@@ -43,7 +43,9 @@ class Index implements IApp {
     }
 
     public initMongoose() {
-        ConnectMongo.connect();
+        if(Property.getDBValidation() == 'true'){
+            ConnectMongo.connect();
+        }
     }
 
     private initApp() {
