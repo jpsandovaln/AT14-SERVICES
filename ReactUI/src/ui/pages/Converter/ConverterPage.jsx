@@ -14,12 +14,12 @@ const client = new ApolloClient({
 	link: httpLink,
 	cache: new InMemoryCache(),
 });
-const ConverterPage = ({ props }) => {
+const ConverterPage = (props) => {
 	return (
 		<ApolloProvider client={client}>
-			<SideBar page={Converter} />
+			<SideBar page={Converter} imageURL={props.imageURL} />
 		</ApolloProvider>
-	);	
+	);
 };
 
 export default ConverterPage;

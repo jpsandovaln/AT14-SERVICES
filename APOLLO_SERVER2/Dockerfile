@@ -12,8 +12,8 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-RUN mkdir -p /home/node/app/public/images
+ARG APP_PORT=4000
 
-RUN mkdir -p /home/node/app/public/unZipFiles
+EXPOSE ${APP_PORT}
 
-CMD ["node", "./dist/app.js"]
+CMD ["node", "./src/index.js"]
