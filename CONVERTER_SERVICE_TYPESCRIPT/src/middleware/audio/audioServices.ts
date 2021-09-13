@@ -28,14 +28,14 @@ export class AudioServices{
     async ChangeFadeIn() {
         let cmdChangeAudioFadeIn = new BuildCmdChangeFadeIn (this.params, Property.getFFmpegPath(), this.filePath, Property.getOutputPath(), this.resultName);
         await this.compiler.execute(cmdChangeAudioFadeIn.returnCmd());    
-        const resultPathAudio = Property.getAudioPath + this.resultName + this.params.getParameter('fadeIn');
+        const resultPathAudio = Property.getOutputPath() + this.resultName + this.params.getParameter('fadeIn');
         return resultPathAudio;
     } 
 
     async ChangeFadeOut() {
         let cmdChangeAudioFadeOut = new BuildCmdChangeFadeOut (this.params, Property.getFFmpegPath(), this.filePath, Property.getOutputPath(), this.resultName);
         await this.compiler.execute(cmdChangeAudioFadeOut.returnCmd());    
-        const resultPathAudio = Property.getAudioPath + this.resultName + this.params.getParameter('fadeOut');
+        const resultPathAudio = Property.getOutputPath() + this.resultName + this.params.getParameter('fadeOut');
         return resultPathAudio;
     } 
 }
