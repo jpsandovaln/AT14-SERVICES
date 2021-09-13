@@ -33,7 +33,7 @@ export class ImageController {
                     Property.getBaseUrl() +
                     ":" +
                     Property.getPort() +
-                    "/files/";
+                    "/images/";
 
                 const commandBuilder = new BuildCmdImage(
                     params,
@@ -64,7 +64,7 @@ export class ImageController {
     getListFiles = async (req: express.Request, res: express.Response) => {
         const directoryPath = Property.getOutputPath();
         let baseUrl =
-            Property.getBaseUrl() + ":" + Property.getPort() + "/files/";
+            Property.getBaseUrl() + ":" + Property.getPort() + "/images/";
 
         fs.readdir(directoryPath, function (err, files) {
             if (err) {
