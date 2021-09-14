@@ -9,6 +9,7 @@ import { Property } from "./src/utilities/property";
 import { RoutesImage } from "./src/routes/image/routesImage";
 import { RoutesAudio } from "./src/routes/audio/routesAudio";
 import { ConnectMongo } from "./src/database/connection/connect";
+import { RoutesPdf } from "./src/routes/pdf/routesPdf";
 
 const app = express();
 class Index implements IApp {
@@ -40,6 +41,7 @@ class Index implements IApp {
         new RoutesImage(app).getRoutes();
         new RoutesVideo(app).getRoutes();
         new RoutesAudio(app).getRoutes();
+        new RoutesPdf(app).getRoutes();
     }
 
     public initMongoose() {
