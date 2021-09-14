@@ -21,7 +21,8 @@ class BuildCmdConvertPdfToImage {
         rotate,
         paint,
         monochrome,
-        grayScale
+        grayScale,
+        type
     ) {
         const MAGICK_SPACE = " ";
         let HIGH_QUALITY = "";
@@ -30,24 +31,28 @@ class BuildCmdConvertPdfToImage {
         let PAINT = "";
         let MONOCHROME = "";
         let GRAYSCALE = "";
+        let TYPE = "";
         if (highQuality != undefined && highQuality != "") {
             HIGH_QUALITY =
                 MAGICK_SPACE + "-density" + MAGICK_SPACE + "" + highQuality;
         }
-        if (size) {
+        if (size!= undefined && size != "") {
             SIZE = MAGICK_SPACE + "-size" + MAGICK_SPACE + "" + size;
         }
-        if (rotate) {
+        if (rotate!= undefined && rotate != "") {
             ROTATE = MAGICK_SPACE + "-rotate" + MAGICK_SPACE + "" + rotate;
         }
-        if (paint) {
+        if (paint!= undefined && paint != "") {
             PAINT = MAGICK_SPACE + "-paint" + MAGICK_SPACE + "" + paint;
         }
-        if (monochrome) {
+        if (monochrome!= undefined && monochrome != "") {
             MONOCHROME = MAGICK_SPACE + "-monochrome";
         }
-        if (grayScale) {
+        if (grayScale!= undefined && grayScale != "") {
             GRAYSCALE = MAGICK_SPACE + "-colorspace" + MAGICK_SPACE + "gray";
+        }
+        if (type!= undefined && type != "") {
+            TYPE = MAGICK_SPACE+ "" + type;
         }
 
         const command =
@@ -60,9 +65,7 @@ class BuildCmdConvertPdfToImage {
             MAGICK_SPACE +
             PAINT +
             MAGICK_SPACE +
-            MONOCHROME +
-            MAGICK_SPACE +
-            GRAYSCALE +
+            TYPE +
             MAGICK_SPACE +
             pdfPathConvert +
             MAGICK_SPACE +

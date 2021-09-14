@@ -34,6 +34,7 @@ const endPointToConvertPdfToImage = async (req, res) => {
     const grayScale = req.body.grayScale;
     const outputZipConverted =
         __dirname + "/../../resources/imagesProcessor/" + dateFolder + "";
+        const type = req.body.type;
 
     const compiler = new Compiler();
     await compiler.execute(
@@ -46,8 +47,9 @@ const endPointToConvertPdfToImage = async (req, res) => {
             size,
             rotate,
             paint,
-            monochrome,
-            grayScale
+            /*monochrome,
+            grayScale*/
+            type
         )
     );
 
@@ -64,7 +66,7 @@ const endPointToConvertPdfToImage = async (req, res) => {
     res.status(200).send([
         {
             name: nameFile,
-            filePath: "http://localhost:4050/convertPdftoImage/" + nameZipFile,
+            filePath: "http://localhost:4028/convertPdftoImage/" + nameZipFile,
         },
     ]);
 };
