@@ -6,7 +6,7 @@
  *   properties:
  *    imageFile:
  *     type: string
- *     description: The PDF document that will be converted to an image
+ *     description: The PDF document that will be converted to images
  *     format: binary
  *    outputFormat:
  *     type: string
@@ -14,16 +14,24 @@
  *     example: '.jpg'
  *    outputSize:
  *     type: string
- *     description: Output size
+ *     description: Output size of the PDF document
  *     example: '320x240'
  *    rotation:
  *     type: string
- *     description: Output rotation
+ *     description: Rotate the image in degrees
  *     example: '180'
+ *    quality:
+ *     type: string
+ *     description: Define the output quality of the image
+ *     example: '0'
  *    paintEffect:
  *     type: string
- *     description: Output paint effect
+ *     description: Distorts the color of the image
  *     example: '0'
+ *    type:
+ *     type: string
+ *     description: Define the output type effect
+ *     example: '-monochrome'
  */
 
 /**
@@ -42,32 +50,38 @@
  *         description: The PDF document that will be converted to an image
  *        outputFormat:
  *         type: string
- *         description: Output format of the PDF document
+ *         description: Output format of the PDF document jpg, png, jpeg, tif
  *        outputSize:
  *         type: string
  *         description: Output size of the PDF document
  *        rotation:
  *         type: string
- *         description: Ouput rotation of the PDF document
+ *         description: Rotate the image in degrees from 90, 180, 270
+ *        quality:
+ *         type: string
+ *         description: Define the output quality of the image. Should be disabled
  *        paintEffect:
  *         type: string
- *         description: Output paint effect
+ *         description: Distorts the color of the image. It could be values from 0 to 5
+ *        type:
+ *         type: string
+ *         description: Define the output type effect. It could be values -monochrome, -colorspace gray, "" colorfull
  */
 
 /**
  * @swagger
  * tags:
  *  name: Document Converter
- *  description: To convert a document PDF to an image
+ *  description: To convert a PDF document to images
  */
 
 /**
  * @swagger
- * /DocumentConverter:
+ * /convertPdftoImage:
  *  post:
  *   tags: [Document Converter]
- *   summary: Convert document 
- *   description: This Api convert an PDF document into an Image
+ *   summary: Convert PDF file to images
+ *   description: This Api converts an PDF document into an Image
  *   requestBody:
  *    content:
  *     multipart/form-data:
@@ -75,10 +89,10 @@
  *       $ref: '#/definitions/Image'
  *   responses:
  *    200:
- *     description: Image converted succesfully
+ *     description: PDF file converted succesfully
  *    404:
  *     description: Non conection available
  *    500:
- *     description: Failure in converting Image
+ *     description: Failure in Server
  */
  app.post("/convertPdftoImage", cors());

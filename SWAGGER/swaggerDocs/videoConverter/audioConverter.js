@@ -60,7 +60,7 @@
  *  post:
  *   tags: [Audio Converter]
  *   summary: Convert audio 
- *   description: This API convert audio into different formats
+ *   description: This API converts audio into different formats
  *   requestBody:
  *    content:
  *     multipart/form-data:
@@ -72,6 +72,6 @@
  *    404:
  *     description: Non conection available
  *    500:
- *     description: Failure in converting Audio
+ *     description: Failure in Server
  */
  app.post("/AudioConverter", cors());

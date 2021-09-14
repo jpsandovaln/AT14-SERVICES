@@ -8,38 +8,38 @@
  *     type: string
  *     description: The image file that will be converted
  *     format: binary
- *    rotateImage:
+ *    rotate:
  *     type: string
  *     description: Value to rotate image that will be obtained from the image converter
- *     example: '1'
- *    doublingImage:
+ *     example: '30'
+ *    outputFormat: 
  *     type: string
- *     description: Doubling image
- *     example: '1'
- *    formatImage:
+ *     description: Output format of the image
+ *     example: '.jpg'
+ *    monochrome:
  *     type: string
- *     description: Output format of the Image
- *     example: '15'
- *    monochromeImage:
- *     type: string
- *     description: Output monochrome of the Image
- *     example: '10'
- *    paintImage:
+ *     description: Output monochrome of the image
+ *     example: 'false'
+ *    paint: 
  *     type: string
  *     description: The Image converted will change paint
- *     example: '10'
- *    qualityImage:
+ *     example: '0'
+ *    doubling: 
+ *     type: string
+ *     description: Doubling image
+ *     example: '0'
+ *    quality:
  *     type: string
  *     description: The Image converter will change quality
- *     example: '10'
- *    resizeImage:
+ *     example: '0'
+ *    resize:
  *     type: string
- *     description: Output format of the Image
- *     example: '.10'
- *    grayScaleImage:
+ *     description: Output size of the image
+ *     example: '0'
+ *    grayScale:
  *     type: string
- *     description: Option to agree if the converter will obtain the gray scale from the Image
- *     example: '10'
+ *     description: Option to agree if the converter will obtain the gray scale from the image
+ *     example: 'false'
  */
 
 /**
@@ -56,28 +56,28 @@
  *         type: string
  *         format: binary
  *         description: The image file that will be converted to a different formats
- *        rotateImage:
+ *        rotate:
  *         type: string
  *         description: Ouput rotate image
- *        doublingImage:
+ *        outputFormat:
  *         type: string
- *         description: Doubling image
- *        formatImage:
+ *         description: Output format of the image
+ *        monochrome:
  *         type: string
- *         description: Output format of the Image
- *        monochromeImage:
- *         type: string
- *         description: Output monochrome the Image
- *        paintImage:
+ *         description: Output monochrome the image
+ *        paint:
  *         type: string
  *         description: Paint image
- *        qualityImage:
+ *        doubling:
+ *         type: string
+ *         description: Doubling image
+ *        quality:
  *         type: string
  *         description: Quality image
- *        resizeImage:
+ *        resize:
  *         type: string
- *         description: Output format of the Image
- *        grayScaleImage:
+ *         description: Output format of the image
+ *        grayScale:
  *         type: string
  *         description: Gray scale image
  */
@@ -91,11 +91,11 @@
 
 /**
  * @swagger
- * /ImageConverter:
+ * /imageConverter:
  *  post:
  *   tags: [Image Converter]
  *   summary: Convert image 
- *   description: this api convert image into images or into different format of Image
+ *   description: This API converts image to different formatS of Image
  *   requestBody:
  *    content:
  *     multipart/form-data:
@@ -105,8 +105,49 @@
  *    200:
  *     description: Image converted succesfully
  *    404:
- *     description: non conection available
+ *     description: Non conection available
  *    500:
- *     description: failure in converting Image
+ *     description: Failure in Server
  */
- app.post("/ImageConverter", cors());
+ app.post("/imageConverter", cors());
+
+/**
+ * @swagger
+ * /images:
+ *  get:
+ *   tags: [Image Converter]
+ *   summary: Gets all the data image files
+ *   description: This endpoint gets all images files converted
+ *   responses:
+ *    200:
+ *     description: Image converted succesfully
+ *    404:
+ *     description: Non conection available
+ *    500:
+ *     description: Failure in Server
+ */
+ app.get("/images");
+
+ /**
+ * @swagger
+ * /images/{name}:
+ *  get:
+ *   tags: [Image Converter]
+ *   summary: Download the image file converted
+ *   description: This endpoint is used to download the data information done by "images" endpoint
+ *   parameters:
+ *     - in: path
+ *       name: name
+ *       schema:
+ *         type: string
+ *       required: true
+ *       description: Name of the file that will be downloaded
+ *   responses:
+ *    200:
+ *     description: Image converted succesfully
+ *    404:
+ *     description: Non conection available
+ *    500:
+ *     description: Failure in Server
+ */
+app.get("/images/:name");
