@@ -6,6 +6,7 @@ import { GraphQLUpload } from "graphql-upload";
 import dotenv from "dotenv";
 import http from "http";
 import bl from "bl";
+import { Console } from "console";
 
 
 dotenv.config();
@@ -71,20 +72,21 @@ const resolvers = {
     },
     Mutation: {
 
-        uiToImageConverter: async (_, args) => {
-            const uri = "" + process.env.DOCUMENT_SERVICE;
+        uiToImageConvert: async (_, args) => {
+            console.log("enviando la UI")
+            const uri = "" + process.env.CONVERTER_IMAGE_CONVERTER;
 
             const uploadFile = await processUpload(args.file);
             const dataArray = new FormData();
 
-            dataArray.append("outputFormat", outputFormat);
-            dataArray.append("imageSize", imageSize);
-            dataArray.append("angle", angle);
-            dataArray.append("quality", quality);
-            dataArray.append("dubling", dubling);
-            dataArray.append("paintEffect", paintEffect);
-            dataArray.append("greyScale", greyScale);
-            dataArray.append("monochrome", monochrome);
+            dataArray.append("outputFormat", args.outputFormat);
+            dataArray.append("resize", args.resize);
+            dataArray.append("rotate", args.rotate);
+            dataArray.append("quality", args.quality);
+            dataArray.append("doubling", args.doubling);
+            dataArray.append("paint", args.paint);
+            dataArray.append("grayScale", args.grayScale);
+            dataArray.append("monochrome", args.monochrome);
             dataArray.append("file", fs.createReadStream(uploadFile.path));  
             
             const res = await axios.post(uri, dataArray, {
