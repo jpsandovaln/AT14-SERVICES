@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
 import ImgForm from "./ImgForm";
 import TableImgForm from "./TableImgForm";
 import { useTranslation } from "react-i18next";
@@ -8,30 +7,12 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 export const UploadMutation = gql`
-	mutation uiToImageConverter(
-		$outputFormat: String
-		$imageSize: String
-		$angle: String
-		$quality: String
-		$dubling: String
-		$paintEffect: String
-		$greyScale: String
-		$file: Upload
-	) {
-		uiToImageConverter(
-			outputFormat: $outputFormat
-			imageSize: $imageSize
-			angle: $angle
-			quality: $quality
-			dubling: $dubling
-			paintEffect: $paintEffect
-			paintEffect: $paintEffect
-			file: $file
-		) {
-			name
-			filePath
-		}
-	}
+  mutation uiToImageConvert($outputFormat: String, $resize: String, $rotate: String, $quality: String, $doubling: String, $paint: String, $grayScale: String, $monochrome: String, $file: Upload!) {
+    uiToImageConvert(outputFormat: $outputFormat, resize: $resize, rotate: $rotate, quality: $quality, doubling: $doubling, paint: $paint, grayScale: $grayScale, monochrome: $monochrome, file: $file) {
+		name
+		url
+    }
+  }
 `;
 
 const useStyles = makeStyles(() => ({
@@ -51,7 +32,7 @@ const useStyles = makeStyles(() => ({
 const FormImgConverter = () => {
 	const classes = useStyles();
 	const [t, i18n] = useTranslation("global");
-	const [setResponse] = React.useState([]);
+	const [data,setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
 	const [imageSize, setImageSize] = React.useState("");
 	const [angle, setAngle] = React.useState("");
@@ -61,13 +42,13 @@ const FormImgConverter = () => {
 	const [greyScale, setGreyScale] = React.useState("");
 	const [monochrome, setMonochrome] = React.useState("");
 	const [FileData, setUploadFile] = React.useState(null);
-	const [setOpen] = React.useState(false);
+	const [open,setOpen] = React.useState(false);
 
 	const [nameImage, setNameImage] = React.useState(
 		t("machine-learning.form-text-file")
 	);
 
-	const [uiToImageConverter, { error }] = useMutation(UploadMutation);
+	const [uiToImageConvert, { error }] = useMutation(UploadMutation);
 
 	const setFileVideo = async (e) => {
 		let videoFile = document.getElementById("contained-button-image");
@@ -81,62 +62,27 @@ const FormImgConverter = () => {
 	};
 
 	const submitFormVideo = async (event) => {
-		/*const urlML = "http://localhost:8080/imageFinder";
-		event.preventDefault();
-		setOpen(true);
-		const dataArray = new FormData();
-
-		dataArray.append("outputFormat", outputFormat);
-		dataArray.append("imageSize", imageSize);
-		dataArray.append("angle", angle);
-		dataArray.append("quality", quality);
-		dataArray.append("dubling", dubling);
-		dataArray.append("paintEffect", paintEffect);
-		dataArray.append("greyScale", greyScale);
-		dataArray.append("monochrome", monochrome);
-
-		
-		
-
-		const fetchData = () => {
-			axios
-				.post(urlML, dataArray, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					setResponse(res.data);
-					setOpen(false);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
-
-		fetchData();*/
-
 		event.preventDefault();
 		setOpen(true);
 		setResponse(null);
-		const data = await uiToImageConverter({
+		
+		const data = await uiToImageConvert({
 			variables: {
 				outputFormat: outputFormat + "",
-				imageSize: imageSize + "",
-				angle: angle + "",
+				resize: imageSize + "",
+				rotate: angle + "",
 				quality: quality + "",
-				dubling: dubling + "",
-				paintEffect: paintEffect + "",
-				greyScale: greyScale + "",
-				monochrome: angle + "",
+				doubling: dubling + "",
+				paint: paintEffect + "",
+				grayScale: greyScale + "",
+				monochrome: monochrome + "",
 				file: FileData,
 			},
 		});
 		if (error) {
 			console.log(error);
 		} else {
-			console.log(data.data.uiToImageConverter);
-			setResponse(data.data.uiToImageConverter);
+			setResponse(data.data.uiToImageConvert);
 			setOpen(false);
 		}
 	};
@@ -166,7 +112,12 @@ const FormImgConverter = () => {
 					setFileVideo={setFileVideo}
 					setNameImage={setNameImage}
 				/>
-				<TableImgForm />
+				<TableImgForm 					
+					open={open}
+					setOpen={setOpen}
+					data={data}
+					setResponse={setResponse}
+					/>
 			</form>
 		</div>
 	);
