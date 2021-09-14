@@ -14,6 +14,17 @@ const cors = require("cors");
  *     type: string
  *     description: The language image that will be converted to text
  *     example: 'eng'
+ *  FileAnalizerToPDF:
+ *   type: object
+ *   properties:
+ *    file:
+ *     type: file
+ *     description: The image file that will be converted to PDF
+ *     format: binary
+ *    language:
+ *     type: string
+ *     description: The language image that will be converted to PDF
+ *     example: 'eng'
  *  FileAnalizerRectangle:
  *   type: object
  *   properties:
@@ -35,11 +46,11 @@ const cors = require("cors");
  *     example: 1
  *    width:
  *     type: number
- *     description: Width the image will be convert to 
+ *     description: Width of the image will be extracted
  *     example: 50
  *    height:
  *     type: number
- *     description: Height the image will be convert to text
+ *     description: Height of the image will be extracted
  *     example: 50
  */
 
@@ -54,44 +65,44 @@ const cors = require("cors");
  *         - author
  *       properties:
  *        file:
- *         type: string
+ *         type: file
  *         format: binary
- *         description: The image file to be extracted text. File types allowed .jpeg, .jpg and .png 
+ *         description: The image file that will be extracted text. File types allowed .jpeg, .jpg and .png 
  *        language:
  *         type: string
- *         description: The code language of the image file to be extracted. Example eng, spa, jpn, rus
+ *         description: The code language of the image file that will be extracted. Example, eng (English), spa (Spanish), jpn (Japanese), rus (Russian), fra (French), ita (Italian), chi (Chinese - Traditional)
  *     Extract to PDF:
  *      type: object
  *      properties:
  *       file:
- *        type: string
- *        description: The image file that to be converted into PFD file
+ *        type: file
+ *        description: The image file that will be converted to PDF file. File types allowed .jpeg, .jpg and .png
  *        format: binary
  *       language:
  *        type: string
- *        description: The code language of the image file to be extracted. Example eng, spa, jpn, rus
+ *        description: The code language of the image file that will be extracted. Example, eng (English), spa (Spanish), jpn (Japanese), rus (Russian), fra (French), ita (Italian), chi (Chinese - Traditional)
  *     Extract Cropped Image:
  *      type: object
  *      properties:
  *       file:
- *        type: string
- *        description: The image file that to be extracted cropp image, specifying the parameters from the image
+ *        type: file
+ *        description: The image file that will be extracted a cropp image, specifying the parameters from the image
  *        format: binary
  *       language:
  *        type: string
- *        description: The code language of the image file to be extracted. Example eng, spa, jpn, rus
+ *        description: The code language of the image file that will be extracted. Example, eng (English), spa (Spanish), jpn (Japanese), rus (Russian), fra (French), ita (Italian), chi (Chinese - Traditional)
  *       left:
- *        type: string
+ *        type: number
  *        description: Image position aligned by its left edge. It's maximum value for this is 100px
  *       top:
- *        type: string
+ *        type: number
  *        description: Image position aligned by its top edge. It's maximum value for this is 100px
  *       width:
- *        type: string
- *        description: The widht property sets the width of an element using a numeric value. It's maximun value for this is 1000px
+ *        type: number
+ *        description: The width property sets the width of an element using a numeric value. It's maximun value for this is 1000px
  *       height:
- *        type: string
- *        description: The widht property sets the width of an element using a numeric value. It's maximun value for this is 1000px
+ *        type: number
+ *        description: The height property sets the height of an element using a numeric value. It's maximun value for this is 1000px
  */
 
 /**
@@ -106,7 +117,8 @@ const cors = require("cors");
  * /upload:
  *  post:
  *   tags: [Extractor Service]
- *   summary: Analyze an image to convert to text
+ *   summary: Analyze an image to extract text
+ *   description: This endpoint extracts text from an image of different languages
  *   requestBody:
  *    content:
  *     multipart/form-data:
@@ -127,15 +139,16 @@ app.post("/upload", cors());
  * /extractToPDF:
  *  post:
  *   tags: [Extractor Service]
- *   summary: Analyze an image to convert to text into PDF file
+ *   summary: Analyze an image to convert to PDF file
+ *   description: This endpoint converts an image of different languages in a pdf file
  *   requestBody:
  *    content:
  *     multipart/form-data:
  *      schema:
- *       $ref: '#/definitions/FileAnalizer'
+ *       $ref: '#/definitions/FileAnalizerToPDF'
  *   responses:
  *    200:
- *     description: Returns link pdf file
+ *     description: Image converted to pdf file succesfully
  *    404:
  *     description: Non conection available
  *    500:
@@ -148,7 +161,8 @@ app.post("/extractToPDF");
  * /extractToPDF/{name}:
  *  get:
  *   tags: [Extractor Service]
- *   summary: Endpoint used to download the pdf file
+ *   summary: Download the pdf file converted
+ *   description: This endpoint download an image converted in a pdf file by name, done in "extractToPDF" endpoint
  *   parameters:
  *     - in: path
  *       name: name
@@ -164,15 +178,15 @@ app.post("/extractToPDF");
  *    500:
  *     description: Failure downloading file
  */
-
-  app.get("/extractToPDF/:name");
+app.get("/extractToPDF/:name");
 
 /**
  * @swagger
  * /extractCroppedImage:
  *  post:
  *   tags: [Extractor Service]
- *   summary: Analyze an image to convert to text 
+ *   summary: Analyze an image to extract text from a cropped image
+ *   description: This endpoint extracts a text given parameters from a cropped image.
  *   requestBody:
  *    content:
  *     multipart/form-data:
