@@ -19,7 +19,7 @@ const machineLearningOptions = {
         info: {
             title: "Machine Learning",
             version: "1.0.0",
-            description: "Api to search into images specific objects",
+            description: "API to search into images specific objects",
             contact: {
                 name: "SNIFFER DOG",
             },

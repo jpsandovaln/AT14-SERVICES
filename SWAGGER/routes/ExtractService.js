@@ -19,14 +19,14 @@ const extractorServiceOptions = {
         info: {
             title: "Extractor Service",
             version: "1.0.0",
-            description: "Api to convert images to text",
+            description: "API to convert images to text",
             contact: {
                 name: "SNIFFER DOG",
             },
         },
         servers: [
             {
-                url: `http://localhost:${EXTRACTOR_PORT}`,
+                url: "http://" + HOSTNAME + ":" + EXTRACTOR_PORT,
                 description: "Port where the extractor service works",
             },
         ],
