@@ -14,14 +14,13 @@ const styles = makeStyles((theme) => ({
 		flexGrow: 1,
 		backgroundColor: theme.palette.background.default,
 		padding: theme.spacing(3),
-	}
+	},
 }));
 
 const Home = () => {
 	const classes = styles();
 	return (
 		<div className={classes.root}>
-			
 			<Grid
 				container
 				spacing={0}
@@ -36,7 +35,7 @@ const Home = () => {
 							component="img"
 							alt="AT-14"
 							width="100%"
-							image="http://localhost:8081/at14.gif"
+							image="/at14.gif"
 							title="Contemplative Reptile"
 						/>
 					</Card>
