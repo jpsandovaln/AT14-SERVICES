@@ -22,15 +22,15 @@
  *     example: '15'
  *    angle:
  *     type: string
- *     description: Output angle of the video
+ *     description: Rotate the video
  *     example: '270'
  *    vflip:
  *     type: string
- *     description: The video converted will flip vertically
+ *     description: Mirror effect vertically
  *     example: 'true'
  *    hflip:
  *     type: string
- *     description: The video converter will flip vertically
+ *     description: Mirror effect horizontally
  *     example: 'false'
  *    outputFormat:
  *     type: string
@@ -58,7 +58,7 @@
  *     example: '.png'
  *    obtainAudio:
  *     type: string
- *     description: Variable to confirm if the converter will extract the audio from the video
+ *     description: Option to agree if the converter will obtain the audio from the video
  *     example: 'true'
  *    checksum:
  *     type: string
@@ -73,22 +73,22 @@
  *     format: binary
  *    obtainFrames:
  *     type: string
- *     description: Option to determine if the video frames will be obtained
+ *     description: Option to agree if the converter will obtain the frames from the video
  *     example: 'true'
  *    frameScale:
  *     type: string
- *     description: The size of the frames that will be obtained
+ *     description: Size of the frames that will be obtained from the video
  *     example: '400'
  *    grayScale:
  *     type: string
- *     description: Option to determinate if the images obtained will be in gray scale
+ *     description: Variable to check if the output frames will be in gray scale
  *     example: 'true'
  *  FilesMetadata:
  *   type: object
  *   properties:
  *    file:
  *     type: string
- *     description: The video file that will be sent
+ *     description: The video file that will be analized
  *     format: binary
  */
 
@@ -105,46 +105,46 @@
  *        file:
  *         type: string
  *         format: binary
- *         description: ask
+ *         description: Upload the video file that will be converted to different formats
  *        ratio:
  *         type: string
- *         description: The proportions of a video's frame between width and height
+ *         description: Provides the number of a video's frames per second. It could be values from 1 to 24
  *        scale:
  *         type: string
- *         description: The proportions between the dimensions
+ *         description: Provides the video's dimensions. It could be 1280x720, 854x480, 640x360, 426x240x 256x144
  *        quality:
  *         type: string
- *         description: Output quality of the video
+ *         description: Output quality of the video. It could be from 1 to 31
  *        angle:
  *         type: string
- *         description: Output angle of the video
+ *         description: Rotate the image depending on the values 90, 180, 270 degrees
  *        vflip:
  *         type: string
- *         description: ask
+ *         description: Mirror effect vertically. Specify values true or false
  *        hflip:
  *         type: string
- *         description: ask
+ *         description: Mirror effect horizontally. Specify values true or false
  *        outputFormat:
  *         type: string
- *         description: Output format of the video
+ *         description: Output format of the video. It could be .mp4, .mov, .wmv, .avi, .flv, .mkv, .webm
  *        obtainFrames:
  *         type: string
- *         description: ask
+ *         description: If it's true the program will return frames from the video, if it's false it won't
  *        frameScale:
  *         type: string
- *         description: ask
+ *         description: The size of the frame returned by the video. It could be values 854, 640, 520, 426, 360, 256
  *        grayScale:
  *         type: string
- *         description: Variable to check if the output frames will be in gray scale
+ *         description: Variable to check if the output frames will be in gray scale. It could be true or false
  *        timeBetweenFrames:
  *         type: string
- *         description: The time between capturing the video frames
+ *         description: The time between capturing the video frames. By default it is one frame per second
  *        outputFormatFrames:
  *         type: string
- *         description: Output format of the images from the video
+ *         description: Output format of the images from the video. It could be png, jpg, jpeg
  *        obtainAudio:
  *         type: string
- *         description: Variable to confirm if the converter will extract the audio from the video
+ *         description: If it's true the program will return audio from the video. It could be .mp3, .mp2, .wma
  *        checksum:
  *         type: string
  *         description: The hash to check if the video is not loaded more than once
@@ -157,19 +157,19 @@
  *        format: binary
  *       obtainFrames:
  *        type: string
- *        description: Option to determine if the video frames will be obtained
+ *        description: If it's true the program will return frames from the video, if it's false it won'td
  *       frameScale:
  *        type: string
- *        description: The size of the frames that will be obtained
+ *        description: The size of the frame returned by the video. It could be values 854, 640, 520, 426, 360, 256
  *       grayScale:
  *        type: string
- *        description: Option to determinate if the images obtained will be in gray scale
+ *        description: Variable to check if the output frames will be in gray scale. It could be true or false
  *     FilesMetadata:
  *      type: object
  *      properties:
  *       file:
  *        type: string
- *        description: The video file that will be sent
+ *        description: The video file that will be analized
  *        format: binary
  */
 
@@ -177,7 +177,7 @@
  * @swagger
  * tags:
  *  name: Video Converter
- *  description: The books managing API
+ *  description: To convert a video to different formats
  */
 
 /**
@@ -185,8 +185,8 @@
  * /videoConverter:
  *  post:
  *   tags: [Video Converter]
- *   summary: Convert video into images
- *   description: this api convert video into images or into different format of video
+ *   summary: Convert video to images
+ *   description: This endpoint converts a video to images and to different video formats
  *   requestBody:
  *    content:
  *     multipart/form-data:
@@ -194,11 +194,11 @@
  *       $ref: '#/definitions/Video'
  *   responses:
  *    200:
- *     description: video converted succesfully
+ *     description: Video converted succesfully
  *    404:
- *     description: non conection available
+ *     description: Non conection available
  *    500:
- *     description: failure in converting video
+ *     description: Failure in Server
  */
 app.post("/videoConverter", cors());
 
@@ -207,52 +207,8 @@ app.post("/videoConverter", cors());
  * /files/{name}:
  *  get:
  *   tags: [Video Converter]
- *   summary: Endpoint used to download the data information done by "videoConverter" endpoint
- *   parameters:
- *     - in: path
- *       name: name
- *       schema:
- *         type: string
- *       required: true
- *       description: Name of the file converted from the "videoConverter" that will be downloaded
- *   responses:
- *    200:
- *     description: Video converted succesfully
- *    404:
- *     description: Non conection available
- *    500:
- *     description: Failure in converting video
- */
-app.get("/files/:name");
-
-/**
- * @swagger
- * /frames:
- *  post:
- *   tags: [Video Converter]
- *   summary: Convert video into images to work with machine learning
- *   description: Convert video into images to work with machine learning
- *   requestBody:
- *    content:
- *     multipart/form-data:
- *      schema:
- *       $ref: '#/definitions/VideoToMachineLearning'
- *   responses:
- *    200:
- *     description: video converted succesfully
- *    404:
- *     description: non conection available
- *    500:
- *     description: failure in converting video
- */
-app.post("/frames");
-
-/**
- * @swagger
- * /framesZipML/{name}:
- *  get:
- *   tags: [Video Converter]
- *   summary: Endpoint used to download the data information done by "frames" endpoint
+ *   summary: Download the video file converted
+ *   description: This endpoint download the video file done in "videoConverter" endpoint
  *   parameters:
  *     - in: path
  *       name: name
@@ -262,11 +218,57 @@ app.post("/frames");
  *       description: Name of the file that will be downloaded
  *   responses:
  *    200:
+ *     description: Video download succesfully
+ *    404:
+ *     description: Non conection available
+ *    500:
+ *     description: Failure in Server
+ */
+app.get("/files/:name");
+
+/**
+ * @swagger
+ * /frames:
+ *  post:
+ *   tags: [Video Converter]
+ *   summary: Convert video to images to work with machine learning
+ *   description: This endpoint converts a video to images to work with machine learning
+ *   requestBody:
+ *    content:
+ *     multipart/form-data:
+ *      schema:
+ *       $ref: '#/definitions/VideoToMachineLearning'
+ *   responses:
+ *    200:
  *     description: Video converted succesfully
  *    404:
  *     description: Non conection available
  *    500:
- *     description: Failure in converting video
+ *     description: Failure in Server
+ */
+app.post("/frames");
+
+/**
+ * @swagger
+ * /framesZipML/{name}:
+ *  get:
+ *   tags: [Video Converter]
+ *   summary: Download video frames
+ *   description: This endpoint download the video frames done in "frames" endpoint
+ *   parameters:
+ *     - in: path
+ *       name: name
+ *       schema:
+ *         type: string
+ *       required: true
+ *       description: Name of the file that will be downloaded
+ *   responses:
+ *    200:
+ *     description: Frames download succesfully
+ *    404:
+ *     description: Non conection available
+ *    500:
+ *     description: Failure in Server
  */
 app.get("/framesZipML/:name");
 
@@ -276,6 +278,7 @@ app.get("/framesZipML/:name");
  *  post:
  *   tags: [Video Converter]
  *   summary: File that will be sent to extract it's metadata
+ *   description: This endpoint extracts metadata from a file
  *   requestBody:
  *    content:
  *     multipart/form-data:
@@ -283,11 +286,11 @@ app.get("/framesZipML/:name");
  *       $ref: '#/definitions/FilesMetadata'
  *   responses:
  *    200:
- *     description: Video converted succesfully
+ *     description: Metadata extracted succesfully
  *    404:
  *     description: Non conection available
  *    500:
- *     description: Failure in converting video
+ *     description: Failure in Server
  */
 app.post("/filesMetadata");
 
@@ -296,7 +299,8 @@ app.post("/filesMetadata");
  * /filesMetadata/{name}:
  *  get:
  *   tags: [Video Converter]
- *   summary: Endpoint used to download the data information done by "filesMetadata"
+ *   summary: Download the metadata information
+ *   description: This endpoint download the data information done in "filesMetadata" endpoint
  *   parameters:
  *     - in: path
  *       name: name
@@ -306,11 +310,11 @@ app.post("/filesMetadata");
  *       description: Name of the file that will be downloaded
  *   responses:
  *    200:
- *     description: Video converted succesfully
+ *     description: Video downloaded succesfully
  *    404:
  *     description: Non conection available
  *    500:
- *     description: Failure in converting video
+ *     description: Failure in Server
  */
 
 app.get("/filesMetadata/:name");

@@ -176,7 +176,7 @@ app.post("/extractToPDF");
  *    404:
  *     description: Non conection available
  *    500:
- *     description: Failure downloading file
+ *     description: Failure in Server
  */
 app.get("/extractToPDF/:name");
 

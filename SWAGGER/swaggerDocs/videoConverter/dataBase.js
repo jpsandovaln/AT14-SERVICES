@@ -22,7 +22,7 @@ const app = express.Router();
  *    404:
  *     description: Non conection available
  *    500:
- *     description: Failure getting data
+ *     description: Failure in Server
  */
 app.get("/file");
 
@@ -46,7 +46,7 @@ app.get("/file");
  *    404:
  *     description: Non conection available
  *    500:
- *     description: Failure deleting data
+ *     description: Failure in Server
  */
 app.options("/file/:id", cors());
 app.delete("/file/:id");
@@ -71,7 +71,7 @@ app.delete("/file/:id");
  *    404:
  *     description: Non conection available
  *    500:
- *     description: Failure getting data
+ *     description: Failure in Server
  */
 app.get("/file/:id");
 
