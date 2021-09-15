@@ -9,7 +9,6 @@ import {
 	FormGroup,
 	Switch,
 	Menu,
-	MenuList,
 	Avatar,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -43,7 +42,7 @@ const useStyle = makeStyles((theme) => ({
 		flexGrow: 1,
 	},
 }));
-//TODO review if onClick is working
+
 const NavBar = (props) => {
 	const classes = useStyle();
 	const [t, i18n] = useTranslation("global");

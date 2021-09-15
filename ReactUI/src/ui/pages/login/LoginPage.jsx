@@ -1,9 +1,7 @@
 import {
 	makeStyles,
 	Paper,
-	Avatar,
 	CssBaseline,
-	Typography,
 	TextField,
 	Button,
 	Divider,
@@ -67,7 +65,7 @@ const Login = (props) => {
 	return (
 		<div className="Login">
 			<Grid container className={`loginContainer`}>
-				<ul class="circles">
+				<ul className="circles">
 					<li></li>
 					<li></li>
 					<li></li>
