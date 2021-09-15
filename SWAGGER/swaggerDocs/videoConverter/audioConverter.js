@@ -38,13 +38,13 @@
  *         description: The audio file that will be converted to a different formats
  *        outputFormat:
  *         type: string
- *         description: The format type that the file will be converted
+ *         description: The format type that the file will be converted. It could be .mp3, .mp2, .mp4, .wav
  *        FadeIn:
  *         type: string
- *         description: Output fade in audio
+ *         description: Output fade in audio. It could be true or false
  *        FadeOut:
  *         type: string
- *         description: Output fade out audio
+ *         description: Output fade out audio. It could be true or false
  */
 
 /**
