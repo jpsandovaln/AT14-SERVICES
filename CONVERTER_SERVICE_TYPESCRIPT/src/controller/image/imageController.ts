@@ -13,14 +13,14 @@ export class ImageController {
 
             if (req.file == undefined) {
                 Logger.debug(req.body)
-                Logger.error("Please upload a file!")
+                Logger.error("Please upload a Image!")
                 return res
                     .status(400)
                     .send({ message: "Please upload a file!" });
             }
             if (req.file != undefined) {
                 Logger.debug(req.body)
-                Logger.info("-> load a file!")
+                Logger.info(" uploaded file")
                 let params = new Parameters(req.body);
                 let codec = Property.getMagickPath() + " ";
                 let filePath = req.file.path;
@@ -50,7 +50,7 @@ export class ImageController {
         } catch (err: any) {
             if (err.code == "LIMIT_FILE_SIZE") {
                 Logger.debug(req.body)
-                Logger.error("File size cannot be larger than 2MB!")
+                Logger.error("Image size cannot be larger than 2MB!")
                 return res.status(500).send({
                     message: "File size cannot be larger than 2MB!",
                 });
@@ -93,7 +93,7 @@ export class ImageController {
 
         res.download(directoryPath + fileName, fileName, (err) => {
             if (err) {
-                Logger.error("Could not download the file. ")
+                Logger.error("Could not download the processed file (image) ")
                 res.status(500).send({
                     message: "Could not download the file. " + err,
                 });

@@ -1,6 +1,7 @@
 import path = require('path');
 import { ZippingResultFiles } from '../../middleware/video/zips/zippingResultFiles';
 import { Property } from '../../utilities/property';
+import Logger from '../../utilities/logger';
 export class VideoController {
     videoProcess = async (req: any, res: any) => {
         try {
@@ -8,6 +9,8 @@ export class VideoController {
             const zipResults = new ZippingResultFiles();
             const resultZipPath = await zipResults.obtainResultPath(nameFile, req.fields);
             const nameZipFile = path.basename(resultZipPath);
+            Logger.debug(req.body)
+            Logger.info(" uploaded video")
             res.status(200).send([
                 {
                     name: nameFile,
@@ -15,6 +18,7 @@ export class VideoController {
                 },
             ]);
         } catch (error) {
+            Logger.error("Something has gone wrong in video service!!")
             res.send([
                 {
                     message: "Something has gone wrong!!!"

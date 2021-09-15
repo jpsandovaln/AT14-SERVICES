@@ -1,6 +1,7 @@
 import path = require('path');
 import { ServiceMetadata } from '../../middleware/metadata/services/serviceMetadata';
 import { Property } from '../../utilities/property';
+import Logger from '../../utilities/logger';
 export class MetadataController {
     MetadataProcess = async (req: any, res: any) => {
         try {
@@ -9,6 +10,7 @@ export class MetadataController {
             const metadata = new ServiceMetadata(nameFile, resultName);
             const resultMetadataPath = await metadata.resultPath();
             const nameTextFile = path.basename(resultMetadataPath);
+            Logger.info("Uploaded file!")
             res.status(200).send([
                 {
                     name: nameFile,
@@ -16,6 +18,7 @@ export class MetadataController {
                 },
             ]);
         } catch (error) {
+            Logger.error("Something has gone wrong in Metadata Service!!!")
             res.send([
                 {
                     message: "Something has gone wrong!!!"
