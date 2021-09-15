@@ -6,6 +6,43 @@
         "extractor-service":"Servicio Extractor",
         "report-convert":"Informe de Conversion"
     },
+    "convert":{
+        "home":"Inicio",
+        "title":"Convertidor",
+        "video":{
+            "title":"Video",
+            "upload":"Cargar",
+            "card-form":"Procesador de Video",
+            "output-format":"Formato de Salida",
+            "fps":"Fps",
+            "scale":"Scale",
+            "audio-format":"Formato de Audio",
+            "quality":"Calidad",
+            "rotate":"Rotacion",
+            "flip-horizon":"Flip Horizontal",
+            "flip-vertical":"Flip Vertical",
+            "frames":"Tramas",
+            "obtain-frames":"Obtener Tramas",
+            "obtain-audio":"Obtener Audio",
+            "card-table":"Resultados",
+            "corvert":"Convertidor",
+            "name":"Nombre",
+            "file-path":"Ruta de Archivo",
+            "download":"Descargar"
+        },
+        "image":{
+            "title":"Image",
+            "upload":"Upload"
+        },
+        "audio":{
+            "title":"Audio",
+            "upload":"Upload"
+        },
+        "document":{
+            "title":"Document",
+            "upload":"Upload"
+        }
+    },
     "machine-learning":{
         "home": "Inicio",
         "title": "Aprendizaje Automatico",
