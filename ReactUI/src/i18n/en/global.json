@@ -6,6 +6,43 @@
         "extractor-service":"Extractor Service",
         "report-convert":"Report Convert"
     },
+    "convert":{
+        "home":"Home",
+        "title":"Convert",
+        "video":{
+            "title":"Video",
+            "upload":"Upload",
+            "card-form":"Video Processor",
+            "output-format":"Output Format",
+            "fps":"Fps",
+            "scale":"Scale",
+            "audio-format":"Audio Format",
+            "quality":"Quality",
+            "rotate":"Rotate",
+            "flip-horizon":"Flip Horizon",
+            "flip-vertical":"Flip Vertical",
+            "frames":"Frames",
+            "obtain-frames":"Obtain frames",
+            "obtain-audio":"Obtain Audio",
+            "card-table":"Results",
+            "corvert":"Convert",
+            "name":"Name",
+            "file-path":"File Path",
+            "download":"Download"
+        },
+        "image":{
+            "title":"Image",
+            "upload":"Upload"
+        },
+        "audio":{
+            "title":"Audio",
+            "upload":"Upload"
+        },
+        "document":{
+            "title":"Document",
+            "upload":"Upload"
+        }
+    },
     "machine-learning":{
         "home": "Home",
         "title": "Machine Learning",

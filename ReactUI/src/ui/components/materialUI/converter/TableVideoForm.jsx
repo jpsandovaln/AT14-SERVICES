@@ -12,6 +12,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import TableBody from "@material-ui/core/TableBody";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles(() => ({
 
 const TableVideoForm = (classes) => {
 	const clas = useStyles();
-
+	const [t, i18n] = useTranslation("global");	
 	return (
 		<Grid container spacing={3}>
 			<Grid item xs={12}>
@@ -50,7 +51,7 @@ const TableVideoForm = (classes) => {
 									variant="contained"
 									color="#83bbeb"
 								>
-									Convert
+									{t("convert.video.convert")}
 								</Button>
 							</Grid>
 						</Grid>
@@ -65,10 +66,10 @@ const TableVideoForm = (classes) => {
 										<TableHead>
 											<TableRow>
 												<TableCell align="center">
-													Name
+													{t("convert.video.name")}
 												</TableCell>
 												<TableCell align="center">
-													File Path
+													{t("convert.video.file-path")}
 												</TableCell>
 											</TableRow>
 										</TableHead>
@@ -89,7 +90,7 @@ const TableVideoForm = (classes) => {
 																target="_blank"
 																download
 															>
-																Download
+																{t("convert.video.download")}
 															</a>
 														</TableCell>
 													</TableRow>
