@@ -104,12 +104,10 @@ const ImgForm = (promp) => {
 										<MenuItem value="">
 											<em>-</em>
 										</MenuItem>
-										<MenuItem value={".png"}>.png</MenuItem>
 										<MenuItem value={".jpeg"}>
 											.jpeg
 										</MenuItem>
 										<MenuItem value={".jpg"}>.jpg</MenuItem>
-										<MenuItem value={".bmp"}>.bmp</MenuItem>
 										<MenuItem value={".raw"}>.raw</MenuItem>
 										<MenuItem value={".tiff"}>
 											.tiff
