@@ -32,7 +32,7 @@ const DocumentForm = (promp) => {
 						<Grid container spacing={6}>
 							<Grid item xs={6} md={6} sm={12} >
 								<input
-									accept="document/pdf"
+									accept="application/pdf"
 									className={classes.input}
 									id="contained-button-file"
 									name="contained-button-file"						

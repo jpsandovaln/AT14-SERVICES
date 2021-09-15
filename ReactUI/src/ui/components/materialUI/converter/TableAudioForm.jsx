@@ -11,6 +11,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TableBody from "@material-ui/core/TableBody";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const TableAudioForm = () => {
+const TableAudioForm = (promp) => {
 	const classes = useStyles();
 
 	return (
@@ -71,7 +73,31 @@ const TableAudioForm = () => {
 												</TableCell>
 											</TableRow>
 										</TableHead>
+										<TableBody>
+											{promp.data &&
+												promp.data.map((row) => (
+													<TableRow key={row.name}>
+														<TableCell align="center">
+															{row.name}
+														</TableCell>
+														<TableCell align="center">
+															<a
+																href={
+																	row.filePath
+																}
+																without
+																rel="noreferrer"
+																target="_blank"
+																download
+															>
+																Download
+															</a>
+														</TableCell>
+													</TableRow>
+												))}
+										</TableBody>
 									</Table>
+									{promp.open ? <LinearProgress /> : ""}
 								</TableContainer>
 							</Grid>
 						</Grid>

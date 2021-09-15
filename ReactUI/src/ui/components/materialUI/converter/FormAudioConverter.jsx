@@ -1,48 +1,66 @@
 import React from "react";
-import axios from "axios";
 import AudioForm from "./AudioForm";
 import TableAudioForm from "./TableAudioForm";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+
+export const UploadMutation = gql`
+  mutation uiToSoundConverter($outputFormat: String, $FadeIn: String, $FadeOut: String, $file: Upload!) {
+    uiToSoundConverter(outputFormat: $outputFormat, FadeIn: $FadeIn, FadeOut: $FadeOut, file: $file) {
+		name
+		filePath
+    }
+  }
+`;
 
 const FormAudioConveter = () => {
-	const urlML = "http://localhost:8080/imageFinder";
-	const [setResponse] = React.useState([]);
+	const [t, i18n] = useTranslation("global");
+	const [data,setResponse] = React.useState([]);
 	const [outputFormat, setOutputFormat] = React.useState("");
-	const [samplingRate, setsamplingRate] = React.useState("");
-	const [invertAudio, setinvertAudio] = React.useState("");
-	const [channels, setchannels] = React.useState("");
 	const [fadeIn, setFadeIn] = React.useState("");
 	const [fadeOut, setFadeOut] = React.useState("");
-	const [setOpen] = React.useState(false);
+	const [FileData, setUploadFile] = React.useState(null);
+	const [open,setOpen] = React.useState(false);
+	const [nameAudio, setNameAudio] = React.useState(
+		t("machine-learning.form-text-file")
+	);
 
-	const submitFormVideo = (event) => {
+	
+	const [uiToSoundConverter, { error }] = useMutation(UploadMutation);
+
+	const setFileAudio = async (e) => {
+		let videoFile = document.getElementById("contained-button-audio");
+		if (videoFile.files.length > 0) {
+			setNameAudio(videoFile.files.item(0).name);
+			setUploadFile(e.target.files[0]);
+		} else {
+			setNameAudio(t("machine-learning.form-text-file"));
+			setUploadFile(null);
+		}
+	};
+
+	const submitFormVideo = async (event) => {
+
 		event.preventDefault();
 		setOpen(true);
-		const dataArray = new FormData();
-
-		dataArray.append("outputFormat", outputFormat);
-		dataArray.append("samplingRate", samplingRate);
-		dataArray.append("channels", channels);
-		dataArray.append("fadeIn", fadeIn);
-		dataArray.append("fadeOut", fadeOut);
-		dataArray.append("invertAudio", invertAudio);
-
-		const fetchData = () => {
-			axios
-				.post(urlML, dataArray, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					setResponse(res.data);
-					setOpen(false);
-				})
-				.catch((error) => {
-					return(error);
-				});
-		};
-
-		fetchData();
+		setResponse(null);
+		
+		const data = await uiToSoundConverter({
+			variables: {
+				outputFormat: outputFormat + "",
+				FadeIn: fadeIn + "",
+				FadeOut: fadeOut + "",
+				file: FileData,
+			},
+		});
+		if (error) {
+			console.log(error);
+		} else {
+			console.warn(data.data.uiToSoundConverter);
+			setResponse(data.data.uiToSoundConverter);
+			setOpen(false);
+		}
 	};
 
 	return (
@@ -50,19 +68,21 @@ const FormAudioConveter = () => {
 			<form onSubmit={submitFormVideo}>
 				<AudioForm
 					outputFormat={outputFormat}
-					samplingRate={samplingRate}
-					channels={channels}
 					fadeIn={fadeIn}
 					fadeOut={fadeOut}
-					invertAudio={invertAudio}
 					setOutputFormat={setOutputFormat}
 					setFadeIn = {setFadeIn}
 					setFadeOut = {setFadeOut}
-					setsamplingRatet={setsamplingRate}
-					setchannels={setchannels}
-					setinvertAudio={setinvertAudio}
+					nameAudio={nameAudio}
+					setFileAudio={setFileAudio}
+					setNameAudio={setNameAudio}
 				/>
-				<TableAudioForm />
+				<TableAudioForm 
+					open={open}
+					setOpen={setOpen}
+					data={data}
+					setResponse={setResponse}
+				/>
 			</form>
 		</div>
 	);
