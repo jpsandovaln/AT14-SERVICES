@@ -9,13 +9,9 @@ import {
 	Divider,
 	Grid,
 } from "@material-ui/core";
-import Link from "@material-ui/core/Link";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import { useState } from "react";
 import GoogleLogin from "react-google-login";
 import "./LoginPage.css";
-import "./TitleAnimation.css";
-import "./ContentAnimation.css";
 
 const Login = (props) => {
 	const handleChange = (e) => {
@@ -37,7 +33,7 @@ const Login = (props) => {
 		props.setIsLogin(false);
 	};
 
-	const [body, setBody] = useState({ email: " ", password: " " });
+	const [body, setBody] = useState({ email: "", password: "" });
 
 	const classStyles = makeStyles((theme) => ({
 		paper: {
@@ -83,44 +79,15 @@ const Login = (props) => {
 					<li></li>
 					<li></li>
 				</ul>
-				<Grid item xs={7}>
-					<div className={`containerTitle`}>
-						<div className={`idontknow`}>
-							<h1
-								data-shadow="SNIFFER DOG"
-								className={`snifferTitle`}
-							>
-								SNIFFER DOG
-							</h1>
-						</div>
-					</div>
-				</Grid>
-				<Grid item xs={5}>
+				<Grid item xs={12}>
 					<CssBaseline />
 					<Paper className={`${classes.paper} paperLogin`}>
-						<Breadcrumbs aria-label="breadcrumb">
-							<Link color="inherit" href="/">
-								Sign In
-							</Link>
-							<Typography color="textPrimary"></Typography>
-						</Breadcrumbs>
-						<Breadcrumbs aria-label="breadcrumb">
-							<Link color="inherit" href="/Create">
-								Sign Up
-							</Link>
-						</Breadcrumbs>
-						<Avatar
+						<h1 className={`snifferTitle`}>SNIFFER DOG</h1>
+						<video
 							className={classes.avatar}
 							alt="dog"
-							src="/at14.gif"
-						></Avatar>
-						<Typography
-							component="h1"
-							variant="h5"
-							className={classes.font}
-						>
-							Login
-						</Typography>
+							src="https://res.cloudinary.com/marcandea/video/upload/v1631739192/samples/AT_-_14_bryiub.mp4"
+						></video>
 						<form className={classes.form} noValidate>
 							<TextField
 								variant="outlined"
