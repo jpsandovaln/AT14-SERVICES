@@ -5,23 +5,22 @@ import { Property } from "../../utilities/property";
 import { Parameters } from "../../model/common/parameter/parameters";
 import express from "express";
 import fs from "fs";
-/*
-export class ImageController {
-    test(req: express.Request, res: express.Response) {
-        res.json({ message: "testing purposes" });
-    }
-}*/
+import Logger from "../../utilities/logger";
 export class ImageController {
     upload = async (req: express.Request, res: express.Response) => {
         try {
             await new Upload().fileUploadMiddleware(req, res);
 
             if (req.file == undefined) {
+                Logger.debug(req.body)
+                Logger.error("Please upload a file!")
                 return res
                     .status(400)
                     .send({ message: "Please upload a file!" });
             }
             if (req.file != undefined) {
+                Logger.debug(req.body)
+                Logger.info("-> load a file!")
                 let params = new Parameters(req.body);
                 let codec = Property.getMagickPath() + " ";
                 let filePath = req.file.path;
@@ -50,11 +49,12 @@ export class ImageController {
             }
         } catch (err: any) {
             if (err.code == "LIMIT_FILE_SIZE") {
+                Logger.debug(req.body)
+                Logger.error("File size cannot be larger than 2MB!")
                 return res.status(500).send({
                     message: "File size cannot be larger than 2MB!",
                 });
             }
-
             res.status(500).send({
                 message: `Could not upload the file ${err}`,
             });
@@ -68,6 +68,7 @@ export class ImageController {
 
         fs.readdir(directoryPath, function (err, files) {
             if (err) {
+                Logger.error("Unable to scan files!")
                 res.status(500).send({
                     message: "Unable to scan files!",
                 });
@@ -92,6 +93,7 @@ export class ImageController {
 
         res.download(directoryPath + fileName, fileName, (err) => {
             if (err) {
+                Logger.error("Could not download the file. ")
                 res.status(500).send({
                     message: "Could not download the file. " + err,
                 });

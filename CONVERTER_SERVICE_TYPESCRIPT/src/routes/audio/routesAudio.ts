@@ -14,8 +14,8 @@ export class RoutesAudio extends Routes {
 
     public getRoutes():void {
         router.post("/audioConverter", [new UploadFile().uploadFile], new AudioController().AudioProcess);
-        router.get("/files/:name", new DownloadFile(Property.getOutputPath()).download);
-        this.app.use(router);
+        router.get("/audio/:name", new DownloadFile(Property.getOutputPath()).download);
         this.app.use(cors());
+        this.app.use(router);
     }
 }
