@@ -2,6 +2,11 @@ import { gql } from 'apollo-server';
 
 const typeDefs =  gql`
   scalar Upload
+
+  type SoundConverter {
+    name: String
+    filePath: String
+  }
   type ImageConverter {
     name: String
     url: String
@@ -79,6 +84,7 @@ const typeDefs =  gql`
     uiToImageText(language: String, file: Upload!): ImageToText
     uiToPdfImage(outputFormat: String, outputSize: String, rotation: String, quality: String, paintEffect: String, type: String, file: Upload!): [PdfImage!]
     uiToImageConvert(outputFormat: String, resize: String, rotate: String, quality: String, doubling: String, paint: String , grayScale: String, monochrome: String, file: Upload!): ImageConverter
+    uiToSoundConverter(outputFormat: String, FadeIn: String, FadeOut: String, file: Upload!): [SoundConverter!]
   }
 `;
 

@@ -71,6 +71,29 @@ const resolvers = {
     },
     Mutation: {
 
+        uiToSoundConverter: async (_, args) => {
+            const uri = "" + process.env.CONVERTER_SOUND_CONVERTER;
+
+            const uploadFile = await processUpload(args.file);
+            const dataArray = new FormData();
+            dataArray.append("outputFormat", args.outputFormat);
+            dataArray.append("FadeIn", args.FadeIn);
+            dataArray.append("FadeOut", args.FadeOut);
+            dataArray.append("file", fs.createReadStream(uploadFile.path)); 
+            
+            const res = await axios.post(uri, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
+                headers: dataArray.getHeaders(),
+            });            
+
+            Array.prototype.push.apply(FileData, res.data);
+
+            return FileData;
+                                 
+
+        },
+
         uiToImageConvert: async (_, args) => {
             const uri = "" + process.env.CONVERTER_IMAGE_CONVERTER;
 
