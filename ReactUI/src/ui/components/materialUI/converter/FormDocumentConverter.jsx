@@ -70,6 +70,7 @@ const FormDocumentConveter = () => {
 			console.log(error);
 		}
 		else{
+			console.warn(response.data.uiToPdfImage)
 			setResponse(response.data.uiToPdfImage);
 			setOpen(false);			
 		}

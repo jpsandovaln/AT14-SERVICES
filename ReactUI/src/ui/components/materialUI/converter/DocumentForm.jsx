@@ -32,7 +32,7 @@ const DocumentForm = (promp) => {
 						<Grid container spacing={6}>
 							<Grid item xs={6} md={6} sm={12} >
 								<input
-									accept="document/*"
+									accept="document/pdf"
 									className={classes.input}
 									id="contained-button-file"
 									name="contained-button-file"						
@@ -146,7 +146,6 @@ const DocumentForm = (promp) => {
 												e.target.value
 											)
 										}
-										required
 										>
 											<MenuItem value={"90"}>90</MenuItem>
 											<MenuItem value={"180"}>
@@ -180,10 +179,10 @@ const DocumentForm = (promp) => {
 											track={promp.quality}
 											aria-labelledby="discrete-slider"
 											valueLabelDisplay="auto"
-											step={1}
+											step={100}
 											marks
 											min={0}
-											max={10}
+											max={500}
 										/>
 									</div>
 								</FormControl>								
@@ -237,7 +236,6 @@ const DocumentForm = (promp) => {
 											e.target.value
 										)
 									}
-									required
 										>
 											<MenuItem value={""}>
 												Full Color
