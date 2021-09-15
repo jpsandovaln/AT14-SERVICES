@@ -24,7 +24,8 @@ export class FileController {
                 throw new FileUploadException(
                     "Please upload a file!",
                     StatusCode.BadRequest,
-                    Code.EXTRACTOR_ERROR_01);
+                    Code.EXTRACTOR_ERROR_01
+                );
             }
             if (req.file) {
                 const imageBasic: IBase = {
@@ -50,7 +51,8 @@ export class FileController {
                 throw new FileUploadException(
                     "Please upload a file!",
                     StatusCode.BadRequest,
-                    Code.EXTRACTOR_ERROR_01);
+                    Code.EXTRACTOR_ERROR_01
+                );
             }
             if (req.file) {
                 const imageBasic: IBase = {
@@ -79,7 +81,8 @@ export class FileController {
                 throw new FileUploadException(
                     "Please upload a file!",
                     StatusCode.BadRequest,
-                    Code.EXTRACTOR_ERROR_01);
+                    Code.EXTRACTOR_ERROR_01
+                );
             }
             if (req.file) {
                 const rectanglePart: Object = {
@@ -87,7 +90,7 @@ export class FileController {
                     top: req.body.top,
                     width: req.body.width,
                     height: req.body.height,
-                }
+                };
                 const imageToCropped: ICropped = {
                     worker: worker,
                     language: req.body.language,

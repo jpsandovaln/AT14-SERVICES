@@ -8,15 +8,15 @@ const cors = require("cors");
  *   properties:
  *    zipFile:
  *     type: string
- *     description: The video file that will be converted
+ *     description: The zip file that will be analized
  *     format: binary
  *    searchWord:
  *     type: string
- *     description: The keyword that will be looked in the images by the machine learning
+ *     description: The keyword that will be searched in the images by the machine learning
  *     example: 'dog'
  *    percentage:
  *     type: string
- *     description: ask
+ *     description: Success rate to identify the object precision
  *     example: '0.2'
  *    algorithm:
  *     type: string
@@ -30,14 +30,14 @@ const cors = require("cors");
  *     items:
  *      type: string
  *      format: binary
- *     description: The video file that will be converted
+ *     description: The zip file that will be analized
  *    searchWord:
  *     type: string
- *     description: The keyword that will be looked in the images by the machine learning
+ *     description: The keyword that will be searched in the images by the machine learning
  *     example: 'dog'
  *    percentage:
  *     type: string
- *     description: ask
+ *     description: Success rate to identify the object precision
  *     example: '0.2'
  *    algorithm:
  *     type: string
@@ -47,9 +47,34 @@ const cors = require("cors");
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Machine Learning:
+ *       type: object
+ *       required:
+ *         - title
+ *         - author
+ *       properties:
+ *        zipFile:
+ *         type: file
+ *         format: binary
+ *         description: The zip file that will be analized, this zip file contains different images
+ *        searchWord:
+ *         type: string
+ *         description: The keyword that will be searched in the images by the machine learning
+ *        percentage:
+ *         type: string
+ *         description: Success rate to identify the object precision
+ *        algorithm:
+ *         type: string
+ *         description: The algorithm that will be used to search in the images. It could be CocoSSD and MobilNet
+ */
+
+/**
+ * @swagger
  * tags:
  *  name: Machine Learning
- *  description: The books managing API
+ *  description: Analize images to detect objects
  */
 
 /**
@@ -65,11 +90,11 @@ const cors = require("cors");
  *       $ref: '#/definitions/ZipAnalizer'
  *   responses:
  *    200:
- *     description: video converted succesfully
+ *     description: Zip file analized succesfully
  *    404:
- *     description: non conection available
+ *     description: Non conection available
  *    500:
- *     description: failure in converting video
+ *     description: Failure in Server
  */
 app.post("/analizeZip", cors());
 
@@ -86,10 +111,10 @@ app.post("/analizeZip", cors());
  *       $ref: '#/definitions/ImagesAnalizer'
  *   responses:
  *    200:
- *     description: video converted succesfully
+ *     description: Images analized succesfully
  *    404:
- *     description: non conection available
+ *     description: Non conection available
  *    500:
- *     description: failure in converting video
+ *     description: Failure in Server
  */
 app.post("/analizeImages");
