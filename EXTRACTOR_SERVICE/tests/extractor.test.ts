@@ -5,8 +5,6 @@ import { StatusCode } from "../src/common/statusCode";
 import { Extractor } from "../src/model/tesseract/extractor";
 import { ExtractToText } from "../src/model/tesseract/extractToText";
 import { IBase } from "../src/model/tesseract/interfaces/iBase";
-import { mock, when, instance } from "ts-mockito";
-import { TextToImageException } from "../src/common/exception/textToImageException";
 
 var properties: IBase = {
 	worker: createWorker(),
