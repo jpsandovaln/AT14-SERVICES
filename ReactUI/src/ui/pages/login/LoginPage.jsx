@@ -9,11 +9,13 @@ import {
 	Divider,
 	Grid,
 } from "@material-ui/core";
-import GoogleLogin from "react-google-login";
-import "./loginPage.css";
 import Link from "@material-ui/core/Link";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import { useState } from "react";
+import GoogleLogin from "react-google-login";
+import "./LoginPage.css";
+import "./TitleAnimation.css";
+import "./ContentAnimation.css";
 
 const Login = (props) => {
 	const handleChange = (e) => {
@@ -82,14 +84,16 @@ const Login = (props) => {
 					<li></li>
 				</ul>
 				<Grid item xs={7}>
-					<Paper className={`${classes.paper} paperVideo`}>
-						{/* <video
-							src="test-background-sniffer.gif"
-							autoPlay
-							loop
-							muted
-						></video> */}
-					</Paper>
+					<div className={`containerTitle`}>
+						<div className={`idontknow`}>
+							<h1
+								data-shadow="SNIFFER DOG"
+								className={`snifferTitle`}
+							>
+								SNIFFER DOG
+							</h1>
+						</div>
+					</div>
 				</Grid>
 				<Grid item xs={5}>
 					<CssBaseline />
