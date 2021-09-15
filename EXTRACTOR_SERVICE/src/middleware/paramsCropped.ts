@@ -16,7 +16,11 @@ export class ParamsCropped {
         const topString: any = top;
         const widthString: any = width;
         const heigthString: any = height;
-        
+
+        this.checkUndefined(left);
+        this.checkUndefined(top);
+        this.checkUndefined(width);
+        this.checkUndefined(height);
         this.checkLeftTop(left);
         this.checkLeftTop(top);
         this.checkWidthHeight(width);
@@ -31,13 +35,23 @@ export class ParamsCropped {
         this.checkString(heigthString);
     }
 
+    checkUndefined(params: number): void{
+        if (params == undefined) {
+            throw new CroppedImageException(
+                "Invalid data parameter: " + params,
+                StatusCode.BadRequest,
+                Code.EXTRACTOR_ERROR_01
+            );
+        }
+    }
+
     checkLeftTop(params: number): void {
         if (params > this.LEFT_TOP_MAX){
             throw new CroppedImageException(
                 "Invalid data parameter: " + params + " Can't be more than '100px'",
                 StatusCode.BadRequest,
                 Code.EXTRACTOR_ERROR_01
-            )
+            );
          }
     }
 
@@ -47,7 +61,7 @@ export class ParamsCropped {
                 "Invalid data parameter: " + params + " Can't be more than '1000px'",
                 StatusCode.BadRequest,
                 Code.EXTRACTOR_ERROR_01
-            )
+            );
         }
     }
 
@@ -57,7 +71,7 @@ export class ParamsCropped {
                 "Invalid data parameter: Empty",
                 StatusCode.BadRequest,
                 Code.EXTRACTOR_ERROR_01
-            )
+            );
         }
     }
 
@@ -68,8 +82,7 @@ export class ParamsCropped {
                 "Invalid data parameter: " + params,
                 StatusCode.BadRequest,
                 Code.EXTRACTOR_ERROR_01
-            )
+            );
         }
-
     }
 }

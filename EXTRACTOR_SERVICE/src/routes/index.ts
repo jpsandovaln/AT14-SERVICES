@@ -1,6 +1,7 @@
 import { FileController } from "../controller/file.controller";
 import express from "express";
 import { DownloadFile } from "../controller/downloadFile";
+import cors from "cors";
 
 const controller = new FileController();
 const downloadFile = new DownloadFile();
@@ -12,6 +13,7 @@ class Routes {
         router.post("/extractToPDF", controller.extractToPDF);
         router.get("/extractToPDF/:name", downloadFile.downloadPDF);
         router.post("/extractCroppedImage", controller.extractCroppedImage);
+        app.use(cors());
         app.use(router);
     }
 }

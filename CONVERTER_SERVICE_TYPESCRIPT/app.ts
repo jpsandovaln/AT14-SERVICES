@@ -10,6 +10,7 @@ import { RoutesImage } from "./src/routes/image/routesImage";
 import { RoutesAudio } from "./src/routes/audio/routesAudio";
 import { ConnectMongo } from "./src/database/connection/connect";
 import { RoutesPdf } from "./src/routes/pdf/routesPdf";
+import { RoutesDBase } from "./src/routes/dbase/routesDBase";
 
 const app = express();
 class Index implements IApp {
@@ -18,6 +19,7 @@ class Index implements IApp {
             "http://localhost:8080",
             "http://localhost:4000",
             "http://localhost:8081",
+            "http://localhost:5000",
         ],
     };
 
@@ -42,6 +44,7 @@ class Index implements IApp {
         new RoutesVideo(app).getRoutes();
         new RoutesAudio(app).getRoutes();
         new RoutesPdf(app).getRoutes();
+        new RoutesDBase(app).getRoutes();
     }
 
     public initMongoose() {
