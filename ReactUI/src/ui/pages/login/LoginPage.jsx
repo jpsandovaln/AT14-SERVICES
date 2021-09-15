@@ -62,21 +62,33 @@ const Login = (props) => {
 		},
 		button: {
 			margin: theme.spacing(1),
-		}
+		},
 	}));
 	const classes = classStyles();
 
 	return (
 		<div className="Login">
 			<Grid container className={`loginContainer`}>
+				<ul class="circles">
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
 				<Grid item xs={7}>
 					<Paper className={`${classes.paper} paperVideo`}>
-						<video
-							src="SnifferDogBlack.mp4"
+						{/* <video
+							src="test-background-sniffer.gif"
 							autoPlay
 							loop
 							muted
-						></video>
+						></video> */}
 					</Paper>
 				</Grid>
 				<Grid item xs={5}>
