@@ -4,7 +4,7 @@
  *  DocumentPDF:
  *   type: object
  *   properties:
- *    imageFile:
+ *    file:
  *     type: string
  *     description: The PDF document that will be converted to images
  *     format: binary
@@ -44,7 +44,7 @@
  *         - title
  *         - author
  *       properties:
- *        imagefile:
+ *        file:
  *         type: string
  *         format: binary
  *         description: The PDF document that will be converted to an image
@@ -86,7 +86,7 @@
  *    content:
  *     multipart/form-data:
  *      schema:
- *       $ref: '#/definitions/Image'
+ *       $ref: '#/definitions/DocumentPDF'
  *   responses:
  *    200:
  *     description: PDF file converted succesfully
@@ -96,3 +96,27 @@
  *     description: Failure in Server
  */
  app.post("/convertPdftoImage", cors());
+
+  /**
+ * @swagger
+ * /convertPdftoImage/{name}:
+ *  get:
+ *   tags: [Document Converter]
+ *   summary: Download the image file converted
+ *   description: This endpoint is used to download the data information done by "convertPdftoImage" endpoint
+ *   parameters:
+ *     - in: path
+ *       name: name
+ *       schema:
+ *         type: string
+ *       required: true
+ *       description: Name of the file that will be downloaded
+ *   responses:
+ *    200:
+ *     description: PDF converted succesfully
+ *    404:
+ *     description: Non conection available
+ *    500:
+ *     description: Failure in Server
+ */
+app.get("/convertPdftoImage/:name");
