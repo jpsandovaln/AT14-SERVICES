@@ -8,6 +8,7 @@ import { DownloadFile } from "../../controller/download/downloadFile";
 import { MetadataController } from "../../controller/metadata/metadataController";
 import { UploadFile } from "../../middleware/common/uploader/uploadFile.";
 import { FramesController } from "../../controller/video/videoFrames";
+import cors from "cors";
 
 const router = express.Router();
 export class RoutesVideo extends Routes {
@@ -23,5 +24,6 @@ export class RoutesVideo extends Routes {
         router.post("/frames", [new UploadFile().uploadFile], new FramesController().frameProcess);
         router.get("/framesZipML/:name", new DownloadFile(Property.getZipPath()).download);
         this.app.use(router);
+        this.app.use(cors());
     }
 }

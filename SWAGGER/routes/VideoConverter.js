@@ -18,7 +18,7 @@ const videoConverterOptions = {
         info: {
             title: "Video Converter",
             version: "1.0.0",
-            description: "Api to convert videos into imagenes",
+            description: "API to convert videos to images",
             contact: {
                 name: "AT14",
             },

@@ -6,6 +6,7 @@ const swaggerUI = require("swagger-ui-express");
 
 const HOSTNAME = process.env.HOSTNAME;
 const PORT = process.env.SERVICE_PORT || 4000;
+const ML_PORT = process.env.ML_PORT;
 
 const machineLearningOptions = {
     customCss: `
@@ -18,14 +19,14 @@ const machineLearningOptions = {
         info: {
             title: "Machine Learning",
             version: "1.0.0",
-            description: "Api to search into images specific objects",
+            description: "API to search into images specific objects",
             contact: {
                 name: "SNIFFER DOG",
             },
         },
         servers: [
             {
-                url: "http://localhost:8085",
+                url: "http://" + HOSTNAME + ":" + ML_PORT,
                 description: "Port where the machine learning service works",
             },
         ],
