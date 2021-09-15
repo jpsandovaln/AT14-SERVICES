@@ -8,10 +8,10 @@
  *     type: string
  *     description: The audio file that will be converted
  *     format: binary
- *    audioFormat:
+ *    outputFormat:
  *     type: string
  *     description: The audio format that will be obtained from the audio converter
- *     example: '.mp4'
+ *     example: '.wav'
  *    FadeIn:
  *     type: string
  *     description: Fade in audio
@@ -36,7 +36,7 @@
  *         type: string
  *         format: binary
  *         description: The audio file that will be converted to a different formats
- *        audioFormat:
+ *        outputFormat:
  *         type: string
  *         description: The format type that the file will be converted
  *        FadeIn:
@@ -56,7 +56,7 @@
 
 /**
  * @swagger
- * /AudioConverter:
+ * /audioConverter:
  *  post:
  *   tags: [Audio Converter]
  *   summary: Convert audio 
@@ -74,4 +74,28 @@
  *    500:
  *     description: Failure in Server
  */
- app.post("/AudioConverter", cors());
+ app.post("/audioConverter", cors());
+
+ /**
+ * @swagger
+ * /audio/{name}:
+ *  get:
+ *   tags: [Audio Converter]
+ *   summary: Download the audio file converted
+ *   description: This endpoint is used to download the data information done by "audio" endpoint
+ *   parameters:
+ *     - in: path
+ *       name: name
+ *       schema:
+ *         type: string
+ *       required: true
+ *       description: Name of the file that will be downloaded
+ *   responses:
+ *    200:
+ *     description: Audio converted succesfully
+ *    404:
+ *     description: Non conection available
+ *    500:
+ *     description: Failure in Server
+ */
+app.get("/audio/:name");

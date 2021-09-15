@@ -31,7 +31,7 @@
  *    hflip:
  *     type: string
  *     description: Mirror effect horizontally
- *     example: 'false'
+ *     example: 'true'
  *    outputFormat:
  *     type: string
  *     description: Output format of the video
@@ -39,7 +39,7 @@
  *    obtainFrames:
  *     type: string
  *     description: Option to agree if the converter will obtain the frames from the video
- *     example: 'false'
+ *     example: 'true'
  *    frameScale:
  *     type: string
  *     description: Size of the frames that will be obtained from the video
@@ -60,6 +60,10 @@
  *     type: string
  *     description: Option to agree if the converter will obtain the audio from the video
  *     example: 'true'
+ *    audioFormat:
+ *     type: string
+ *     description: Output audio format
+ *     example: '.mp3'
  *    checksum:
  *     type: string
  *     description: The hash to check if the video is not loaded more than once
@@ -145,6 +149,9 @@
  *        obtainAudio:
  *         type: string
  *         description: If it's true the program will return audio from the video. It could be .mp3, .mp2, .wma
+ *        audioFormat:
+ *         type: string
+ *         description: Ouput format of the audio. It could be .mp3, .mp2, .wma
  *        checksum:
  *         type: string
  *         description: The hash to check if the video is not loaded more than once
