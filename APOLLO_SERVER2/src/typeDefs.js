@@ -79,8 +79,8 @@ const typeDefs =  gql`
     uploadFile(file: Upload!, name: String): File!
     uploadFileML(searchWord: String, algorithm: String, percentage: String, file: Upload!): [FileML!]
     uiToVideoConverter(searchWord: String, algorithm: String, percentage: String, file: Upload!): [VideoConverterToMachineLearning!]
-    videoConverter(ratio: String, scale: String, quality: String, angle: String, vflip: String, hflip: String, outputFormat: String, audioFormat: String, obtainFrames: String, frameScale: String, obtainAudio: String, checksum: String, file: Upload!, extractAudioFormat: String): [VideoConverter!]
-    metaData(file: Upload!): filesMetadata
+    videoConverter(ratio: String, scale: String, quality: String, angle: String, vflip: String, hflip: String, outputFormat: String, audioFormat: String, obtainFrames: String, frameScale: String, obtainAudio: String, checksum: String, file: Upload!): [VideoConverter!]
+    metaData(file: Upload!): [filesMetadata!]
     uiToImageText(language: String, file: Upload!): ImageToText
     uiToPdfImage(outputFormat: String, outputSize: String, rotation: String, quality: String, paintEffect: String, type: String, file: Upload!): [PdfImage!]
     uiToImageConvert(outputFormat: String, resize: String, rotate: String, quality: String, doubling: String, paint: String , grayScale: String, monochrome: String, file: Upload!): ImageConverter

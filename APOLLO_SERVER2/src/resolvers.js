@@ -235,7 +235,8 @@ const resolvers = {
             fs.mkdir("images", { recursive: true }, (err) => {
                 if (err) throw err;
             });
-
+            
+            FileData = [];
             const uploadFile = await processUpload(args.file);
 
             const dataArray = new FormData();
@@ -252,7 +253,6 @@ const resolvers = {
             dataArray.append("obtainAudio", args.obtainAudio);
             dataArray.append("checksum", args.checksum);
             dataArray.append("file", fs.createReadStream(uploadFile.path));
-            dataArray.append("extractAudioFormat", args.extractAudioFormat);
 
             const urlML = "" + process.env.CONVERTER_VIDEO_CONVERTER;
 
@@ -263,7 +263,7 @@ const resolvers = {
             });
 
             Array.prototype.push.apply(FileData, res.data);
-
+        
             return FileData;
         },
 
@@ -278,7 +278,6 @@ const resolvers = {
             const dataArray = new FormData();
             dataArray.append("file", fs.createReadStream(uploadFile.path));
 
-            console.log(uploadFile.path);
             const urlML = "" + process.env.EXTRACTOR_METADATA_SERVICE;
 
             const res = await axios.post(urlML, dataArray, {
@@ -287,7 +286,6 @@ const resolvers = {
                 headers: dataArray.getHeaders()
             });
             let data = res.data;
-            console.log(data);
             return data;
         }
     }
