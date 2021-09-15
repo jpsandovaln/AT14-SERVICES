@@ -73,7 +73,7 @@ const resolvers = {
 
         uiToSoundConverter: async (_, args) => {
             const uri = "" + process.env.CONVERTER_SOUND_CONVERTER;
-
+            FileData = [];
             const uploadFile = await processUpload(args.file);
             const dataArray = new FormData();
             dataArray.append("outputFormat", args.outputFormat);
