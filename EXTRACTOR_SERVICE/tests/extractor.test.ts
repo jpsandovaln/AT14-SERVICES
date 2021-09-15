@@ -70,5 +70,4 @@ describe("Parameters Exception Extractor", () => {
 		);
 		expect(() => extractToText.validateParameter()).toThrow(exception);
 	});
-
 });
