@@ -6,16 +6,12 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 export const UploadMutation = gql`
-	mutation metaData(
-		$file: Upload!
-	) {
-		metaData(
-			file: $file
-		) {
-			name
-			filePath
-		}
-	}
+  mutation metaData($file: Upload!) {
+	metaData(file: $file) {
+		name
+		filePath
+    }
+  }
 `;
 
 const FormMetadata = () => {
@@ -53,9 +49,11 @@ const FormMetadata = () => {
 		  }
 		  else{
 			setResponse(response.data.metaData);
+			console.warn(response.data.metaData)
 			setOpen(false);	
 			
 		  }
+		
 		  
 	};
 

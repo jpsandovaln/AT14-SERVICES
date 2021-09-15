@@ -7,8 +7,8 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 export const UploadMutation = gql`
-  mutation videoConverter($ratio: String, $scale: String, $quality: String, $angle: String, $vflip: String, $hflip: String, $outputFormat: String, $audioFormat: String, $obtainFrames: String, $frameScale: String, $obtainAudio: String, $checksum: String, $file: Upload!, $extractAudioFormat: String) {
-    videoConverter(ratio: $ratio, scale: $scale, quality: $quality, angle: $angle, vflip: $vflip, hflip: $hflip, outputFormat: $outputFormat, audioFormat: $audioFormat, obtainFrames: $obtainFrames, frameScale: $frameScale, obtainAudio: $obtainAudio, checksum: $checksum, file: $file, extractAudioFormat: $extractAudioFormat) {
+  mutation videoConverter($ratio: String, $scale: String, $quality: String, $angle: String, $vflip: String, $hflip: String, $outputFormat: String, $audioFormat: String, $obtainFrames: String, $frameScale: String, $obtainAudio: String, $checksum: String, $file: Upload!) {
+    videoConverter(ratio: $ratio, scale: $scale, quality: $quality, angle: $angle, vflip: $vflip, hflip: $hflip, outputFormat: $outputFormat, audioFormat: $audioFormat, obtainFrames: $obtainFrames, frameScale: $frameScale, obtainAudio: $obtainAudio, checksum: $checksum, file: $file) {
 		name
 		filePath
     }
@@ -30,7 +30,6 @@ const FormVideoConveter = () => {
 	const [vflip, setvFlip] = React.useState(false);
 	const [frameScale, setFrameScale] = React.useState("");
 	const [obtainFrames, setObtainFrames] = React.useState(false);
-	const [extractAudioFormat, setExtractAudioFormat] = React.useState("");
 	const [nameVideo, setNameVideo] = React.useState("Select a video file");
 	const [obtainAudio, setObtainAudio] = React.useState("");
 	const [open, setOpen] = React.useState(false);
@@ -74,7 +73,6 @@ const FormVideoConveter = () => {
 				obtainAudio: obtainAudio+"",
 				checksum: hashVideo+"",
 				file: uploadFile,
-				extractAudioFormat: extractAudioFormat+""
 			}
 		  });
 		  if (error) {
@@ -102,7 +100,6 @@ const FormVideoConveter = () => {
 					obtainFrames={obtainFrames}
 					frameScale={frameScale}
 					obtainAudio={obtainAudio}
-					extractAudioFormat={extractAudioFormat}
 					nameVideo={nameVideo}
 					setOutputFormat={setOutputFormat}
 					setRatio={setRatio}
@@ -114,7 +111,6 @@ const FormVideoConveter = () => {
 					setvFlip={setvFlip}
 					setFrameScale={setFrameScale}
 					setObtainFrames={setObtainFrames}
-					setExtractAudioFormat={setExtractAudioFormat}
 					setObtainAudio={setObtainAudio}
 					setFileVideo={setFileVideo}
 					setNameVideo={setNameVideo}

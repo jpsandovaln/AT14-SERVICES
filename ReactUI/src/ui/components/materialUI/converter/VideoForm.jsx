@@ -216,45 +216,6 @@ const VideoForm = (promps) => {
 										fullWidth
 									>
 										<InputLabel id="demo-simple-select-outlined-label">
-											Audio format
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											value={promps.audioFormat}
-											onChange={(e) =>
-												promps.setAudioFormat(
-													e.target.value
-												)
-											}
-											label="Audio format"
-										>
-											<MenuItem value="">
-												<em>-</em>
-											</MenuItem>
-											<MenuItem value={".mp3"}>
-												.mp3
-											</MenuItem>
-											<MenuItem value={".mp2"}>
-												.mp2
-											</MenuItem>
-											<MenuItem value={".wma"}>
-												.wma
-											</MenuItem>
-										</Select>
-									</FormControl>
-								</Grid>
-							</Grid>
-						</CardContent>
-						<CardContent>
-							<Grid container spacing={3}>
-								<Grid item xs>
-									<FormControl
-										variant="outlined"
-										className={classes.formControl}
-										fullWidth
-									>
-										<InputLabel id="demo-simple-select-outlined-label">
 											Quality
 										</InputLabel>
 										<Select
@@ -422,9 +383,9 @@ const VideoForm = (promps) => {
 										<Select
 											labelId="demo-simple-select-outlined-label"
 											id="demo-simple-select-outlined"
-											value={promps.extractAudioFormat}
+											value={promps.audioFormat}
 											onChange={(e) =>
-												promps.setExtractAudioFormat(
+												promps.setAudioFormat(
 													e.target.value
 												)
 											}

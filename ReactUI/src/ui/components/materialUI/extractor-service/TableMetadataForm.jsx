@@ -36,13 +36,13 @@ const TableMetadataForm = (promps) => {
 	const [t, i18n] = useTranslation("global");
 	const classes = useStyles();
 	const contentTab = () => {
-		if (promps.data.name) {
+		if (promps.data[0]!=null && promps.data[0]!=="") {
 			return (
 				<TableRow>
-					<TableCell align="center">{promps.data.name}</TableCell>
+					<TableCell align="center">{promps.data[0].name}</TableCell>
 					<TableCell align="center">
 						<a
-							href={promps.data.filePath}
+							href={promps.data[0].filePath}
 							without
 							rel="noreferrer"
 							target="_blank"
