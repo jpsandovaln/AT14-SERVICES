@@ -6,6 +6,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import InputLabel from "@material-ui/core/InputLabel";
 import { TextField } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -25,6 +26,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const MetadataForm = (promps) => {
+	const [t, i18n] = useTranslation("global");
 	const classes = useStyles();
 
 	return (
@@ -50,7 +52,7 @@ const MetadataForm = (promps) => {
 											color="#83bbeb"
 											component="span"
 										>
-											Upload
+											{t("extractor-service.metadata.upload")}
 										</Button>
 										<InputLabel></InputLabel>
 									</label>

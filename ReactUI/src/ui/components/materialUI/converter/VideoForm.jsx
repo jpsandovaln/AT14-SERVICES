@@ -12,6 +12,7 @@ import { CardHeader } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { TextField } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles(() => ({
 
 const VideoForm = (promps) => {
 	const classes = useStyles();
-
+	const [t, i18n] = useTranslation("global");	
 	return (
 		<div>
 			<Grid container spacing={2} xs={12}>
@@ -56,7 +57,7 @@ const VideoForm = (promps) => {
 										color="#83bbeb"
 										component="span"
 									>
-										Upload
+										{t("convert.video.upload")}
 									</Button>
 								</label>
 							</Grid>
@@ -76,7 +77,7 @@ const VideoForm = (promps) => {
 					<Card className={classes.card}>
 						<CardHeader
 							className={classes.title}
-							title="Video Processor"
+							title={t("convert.video.card-form")}
 							titleTypographyProps={{ variant: "h7" }}
 						/>
 						<CardContent>
@@ -88,7 +89,7 @@ const VideoForm = (promps) => {
 										fullWidth
 									>
 										<InputLabel id="demo-simple-select-outlined-label">
-											Output Format
+											{t("convert.video.output-format")}
 										</InputLabel>
 										<Select
 											labelId="demo-simple-select-outlined-label"
@@ -99,7 +100,7 @@ const VideoForm = (promps) => {
 													e.target.value
 												)
 											}
-											label="Output Format"
+											label={t("convert.video.output-format")}
 											required
 										>
 											<MenuItem value="">
@@ -140,7 +141,7 @@ const VideoForm = (promps) => {
 										fullWidth
 									>
 										<InputLabel id="demo-simple-select-outlined-label">
-											Fps
+											{t("convert.video.fps")}
 										</InputLabel>
 										<Select
 											labelId="demo-simple-select-outlined-label"
@@ -149,7 +150,7 @@ const VideoForm = (promps) => {
 											onChange={(e) =>
 												promps.setRatio(e.target.value)
 											}
-											label="Fps"
+											label={t("convert.video.fps")}
 										>
 											<MenuItem value="">
 												<em>-</em>
@@ -173,7 +174,7 @@ const VideoForm = (promps) => {
 										fullWidth
 									>
 										<InputLabel id="demo-simple-select-outlined-label">
-											Scale
+											{t("convert.video.scale")}
 										</InputLabel>
 										<Select
 											labelId="demo-simple-select-outlined-label"
@@ -201,45 +202,6 @@ const VideoForm = (promps) => {
 											</MenuItem>
 											<MenuItem value={"256x144"}>
 												256 x 144
-											</MenuItem>
-										</Select>
-									</FormControl>
-								</Grid>
-							</Grid>
-						</CardContent>
-						<CardContent>
-							<Grid container spacing={3}>
-								<Grid item xs>
-									<FormControl
-										variant="outlined"
-										className={classes.formControl}
-										fullWidth
-									>
-										<InputLabel id="demo-simple-select-outlined-label">
-											Audio format
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											value={promps.audioFormat}
-											onChange={(e) =>
-												promps.setAudioFormat(
-													e.target.value
-												)
-											}
-											label="Audio format"
-										>
-											<MenuItem value="">
-												<em>-</em>
-											</MenuItem>
-											<MenuItem value={".mp3"}>
-												.mp3
-											</MenuItem>
-											<MenuItem value={".mp2"}>
-												.mp2
-											</MenuItem>
-											<MenuItem value={".wma"}>
-												.wma
 											</MenuItem>
 										</Select>
 									</FormControl>
@@ -287,7 +249,7 @@ const VideoForm = (promps) => {
 										fullWidth
 									>
 										<InputLabel id="demo-simple-select-outlined-label">
-											Rotate
+											{t("convert.video.rotate")}
 										</InputLabel>
 										<Select
 											labelId="demo-simple-select-outlined-label"
@@ -296,7 +258,7 @@ const VideoForm = (promps) => {
 											onChange={(e) =>
 												promps.setAngle(e.target.value)
 											}
-											label="Scale"
+											label={t("convert.video.scale")}
 										>
 											<MenuItem value={"90"}>90</MenuItem>
 											<MenuItem value={"180"}>
@@ -324,7 +286,7 @@ const VideoForm = (promps) => {
 												color="primary"
 											/>
 										}
-										label="Flip Horizon"
+										label={t("convert.video.flip-horizon")}
 									/>
 								</Grid>
 								<Grid item xs>
@@ -341,7 +303,7 @@ const VideoForm = (promps) => {
 												color="primary"
 											/>
 										}
-										label="Flip Vertical"
+										label={t("convert.video.flip-vertical")}
 									/>
 								</Grid>
 							</Grid>
@@ -355,12 +317,12 @@ const VideoForm = (promps) => {
 										fullWidth
 									>
 										<InputLabel id="demo-simple-select-outlined-label">
-											Frames
+											{t("convert.video.frames")}
 										</InputLabel>
 										<Select
 											labelId="demo-simple-select-outlined-label"
 											id="demo-simple-select-outlined"
-											label="Frames"
+											label={t("convert.video.frames")}
 											value={promps.frameScale}
 											onChange={(e) =>
 												promps.setFrameScale(
@@ -403,7 +365,7 @@ const VideoForm = (promps) => {
 												color="primary"
 											/>
 										}
-										label="Obtain frames"
+										label={t("convert.video.obtain-frames")}
 									/>
 								</Grid>
 							</Grid>
@@ -417,18 +379,18 @@ const VideoForm = (promps) => {
 										fullWidth
 									>
 										<InputLabel id="demo-simple-select-outlined-label">
-											Audio format
+											{t("convert.video.audio-format")}
 										</InputLabel>
 										<Select
 											labelId="demo-simple-select-outlined-label"
 											id="demo-simple-select-outlined"
-											value={promps.extractAudioFormat}
+											value={promps.audioFormat}
 											onChange={(e) =>
-												promps.setExtractAudioFormat(
+												promps.setAudioFormat(
 													e.target.value
 												)
 											}
-											label="Audio format"
+											label={t("convert.video.audio-format")}
 										>
 											<MenuItem value={".mp3"}>
 												.mp3
@@ -456,7 +418,7 @@ const VideoForm = (promps) => {
 												color="primary"
 											/>
 										}
-										label="Obtain Audio"
+										label={t("convert.video.obtain-audio")}
 									/>
 								</Grid>
 							</Grid>

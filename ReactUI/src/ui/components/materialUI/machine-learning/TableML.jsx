@@ -6,8 +6,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { useTranslation } from "react-i18next";
 
 const TableML = (classes) => {
+	const [t, i18n] = useTranslation("global");	
 	return (
 		<div>
 			<TableContainer>
@@ -18,12 +20,12 @@ const TableML = (classes) => {
 				>
 					<TableHead>
 						<TableRow>
-							<TableCell align="center">Algorithm</TableCell>
-							<TableCell align="center">Word</TableCell>
-							<TableCell align="center">Percentage</TableCell>
-							<TableCell align="center">Second</TableCell>
-							<TableCell align="center">Image</TableCell>
-							<TableCell align="center">Options</TableCell>
+							<TableCell align="center">{t("machine-learning.table-algorithm")}</TableCell>
+							<TableCell align="center">{t("machine-learning.table-word")}</TableCell>
+							<TableCell align="center">{t("machine-learning.table-percentage")}</TableCell>
+							<TableCell align="center">{t("machine-learning.table-second")}</TableCell>
+							<TableCell align="center">{t("machine-learning.table-image")}</TableCell>
+							<TableCell align="center">{t("machine-learning.table-options")}</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -58,7 +60,7 @@ const TableML = (classes) => {
 											target="_blank"
 											download
 										>
-											imagen
+											{t("machine-learning.table-image")}
 										</a>
 									</TableCell>
 								</TableRow>

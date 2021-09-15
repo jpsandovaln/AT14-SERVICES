@@ -13,6 +13,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import HomeIcon from "@material-ui/icons/Home";
 import { Link } from "react-router-dom";
 import AppsIcon from '@material-ui/icons/Apps';
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: theme.mixins.toolbar,
@@ -35,30 +36,31 @@ const useStyles = makeStyles((theme) => ({
 
 const MenuOptions = () => {
 	const classes = useStyles();
+	const [t, i18n] = useTranslation("global");
 
 	const testContent = [
 		{
-			title: "Home",
+			title: t("sidebar.home"),
 			icon: <HomeIcon style={{ color: "#fff" }} />,
 			path: "/home",
 		},
 		{
-			title: "Converter",
+			title: t("sidebar.converter"),
 			icon: <AutorenewIcon style={{ color: "#fff" }} />,
 			path: "/Converter",
 		},
 		{
-			title: "Machine Learning",
+			title: t("sidebar.machine-learning"),
 			icon: <DashboardIcon style={{ color: "#fff" }} />,
 			path: "/MachineAnalize",
 		},
 		{
-			title: "Extractor Service",
+			title: t("sidebar.extractor-service"),
 			icon: <AppsIcon style={{ color: "#fff" }} />,
 			path: "/ExtractorService",
 		},
 		{
-			title: "Report Convert",
+			title: t("sidebar.report-convert"),
 			icon: <AssessmentIcon style={{ color: "#fff" }} />,
 			path: "/graphql",
 		},		

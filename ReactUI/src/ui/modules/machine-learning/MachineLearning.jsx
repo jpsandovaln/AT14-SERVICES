@@ -10,6 +10,7 @@ import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import TableML from "../../components/materialUI/machine-learning/TableML";
 import FormML from "../../components/materialUI/machine-learning/FormML";
+import { useTranslation } from "react-i18next";
 
 export const UploadMutation = gql`
   mutation uiToVideoConverter($searchWord: String, $algorithm: String, $percentage: String, $file: Upload!) {
@@ -44,13 +45,14 @@ const useStyles = makeStyles((theme) => ({
 
 const MachineLearing = () => {
 
+	const [t, i18n] = useTranslation("global");	
 	const [data, setResponse] = useState([]);
 	const [searchWord, setSearchWord] = useState("");
 	const [algorithm, setAlgorithm] = useState("");
 	const [percentage, setPercentage] = useState("");
 	const [FileData, setUploadFile] = useState(null);
 	const [open, setOpen] = useState(false);
-	const [nameVideo, setNameVideo] = React.useState("Select a video file");
+	const [nameVideo, setNameVideo] = React.useState(t("machine-learning.form-text-file"));
 
 	const [uiToVideoConverter, { error }] = useMutation(UploadMutation);
 
@@ -61,7 +63,7 @@ const MachineLearing = () => {
 			setNameVideo(videoFile.files.item(0).name);
 			setUploadFile(e.target.files[0]);
 		} else {
-			setNameVideo("Select a video file");
+			setNameVideo(t("machine-learning.form-text-file"));
 			setUploadFile(null);
 		}
 	};
@@ -94,9 +96,9 @@ const MachineLearing = () => {
 		<div>
 			<Breadcrumbs aria-label="breadcrumb">
 				<Link color="inherit" href="/" onClick={""}>
-					Home
+					{t("machine-learning.home")}
 				</Link>
-				<Typography color="textPrimary">Machine Learning</Typography>
+				<Typography color="textPrimary">{t("machine-learning.title")}</Typography>
 			</Breadcrumbs>
 			<form onSubmit={submitForm}>
 				<FormML

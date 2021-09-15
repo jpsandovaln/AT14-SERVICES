@@ -1,27 +1,24 @@
 import React from "react";
 import MetadataForm from "./MetadataForm";
 import TableMetadataForm from "./TableMetadataForm";
-
+import { useTranslation } from "react-i18next";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 export const UploadMutation = gql`
-	mutation metaData(
-		$file: Upload!
-	) {
-		metaData(
-			file: $file
-		) {
-			name
-			filePath
-		}
-	}
+  mutation metaData($file: Upload!) {
+	metaData(file: $file) {
+		name
+		filePath
+    }
+  }
 `;
 
 const FormMetadata = () => {
+	const [t, i18n] = useTranslation("global");	
 	const [data, setResponse] = React.useState([]);
 	const [FileData, setUploadFile] = React.useState(null);
-	const [nameVideo, setNameVideo] = React.useState("Select a video file");
+	const [nameVideo, setNameVideo] = React.useState(t("extractor-service.metadata.form-file"));
 	const [metaData, { error }] = useMutation(UploadMutation);
 
 	const [open, setOpen] = React.useState(false);
@@ -33,7 +30,7 @@ const FormMetadata = () => {
 			setNameVideo(videoFile.files.item(0).name);
 			setUploadFile(e.target.files[0]);
 		} else {
-			setNameVideo("Select a video file");
+			setNameVideo(t("extractor-service.metadata.form-file"));
 			setUploadFile(null);
 		}
 	};
@@ -52,9 +49,11 @@ const FormMetadata = () => {
 		  }
 		  else{
 			setResponse(response.data.metaData);
+			console.warn(response.data.metaData)
 			setOpen(false);	
 			
 		  }
+		
 		  
 	};
 

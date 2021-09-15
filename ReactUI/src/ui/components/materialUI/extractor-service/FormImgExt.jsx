@@ -7,6 +7,7 @@ import { CardActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { useTranslation } from "react-i18next";
 
 export const UploadMutation = gql`
   mutation uiToImageText($language: String, $file: Upload!) {
@@ -17,7 +18,7 @@ export const UploadMutation = gql`
 `;
 
 const FormImgExt = () => {
-
+	const [t, i18n] = useTranslation("global");
 	const [data, setResponse] = React.useState(Object);
 	const [FileData, setUploadFile] = React.useState(null);
 	const [language, setLanguage] = React.useState("");
@@ -55,7 +56,7 @@ const FormImgExt = () => {
 						variant="contained"
 						color="#83bbeb"
 					>
-						Extract
+						{t("extractor-service.image-text.extract")}
 					</Button>
 				</CardActions>
 			</Card>

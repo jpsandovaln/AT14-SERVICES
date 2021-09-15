@@ -13,6 +13,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import TableBody from "@material-ui/core/TableBody";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -32,21 +33,22 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TableMetadataForm = (promps) => {
+	const [t, i18n] = useTranslation("global");
 	const classes = useStyles();
 	const contentTab = () => {
-		if (promps.data.name) {
+		if (promps.data[0]!=null && promps.data[0]!=="") {
 			return (
 				<TableRow>
-					<TableCell align="center">{promps.data.name}</TableCell>
+					<TableCell align="center">{promps.data[0].name}</TableCell>
 					<TableCell align="center">
 						<a
-							href={promps.data.filePath}
+							href={promps.data[0].filePath}
 							without
 							rel="noreferrer"
 							target="_blank"
 							download
 						>
-							Descargar
+							{t("extractor-service.metadata.download")}
 						</a>
 					</TableCell>
 				</TableRow>
@@ -62,7 +64,7 @@ const TableMetadataForm = (promps) => {
 				<Card className={classes.card}>
 					<CardHeader
 						className={classes.title}
-						title="Results"
+						title={t("extractor-service.metadata.table-result")}
 						titleTypographyProps={{ variant: "h6" }}
 					/>
 					<CardContent>
@@ -73,7 +75,7 @@ const TableMetadataForm = (promps) => {
 									variant="contained"
 									color="#83bbeb"
 								>
-									Extract
+									{t("extractor-service.metadata.extract")}
 								</Button>
 							</Grid>
 						</Grid>
@@ -88,10 +90,10 @@ const TableMetadataForm = (promps) => {
 										<TableHead>
 											<TableRow>
 												<TableCell align="center">
-													Name
+													{t("extractor-service.metadata.name")}
 												</TableCell>
 												<TableCell align="center">
-													Metadata
+													{t("extractor-service.metadata.metadata")}
 												</TableCell>
 											</TableRow>
 										</TableHead>

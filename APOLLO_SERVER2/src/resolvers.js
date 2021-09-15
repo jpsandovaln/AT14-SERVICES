@@ -70,6 +70,81 @@ const resolvers = {
         }
     },
     Mutation: {
+
+        uiToSoundConverter: async (_, args) => {
+            const uri = "" + process.env.CONVERTER_SOUND_CONVERTER;
+            FileData = [];
+            const uploadFile = await processUpload(args.file);
+            const dataArray = new FormData();
+            dataArray.append("outputFormat", args.outputFormat);
+            dataArray.append("FadeIn", args.FadeIn);
+            dataArray.append("FadeOut", args.FadeOut);
+            dataArray.append("file", fs.createReadStream(uploadFile.path)); 
+            
+            const res = await axios.post(uri, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
+                headers: dataArray.getHeaders(),
+            });            
+
+            Array.prototype.push.apply(FileData, res.data);
+
+            return FileData;
+                                 
+
+        },
+
+        uiToImageConvert: async (_, args) => {
+            const uri = "" + process.env.CONVERTER_IMAGE_CONVERTER;
+
+            const uploadFile = await processUpload(args.file);
+            const dataArray = new FormData();
+
+            dataArray.append("outputFormat", args.outputFormat);
+            dataArray.append("resize", args.resize);
+            dataArray.append("rotate", args.rotate);
+            dataArray.append("quality", args.quality);
+            dataArray.append("doubling", args.doubling);
+            dataArray.append("paint", args.paint);
+            dataArray.append("grayScale", args.grayScale);
+            dataArray.append("monochrome", args.monochrome);
+            dataArray.append("file", fs.createReadStream(uploadFile.path));  
+            
+            const res = await axios.post(uri, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
+                headers: dataArray.getHeaders(),
+            });            
+
+            const result = res.data;
+            
+            return result;                        
+
+        },
+
+        uiToPdfImage: async (_, args) => {
+            const uri = "" + process.env.DOCUMENT_SERVICE;
+            const uploadFile = await processUpload(args.file);
+            const dataArray = new FormData();
+
+            dataArray.append("outputFormat", args.outputFormat);
+            dataArray.append("outputSize", args.outputSize);
+            dataArray.append("rotation", args.rotation);
+            dataArray.append("quality", args.quality);
+            dataArray.append("paintEffect", args.paintEffect);
+            dataArray.append("type", args.type);
+            dataArray.append("file", fs.createReadStream(uploadFile.path));                        
+
+            
+            const res = await axios.post(uri, dataArray, {
+                headers: dataArray.getHeaders(),
+            });            
+
+            const result = res.data;
+            
+            return result;                        
+
+        },
         uiToImageText: async (_, args) => {
             const uri = "" + process.env.EXTRACTOR_SERVICE;
 
@@ -79,6 +154,8 @@ const resolvers = {
             dataArray.append("file", fs.createReadStream(uploadFile.path));
 
             const res = await axios.post(uri, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
                 headers: dataArray.getHeaders()
             });
             const result = { text: res.data };
@@ -98,6 +175,8 @@ const resolvers = {
 
             const urlML = "" + process.env.CONVERTER_ANALIZEZIP;
             const res = await axios.post(urlML, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
                 headers: dataArray.getHeaders()
             });
 
@@ -128,19 +207,18 @@ const resolvers = {
             );
 
             await httpGet(res.data[0].filePath, file);
-          
             const dataArray = new FormData();
             dataArray.append("searchWord", args.searchWord);
             dataArray.append("algorithm", args.algorithm);
             dataArray.append("percentage", args.percentage);
             dataArray.append(
                 "zipFile",
-                fs.readFileSync(
+                await fs.readFileSync(
                     "" + process.env.OUTPUT_FOLDER + res.data[0].name + ".zip"
                 ),
                 res.data[0].name + ".zip"
             );
-
+           
             const urlML = "" + process.env.CONVERTER_ANALIZEZIP;
             const res1 = await axios.post(urlML, dataArray, {
                 maxContentLength: Infinity,
@@ -157,7 +235,8 @@ const resolvers = {
             fs.mkdir("images", { recursive: true }, (err) => {
                 if (err) throw err;
             });
-
+            
+            FileData = [];
             const uploadFile = await processUpload(args.file);
 
             const dataArray = new FormData();
@@ -174,7 +253,6 @@ const resolvers = {
             dataArray.append("obtainAudio", args.obtainAudio);
             dataArray.append("checksum", args.checksum);
             dataArray.append("file", fs.createReadStream(uploadFile.path));
-            dataArray.append("extractAudioFormat", args.extractAudioFormat);
 
             const urlML = "" + process.env.CONVERTER_VIDEO_CONVERTER;
 
@@ -185,7 +263,7 @@ const resolvers = {
             });
 
             Array.prototype.push.apply(FileData, res.data);
-
+        
             return FileData;
         },
 
@@ -200,7 +278,6 @@ const resolvers = {
             const dataArray = new FormData();
             dataArray.append("file", fs.createReadStream(uploadFile.path));
 
-            console.log(uploadFile.path);
             const urlML = "" + process.env.EXTRACTOR_METADATA_SERVICE;
 
             const res = await axios.post(urlML, dataArray, {
@@ -209,7 +286,6 @@ const resolvers = {
                 headers: dataArray.getHeaders()
             });
             let data = res.data;
-            console.log(data);
             return data;
         }
     }

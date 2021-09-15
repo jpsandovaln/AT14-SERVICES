@@ -11,6 +11,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { CardHeader } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
 	input: {
@@ -25,11 +26,12 @@ const useStyles = makeStyles((theme) => ({
 
 const FormML = (classes) => {
 	const clase = useStyles();
+	const [t, i18n] = useTranslation("global");	
 	return (
 		<div>
 			<Card className={clase.root}>
 				<CardHeader
-					title="Machine Learning Analizer"
+					title={t("machine-learning.form-title")}
 					className={clase.title}
 					titleTypographyProps={{ variant: "h6" }}
 				></CardHeader>
@@ -39,9 +41,9 @@ const FormML = (classes) => {
 							<TextField
 								fullWidth
 								id="outlined-basic"
-								label="Search word"
+								label={t("machine-learning.form-search-word")}
 								variant="outlined"
-								placeholder={"SearchWord"}
+								placeholder={t("machine-learning.form-search-word")}
 								onChange={(e) =>
 									classes.setSearchWord(e.target.value)
 								}
@@ -55,7 +57,7 @@ const FormML = (classes) => {
 								fullWidth
 							>
 								<InputLabel id="demo-simple-select-percentage-label">
-									Percentage
+									{t("machine-learning.form-percentage")}
 								</InputLabel>
 								<Select
 									labelId="demo-simple-select-percentage-label"
@@ -64,7 +66,7 @@ const FormML = (classes) => {
 									onChange={(e) =>
 										classes.setPercentage(e.target.value)
 									}
-									label="Percentage"
+									label={t("machine-learning.form-percentage")}
 									required
 								>
 									<MenuItem value="">
@@ -90,7 +92,7 @@ const FormML = (classes) => {
 								fullWidth
 							>
 								<InputLabel id="demo-simple-select-outlined-label">
-									Algorithm
+									{t("machine-learning.form-algorithm")}
 								</InputLabel>
 								<Select
 									labelId="demo-simple-select-outlined-label"
@@ -99,7 +101,7 @@ const FormML = (classes) => {
 									onChange={(e) =>
 										classes.setAlgorithm(e.target.value)
 									}
-									label="Algorithm"
+									label={t("machine-learning.form-algorithm")}
 									required
 								>
 									<MenuItem value="">
@@ -132,7 +134,7 @@ const FormML = (classes) => {
 										color="#83bbeb"
 										component="span"
 									>
-										Upload
+										{t("machine-learning.form-upload")}
 									</Button>
 									<InputLabel>
 										
@@ -154,7 +156,7 @@ const FormML = (classes) => {
 				</CardContent>
 				<CardActions>
 					<Button type="submit" variant="contained" color="default">
-						Analyze
+						{t("machine-learning.form-analyze")}
 					</Button>
 				</CardActions>
 			</Card>

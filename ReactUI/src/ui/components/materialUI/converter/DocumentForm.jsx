@@ -6,11 +6,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { CardHeader } from "@material-ui/core";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 
@@ -29,43 +24,35 @@ const useStyles = makeStyles(() => ({
 }));
 
 const DocumentForm = (promp) => {
+
 	const classes = useStyles();
 
 	return (
-		<Grid container spacing={3}>
-			<Grid item xs={12}>
-				<Card className={classes.card}>
-					<CardContent>
-						<input
-							accept="document/*"
-							className={classes.input}
-							id="contained-button-file"
-							multiple
-							type="file"
-							required
-						/>
-						<label htmlFor="contained-button-file">
-							<Button
-								variant="contained"
-								color="#83bbeb"
-								component="span"
-							>
-								Upload
-							</Button>
-						</label>
-					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={12}>
-					<Card className={classes.card}>
-						<CardHeader
-							className={classes.title}
-							title="Ppt to Image"
-							titleTypographyProps={{ variant: "h7" }}
-						/>
-						<CardContent>
+					<div>
 						<Grid container spacing={6}>
-							<Grid item xs>
+							<Grid item xs={6} md={6} sm={12} >
+								<input
+									accept="application/pdf"
+									className={classes.input}
+									id="contained-button-file"
+									name="contained-button-file"						
+									type="file"
+									onChange={(e) => 
+										promp.setUploadFile(e.target.files[0])
+									}
+									required
+								/>
+								<label htmlFor="contained-button-file">
+									<Button
+										variant="contained"
+										color="#83bbeb"
+										component="span"
+									>
+									Upload
+									</Button>
+								</label>								
+							</Grid>
+							<Grid item xs={6} md={6} sm={12} >
 								<FormControl
 									variant="outlined"
 									className={classes.formControl}
@@ -89,384 +76,76 @@ const DocumentForm = (promp) => {
 										<MenuItem value="">
 											<em>-</em>
 										</MenuItem>
-										<MenuItem value={"Output1"}>
+										<MenuItem value={".png"}>
 											.png
 										</MenuItem>
-										<MenuItem value={"Output2"}>
+										<MenuItem value={".jpeg"}>
 											.jpeg
 										</MenuItem>
-                                        <MenuItem value={"Output3"}>
+                                        <MenuItem value={".jpg"}>
 											.jpg
-										</MenuItem>
-                                        <MenuItem value={"Output4"}>
-											.bmp
-										</MenuItem>
-                                        <MenuItem value={"Output5"}>
-											.raw
-										</MenuItem>
-                                        <MenuItem value={"Output6"}>
-											.tiff
 										</MenuItem>
 									</Select>
 								</FormControl>
 							</Grid>
-						</Grid>
-					</CardContent>
-					<CardContent>
-					<Grid container spacing={6}>
-							<Grid item xs>
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<div className={classes.root}>
-										<Typography
-											id="discrete-slider-small-steps"
-											gutterBottom
-										>
+							<Grid item xs={6} md={6} sm={12} >
+									<FormControl
+										variant="outlined"
+										className={classes.formControl}
+										fullWidth
+									>
+										<InputLabel id="demo-simple-select-outlined-label">
 											Output Size
-										</Typography>
-										<Slider
-											value={promp.size}
-											onChange={(e, newValue) => {
-												promp.setSize(newValue);
-											}}
-											defaultValue={0}
-											track={promp.quality}
-											aria-labelledby="discrete-slider"
-											valueLabelDisplay="auto"
-											step={1}
-											marks
-											min={0}
-											max={10}
-										/>
-									</div>
-								</FormControl>
-							</Grid>
-						</Grid>
-					</CardContent>
-					<CardContent>
-						<Grid container spacing={12}>
-							<Grid item xs>
-								<FormControl
+										</InputLabel>
+										<Select
+											labelId="demo-simple-select-outlined-label"
+											id="demo-simple-select-outlined"
+											value={promp.scale}
+											onChange={(e) =>
+												promp.setOutputSize(e.target.value)
+											}
+											label="Scale"
+										>
+											<MenuItem value="">
+												<em>-</em>
+											</MenuItem>
+											<MenuItem value={"1280x720"}>
+												1280 x 720
+											</MenuItem>
+											<MenuItem value={"854x480"}>
+												854 x 480
+											</MenuItem>
+											<MenuItem value={"640x360"}>
+												640 x 360
+											</MenuItem>
+											<MenuItem value={"426x240"}>
+												426 x 240
+											</MenuItem>
+											<MenuItem value={"256x144"}>
+												256 x 144
+											</MenuItem>
+										</Select>
+									</FormControl>								
+								</Grid>
+							<Grid item xs={6} md={6} sm={12} >
+									<FormControl
 									variant="outlined"
 									className={classes.formControl}
 									fullWidth
-								>
+									>
 									<InputLabel id="demo-simple-select-outlined-label">
 											Angle of rotation
 										</InputLabel>
 									<Select
-									labelId="demo-simple-select-outlined-label"
-									id="demo-simple-select-outlined"
-									label="Rotation Angle"
-									value={promp.outputFormat}
-									onChange={(e) =>
-										promp.setOutputFormat(
-											e.target.value
-										)
-									}
-									required
-										>
-											<MenuItem value={"90"}>90</MenuItem>
-											<MenuItem value={"180"}>
-												180
-											</MenuItem>
-											<MenuItem value={"270"}>
-												270
-											</MenuItem>
-										</Select>
-									</FormControl>
-								</Grid>
-							</Grid>
-						</CardContent>
-					<CardContent>
-					<Grid container spacing={12}>
-							<Grid item xs>
-							<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<div className={classes.root}>
-										<Typography
-											id="discrete-slider-small-steps"
-											gutterBottom
-										>
-											Output Quality
-										</Typography>
-										<Slider
-											value={promp.quality}
-											onChange={(e, newValue) => {
-												promp.setQuality(newValue);
-											}}
-											defaultValue={0}
-											track={promp.quality}
-											aria-labelledby="discrete-slider"
-											valueLabelDisplay="auto"
-											step={1}
-											marks
-											min={0}
-											max={10}
-										/>
-									</div>
-								</FormControl>
-							</Grid>
-						</Grid>
-					</CardContent>
-					<CardContent>
-						<Grid container spacing={3}>
-							<Grid item xs>
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<div className={classes.root}>
-										<Typography
-											id="discrete-slider-small-steps"
-											gutterBottom
-										>
-											Dubling
-										</Typography>
-										<Slider
-											value={promp.dubling}
-											onChange={(e, newValue) => {
-												promp.setDubling(newValue);
-											}}
-											defaultValue={0}
-											track={promp.dubling}
-											aria-labelledby="discrete-slider"
-											valueLabelDisplay="auto"
-											step={10}
-											marks
-											min={0}
-											max={100}
-										/>
-									</div>
-								</FormControl>
-							</Grid>
-							</Grid>
-						<Grid container spacing={6}>
-							<Grid item xs>
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<div className={classes.root}>
-										<Typography
-											id="discrete-slider-small-steps"
-											gutterBottom
-										>
-											Paint Effect
-										</Typography>
-										<Slider
-											value={promp.paintEffect}
-											onChange={(e, newValue) => {
-												promp.setPaintEffect(newValue);
-											}}
-											defaultValue={0}
-											track={promp.paintEffect}
-											aria-labelledby="discrete-slider"
-											valueLabelDisplay="auto"
-											step={10}
-											marks
-											min={0}
-											max={100}
-										/>
-									</div>
-								</FormControl>
-							</Grid>
-							</Grid>
-					</CardContent>
-					<CardContent>
-						<Grid container spacing={6}>
-							<Grid item xs>
-								<FormControl component="fieldset">
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={promp.monochrome}
-												onChange={(e) => {
-													promp.setMonochrome(
-														e.target.checked
-													);
-												}}
-												name="monochrome"
-												color="primary"
-											/>
-										}
-										label="Monochrome"
-									/>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={promp.greyScale}
-												onChange={(e) => {
-													promp.setGreyScale(
-														e.target.checked
-													);
-												}}
-												name="greyScale"
-												color="primary"
-											/>
-										}
-										label="Grey Scale"
-									/>
-								</FormControl>
-							</Grid>
-						</Grid>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid item xs={12}>
-					<Card className={classes.card}>
-						<CardHeader
-							className={classes.title}
-							title="Ppt to Pdf"
-							titleTypographyProps={{ variant: "h7" }}
-						/>
-					<CardContent>
-						<Grid container spacing={12}>
-							<Grid item xs>
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={promp.convert}
-												onChange={(e) => {
-													promp.setConvert(
-														e.target.checked
-													);
-												}}
-												name="convert"
-												color="primary"
-											/>
-										}
-										label="Convert"
-									/>
-								</FormControl>
-							</Grid>
-						</Grid>
-					</CardContent>
-				</Card>
-			</Grid>
-			<Grid item xs={12}>
-				<Card className={classes.card}>
-					<CardHeader
-						className={classes.title}
-						title="Pdf to Image"
-						titleTypographyProps={{ variant: "h7" }}
-					/>
-					<Grid container spacing={6}>
-							<Grid item xs>
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<InputLabel id="demo-simple-select-outlined-label">
-										Output Format
-									</InputLabel>
-										<Select
 										labelId="demo-simple-select-outlined-label"
 										id="demo-simple-select-outlined"
-										label="Output Format"
-										value={promp.outputFormat}
+										label="Rotation Angle"
+										value={promp.outputDegrees}
 										onChange={(e) =>
-											promp.setOutputFormat(
+											promp.setOutputDegrees(
 												e.target.value
 											)
 										}
-										required
-									>
-										<MenuItem value="">
-											<em>-</em>
-										</MenuItem>
-										<MenuItem value={"Output1"}>
-											.png
-										</MenuItem>
-										<MenuItem value={"Output2"}>
-											.jpeg
-										</MenuItem>
-                                        <MenuItem value={"Output3"}>
-											.jpg
-										</MenuItem>
-                                        <MenuItem value={"Output4"}>
-											.bmp
-										</MenuItem>
-                                        <MenuItem value={"Output5"}>
-											.raw
-										</MenuItem>
-                                        <MenuItem value={"Output6"}>
-											.tiff
-										</MenuItem>
-									</Select>
-								</FormControl>
-							</Grid>
-						</Grid>
-					<CardContent>
-					<Grid container spacing={6}>
-							<Grid item xs>
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<div className={classes.root}>
-										<Typography
-											id="discrete-slider-small-steps"
-											gutterBottom
-										>
-											Output Size
-										</Typography>
-										<Slider
-											value={promp.size}
-											onChange={(e, newValue) => {
-												promp.setSize(newValue);
-											}}
-											defaultValue={0}
-											track={promp.quality}
-											aria-labelledby="discrete-slider"
-											valueLabelDisplay="auto"
-											step={1}
-											marks
-											min={0}
-											max={10}
-										/>
-									</div>
-								</FormControl>
-							</Grid>
-						</Grid>
-					</CardContent>
-					<CardContent>
-						<Grid container spacing={12}>
-							<Grid item xs>
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<InputLabel id="demo-simple-select-outlined-label">
-											Angle of rotation
-										</InputLabel>
-									<Select
-									labelId="demo-simple-select-outlined-label"
-									id="demo-simple-select-outlined"
-									label="Rotation Angle"
-									value={promp.outputFormat}
-									onChange={(e) =>
-										promp.setOutputFormat(
-											e.target.value
-										)
-									}
-									required
 										>
 											<MenuItem value={"90"}>90</MenuItem>
 											<MenuItem value={"180"}>
@@ -476,14 +155,10 @@ const DocumentForm = (promp) => {
 												270
 											</MenuItem>
 										</Select>
-									</FormControl>
-								</Grid>
+									</FormControl>								
 							</Grid>
-						</CardContent>
-					<CardContent>
-					<Grid container spacing={12}>
-							<Grid item xs>
-							<FormControl
+							<Grid item xs={6} md={6} sm={12} >
+								<FormControl
 									variant="outlined"
 									className={classes.formControl}
 									fullWidth
@@ -504,51 +179,15 @@ const DocumentForm = (promp) => {
 											track={promp.quality}
 											aria-labelledby="discrete-slider"
 											valueLabelDisplay="auto"
-											step={1}
+											step={100}
 											marks
 											min={0}
-											max={10}
+											max={500}
 										/>
 									</div>
-								</FormControl>
+								</FormControl>								
 							</Grid>
-						</Grid>
-					</CardContent>
-					<CardContent>
-						<Grid container spacing={3}>
-							<Grid item xs>
-								<FormControl
-									variant="outlined"
-									className={classes.formControl}
-									fullWidth
-								>
-									<div className={classes.root}>
-										<Typography
-											id="discrete-slider-small-steps"
-											gutterBottom
-										>
-											Dubling
-										</Typography>
-										<Slider
-											value={promp.dubling}
-											onChange={(e, newValue) => {
-												promp.setDubling(newValue);
-											}}
-											defaultValue={0}
-											track={promp.dubling}
-											aria-labelledby="discrete-slider"
-											valueLabelDisplay="auto"
-											step={10}
-											marks
-											min={0}
-											max={100}
-										/>
-									</div>
-								</FormControl>
-							</Grid>
-							</Grid>
-						<Grid container spacing={6}>
-							<Grid item xs>
+							<Grid item xs={6} md={6} sm={12} >
 								<FormControl
 									variant="outlined"
 									className={classes.formControl}
@@ -570,57 +209,48 @@ const DocumentForm = (promp) => {
 											track={promp.paintEffect}
 											aria-labelledby="discrete-slider"
 											valueLabelDisplay="auto"
-											step={10}
+											step={1}
 											marks
 											min={0}
-											max={100}
+											max={5}
 										/>
 									</div>
 								</FormControl>
-							</Grid>
-							</Grid>
-					</CardContent>
-					<CardContent>
-						<Grid container spacing={6}>
-							<Grid item xs>
-								<FormControl component="fieldset">
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={promp.monochrome}
-												onChange={(e) => {
-													promp.setMonochrome(
-														e.target.checked
-													);
-												}}
-												name="monochrome"
-												color="primary"
-											/>
-										}
-										label="Monochrome"
-									/>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={promp.greyScale}
-												onChange={(e) => {
-													promp.setGreyScale(
-														e.target.checked
-													);
-												}}
-												name="greyScale"
-												color="primary"
-											/>
-										}
-										label="Grey Scale"
-									/>
+							</Grid>							
+							<Grid item xs={6} md={6} sm={12} >
+								<FormControl
+										variant="outlined"
+										className={classes.formControl}
+										fullWidth
+									>
+									<InputLabel id="demo-simple-select-outlined-label">
+											Type
+										</InputLabel>
+									<Select
+									labelId="demo-simple-select-outlined-label"
+									id="demo-simple-select-outlined"
+									label="Type"
+									value={promp.type}
+									onChange={(e) =>
+										promp.setType(
+											e.target.value
+										)
+									}
+										>
+											<MenuItem value={""}>
+												Full Color
+											</MenuItem>											
+											<MenuItem value={"-monochrome"}>
+												Monochrome
+											</MenuItem>
+											<MenuItem value={"-colorspace gray"}>
+												Grey Scale
+											</MenuItem>
+										</Select>
 								</FormControl>
-							</Grid>
+							</Grid>																																	
 						</Grid>
-					</CardContent>
-				</Card>
-			</Grid>
-		</Grid>
+					</div>
 	);
 };
 

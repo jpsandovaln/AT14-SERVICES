@@ -18,6 +18,10 @@ export class Property {
         return this.isValid(process.env.MAGICK_PATH);
     }
 
+    static getConvertPath(): string {
+        return this.isValid(process.env.CONVERT_PATH);
+    }
+
     static getUploadPath(): string {
         return this.isValid(process.env.UPLOAD_PATH);
     }
@@ -52,5 +56,5 @@ export class Property {
 
     static getDBValidation(): string {
         return this.isValid(process.env.DATA_BASE_VALIDATION);
-    }
+    }   
 }

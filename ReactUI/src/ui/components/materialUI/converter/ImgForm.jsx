@@ -13,6 +13,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import Checkbox from "@material-ui/core/Checkbox";
+import { TextField } from "@material-ui/core";
+
 
 const useStyles = makeStyles(() => ({
 	card: {
@@ -36,23 +38,36 @@ const ImgForm = (promp) => {
 			<Grid item xs={12}>
 				<Card className={classes.card}>
 					<CardContent>
-						<input
-							accept="image/*"
-							className={classes.input}
-							id="contained-button-file"
-							multiple
-							type="file"
-							required
-						/>
-						<label htmlFor="contained-button-file">
-							<Button
-								variant="contained"
-								color="#83bbeb"
-								component="span"
-							>
-								Upload
-							</Button>
-						</label>
+						<Grid item md={2}>
+							<input
+								accept="image/*"
+								className={classes.input}
+								id="contained-button-image"
+								name="contained-button-image"
+								multiple
+								type="file"
+								required
+								onChange={promp.setFileVideo}
+							/>
+							<label htmlFor="contained-button-image">
+								<Button
+									variant="contained"
+									color="#83bbeb"
+									component="span"
+								>
+									Upload
+								</Button>
+							</label>
+						</Grid>
+						<Grid item md={4}>
+							<TextField
+								fullWidth
+								id="outlined-basic"
+								variant="outlined"
+								value={promp.nameImage}
+								disabled
+							/>
+						</Grid>
 					</CardContent>
 				</Card>
 			</Grid>
@@ -89,22 +104,12 @@ const ImgForm = (promp) => {
 										<MenuItem value="">
 											<em>-</em>
 										</MenuItem>
-										<MenuItem value={"Output1"}>
-											.png
-										</MenuItem>
-										<MenuItem value={"Output2"}>
+										<MenuItem value={".jpeg"}>
 											.jpeg
 										</MenuItem>
-                                        <MenuItem value={"Output3"}>
-											.jpg
-										</MenuItem>
-                                        <MenuItem value={"Output4"}>
-											.bmp
-										</MenuItem>
-                                        <MenuItem value={"Output5"}>
-											.raw
-										</MenuItem>
-                                        <MenuItem value={"Output6"}>
+										<MenuItem value={".jpg"}>.jpg</MenuItem>
+										<MenuItem value={".raw"}>.raw</MenuItem>
+										<MenuItem value={".tiff"}>
 											.tiff
 										</MenuItem>
 									</Select>
@@ -113,7 +118,7 @@ const ImgForm = (promp) => {
 						</Grid>
 					</CardContent>
 					<CardContent>
-					<Grid container spacing={12}>
+						<Grid container spacing={12}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -147,7 +152,7 @@ const ImgForm = (promp) => {
 						</Grid>
 					</CardContent>
 					<CardContent>
-					<Grid container spacing={12}>
+						<Grid container spacing={12}>
 							<Grid item xs>
 								<FormControl
 									variant="outlined"
@@ -155,34 +160,30 @@ const ImgForm = (promp) => {
 									fullWidth
 								>
 									<InputLabel id="demo-simple-select-outlined-label">
-											Angle of rotation
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-outlined-label"
-											id="demo-simple-select-outlined"
-											value={promp.angle}
-											onChange={(e) =>
-												promp.setAngle(e.target.value)
-											}
-											label="Scale"
-											required
-										>
-											<MenuItem value={"90"}>90</MenuItem>
-											<MenuItem value={"180"}>
-												180
-											</MenuItem>
-											<MenuItem value={"270"}>
-												270
-											</MenuItem>
-										</Select>
+										Angle of rotation
+									</InputLabel>
+									<Select
+										labelId="demo-simple-select-outlined-label"
+										id="demo-simple-select-outlined"
+										value={promp.angle}
+										onChange={(e) =>
+											promp.setAngle(e.target.value)
+										}
+										label="Scale"
+										required
+									>
+										<MenuItem value={"90"}>90</MenuItem>
+										<MenuItem value={"180"}>180</MenuItem>
+										<MenuItem value={"270"}>270</MenuItem>
+									</Select>
 								</FormControl>
 							</Grid>
 						</Grid>
 					</CardContent>
 					<CardContent>
-					<Grid container spacing={12}>
+						<Grid container spacing={12}>
 							<Grid item xs>
-							<FormControl
+								<FormControl
 									variant="outlined"
 									className={classes.formControl}
 									fullWidth

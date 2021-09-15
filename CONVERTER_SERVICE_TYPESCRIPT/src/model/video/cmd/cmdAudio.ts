@@ -11,18 +11,10 @@ export class CmdAudio extends Command {
 
     setNextCommand(command: Command): void {
         this.cmd = command;
-    };
-
-    isValid(format: string | undefined): boolean {
-        if (format == '.mp3' || '.mp2' || '.wma')
-            return true;
-        else
-            return false;
-    }
+    };   
 
     returnCommand(command: string): string {
-        if (this.isValid(this.getParameter('audioFormat')))
-            command = command + FFMPEG_VN + SPACE;
+        command = command + FFMPEG_VN + SPACE;
         return this.cmd.returnCommand(command);
     };
 }
