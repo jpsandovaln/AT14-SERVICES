@@ -6,7 +6,6 @@ import { GraphQLUpload } from "graphql-upload";
 import dotenv from "dotenv";
 import http from "http";
 import bl from "bl";
-import { Console } from "console";
 
 
 dotenv.config();
@@ -73,7 +72,6 @@ const resolvers = {
     Mutation: {
 
         uiToImageConvert: async (_, args) => {
-            console.log("enviando la UI")
             const uri = "" + process.env.CONVERTER_IMAGE_CONVERTER;
 
             const uploadFile = await processUpload(args.file);
@@ -90,6 +88,8 @@ const resolvers = {
             dataArray.append("file", fs.createReadStream(uploadFile.path));  
             
             const res = await axios.post(uri, dataArray, {
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
                 headers: dataArray.getHeaders(),
             });            
 
@@ -101,14 +101,13 @@ const resolvers = {
 
         uiToPdfImage: async (_, args) => {
             const uri = "" + process.env.DOCUMENT_SERVICE;
-
             const uploadFile = await processUpload(args.file);
             const dataArray = new FormData();
 
             dataArray.append("outputFormat", args.outputFormat);
             dataArray.append("outputSize", args.outputSize);
             dataArray.append("rotation", args.rotation);
-            //dataArray.append("quality", args.quality);
+            dataArray.append("quality", args.quality);
             dataArray.append("paintEffect", args.paintEffect);
             dataArray.append("type", args.type);
             dataArray.append("file", fs.createReadStream(uploadFile.path));                        
@@ -185,19 +184,18 @@ const resolvers = {
             );
 
             await httpGet(res.data[0].filePath, file);
-          
             const dataArray = new FormData();
             dataArray.append("searchWord", args.searchWord);
             dataArray.append("algorithm", args.algorithm);
             dataArray.append("percentage", args.percentage);
             dataArray.append(
                 "zipFile",
-                fs.readFileSync(
+                await fs.readFileSync(
                     "" + process.env.OUTPUT_FOLDER + res.data[0].name + ".zip"
                 ),
                 res.data[0].name + ".zip"
             );
-
+           
             const urlML = "" + process.env.CONVERTER_ANALIZEZIP;
             const res1 = await axios.post(urlML, dataArray, {
                 maxContentLength: Infinity,
