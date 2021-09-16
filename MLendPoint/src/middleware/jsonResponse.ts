@@ -5,7 +5,6 @@ class JsonResponse {
     response(
         result: any,
         algorithm: string,
-        searchWord: string,
         secondsToString: SecondsToString,
         image: any,
         response: any,

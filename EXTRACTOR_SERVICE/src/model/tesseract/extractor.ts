@@ -3,6 +3,7 @@ import { LoadWorkerException } from "../../common/exception/loadWorkerException"
 import { StatusCode } from "../../common/statusCode";
 import { EmptyValidation } from "../../common/validation/emptyValidation";
 import { LanguageValidation } from "../../common/validation/languageValidation";
+import { PathValidation } from "../../common/validation/pathValidation";
 import { IBase } from "./interfaces/iBase";
 
 export abstract class Extractor {
@@ -47,6 +48,7 @@ export abstract class Extractor {
 			new EmptyValidation("Path", this.path),
 			new EmptyValidation("Language", this.language),
 			new LanguageValidation(this.language),
+			new PathValidation(this.path),
 		];
 		emptyParameter.forEach((validation) => {
 			validation.validate();

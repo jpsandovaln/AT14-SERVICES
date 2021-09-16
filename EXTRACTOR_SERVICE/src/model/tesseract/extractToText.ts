@@ -16,9 +16,9 @@ export class ExtractToText extends Extractor {
 				data: { text },
 			} = await this.worker.recognize(this.path);
 			return text;
-		} catch (error) {
+		} catch (error: any) {
 			throw new TextToImageException(
-				error,
+				error.message,
 				StatusCode.InternalServerError,
 				Code.EXTRACTOR_ERROR_06
 			);
