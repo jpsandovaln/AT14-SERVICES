@@ -170,7 +170,6 @@ const ImgForm = (promp) => {
 											promp.setAngle(e.target.value)
 										}
 										label="Scale"
-										required
 									>
 										<MenuItem value={"90"}>90</MenuItem>
 										<MenuItem value={"180"}>180</MenuItem>
