@@ -4,12 +4,17 @@ import { Compiler } from "../core/compiler/compiler";
 import { CompilerFactory } from "../core/compiler/compiler_factory";
 import { CompilerException } from "../common/exception/compiler_exception";
 import { ExecuteWin } from '../core/execute/execute_win';
+import { LoggerSingleton } from '../common/logger/logger_singleton';
+import { Logger } from '../common/logger/logger';
 
 dotenv.config({ path:  './.env' });
 
 export default class CompilerController {
 
     public async compileCode(req: express.Request, res: express.Response) {
+        LoggerSingleton.getInstance().getLogger().info("init compileCode singleton");
+        Logger.info("init compileCode singleton faxcade");
+        
         const language : string = req.body.language || "";
         const filePath : string = req.file?.path || "";
 
