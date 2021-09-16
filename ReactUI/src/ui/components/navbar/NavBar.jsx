@@ -25,7 +25,7 @@ const drawerWidth = 240;
 const useStyle = makeStyles((theme) => ({
 	offset: theme.mixins.toolbar,
 	appBar: {
-		backgroundColor: "#6c79eb",
+		backgroundColor: "#4e54c8",
 		[theme.breakpoints.up("sm")]: {
 			width: "100%",
 			marginLeft: drawerWidth,

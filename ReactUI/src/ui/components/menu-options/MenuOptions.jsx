@@ -14,6 +14,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import { Link } from "react-router-dom";
 import AppsIcon from '@material-ui/icons/Apps';
 import { useTranslation } from "react-i18next";
+import "./MenuOption.css";
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: theme.mixins.toolbar,
@@ -75,6 +76,7 @@ const MenuOptions = () => {
 			<List>
 				{testContent.map((item) => (
 					<ListItem
+						className="options"
 						button
 						key={item.title}
 						component={Link}
