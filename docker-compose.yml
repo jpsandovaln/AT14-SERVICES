@@ -28,7 +28,7 @@ services:
             - my-network-name
     CONVERTER_SERVICE:
         build:
-            context: ./CONVERTER_SERVICE
+            context: ./CONVERTER_SERVICE_TYPESCRIPT
             dockerfile: Dockerfile
         image: converter_image
         env_file:
@@ -65,6 +65,8 @@ services:
             context: ./APOLLO_SERVER2
             dockerfile: Dockerfile
         image: image_apollo
+        env_file:
+            - ./APOLLO_SERVER2/.env
         container_name: container_apollo
         ports:
             - 4000:4000

@@ -6,8 +6,8 @@ import { GraphQLUpload } from "graphql-upload";
 import dotenv from "dotenv";
 import http from "http";
 import bl from "bl";
+import path from "path";
 import File from "./fileModel.js";
-
 
 dotenv.config();
 
@@ -195,7 +195,7 @@ const resolvers = {
             dataArray1.append("obtainFrames", "true");
             dataArray1.append("frameScale", "400");
             dataArray1.append("grayScale", "true");
-            const urlML1 = "" + process.env.CONVERTER_FRAMES;
+            const urlML1 = "" + process.env.CONVERTER_FRAMES;            
             const res = await axios.post(urlML1, dataArray1, {
                 maxContentLength: Infinity,
                 maxBodyLength: Infinity,
@@ -203,21 +203,15 @@ const resolvers = {
             });
             const file = fs.createWriteStream(
                 process.env.OUTPUT_FOLDER + res.data[0].name + ".zip"
-            );
-
-            await httpGet(res.data[0].filePath, file);
+            );            
+            const fileP = res.data[0].filePath.replace(process.env.LOCAL_HOST_FRAMES, process.env.CONVERTER_FRAMES_DOWNLOAD);
+            await httpGet(fileP, file);
             const dataArray = new FormData();
             dataArray.append("searchWord", args.searchWord);
             dataArray.append("algorithm", args.algorithm);
-            dataArray.append("percentage", args.percentage);
-            dataArray.append(
-                "zipFile",
-                await fs.readFileSync(
-                    "" + process.env.OUTPUT_FOLDER + res.data[0].name + ".zip"
-                ),
-                res.data[0].name + ".zip"
-            );
-           
+            dataArray.append("percentage", args.percentage);  
+            dataArray.append("zipFile", fs.createReadStream(process.env.OUTPUT_FOLDER + path.basename(res.data[0].name) + ".zip"));
+                       
             const urlML = "" + process.env.CONVERTER_ANALIZEZIP;
             const res1 = await axios.post(urlML, dataArray, {
                 maxContentLength: Infinity,
