@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import http from "http";
 import bl from "bl";
 import path from "path";
-
+import File from "./fileModel.js";
 
 dotenv.config();
 
@@ -64,9 +64,7 @@ const resolvers = {
             return await FileData1;
         },
         files: async () => {
-            const urlCVT = "" + process.env.CONVERTER_GET_DATA;
-            const { data } = await axios.get(urlCVT);
-            console.log({ ...data } + "here1");
+            const data  = await File.find();
             return data;
         }
     },
