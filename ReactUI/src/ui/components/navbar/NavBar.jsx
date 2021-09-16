@@ -9,7 +9,6 @@ import {
 	FormGroup,
 	Switch,
 	Menu,
-	MenuList,
 	Avatar,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -43,7 +42,7 @@ const useStyle = makeStyles((theme) => ({
 		flexGrow: 1,
 	},
 }));
-//TODO review if onClick is working
+
 const NavBar = (props) => {
 	const classes = useStyle();
 	const [t, i18n] = useTranslation("global");
@@ -129,13 +128,12 @@ const NavBar = (props) => {
 						color="inherit"
 						aria-label="open drawer"
 						edge="start"
-						//{...onClick}
 						className={classes.menuButton}
 					>
 						<MenuIcon />
 					</IconButton>
 
-					<Typography variant="h3" className={classes.title} noWrap>
+					<Typography variant="h4" className={classes.title} noWrap>
 						SNIFFER DOG
 					</Typography>
 					<div>
@@ -199,6 +197,9 @@ const NavBar = (props) => {
 							onClose={handleMenuClose}
 						>
 							<MenuItem onClick={handleMenuClose}>
+								Language
+							</MenuItem>
+							<MenuItem onClick={handleMenuClose}>
 								Mode
 								<FormGroup>
 									<Typography component="div">
@@ -224,9 +225,6 @@ const NavBar = (props) => {
 										</Grid>
 									</Typography>
 								</FormGroup>
-							</MenuItem>
-							<MenuItem onClick={handleMenuClose}>
-								About us
 							</MenuItem>
 						</Menu>
 					</div>
