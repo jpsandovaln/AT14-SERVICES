@@ -15,10 +15,10 @@ i18next.init({
         },
         en: {
             global: global_en
-        },        
+        },
     }
 })
- 
+
 ReactDOM.render(
 <I18nextProvider i18n={i18next}>
     <App />
