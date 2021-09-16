@@ -63,7 +63,7 @@ const MenuOptions = () => {
 			title: t("sidebar.report-convert"),
 			icon: <AssessmentIcon style={{ color: "#fff" }} />,
 			path: "/graphql",
-		},		
+		},
 	];
 
 	return (

@@ -128,6 +128,7 @@ const NavBar = (props) => {
 						color="inherit"
 						aria-label="open drawer"
 						edge="start"
+						{...props}
 						className={classes.menuButton}
 					>
 						<MenuIcon />

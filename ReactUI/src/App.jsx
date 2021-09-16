@@ -27,7 +27,7 @@ const App = () => {
 				<Route
 					exact
 					path="/Home"
-					component={(props) => (
+					component={() => (
 						<HomePage imageURL={userInfo.imageUrl} />
 					)}
 				/>
@@ -67,7 +67,7 @@ const App = () => {
 				<Route
 					exact
 					path="/graphql"
-					component={(props) => (
+					component={() => (
 						<ReportConvertPage imageURL={userInfo.imageUrl} />
 					)}
 				/>
