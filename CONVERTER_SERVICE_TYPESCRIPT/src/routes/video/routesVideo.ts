@@ -23,7 +23,7 @@ export class RoutesVideo extends Routes {
         router.get("/filesMetadata/:name", new DownloadFile(Property.getOutputPath()).download);
         router.post("/frames", [new UploadFile().uploadFile], new FramesController().frameProcess);
         router.get("/framesZipML/:name", new DownloadFile(Property.getZipPath()).download);
-        this.app.use(router);
         this.app.use(cors());
+        this.app.use(router);
     }
 }

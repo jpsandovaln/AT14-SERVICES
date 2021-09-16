@@ -15,7 +15,7 @@ export class RoutesImage extends Routes {
         router.post("/imageConverter", imageController.upload);
         router.get("/images", imageController.getListFiles);
         router.get("/images/:name", imageController.download);
-        this.app.use(router);
         this.app.use(cors());
+        this.app.use(router);
     }
 }

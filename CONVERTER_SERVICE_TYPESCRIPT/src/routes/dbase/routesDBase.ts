@@ -13,7 +13,7 @@ export class RoutesDBase extends Routes {
         router.get("/file", new DBaseController().DBaseFiles);
         router.delete("/file/:id", new DBaseController().DBaseDeleteById);
         router.get("/file/:id", new DBaseController().DBaseVerifyId);
-        this.app.use(router);
         this.app.use(cors());
+        this.app.use(router);
     }
 }
