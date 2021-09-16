@@ -4,7 +4,7 @@
     "description": "Video Converter, Image Converter & Audio Converter",
     "main": "app.js",
     "scripts": {
-        "start": "npx tsc-watch --project . --outDir ./build --onSuccess \"nodemon ./build/app.js\"",
+        "start": "tsc && node ./build/app.js",
         "test": "jest"
     },
     "repository": {
