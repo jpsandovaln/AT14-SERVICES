@@ -1,0 +1,92 @@
+{
+    "sidebar":{
+        "home":"Home",
+        "converter":"Converter", 
+        "machine-learning":"Machine Learning",
+        "extractor-service":"Extractor Service",
+        "report-convert":"Report Convert"
+    },
+    "convert":{
+        "home":"Home",
+        "title":"Convert",
+        "video":{
+            "title":"Video",
+            "upload":"Upload",
+            "card-form":"Video Processor",
+            "output-format":"Output Format",
+            "fps":"Fps",
+            "scale":"Scale",
+            "audio-format":"Audio Format",
+            "quality":"Quality",
+            "rotate":"Rotate",
+            "flip-horizon":"Flip Horizon",
+            "flip-vertical":"Flip Vertical",
+            "frames":"Frames",
+            "obtain-frames":"Obtain frames",
+            "obtain-audio":"Obtain Audio",
+            "card-table":"Results",
+            "convert":"Convert",
+            "name":"Name",
+            "file-path":"File Path",
+            "download":"Download"
+        },
+        "image":{
+            "title":"Image",
+            "upload":"Upload"
+        },
+        "audio":{
+            "title":"Audio",
+            "upload":"Upload"
+        },
+        "document":{
+            "title":"Document",
+            "upload":"Upload"
+        }
+    },
+    "machine-learning":{
+        "home": "Home",
+        "title": "Machine Learning",
+        "form-title":"Machine Learning Analyzer",
+        "form-search-word":"Search Word",
+        "form-percentage": "Percentage",
+        "form-algorithm": "Algorithm",
+        "form-upload": "Upload",
+        "form-text-file":"Select video file",
+        "form-analyze": "Analyze",
+        "table-result": "Results",
+        "table-algorithm": "Algorithm",
+        "table-word": "Word",
+        "table-percentage": "Percentage",
+        "table-second": "Second",
+        "table-image": "Image",
+        "table-options": "Options"
+    },
+    "extractor-service":{
+        "home": "Home",
+        "title": "Extractor Service",
+        "metadata":{
+            "form-file":"Select video file",            
+            "table-result": "Results",
+            "upload": "Upload",
+            "download": "Download",
+            "extract": "Extract",
+            "name": "Name",
+            "metadata": "Metadata"
+        },
+        "image-text":{
+            "table-result": "Results",
+            "upload": "Upload",
+            "extract": "Extract",
+            "label": "Image Text",
+            "language": "Language"
+        }
+    },
+    "report-convert":{
+        "home": "Home",
+        "title": "Report Convert",
+        "report":{
+            "name": "Name",
+            "checksum": "Checksum"
+        }
+    }
+}

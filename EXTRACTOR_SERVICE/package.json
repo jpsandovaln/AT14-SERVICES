@@ -1,0 +1,37 @@
+{
+    "name": "typescript",
+    "version": "1.0.0",
+    "description": "TypeScript example to learn the basics",
+    "main": "index.js",
+    "scripts": {
+        "start": "npx tsc-watch --project . --outDir ./build --onSuccess \"nodemon ./build/app.js\"",
+        "extract": "node build/model/tesseract/tesseract.js",
+        "test": "jest --coverage"
+    },
+    "author": "Cris T",
+    "license": "ISC",
+    "dependencies": {
+        "@babel/core": "^7.15.0",
+        "@babel/preset-env": "^7.15.0",
+        "@babel/preset-typescript": "^7.15.0",
+        "babel-jest": "^27.1.0",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "multer": "^1.4.3",
+        "nodemon": "^2.0.12",
+        "tesseract.js": "^2.1.5",
+        "ts-node": "^10.2.0",
+        "typescript": "^4.3.5"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.12",
+        "@types/express": "^4.17.13",
+        "@types/jest": "^27.0.1",
+        "@types/multer": "^1.4.7",
+        "@types/node": "^16.7.1",
+        "jest": "^27.1.0",
+        "ts-jest": "^27.0.5",
+        "ts-mockito": "^2.6.1"
+    }
+}

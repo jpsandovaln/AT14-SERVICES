@@ -1,0 +1,1 @@
+1. Use "npm install" in the console to install all the dependencies

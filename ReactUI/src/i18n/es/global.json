@@ -1,0 +1,93 @@
+{
+    "sidebar":{
+        "home":"Inicio",
+        "converter":"Convertidor", 
+        "machine-learning":"Aprendizaje Automatico",
+        "extractor-service":"Servicio Extractor",
+        "report-convert":"Informe de Conversion"
+    },
+    "convert":{
+        "home":"Inicio",
+        "title":"Convertidor",
+        "video":{
+            "title":"Video",
+            "upload":"Cargar",
+            "card-form":"Procesador de Video",
+            "output-format":"Formato de Salida",
+            "fps":"Fps",
+            "scale":"Scale",
+            "audio-format":"Formato de Audio",
+            "quality":"Calidad",
+            "rotate":"Rotacion",
+            "flip-horizon":"Flip Horizontal",
+            "flip-vertical":"Flip Vertical",
+            "frames":"Tramas",
+            "obtain-frames":"Obtener Tramas",
+            "obtain-audio":"Obtener Audio",
+            "card-table":"Resultados",
+            "convert":"Convertidor",
+            "name":"Nombre",
+            "file-path":"Ruta de Archivo",
+            "download":"Descargar"
+        },
+        "image":{
+            "title":"Image",
+            "upload":"Upload"
+        },
+        "audio":{
+            "title":"Audio",
+            "upload":"Upload"
+        },
+        "document":{
+            "title":"Document",
+            "upload":"Upload"
+        }
+    },
+    "machine-learning":{
+        "home": "Inicio",
+        "title": "Aprendizaje Automatico",
+        "form-title":"Analizador de Aprendizaje Automático",
+        "form-search-word":"Buscar palabra",
+        "form-percentage": "Porcentaje",
+        "form-algorithm": "Algoritmo",
+        "form-upload": "Cargar",
+        "form-text-file":"Seleccionar archivo de video",
+        "form-analyze": "Analizar",
+        "table-result": "Resultados",
+        "table-algorithm": "Algoritmo",
+        "table-word": "Palabra",
+        "table-percentage": "Porcentaje",
+        "table-second": "Segundo",
+        "table-image": "Imagen",
+        "table-options": "Opciones"
+    },
+    "extractor-service":{
+        "home":"Inicio",
+        "title":"Servicio Extractor",
+        "metadata":{
+            "form-file":"Seleccionar archivo de video",            
+            "table-result": "Resultados",
+            "upload": "Cargar",
+            "download": "Descargar",
+            "extract": "Extraer",
+            "name": "Nombre",
+            "metadata": "Metadatos"
+        },
+        "image-text":{
+            "table-result": "Resultados",
+            "upload": "Cargar",
+            "extract": "Extraer",
+            "label": "Texto de Imagen",
+            "language": "Idioma"
+        }
+    },
+    "report-convert":{
+        "home": "Inicio",
+        "title": "Informe de Conversión",
+        "report":{
+            "name": "Nombre",
+            "checksum": "Checksum"
+        }
+    }
+    
+}
